@@ -21,8 +21,7 @@ public class ALCReasonerFactory implements OWLReasonerFactory {
      * @return
      */
     public ALCReasoner createReasoner() {
-        // TODO implement here
-        return null;
+        return new ALCReasoner();
     }
 
     /**
@@ -30,34 +29,28 @@ public class ALCReasonerFactory implements OWLReasonerFactory {
      * @return
      */
     public OWLReasoner createReasoner(OWLOntology ontology) {
-        // TODO implement here
-        return null;
+        if(ontology == null)
+            return createReasoner();
+        throw new RuntimeException("Input ontology must be empty");
     }
 
     @Override
     public OWLReasoner createNonBufferingReasoner(OWLOntology owlOntology, OWLReasonerConfiguration owlReasonerConfiguration) {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner factory");
     }
 
     @Override
     public OWLReasoner createReasoner(OWLOntology owlOntology, OWLReasonerConfiguration owlReasonerConfiguration) {
-        return null;
-    }
-
-    /**
-     * 
-     */
-    public void Operation2() {
-        // TODO implement here
+        throw new UnsupportedOperationException("This is a simple ALC reasoner factory");
     }
 
     @Override
     public String getReasonerName() {
-        return null;
+        return "ALC Reasoner";
     }
 
     @Override
     public OWLReasoner createNonBufferingReasoner(OWLOntology owlOntology) {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner factory");
     }
 }

@@ -11,181 +11,175 @@ import java.util.*;
  */
 public class ALCReasoner implements OWLReasoner {
 
+    public TableauFactory TableauFactory = null;
+    public Tableau Tableau = null;
+
     /**
      * Default constructor
      */
     public ALCReasoner() {
-    }
-
-
-
-
-    /**
-     * 
-     */
-    public void ALCReasoner() {
-        // TODO implement here
+        TableauFactory = new TableauFactory();
     }
 
 
     @Override
     public Node<OWLClass> getUnsatisfiableClasses() {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public boolean isEntailed(OWLAxiom owlAxiom) {
-        return false;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public boolean isEntailed(Set<? extends OWLAxiom> set) {
-        return false;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public boolean isEntailmentCheckingSupported(AxiomType<?> axiomType) {
-        return false;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public Node<OWLClass> getTopClassNode() {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public Node<OWLClass> getBottomClassNode() {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public NodeSet<OWLClass> getSubClasses(OWLClassExpression owlClassExpression, boolean b) {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public NodeSet<OWLClass> getSuperClasses(OWLClassExpression owlClassExpression, boolean b) {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public Node<OWLClass> getEquivalentClasses(OWLClassExpression owlClassExpression) {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public NodeSet<OWLClass> getDisjointClasses(OWLClassExpression owlClassExpression) {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public Node<OWLObjectPropertyExpression> getTopObjectPropertyNode() {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public Node<OWLObjectPropertyExpression> getBottomObjectPropertyNode() {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public NodeSet<OWLObjectPropertyExpression> getSubObjectProperties(OWLObjectPropertyExpression owlObjectPropertyExpression, boolean b) {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public NodeSet<OWLObjectPropertyExpression> getSuperObjectProperties(OWLObjectPropertyExpression owlObjectPropertyExpression, boolean b) {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public Node<OWLObjectPropertyExpression> getEquivalentObjectProperties(OWLObjectPropertyExpression owlObjectPropertyExpression) {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public NodeSet<OWLObjectPropertyExpression> getDisjointObjectProperties(OWLObjectPropertyExpression owlObjectPropertyExpression) {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public Node<OWLObjectPropertyExpression> getInverseObjectProperties(OWLObjectPropertyExpression owlObjectPropertyExpression) {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public NodeSet<OWLClass> getObjectPropertyDomains(OWLObjectPropertyExpression owlObjectPropertyExpression, boolean b) {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public NodeSet<OWLClass> getObjectPropertyRanges(OWLObjectPropertyExpression owlObjectPropertyExpression, boolean b) {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public Node<OWLDataProperty> getTopDataPropertyNode() {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public Node<OWLDataProperty> getBottomDataPropertyNode() {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public NodeSet<OWLDataProperty> getSubDataProperties(OWLDataProperty owlDataProperty, boolean b) {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public NodeSet<OWLDataProperty> getSuperDataProperties(OWLDataProperty owlDataProperty, boolean b) {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public Node<OWLDataProperty> getEquivalentDataProperties(OWLDataProperty owlDataProperty) {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public NodeSet<OWLDataProperty> getDisjointDataProperties(OWLDataPropertyExpression owlDataPropertyExpression) {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public NodeSet<OWLClass> getDataPropertyDomains(OWLDataProperty owlDataProperty, boolean b) {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public NodeSet<OWLClass> getTypes(OWLNamedIndividual owlNamedIndividual, boolean b) {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public NodeSet<OWLNamedIndividual> getInstances(OWLClassExpression owlClassExpression, boolean b) {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public NodeSet<OWLNamedIndividual> getObjectPropertyValues(OWLNamedIndividual owlNamedIndividual, OWLObjectPropertyExpression owlObjectPropertyExpression) {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public Set<OWLLiteral> getDataPropertyValues(OWLNamedIndividual owlNamedIndividual, OWLDataProperty owlDataProperty) {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public Node<OWLNamedIndividual> getSameIndividuals(OWLNamedIndividual owlNamedIndividual) {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public NodeSet<OWLNamedIndividual> getDifferentIndividuals(OWLNamedIndividual owlNamedIndividual) {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
@@ -195,12 +189,12 @@ public class ALCReasoner implements OWLReasoner {
 
     @Override
     public FreshEntityPolicy getFreshEntityPolicy() {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public IndividualNodeSetPolicy getIndividualNodeSetPolicy() {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
@@ -210,71 +204,72 @@ public class ALCReasoner implements OWLReasoner {
 
     @Override
     public String getReasonerName() {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public Version getReasonerVersion() {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public BufferingMode getBufferingMode() {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public void flush() {
-
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public List<OWLOntologyChange> getPendingChanges() {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public Set<OWLAxiom> getPendingAxiomAdditions() {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public Set<OWLAxiom> getPendingAxiomRemovals() {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public OWLOntology getRootOntology() {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public void interrupt() {
-
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public void precomputeInferences(InferenceType... inferenceTypes) {
-
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public boolean isPrecomputed(InferenceType inferenceType) {
-        return false;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public Set<InferenceType> getPrecomputableInferenceTypes() {
-        return null;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public boolean isConsistent() {
-        return false;
+        throw new UnsupportedOperationException("This is a simple ALC reasoner");
     }
 
     @Override
     public boolean isSatisfiable(OWLClassExpression owlClassExpression) {
-        return false;
+        Tableau = TableauFactory.getTableau("DYNAMIC", owlClassExpression);
+        return Tableau.SAT();
     }
 }
