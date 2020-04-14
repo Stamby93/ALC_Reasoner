@@ -1,0 +1,43 @@
+Prefix: owl: <http://www.w3.org/2002/07/owl#>
+Prefix: rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+Prefix: rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+Prefix: xml: <http://www.w3.org/XML/1998/namespace>
+Prefix: xsd: <http://www.w3.org/2001/XMLSchema#>
+
+
+
+Ontology: <http://www.semanticweb.org/andrea/ontologies/2020/3/OntologiaProva>
+
+
+ObjectProperty: <http://www.semanticweb.org/andrea/ontologies/2020/3/OntologiaProva#R>
+
+    SubPropertyOf: 
+        owl:topObjectProperty
+    
+    
+ObjectProperty: owl:topObjectProperty
+
+    
+Class: <http://www.semanticweb.org/andrea/ontologies/2020/3/OntologiaProva#A1>
+
+    
+Class: <http://www.semanticweb.org/andrea/ontologies/2020/3/OntologiaProva#A2>
+
+    
+Class: <http://www.semanticweb.org/andrea/ontologies/2020/3/OntologiaProva#B1>
+
+    
+Class: <http://www.semanticweb.org/andrea/ontologies/2020/3/OntologiaProva#B2>
+
+    
+Class: <http://www.semanticweb.org/andrea/ontologies/2020/3/OntologiaProva#assioma>
+
+    EquivalentTo: 
+        (<http://www.semanticweb.org/andrea/ontologies/2020/3/OntologiaProva#A1> or <http://www.semanticweb.org/andrea/ontologies/2020/3/OntologiaProva#A2>)
+         and (<http://www.semanticweb.org/andrea/ontologies/2020/3/OntologiaProva#B1> or <http://www.semanticweb.org/andrea/ontologies/2020/3/OntologiaProva#B2>)
+         and ((not (<http://www.semanticweb.org/andrea/ontologies/2020/3/OntologiaProva#A1>)) or (<http://www.semanticweb.org/andrea/ontologies/2020/3/OntologiaProva#R> only 
+            (<http://www.semanticweb.org/andrea/ontologies/2020/3/OntologiaProva#A1>
+             and <http://www.semanticweb.org/andrea/ontologies/2020/3/OntologiaProva#A2>)))
+         and ((<http://www.semanticweb.org/andrea/ontologies/2020/3/OntologiaProva#R> some (not (<http://www.semanticweb.org/andrea/ontologies/2020/3/OntologiaProva#A1>))) or (<http://www.semanticweb.org/andrea/ontologies/2020/3/OntologiaProva#R> some (not (<http://www.semanticweb.org/andrea/ontologies/2020/3/OntologiaProva#A2>))))
+    
+    
