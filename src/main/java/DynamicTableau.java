@@ -1,7 +1,10 @@
 
+import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLObjectIntersectionOf;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 
@@ -12,18 +15,10 @@ public class DynamicTableau implements Tableau {
      * Default constructor
      */
     public DynamicTableau() {
+        DynamicTableau(null);
     }
 
 
-    /**
-     * 
-     */
-    private Node working;
-
-    /**
-     * 
-     */
-    private Node root;
 
     /**
      * 
@@ -31,10 +26,20 @@ public class DynamicTableau implements Tableau {
     private OWLClassExpression Concept;
 
     /**
+     *
+     */
+
+    private Set<OWLClassExpression> RuleSet;
+
+    private Set<OWLClass> Abox;
+
+    private int []  choise;
+
+
+    /**
      * @return
      */
     public boolean SAT() {
-        // TODO implement here
         return false;
     }
 
@@ -43,15 +48,17 @@ public class DynamicTableau implements Tableau {
      * @return
      */
     public DynamicTableau DynamicTableau(OWLClassExpression Concept) {
-        // TODO implement here
-        return null;
+        if(Concept == null)
+            throw new NullPointerException("Input concept must be not null");
+        this.Concept = Concept;
+        return this;
     }
 
     /**
      * @param conflictSet 
      * @return
      */
-    private void backtrack(Set<AboxItem> conflictSet) {
+    private void backtrack(Stack<Integer> conflictSet) {
         // TODO implement here
     }
 
@@ -59,24 +66,15 @@ public class DynamicTableau implements Tableau {
      * @param r 
      * @return
      */
-    private void applyRule(AboxItem r) {
+    private void applyRule(int r) {
         // TODO implement here
     }
 
     /**
      * @return
      */
-    private AboxItem chooseRule() {
-        // TODO implement here
-        return null;
-    }
-
-    /**
-     * @param conflictSet 
-     * @param b
-     */
-    private void clearConflictSet(Set<AboxItem> conflictSet, AboxItem b) {
-        // TODO implement here
+    private int chooseRule() {
+    return 0;
     }
 
 }

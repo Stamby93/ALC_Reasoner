@@ -39,11 +39,12 @@ public class main {
 
         System.out.println("Concetto in input: " + expression.toString());
 
+
         if(expression.getClassExpressionType() == OBJECT_INTERSECTION_OF){
             OWLObjectIntersectionOf inter = (OWLObjectIntersectionOf) expression;
 
             for (OWLClassExpression e: inter.operands().collect(Collectors.toSet())) {
-                System.out.println("ecco "+ e.toString());
+                System.out.println("Operand "+ e.toString());
             }
         }
 
