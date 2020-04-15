@@ -10,6 +10,8 @@ import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 import uk.ac.manchester.cs.owl.owlapi.OWLEquivalentClassesAxiomImpl;
 import uk.ac.manchester.cs.owl.owlapi.OWLObjectIntersectionOfImpl;
 
+import static org.semanticweb.owlapi.model.ClassExpressionType.OBJECT_INTERSECTION_OF;
+
 public class main {
 
     public static void main(String[] args) throws Exception {
@@ -37,6 +39,19 @@ public class main {
 
         System.out.println("Concetto in input: " + expression.toString());
 
+        if(expression.getClassExpressionType() == OBJECT_INTERSECTION_OF){
+            OWLObjectIntersectionOf inter = (OWLObjectIntersectionOf) expression;
+
+            for (OWLClassExpression e: inter.operands().collect(Collectors.toSet())) {
+                System.out.println("ecco "+ e.toString());
+            }
+        }
+
+        }
+
+
+
+
         /*OWLReasonerFactory ReasonerFactory = new ALCReasonerFactory();
         OWLReasoner ALCReasoner = ReasonerFactory.createReasoner(null);
 
@@ -46,6 +61,5 @@ public class main {
 
 
 
-    }
 
 }
