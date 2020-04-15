@@ -1,3 +1,4 @@
+package main.java;
 
 import org.semanticweb.owlapi.model.OWLClassExpression;
 
@@ -7,11 +8,21 @@ import java.util.*;
  * 
  */
 public class DynamicTableau implements Tableau {
+    Stack T;
+    Set<AboxItem> conflictSet; //STACK<NodeBranch>??????
+    Set<AboxItem> R;
+    OWLClassExpression workConcept;
 
     /**
      * Default constructor
      */
     public DynamicTableau() {
+
+    }
+    public DynamicTableau(OWLClassExpression concept){
+        //workConcept = NULL;
+        T = new Stack();
+        //R = NULL; //USA CONCEPT IN INPUT
     }
 
 
@@ -34,7 +45,16 @@ public class DynamicTableau implements Tableau {
      * @return
      */
     public boolean SAT() {
-        // TODO implement here
+        while (! R.isEmpty()) {
+            AboxItem r = chooseRule();
+            applyRule(r);
+            if(hasClash(workConcept))
+                backtrack(conflictSet);
+        }
+        return true;
+    }
+
+    private boolean hasClash(OWLClassExpression concept) {
         return false;
     }
 
