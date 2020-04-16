@@ -48,6 +48,8 @@ public class Node {
      */
     private List<OWLClassExpression> RuleSet;
 
+
+
     public OWLClassExpression getWorkingRule(){
         return RuleSet.get(workingRule);
     }
@@ -81,8 +83,10 @@ public class Node {
             OWLClassExpression e = eList.get(eList.size());
             eList.remove(eList.size());
             RuleSet.set(RuleSet.size(),e);
-
-            return checkClash();
+            if(checkClash())
+                return false;
+            workingRule++;
+            return true;
         }
 
         return false;
@@ -114,6 +118,14 @@ public class Node {
             if(RuleSet.contains(ce) == false)
                 RuleSet.add(RuleSet.size(),ce);
         }
+    }
+
+    public boolean isWorking(){
+        return !(workingRule>RuleSet.size());
+    }
+
+    public boolean backtrack() {
+        return false;
     }
 }
 

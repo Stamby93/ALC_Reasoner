@@ -31,8 +31,13 @@ public class NaiveTableau implements Tableau {
      * @return
      */
     public boolean SAT() {
-        // TODO implement here
-        return false;
+        Node root = NodeList.get(0);
+        boolean result = false;
+        while(root.isWorking()){
+            result = applyRule(root);
+        }
+
+        return result;
     }
 
     /**
@@ -44,6 +49,7 @@ public class NaiveTableau implements Tableau {
             throw new NullPointerException("Input concept must not be null");
         this.Concept = Concept;
         NodeList = new ArrayList<Node>();
+        NodeList.add(0, new Node(Concept));
     }
 
     /**
@@ -57,7 +63,7 @@ public class NaiveTableau implements Tableau {
      * @param node 
      * @return
      */
-    private void applyRule(Node node) {
+    private boolean applyRule(Node node) {
         OWLClassExpression rule = node.getWorkingRule();
         ClassExpressionType type = rule.getClassExpressionType();
         switch (type){
@@ -65,14 +71,14 @@ public class NaiveTableau implements Tableau {
                 OWLObjectIntersectionOf intersection = (OWLObjectIntersectionOf) rule;
                 List<OWLClassExpression> disjointedList = intersection.operands().collect(Collectors.toList());
                 node.checkIntersection(disjointedList);
-                break;
+                return true;
             case OBJECT_UNION_OF:
                 OWLObjectUnionOf union = (OWLObjectUnionOf) rule;
                 List<OWLClassExpression> jointedtList = union.operands().collect(Collectors.toList());
-
-                //VERIFICARE LE PREMESSE PRIMA DI PROCEDERE CON L'APPLICAZIONE
                 node.setBranch(jointedtList);
-                break;
+                if(node.applyChoice() == false)
+                    return node.backtrack();
+                return true;
             case OBJECT_SOME_VALUES_FROM:
                 OWLObjectSomeValuesFrom someValue = (OWLObjectSomeValuesFrom) rule;
                 OWLClassExpression filler = someValue.getFiller();
