@@ -48,6 +48,54 @@ public class main {
             }
         }
 
+        for (OWLClassExpression e: expression.nestedClassExpressions().collect(Collectors.toSet())) {
+            ClassExpressionType type = e.getClassExpressionType();
+            switch (type) {
+                case OWL_CLASS:
+                    System.out.println("Class: " + e.toString());
+                    break;
+                case OBJECT_SOME_VALUES_FROM:
+                    System.out.println("Object Some Value: " + e.toString());
+                    OWLObjectSomeValuesFrom casted = (OWLObjectSomeValuesFrom)e;
+                    System.out.println("Object some Value Filler: " + casted.getFiller().toString());
+                    break;
+                case OBJECT_ALL_VALUES_FROM:
+                    System.out.println("Object all Value: " + e.toString());
+                    OWLObjectAllValuesFrom casted2 = (OWLObjectAllValuesFrom)e;
+                    System.out.println("Object all Value Filler: " + casted2.getFiller().toString());
+                    break;
+                case OBJECT_HAS_VALUE:
+                    System.out.println("Object Has Value: " + e.toString());
+                    break;
+                case OBJECT_HAS_SELF:
+                    System.out.println("Object Has Self: " + e.toString());
+                    break;
+                case DATA_SOME_VALUES_FROM:
+                    System.out.println("Data Some Value: " + e.toString());
+                    break;
+                case DATA_ALL_VALUES_FROM:
+                    System.out.println("Data All Value: " + e.toString());
+                    break;
+                case DATA_HAS_VALUE:
+                    System.out.println("Data Has Value: " + e.toString());
+                    break;
+                case OBJECT_INTERSECTION_OF:
+                    System.out.println("Object Intersection: " + e.toString());
+                    break;
+                case OBJECT_UNION_OF:
+                    System.out.println("Object Union: " + e.toString());
+                    break;
+                case OBJECT_COMPLEMENT_OF:
+                    System.out.println("Object Complement of: " + e.toString());
+                    break;
+                case OBJECT_ONE_OF:
+                    System.out.println("Object One of: " + e.toString());
+                    break;
+                default: System.out.println("Unexpected Expression Type: " + e.toString());
+
+            }
+        }
+
         }
 
 
