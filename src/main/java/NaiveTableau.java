@@ -1,5 +1,6 @@
 
 import org.semanticweb.owlapi.model.*;
+import org.semanticweb.owlapi.reasoner.NodeSet;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -75,10 +76,29 @@ public class NaiveTableau implements Tableau {
             case OBJECT_SOME_VALUES_FROM:
                 OWLObjectSomeValuesFrom someValue = (OWLObjectSomeValuesFrom) rule;
                 OWLClassExpression filler = someValue.getFiller();
-                //VERIFICARE LE PREMESSE PRIMA DI PROCEDERE CON L'APPLICAZIONE
-                NodeList.add(NodeList.size(), new Node(filler));
-                node.addRelation(someValue.getProperty(), NodeList.size());
-                break;
+                OWLObjectPropertyExpression oe = someValue.getProperty();
+                if(!node.checkRelation(oe)) {
+                    NodeList.add(NodeList.size(), new Node(filler));
+                    node.addRelation(oe, NodeList.size());
+                    if(applyRule(NodeList.get(NodeList.size())) == false) {
+                        if (NodeList.get(NodeList.size()).backtrack() == false)
+                            return false;
+                        return true;
+                    }
+                    return true;
+                }
+                else{
+                    List<Integer> nodes = node.getConnectedBy(oe);
+                    for (Integer i: nodes){
+                        NodeList.get(i).addRule(filler);
+                        if(applyRule(NodeList.get(i)) == false){
+                            if(NodeList.get(i).backtrack() == false)
+                                return false;
+                            return true;
+                        }
+                    }
+                    return true;
+                }
             case OBJECT_ALL_VALUES_FROM:
                 OWLObjectAllValuesFrom allValue = (OWLObjectAllValuesFrom) rule;
                 break;

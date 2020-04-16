@@ -69,10 +69,23 @@ public class Node {
         }
     }
 
+    public boolean checkRelation(OWLObjectPropertyExpression pe){
+        return relation.containsKey(pe);
+    }
+
+    public List<Integer> getConnectedBy(OWLObjectPropertyExpression pe){
+        return relation.get(pe);
+    }
+
     public void setChoice(List<OWLClassExpression> jointedList){
 
         choice.put(workingRule,jointedList);
 
+    }
+
+    public void addRule(OWLClassExpression e){
+        if(!RuleSet.contains(e))
+            RuleSet.add(RuleSet.size(),e);
     }
 
     public boolean applyChoice() {
@@ -98,7 +111,7 @@ public class Node {
 
             OWLClassExpression c = RuleSet.get(i);
 
-            for (int i1 = 0; i1 < RuleSet.size(); i1++) {
+            for (int i1 = i+1; i1 < RuleSet.size(); i1++) {
 
                 OWLClassExpression c1 = RuleSet.get(i1);
 
