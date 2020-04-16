@@ -1,4 +1,5 @@
 
+import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 
@@ -23,6 +24,7 @@ public class Node {
             throw new NullPointerException("Rule for new node must be not null");
         this.RuleSet = new ArrayList<OWLClassExpression>();
         this.RuleSet.add(workingRule,unexpandedRule);
+        this.choice = new HashMap<Integer, List<OWLClassExpression>>();
     }
 
 
@@ -34,7 +36,7 @@ public class Node {
     /**
      * 
      */
-    public List<List<OWLClassExpression>> choice;
+    public Map<Integer, List<OWLClassExpression>> choice;
 
     /**
      * 
@@ -53,7 +55,7 @@ public class Node {
     public void setBranch(List<OWLClassExpression> operands){
         if(operands == null)
             throw new NullPointerException("Branch alternatives must be not null");
-        choice.add(workingRule,operands);
+        choice.put(workingRule,operands);
     }
 
     public void addRelation(OWLObjectPropertyExpression pe, int i){
@@ -64,4 +66,54 @@ public class Node {
             relation.put(pe, new ArrayList<Integer>(i));
         }
     }
+
+    public void setChoice(List<OWLClassExpression> jointedList){
+
+        choice.put(workingRule,jointedList);
+
+    }
+
+    public boolean applyChoice() {
+
+        List<OWLClassExpression> eList = choice.get(workingRule);
+
+        if(eList.size() != 0){
+            OWLClassExpression e = eList.get(eList.size());
+            eList.remove(eList.size());
+            RuleSet.set(RuleSet.size(),e);
+
+            return checkClash();
+        }
+
+        return false;
+    }
+
+    private boolean checkClash() {
+
+        for (int i = 0; i < RuleSet.size(); i++) {
+
+            OWLClassExpression c = RuleSet.get(i);
+
+            for (int i1 = 0; i1 < RuleSet.size(); i1++) {
+
+                OWLClassExpression c1 = RuleSet.get(i1);
+
+                if (c.equals((OWLClassExpression) c1.getObjectComplementOf())) {
+
+                    return true;
+                }
+            }
+        }
+        return false;
+
+    }
+
+    public void checkIntersection(List<OWLClassExpression> disjointedList){
+
+        for (OWLClassExpression ce: disjointedList ) {
+            if(RuleSet.contains(ce) == false)
+                RuleSet.add(RuleSet.size(),ce);
+        }
+    }
 }
+

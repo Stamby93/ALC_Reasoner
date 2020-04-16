@@ -63,12 +63,15 @@ public class NaiveTableau implements Tableau {
         switch (type){
             case OBJECT_INTERSECTION_OF:
                 OWLObjectIntersectionOf intersection = (OWLObjectIntersectionOf) rule;
-                List<OWLClassExpression> operands = intersection.operands().collect(Collectors.toList());
-                //VERIFICARE LE PREMESSE PRIMA DI PROCEDERE CON L'APPLICAZIONE
-                node.setBranch(operands);
+                List<OWLClassExpression> disjointedList = intersection.operands().collect(Collectors.toList());
+                node.checkIntersection(disjointedList);
                 break;
             case OBJECT_UNION_OF:
                 OWLObjectUnionOf union = (OWLObjectUnionOf) rule;
+                List<OWLClassExpression> jointedtList = union.operands().collect(Collectors.toList());
+
+                //VERIFICARE LE PREMESSE PRIMA DI PROCEDERE CON L'APPLICAZIONE
+                node.setBranch(jointedtList);
                 break;
             case OBJECT_SOME_VALUES_FROM:
                 OWLObjectSomeValuesFrom someValue = (OWLObjectSomeValuesFrom) rule;
