@@ -33,22 +33,22 @@ public class Node {
     /**
      * 
      */
-    public Map<OWLObjectPropertyExpression, List<Integer>> relation;
+    private Map<OWLObjectPropertyExpression, List<Integer>> relation;
 
     /**
      * 
      */
-    public Map<Integer, List<OWLClassExpression>> choice;
+    private Map<Integer, List<OWLClassExpression>> choice;
 
     /**
      * 
      */
-    public int workingRule = 0;
+    private int workingRule = 0;
 
     /**
      *
      */
-    public List<OWLClassExpression> RuleSet;
+    private List<OWLClassExpression> RuleSet;
 
 
 
