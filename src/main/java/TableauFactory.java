@@ -20,7 +20,10 @@ public class TableauFactory {
      * @return
      */
     public Tableau getTableau(String type, OWLClassExpression Concept) {
-        // TODO implement here
+        switch (type){
+            case "Naive":
+                return new NaiveTableau(Concept);
+        }
         return null;
     }
 
