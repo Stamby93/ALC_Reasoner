@@ -23,15 +23,15 @@ public class main {
         OWLClass flag = df.getOWLClass(iri + "#assioma");
         Set<OWLAxiom> ontologyAxiom = ont.axioms(flag).collect(Collectors.toSet());
 
-        if(ontologyAxiom.size() > 1)
+        if (ontologyAxiom.size() > 1)
             throw new IllegalArgumentException("Invalid input concept");
 
         OWLEquivalentClassesAxiomImpl axiom = (OWLEquivalentClassesAxiomImpl) ontologyAxiom.iterator().next();
 
         Set<OWLClassExpression> expressions = axiom.classExpressions().collect(Collectors.toSet());
         OWLClassExpression expression = null;
-        for (OWLClassExpression e: expressions) {
-            if(e.isOWLClass() == false) {
+        for (OWLClassExpression e : expressions) {
+            if (e.isOWLClass() == false) {
                 expression = e;
                 break;
             }
@@ -39,16 +39,17 @@ public class main {
 
         System.out.println("Concetto in input: " + expression.toString());
 
+        /*
 
-        if(expression.getClassExpressionType() == OBJECT_INTERSECTION_OF){
+        if (expression.getClassExpressionType() == OBJECT_INTERSECTION_OF) {
             OWLObjectIntersectionOf inter = (OWLObjectIntersectionOf) expression;
 
-            for (OWLClassExpression e: inter.operands().collect(Collectors.toSet())) {
-                System.out.println("Operand "+ e.toString());
+            for (OWLClassExpression e : inter.operands().collect(Collectors.toSet())) {
+                System.out.println("Operand " + e.toString());
             }
         }
 
-        for (OWLClassExpression e: expression.nestedClassExpressions().collect(Collectors.toSet())) {
+        for (OWLClassExpression e : expression.nestedClassExpressions().collect(Collectors.toSet())) {
             ClassExpressionType type = e.getClassExpressionType();
             switch (type) {
                 case OWL_CLASS:
@@ -56,12 +57,12 @@ public class main {
                     break;
                 case OBJECT_SOME_VALUES_FROM:
                     System.out.println("Object Some Value: " + e.toString());
-                    OWLObjectSomeValuesFrom casted = (OWLObjectSomeValuesFrom)e;
+                    OWLObjectSomeValuesFrom casted = (OWLObjectSomeValuesFrom) e;
                     System.out.println("Object some Value Filler: " + casted.getFiller().toString());
                     break;
                 case OBJECT_ALL_VALUES_FROM:
                     System.out.println("Object all Value: " + e.toString());
-                    OWLObjectAllValuesFrom casted2 = (OWLObjectAllValuesFrom)e;
+                    OWLObjectAllValuesFrom casted2 = (OWLObjectAllValuesFrom) e;
                     System.out.println("Object all Value Filler: " + casted2.getFiller().toString());
                     break;
                 case OBJECT_HAS_VALUE:
@@ -91,24 +92,19 @@ public class main {
                 case OBJECT_ONE_OF:
                     System.out.println("Object One of: " + e.toString());
                     break;
-                default: System.out.println("Unexpected Expression Type: " + e.toString());
+                default:
+                    System.out.println("Unexpected Expression Type: " + e.toString());
 
             }
         }
+    */
 
-        }
+    OWLReasonerFactory ReasonerFactory = new ALCReasonerFactory();
+    OWLReasoner ALCReasoner = ReasonerFactory.createReasoner(null);
 
-
-
-
-        /*OWLReasonerFactory ReasonerFactory = new ALCReasonerFactory();
-        OWLReasoner ALCReasoner = ReasonerFactory.createReasoner(null);
-
-            System.out.println("The concept is" + ALCReasoner.isSatisfiable(expression));
-        }
-*/
+            System.out.println("The concept is "+ALCReasoner.isSatisfiable(expression));
 
 
-
+    }
 
 }

@@ -34,8 +34,10 @@ public class NaiveTableau implements Tableau {
     public boolean SAT() {
         Node root = NodeList.get(0);
         boolean result = false;
+        int i = 0;
         while (root.isWorking()) {
             result = applyRule(root);
+
         }
 
         return result;
@@ -60,13 +62,17 @@ public class NaiveTableau implements Tableau {
     private boolean applyRule(Node node) {
         OWLClassExpression rule = node.getWorkingRule();
         ClassExpressionType type = rule.getClassExpressionType();
+        List<Integer> nodes = null;
         switch (type) {
             case OBJECT_INTERSECTION_OF:
+                //System.out.println("Intersection");
                 OWLObjectIntersectionOf intersection = (OWLObjectIntersectionOf) rule;
                 List<OWLClassExpression> disjointedList = intersection.operands().collect(Collectors.toList());
                 node.checkIntersection(disjointedList);
                 return true;
             case OBJECT_UNION_OF:
+                //System.out.println("Union");
+
                 OWLObjectUnionOf union = (OWLObjectUnionOf) rule;
                 List<OWLClassExpression> jointedList = union.operands().collect(Collectors.toList());
                 node.setBranch(jointedList);
@@ -74,36 +80,59 @@ public class NaiveTableau implements Tableau {
                     return node.backtrack();
                 return true;
             case OBJECT_SOME_VALUES_FROM:
+                //System.out.println("Some");
+
                 OWLObjectSomeValuesFrom someValue = (OWLObjectSomeValuesFrom) rule;
                 OWLClassExpression filler = someValue.getFiller();
                 OWLObjectPropertyExpression oe = someValue.getProperty();
                 if(!node.checkRelation(oe)) {
-                    NodeList.add(NodeList.size(), new Node(filler));
-                    node.addRelation(oe, NodeList.size());
-                    if(applyRule(NodeList.get(NodeList.size())) == false) {
-                        if (NodeList.get(NodeList.size()).backtrack() == false)
-                            return false;
-                        return true;
-                    }
+                    Node NEW = new Node(filler);
+                    NodeList.add(NodeList.size(), NEW);
+                    node.addRelation(oe, NodeList.size()-1);
+                    if(applyRule(NEW) == false)
+                        return NEW.backtrack();
+                    node.ruleApplied();
                     return true;
                 }
                 else{
-                    List<Integer> nodes = node.getConnectedBy(oe);
+                    nodes = node.getConnectedBy(oe);
                     for (Integer i: nodes){
                         NodeList.get(i).addRule(filler);
                         if(applyRule(NodeList.get(i)) == false){
                             if(NodeList.get(i).backtrack() == false)
                                 return false;
-                            return true;
                         }
                     }
+                    node.ruleApplied();
                     return true;
                 }
             case OBJECT_ALL_VALUES_FROM:
+                //System.out.println("All");
+
                 OWLObjectAllValuesFrom allValue = (OWLObjectAllValuesFrom) rule;
-                break;
+                OWLClassExpression fillerAll = allValue.getFiller();
+                OWLObjectPropertyExpression oeAll = allValue.getProperty();
+                if(node.checkRelation(oeAll)) {
+                    nodes = node.getConnectedBy(oeAll);
+                    for (Integer i : nodes) {
+                        NodeList.get(i).addRule(fillerAll);
+                        if (applyRule(NodeList.get(i)) == false) {
+                            if (NodeList.get(i).backtrack() == false)
+                                return false;
+                        }
+                    }
+                    node.ruleApplied();
+                    return true;
+                }
+                node.ruleApplied();
+                return false;
             case OWL_CLASS:
-                break;
+                //System.out.println("Class");
+
+                if(node.checkClash())
+                    return node.backtrack();
+                node.ruleApplied();
+                return true;
             case DATA_SOME_VALUES_FROM:
                 break;
             case DATA_ALL_VALUES_FROM:

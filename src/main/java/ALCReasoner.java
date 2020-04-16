@@ -269,7 +269,7 @@ public class ALCReasoner implements OWLReasoner {
 
     @Override
     public boolean isSatisfiable(OWLClassExpression owlClassExpression) {
-        Tableau = TableauFactory.getTableau("DYNAMIC", owlClassExpression);
+        Tableau = TableauFactory.getTableau("Naive", owlClassExpression);
         return Tableau.SAT();
     }
 }

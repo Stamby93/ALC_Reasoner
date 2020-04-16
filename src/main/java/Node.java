@@ -1,4 +1,5 @@
 
+import org.eclipse.rdf4j.model.vocabulary.OWL;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
@@ -25,6 +26,7 @@ public class Node {
         this.RuleSet = new ArrayList<OWLClassExpression>();
         this.RuleSet.add(workingRule,unexpandedRule);
         this.choice = new HashMap<Integer, List<OWLClassExpression>>();
+        this.relation = new HashMap<OWLObjectPropertyExpression, List<Integer>>();
     }
 
 
@@ -46,7 +48,7 @@ public class Node {
     /**
      *
      */
-    private List<OWLClassExpression> RuleSet;
+    public List<OWLClassExpression> RuleSet;
 
 
 
@@ -77,15 +79,10 @@ public class Node {
         return relation.get(pe);
     }
 
-    public void setChoice(List<OWLClassExpression> jointedList){
-
-        choice.put(workingRule,jointedList);
-
-    }
 
     public void addRule(OWLClassExpression e){
         if(!RuleSet.contains(e))
-            RuleSet.add(RuleSet.size(),e);
+            RuleSet.add(RuleSet.size()-1,e);
     }
 
     public boolean applyChoice() {
@@ -93,19 +90,19 @@ public class Node {
         List<OWLClassExpression> eList = choice.get(workingRule);
 
         if(eList.size() != 0){
-            OWLClassExpression e = eList.get(eList.size());
-            eList.remove(eList.size());
-            RuleSet.set(RuleSet.size(),e);
+            OWLClassExpression e = eList.get(eList.size()-1);
+            eList.remove(eList.size()-1);
+            RuleSet.add(RuleSet.size(),e);
             if(checkClash())
                 return false;
-            workingRule++;
+            ruleApplied();
             return true;
         }
 
         return false;
     }
 
-    private boolean checkClash() {
+    public boolean checkClash() {
 
         for (int i = 0; i < RuleSet.size(); i++) {
 
@@ -115,10 +112,8 @@ public class Node {
 
                 OWLClassExpression c1 = RuleSet.get(i1);
 
-                if (c.equals((OWLClassExpression) c1.getObjectComplementOf())) {
-
+                if (c.equals(c1.getComplementNNF()))
                     return true;
-                }
             }
         }
         return false;
@@ -131,13 +126,26 @@ public class Node {
             if(RuleSet.contains(ce) == false)
                 RuleSet.add(RuleSet.size(),ce);
         }
+        ruleApplied();
     }
 
     public boolean isWorking(){
-        return !(workingRule>RuleSet.size());
+        return (!(workingRule>=RuleSet.size()) && (workingRule!=-1));
+    }
+
+    public void ruleApplied(){
+        workingRule++;
     }
 
     public boolean backtrack() {
+
+        while(workingRule>=0){
+            workingRule--;
+            RuleSet.remove(RuleSet.size()-1);
+            if(choice.get(workingRule)!= null && !choice.get(workingRule).isEmpty())
+                return true;
+        }
+
         return false;
     }
 }
