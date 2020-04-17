@@ -1,0 +1,46 @@
+Prefix: owl: <http://www.w3.org/2002/07/owl#>
+Prefix: rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+Prefix: rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+Prefix: xml: <http://www.w3.org/XML/1998/namespace>
+Prefix: xsd: <http://www.w3.org/2001/XMLSchema#>
+
+
+
+Ontology: <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-8>
+
+
+ObjectProperty: <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-7#R>
+
+    
+ObjectProperty: <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-8#R>
+
+    
+Class: <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-8#A1>
+
+    
+Class: <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-8#A2>
+
+    
+Class: <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-8#B1>
+
+    
+Class: <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-8#B2>
+
+    
+Class: <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-8#B3>
+
+    
+Class: <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-8#B4>
+
+    
+Class: <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-8#assioma>
+
+    EquivalentTo: 
+        (<http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-8#B1> or <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-8#B2>)
+         and (<http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-8#B3> or <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-8#B4>)
+         and ((<http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-7#R> some (not (<http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-8#A1>))) or (<http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-7#R> some (not (<http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-8#A2>))))
+         and ((<http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-7#R> only 
+            (<http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-8#A1>
+             and <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-8#A2>)) or (<http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-7#R> only (not (<http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-8#B1>))))
+    
+    
