@@ -9,9 +9,22 @@ Prefix: xsd: <http://www.w3.org/2001/XMLSchema#>
 Ontology: <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-9>
 
 
+Class: <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-7#B>
+
+    
 Class: <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-9#A>
 
     
 Class: <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-9#B>
+
+    
+Class: <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-9#assioma>
+
+    EquivalentTo: 
+        owl:Nothing
+         and (<http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-7#B> or <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-9#A>)
+    
+    
+Class: owl:Nothing
 
     
