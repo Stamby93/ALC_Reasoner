@@ -133,7 +133,7 @@ public class aTableau implements Tableau{
                         disjointNode.add(disjointNode.size(),node);
                     OWLClassExpression choice = node.applyChoice();
                     if(choice!=null) {
-                        checkIntersection(Collections.singletonList(node.applyChoice()));
+                        checkIntersection(Collections.singletonList(choice));
                         if (!checkClash())
                             workingRule++;
                         else {
