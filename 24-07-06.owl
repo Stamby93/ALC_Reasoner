@@ -1,0 +1,32 @@
+Prefix: owl: <http://www.w3.org/2002/07/owl#>
+Prefix: rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+Prefix: rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+Prefix: xml: <http://www.w3.org/XML/1998/namespace>
+Prefix: xsd: <http://www.w3.org/2001/XMLSchema#>
+
+
+
+Ontology: <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-7>
+
+
+ObjectProperty: <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-7#R>
+
+    
+ObjectProperty: <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-7#S>
+
+    
+Class: <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-7#A>
+
+    
+Class: <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-7#B>
+
+    
+Class: <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-7#assioma>
+
+    EquivalentTo: 
+        (<http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-7#A> or <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-7#B>)
+         and ((not (<http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-7#B>)) or (<http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-7#R> only (<http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-7#S> only <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-7#A>)))
+         and ((<http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-7#R> only <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-7#A>) or (<http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-7#R> only (not (<http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-7#A>))))
+         and (<http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-7#R> some (not (<http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-7#A>)))
+    
+    
