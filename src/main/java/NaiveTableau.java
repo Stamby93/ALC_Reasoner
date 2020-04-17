@@ -39,7 +39,12 @@ public class NaiveTableau implements Tableau {
             result = applyRule(root);
 
         }
+/*        for (OWLClassExpression e: root.RuleSet
+             ) {
 
+            System.out.println("ROOT" + e.toString());
+        }
+*/
         return result;
     }
 
@@ -125,7 +130,7 @@ public class NaiveTableau implements Tableau {
                     return true;
                 }
                 node.ruleApplied();
-                return false;
+                return false;//node.backtrack();
             case OWL_CLASS:
                 //System.out.println("Class");
 
