@@ -11,4 +11,6 @@ public interface Tableau {
      */
     public boolean SAT();
 
+    public void printModel();
+
 }

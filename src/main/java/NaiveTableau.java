@@ -48,6 +48,11 @@ public class NaiveTableau implements Tableau {
         return result;
     }
 
+    @Override
+    public void printModel() {
+
+    }
+
     /**
      * @param Concept
      * @return

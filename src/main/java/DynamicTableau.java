@@ -88,6 +88,11 @@ public class DynamicTableau implements Tableau {
         return true;
     }
 
+    @Override
+    public void printModel() {
+
+    }
+
     private Stack<Integer> hasClash() {
 
         Stack<Integer> result = null;

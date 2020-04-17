@@ -22,7 +22,7 @@ public class TableauFactory {
     public Tableau getTableau(String type, OWLClassExpression Concept) {
         switch (type){
             case "Naive":
-                return new NaiveTableau(Concept);
+                return new aTableau(Concept, null, -1);
         }
         return null;
     }

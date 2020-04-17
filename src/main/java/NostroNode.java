@@ -131,6 +131,8 @@ public class NostroNode {
 
 
 
+
+
     public void addRule(OWLClassExpression e){
         if(!RuleSet.contains(e))
             RuleSet.add(RuleSet.size()-1,e);

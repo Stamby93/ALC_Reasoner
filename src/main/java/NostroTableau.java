@@ -33,7 +33,7 @@ public class NostroTableau implements Tableau {
 
     private int workingRule = 0;
 
-    private int pendent = 0;
+    private List<NostroNode> pendent;
 
     private int individual = 0;
 
@@ -55,12 +55,13 @@ public class NostroTableau implements Tableau {
 
                 working = new NostroNode(working.getRuleSet(), working.getRule()+1, working.getID());
                 workingList.add(workingList.size() - 1, working);
+
             } else if (!result) {
                 if (backtrack(working) == false) {
                     individualList.remove(working.getID());
                     if (individualList.isEmpty())
                         return false;
-                    working = getNext();
+                    working = pendent.get(working.getID());//getNext();
                 }
             } else if (working.isSome()) {
 
@@ -100,7 +101,7 @@ public class NostroTableau implements Tableau {
                             }
 
                         }
-                        if (check) {
+                        if (!check) {
                             //CASO IN CUI NESSUNO DEI NODI CON QUESTA RELAZIONE HA LA FORMULA TRA IL SUO RULE SET
                             //QUINDI INSTANZIO NUOVO INDIVIDUO E MI SALVO LA RELAZIONE
                             related.add(related.size() - 1, some.getID());
@@ -137,7 +138,8 @@ public class NostroTableau implements Tableau {
                                 NostroNode n = l.get(l.size() - 1);
                                 List<OWLClassExpression> le = new ArrayList<OWLClassExpression>();
                                 le.addAll(n.getRuleSet());
-                                l.add(l.size(), new NostroNode(le, n.getRule(), n.getID()));
+                                le.add(le.size(),filler);
+                                l.add(l.size(), new NostroNode(le, n.getRule()+1, n.getID()));
                             }
                         }
                         working = getNext();
@@ -155,6 +157,11 @@ public class NostroTableau implements Tableau {
             }
 
         return result;
+    }
+
+    @Override
+    public void printModel() {
+
     }
 
     private NostroNode getNext(){
