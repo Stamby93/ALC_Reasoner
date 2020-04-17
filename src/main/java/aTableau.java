@@ -158,9 +158,10 @@ public class aTableau implements Tableau{
                     if (related == null) {
 
                         direct = new aTableau(filler, oe, workingRule);
-                        directSelf.put(oe, Collections.singletonList(direct));
-                        if(direct.SAT())
+                        if(direct.SAT()){
+                            directSelf.put(oe, Collections.singletonList(direct));
                             workingRule++;
+                        }
                         else
                             workingRule--;
                     }
@@ -180,9 +181,10 @@ public class aTableau implements Tableau{
                                 //CASO IN CUI NESSUNO DEI NODI CON QUESTA RELAZIONE HA LA FORMULA TRA IL SUO RULE SET
                                 //QUINDI INSTANZIO NUOVO INDIVIDUO E MI SALVO LA RELAZIONE
                                 direct = new aTableau(filler, oe, workingRule);
-                                directSelf.put(oe, Collections.singletonList(direct));
-                                if(direct.SAT())
+                                if(direct.SAT()) {
+                                    directSelf.put(oe, Collections.singletonList(direct));
                                     workingRule++;
+                                }
                                 else
                                     workingRule--;
                             } else
@@ -207,8 +209,10 @@ public class aTableau implements Tableau{
                         for (aTableau t: directs){
 
                             if(!t.checkAll(fillers)){
+                                directSelf.get(oea).remove(t);
                                 workingRule = t.parent;
                                 checK = false;
+                                break;
                             }
                         }
 
