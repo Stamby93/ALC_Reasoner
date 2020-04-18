@@ -1,8 +1,6 @@
 
 import org.semanticweb.owlapi.model.OWLClassExpression;
 
-import java.util.*;
-
 /**
  * 
  */
@@ -22,7 +20,7 @@ public class TableauFactory {
     public Tableau getTableau(String type, OWLClassExpression Concept) {
         switch (type){
             case "Naive":
-                return new aTableau(Concept, null, -1);
+                return new NaiveTableau(Concept, null, -1);
         }
         return null;
     }

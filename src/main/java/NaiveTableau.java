@@ -2,7 +2,7 @@ import org.semanticweb.owlapi.model.*;
 
 import java.util.*;
 
-public class aTableau implements Tableau{
+public class NaiveTableau implements Tableau{
 
 
 
@@ -11,7 +11,7 @@ public class aTableau implements Tableau{
      * @param concept
      * @param type
      */
-    protected aTableau(OWLClassExpression concept, OWLObjectPropertyExpression type, int parent) {
+    protected NaiveTableau(OWLClassExpression concept, OWLObjectPropertyExpression type, int parent) {
 
 
         this.Concept = concept;
@@ -19,9 +19,9 @@ public class aTableau implements Tableau{
         this.parent = parent;
         Abox = new ArrayList<OWLClassExpression>();
         Abox.add(Abox.size(),Concept);
-        disjointNode = new ArrayList<aNode>();
-        //nodeList = new ArrayList<aNode>();
-        directSelf= new HashMap<OWLObjectPropertyExpression, List<aTableau>>();
+        disjointNode = new ArrayList<Node>();
+        //nodeList = new ArrayList<Node>();
+        directSelf= new HashMap<OWLObjectPropertyExpression, List<NaiveTableau>>();
 
 
     }
@@ -40,16 +40,16 @@ public class aTableau implements Tableau{
     /**
      *
      */
-    public List<aNode> disjointNode;
+    public List<Node> disjointNode;
 
     /**
      *
      */
     public int workingRule;
 
-    //private List<aNode> nodeList;
+    //private List<Node> nodeList;
 
-    private Map<OWLObjectPropertyExpression, List<aTableau>> directSelf;
+    private Map<OWLObjectPropertyExpression, List<NaiveTableau>> directSelf;
 
     private int parent;
 
@@ -117,7 +117,7 @@ public class aTableau implements Tableau{
             List<OWLClassExpression> newRule = new ArrayList<OWLClassExpression>();
             OWLClassExpression rule = Abox.get(workingRule);
             ClassExpressionType type = rule.getClassExpressionType();
-            aNode node = null;
+            Node node = null;
             switch (type) {
                 case OBJECT_INTERSECTION_OF:
                     applyIntersection(rule);
@@ -152,7 +152,7 @@ public class aTableau implements Tableau{
 
     private void applyIntersection(OWLClassExpression rule){
         System.out.println("INTERSECTION");
-        aNode node = new aNode(rule, workingRule);
+        Node node = new Node(rule, workingRule);
         checkIntersection(node.applyRule());
         workingRule++;
     }
@@ -160,11 +160,11 @@ public class aTableau implements Tableau{
     private void applyUnion(OWLClassExpression rule){
         System.out.println("UNION");
 
-        aNode node = null;
+        Node node = null;
         if(disjointNode.size()!=0 && disjointNode.get(disjointNode.size()-1).getWorkingRule()==workingRule)
             node = disjointNode.get(disjointNode.size()-1);
         else{
-            node = new aNode(rule, workingRule);
+            node = new Node(rule, workingRule);
             disjointNode.add(disjointNode.size(),node);
         }
         OWLClassExpression choice = node.applyChoice();
@@ -186,16 +186,16 @@ public class aTableau implements Tableau{
     private void applySome(OWLClassExpression rule){
         System.out.println("SOME");
 
-        aTableau direct = null;
+        NaiveTableau direct = null;
         OWLObjectSomeValuesFrom someValue = (OWLObjectSomeValuesFrom) rule;
         OWLObjectPropertyExpression oe = someValue.getProperty();
         OWLClassExpression filler = someValue.getFiller();
 
         //VERIFICO SE INDIVIDUO HA LA RELAZIONE
-        List<aTableau> related = directSelf.get(oe);
+        List<NaiveTableau> related = directSelf.get(oe);
         if (related == null) {
 
-            direct = new aTableau(filler, oe, workingRule);
+            direct = new NaiveTableau(filler, oe, workingRule);
             if(direct.SAT()){
                 directSelf.put(oe, Collections.singletonList(direct));
                 workingRule++;
@@ -207,7 +207,7 @@ public class aTableau implements Tableau{
         else{
             boolean check = false;
 
-            for (aTableau t : related) {
+            for (NaiveTableau t : related) {
 
                 if (t.checkSome(filler)) {
                     check = true;
@@ -218,7 +218,7 @@ public class aTableau implements Tableau{
             if (!check) {
                 //CASO IN CUI NESSUNO DEI NODI CON QUESTA RELAZIONE HA LA FORMULA TRA IL SUO RULE SET
                 //QUINDI INSTANZIO NUOVO INDIVIDUO E MI SALVO LA RELAZIONE
-                direct = new aTableau(filler, oe, workingRule);
+                direct = new NaiveTableau(filler, oe, workingRule);
                 if(direct.SAT()) {
                     directSelf.put(oe, Collections.singletonList(direct));
                     workingRule++;
@@ -238,14 +238,14 @@ public class aTableau implements Tableau{
         OWLObjectPropertyExpression oe = allValue.getProperty();
         boolean check = true;
 
-        List<aTableau> related = directSelf.get(oe);
+        List<NaiveTableau> related = directSelf.get(oe);
         if (related == null)
             workingRule++;
         else{
 
-            List<aTableau> directs = directSelf.get(oe);
+            List<NaiveTableau> directs = directSelf.get(oe);
 
-            for (aTableau t: directs){
+            for (NaiveTableau t: directs){
 
                 if(!t.checkAll(filler)){
                     directSelf.get(oe).remove(t);
@@ -294,9 +294,9 @@ public class aTableau implements Tableau{
         Set<OWLObjectPropertyExpression> key =  directSelf.keySet();
 
         for (OWLObjectPropertyExpression oe: key) {
-            List<aTableau> related = directSelf.get(oe);
+            List<NaiveTableau> related = directSelf.get(oe);
             System.out.println("EXISTENTIAL RELATION " + oe.toString());
-                for (aTableau t : related) {
+                for (NaiveTableau t : related) {
                     t.printModel();
                 }
         }

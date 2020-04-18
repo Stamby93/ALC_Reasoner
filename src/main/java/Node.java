@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class aNode {
+public class Node {
 
 
 
-    public aNode(OWLClassExpression operand, int workingRule) {
+    public Node(OWLClassExpression operand, int workingRule) {
         this.Operand = operand;
         this.workingRule = workingRule;
 
