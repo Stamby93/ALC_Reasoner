@@ -35,7 +35,9 @@ public class aNode {
         OWLObjectUnionOf union = (OWLObjectUnionOf) Operand;
         List<OWLClassExpression> jointedList = union.operands().collect(Collectors.toList());
         currentChoice++;
-        return jointedList.get(currentChoice-1);
+        if(currentChoice - 1 < jointedList.size())
+            return jointedList.get(currentChoice-1);
+        return null;
     }
 
     /**
@@ -45,6 +47,10 @@ public class aNode {
         OWLObjectIntersectionOf intersection = (OWLObjectIntersectionOf) Operand;
         List<OWLClassExpression> disjointedList = intersection.operands().collect(Collectors.toList());
         return disjointedList;
+    }
+
+    public int getWorkingRule(){
+        return workingRule;
     }
 
 }

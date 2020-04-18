@@ -20,7 +20,7 @@ public class aTableau implements Tableau{
         Abox = new ArrayList<OWLClassExpression>();
         Abox.add(Abox.size(),Concept);
         disjointNode = new ArrayList<aNode>();
-        nodeList = new ArrayList<aNode>();
+        //nodeList = new ArrayList<aNode>();
         directSelf= new HashMap<OWLObjectPropertyExpression, List<aTableau>>();
 
 
@@ -47,7 +47,7 @@ public class aTableau implements Tableau{
      */
     public int workingRule;
 
-    private List<aNode> nodeList;
+    //private List<aNode> nodeList;
 
     private Map<OWLObjectPropertyExpression, List<aTableau>> directSelf;
 
@@ -120,118 +120,21 @@ public class aTableau implements Tableau{
             aNode node = null;
             switch (type) {
                 case OBJECT_INTERSECTION_OF:
-                    System.out.println("INTERSECTION");
-                    node = new aNode(rule, workingRule);
-                    checkIntersection(node.applyRule());
-                    workingRule++;
+                    applyIntersection(rule);
                     break;
                 case OBJECT_UNION_OF:
-                    System.out.println("UNION");
-
-                    node = new aNode(rule, workingRule);
-                    if(disjointNode.contains(node))
-                        disjointNode.add(disjointNode.size(),node);
-                    OWLClassExpression choice = node.applyChoice();
-                    if(choice!=null) {
-                        checkIntersection(Collections.singletonList(choice));
-                        if (!checkClash())
-                            workingRule++;
-                        else {
-                            Abox.remove(Abox.size() - 1);
-                        }
-                    }
-                    else{
-                        disjointNode.remove(node);
-                        workingRule--;
-                    }
+                    applyUnion(rule);
                     break;
                 case OBJECT_SOME_VALUES_FROM:
-                    System.out.println("SOME");
-
-                    aTableau direct = null;
-                    OWLObjectSomeValuesFrom someValue = (OWLObjectSomeValuesFrom) rule;
-                    OWLObjectPropertyExpression oe = someValue.getProperty();
-                    OWLClassExpression filler = someValue.getFiller();
-
-                    //VERIFICO SE INDIVIDUO HA LA RELAZIONE 
-                    List<aTableau> related = directSelf.get(oe);
-                    if (related == null) {
-
-                        direct = new aTableau(filler, oe, workingRule);
-                        if(direct.SAT()){
-                            directSelf.put(oe, Collections.singletonList(direct));
-                            workingRule++;
-                        }
-                        else
-                            workingRule--;
-                    }
-                    //CASO IN CUI RELAZIONE RICHIESTA ESISTE, VERIFICO SE E' PRESENTE LA REGOLA NEL RULE SET
-                    else{
-                        boolean check = false;
-
-                        for (aTableau t : related) {
-
-                                if (t.checkSome(filler)) {
-                                    check = true;
-                                    break;
-                                }
-
-                            }
-                            if (!check) {
-                                //CASO IN CUI NESSUNO DEI NODI CON QUESTA RELAZIONE HA LA FORMULA TRA IL SUO RULE SET
-                                //QUINDI INSTANZIO NUOVO INDIVIDUO E MI SALVO LA RELAZIONE
-                                direct = new aTableau(filler, oe, workingRule);
-                                if(direct.SAT()) {
-                                    directSelf.put(oe, Collections.singletonList(direct));
-                                    workingRule++;
-                                }
-                                else
-                                    workingRule--;
-                            } else
-                                workingRule++;
-                        }
+                    applySome(rule);
                     break;
                 case OBJECT_ALL_VALUES_FROM:
-                    System.out.println("ALL");
-
-                    OWLObjectAllValuesFrom allValue = (OWLObjectAllValuesFrom) rule;
-                    OWLClassExpression fillers = allValue.getFiller();
-                    OWLObjectPropertyExpression oea = allValue.getProperty();
-                    boolean checK = true;
-
-                    List<aTableau> relateda = directSelf.get(oea);
-                    if (relateda == null)
-                        workingRule++;
-                    else{
-
-                        List<aTableau> directs = directSelf.get(oea);
-
-                        for (aTableau t: directs){
-
-                            if(!t.checkAll(fillers)){
-                                directSelf.get(oea).remove(t);
-                                workingRule = t.parent;
-                                checK = false;
-                                break;
-                            }
-                        }
-
-                        if(checK)
-                            workingRule++;
-
-                    }
+                    applyAll(rule);
                    break;
                 case OWL_CLASS:
+                case OBJECT_COMPLEMENT_OF:
                     System.out.println("CLASS");
 
-                    if(checkClash())
-                        workingRule--;
-                    else
-                        workingRule++;
-                    break;
-
-                case OBJECT_COMPLEMENT_OF:
-                    System.out.println("COMPLEMENT OF");
                     if(checkClash())
                         workingRule--;
                     else
@@ -241,9 +144,122 @@ public class aTableau implements Tableau{
             }
 
         }
+
         if(workingRule<=0)
             return false;
         return true;
+    }
+
+    private void applyIntersection(OWLClassExpression rule){
+        System.out.println("INTERSECTION");
+        aNode node = new aNode(rule, workingRule);
+        checkIntersection(node.applyRule());
+        workingRule++;
+    }
+
+    private void applyUnion(OWLClassExpression rule){
+        System.out.println("UNION");
+
+        aNode node = null;
+        if(disjointNode.size()!=0 && disjointNode.get(disjointNode.size()-1).getWorkingRule()==workingRule)
+            node = disjointNode.get(disjointNode.size()-1);
+        else{
+            node = new aNode(rule, workingRule);
+            disjointNode.add(disjointNode.size(),node);
+        }
+        OWLClassExpression choice = node.applyChoice();
+        if(choice!=null) {
+            checkIntersection(Collections.singletonList(choice));
+            if (!checkClash())
+                workingRule++;
+            else
+                Abox.remove(Abox.size() - 1);
+        }
+        else{
+            disjointNode.remove(node);
+            Abox.remove(Abox.size() - 1);
+            workingRule--;
+        }
+
+    }
+
+    private void applySome(OWLClassExpression rule){
+        System.out.println("SOME");
+
+        aTableau direct = null;
+        OWLObjectSomeValuesFrom someValue = (OWLObjectSomeValuesFrom) rule;
+        OWLObjectPropertyExpression oe = someValue.getProperty();
+        OWLClassExpression filler = someValue.getFiller();
+
+        //VERIFICO SE INDIVIDUO HA LA RELAZIONE
+        List<aTableau> related = directSelf.get(oe);
+        if (related == null) {
+
+            direct = new aTableau(filler, oe, workingRule);
+            if(direct.SAT()){
+                directSelf.put(oe, Collections.singletonList(direct));
+                workingRule++;
+            }
+            else
+                workingRule--;
+        }
+        //CASO IN CUI RELAZIONE RICHIESTA ESISTE, VERIFICO SE E' PRESENTE LA REGOLA NEL RULE SET
+        else{
+            boolean check = false;
+
+            for (aTableau t : related) {
+
+                if (t.checkSome(filler)) {
+                    check = true;
+                    break;
+                }
+
+            }
+            if (!check) {
+                //CASO IN CUI NESSUNO DEI NODI CON QUESTA RELAZIONE HA LA FORMULA TRA IL SUO RULE SET
+                //QUINDI INSTANZIO NUOVO INDIVIDUO E MI SALVO LA RELAZIONE
+                direct = new aTableau(filler, oe, workingRule);
+                if(direct.SAT()) {
+                    directSelf.put(oe, Collections.singletonList(direct));
+                    workingRule++;
+                }
+                else
+                    workingRule--;
+            } else
+                workingRule++;
+        }
+    }
+
+    private void applyAll(OWLClassExpression rule){
+        System.out.println("ALL");
+
+        OWLObjectAllValuesFrom allValue = (OWLObjectAllValuesFrom) rule;
+        OWLClassExpression filler = allValue.getFiller();
+        OWLObjectPropertyExpression oe = allValue.getProperty();
+        boolean check = true;
+
+        List<aTableau> related = directSelf.get(oe);
+        if (related == null)
+            workingRule++;
+        else{
+
+            List<aTableau> directs = directSelf.get(oe);
+
+            for (aTableau t: directs){
+
+                if(!t.checkAll(filler)){
+                    directSelf.get(oe).remove(t);
+                    workingRule = t.parent;
+                    check = false;
+                    break;
+                }
+            }
+
+            if(check)
+                workingRule++;
+
+        }
+
     }
 
     private boolean isWorking() {
@@ -253,11 +269,14 @@ public class aTableau implements Tableau{
 
     public void checkIntersection(List<OWLClassExpression> disjointedList){
 
-        if(disjointedList!=null)
-        {for (OWLClassExpression ce: disjointedList ) {
-            if(Abox.contains(ce) == false)
-                Abox.add(Abox.size(),ce);
-        }}
+        if(disjointedList!=null) {
+            for (OWLClassExpression ce: disjointedList ) {
+                if(Abox.contains(ce) == false)
+                    Abox.add(Abox.size(),ce);
+
+
+            }
+        }
     }
 
 
