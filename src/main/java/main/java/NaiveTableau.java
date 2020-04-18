@@ -248,10 +248,8 @@ public class NaiveTableau implements Tableau{
         if (related == null)
             workingRule++;
         else{
-
-            List<NaiveTableau> directs = directSelf.get(oe);
-
-            for (NaiveTableau t: directs){
+            
+            for (NaiveTableau t: related){
 
                 if(!t.checkAll(filler)){
                     directSelf.get(oe).remove(t);
