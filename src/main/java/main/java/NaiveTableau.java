@@ -21,7 +21,7 @@ public class NaiveTableau implements Tableau{
         this.parent = parent;
         Abox = new ArrayList<OWLClassExpression>();
         Abox.add(Abox.size(),Concept);
-        disjointNode = new ArrayList<Node>();
+        branchingNode = new ArrayList<Node>();
         //nodeList = new ArrayList<Node>();
         directSelf= new HashMap<OWLObjectPropertyExpression, List<NaiveTableau>>();
 
@@ -42,7 +42,7 @@ public class NaiveTableau implements Tableau{
     /**
      *
      */
-    public List<Node> disjointNode;
+    public List<Node> branchingNode;
 
     /**
      *
@@ -136,8 +136,8 @@ public class NaiveTableau implements Tableau{
                 case OWL_CLASS:
                 case OBJECT_COMPLEMENT_OF:
                     if(checkClash()){
-                        if(disjointNode.size()!=0){
-                            while( workingRule != disjointNode.get(disjointNode.size()-1).getWorkingRule()) {
+                        if(branchingNode.size()!=0){
+                            while( workingRule != branchingNode.get(branchingNode.size()-1).getWorkingRule()) {
                                 Abox.remove(Abox.size() - 1);
                                 workingRule--;
                             }
@@ -167,11 +167,11 @@ public class NaiveTableau implements Tableau{
         System.out.println("UNION");
 
         Node node = null;
-        if(disjointNode.size()!=0 && disjointNode.get(disjointNode.size()-1).getWorkingRule()==workingRule)
-            node = disjointNode.get(disjointNode.size()-1);
+        if(branchingNode.size()!=0 && branchingNode.get(branchingNode.size()-1).getWorkingRule()==workingRule)
+            node = branchingNode.get(branchingNode.size()-1);
         else{
             node = new Node(rule, workingRule);
-            disjointNode.add(disjointNode.size(),node);
+            branchingNode.add(branchingNode.size(),node);
         }
         OWLClassExpression choice = node.applyChoice();
         if(choice!=null) {
@@ -182,7 +182,7 @@ public class NaiveTableau implements Tableau{
                 Abox.remove(Abox.size() - 1);
         }
         else{
-            disjointNode.remove(node);
+            branchingNode.remove(node);
             Abox.remove(Abox.size() - 1);
             workingRule--;
         }
