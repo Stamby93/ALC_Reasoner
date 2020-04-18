@@ -1,3 +1,5 @@
+package main.java;
+
 import org.semanticweb.owlapi.model.*;
 
 import java.util.*;
@@ -133,14 +135,18 @@ public class NaiveTableau implements Tableau{
                    break;
                 case OWL_CLASS:
                 case OBJECT_COMPLEMENT_OF:
-                    System.out.println("CLASS");
-
-                    if(checkClash())
-                        workingRule--;
+                    if(checkClash()){
+                        if(disjointNode.size()!=0){
+                            while( workingRule != disjointNode.get(disjointNode.size()-1).getWorkingRule()) {
+                                Abox.remove(Abox.size() - 1);
+                                workingRule--;
+                            }
+                        } else
+                            return false;
+                    }
                     else
                         workingRule++;
                     break;
-
             }
 
         }
