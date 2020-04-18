@@ -1,38 +1,127 @@
-Prefix: owl: <http://www.w3.org/2002/07/owl#>
-Prefix: rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-Prefix: rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-Prefix: xml: <http://www.w3.org/XML/1998/namespace>
-Prefix: xsd: <http://www.w3.org/2001/XMLSchema#>
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.semanticweb.org/ansan/ontologies/2020/3/06-06-26#"
+     xml:base="http://www.semanticweb.org/ansan/ontologies/2020/3/06-06-26"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/ansan/ontologies/2020/3/06-06-26"/>
+    
 
 
-
-Ontology: <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-6>
-
-
-ObjectProperty: <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-6#R>
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
 
     
-ObjectProperty: <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-6#S>
+
+
+    <!-- http://www.semanticweb.org/ansan/ontologies/2020/3/06-06-26#R -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ansan/ontologies/2020/3/06-06-26#R"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ansan/ontologies/2020/3/06-06-26#S -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ansan/ontologies/2020/3/06-06-26#S"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
 
     
-Class: <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-6#A2>
 
-    
-Class: <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-6#A>
 
-    
-Class: <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-6#B2>
+    <!-- http://www.semanticweb.org/ansan/ontologies/2020/3/06-06-26#A -->
 
+    <owl:Class rdf:about="http://www.semanticweb.org/ansan/ontologies/2020/3/06-06-26#A"/>
     
-Class: <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-6#B>
 
-    
-Class: <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-6#assioma>
 
-    EquivalentTo: 
-        (<http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-6#A> or <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-6#B>)
-         and (<http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-6#A2> or <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-6#B2>)
-         and ((not (<http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-6#B>)) or (<http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-6#R> only (<http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-6#S> only <http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-6#A>)))
-         and (<http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-6#R> some (<http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-6#S> some (not (<http://www.semanticweb.org/ansan/ontologies/2020/3/untitled-ontology-6#A>))))
+    <!-- http://www.semanticweb.org/ansan/ontologies/2020/3/06-06-26#A2 -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ansan/ontologies/2020/3/06-06-26#A2"/>
     
+
+
+    <!-- http://www.semanticweb.org/ansan/ontologies/2020/3/06-06-26#B -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ansan/ontologies/2020/3/06-06-26#B"/>
     
+
+
+    <!-- http://www.semanticweb.org/ansan/ontologies/2020/3/06-06-26#B2 -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ansan/ontologies/2020/3/06-06-26#B2"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ansan/ontologies/2020/3/06-06-26#assioma -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ansan/ontologies/2020/3/06-06-26#assioma">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ansan/ontologies/2020/3/06-06-26#A"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ansan/ontologies/2020/3/06-06-26#B"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ansan/ontologies/2020/3/06-06-26#A2"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ansan/ontologies/2020/3/06-06-26#B2"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <owl:Class>
+                                <owl:complementOf rdf:resource="http://www.semanticweb.org/ansan/ontologies/2020/3/06-06-26#B"/>
+                            </owl:Class>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://www.semanticweb.org/ansan/ontologies/2020/3/06-06-26#R"/>
+                                <owl:allValuesFrom>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="http://www.semanticweb.org/ansan/ontologies/2020/3/06-06-26#S"/>
+                                        <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/ansan/ontologies/2020/3/06-06-26#A"/>
+                                    </owl:Restriction>
+                                </owl:allValuesFrom>
+                            </owl:Restriction>
+                        </owl:unionOf>
+                    </owl:Class>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.semanticweb.org/ansan/ontologies/2020/3/06-06-26#R"/>
+                        <owl:someValuesFrom>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://www.semanticweb.org/ansan/ontologies/2020/3/06-06-26#S"/>
+                                <owl:someValuesFrom>
+                                    <owl:Class>
+                                        <owl:complementOf rdf:resource="http://www.semanticweb.org/ansan/ontologies/2020/3/06-06-26#A"/>
+                                    </owl:Class>
+                                </owl:someValuesFrom>
+                            </owl:Restriction>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+
