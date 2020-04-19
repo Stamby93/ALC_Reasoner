@@ -1,7 +1,11 @@
 import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.io.OWLObjectRenderer;
+import org.semanticweb.owlapi.manchestersyntax.renderer.ManchesterOWLSyntaxOWLObjectRendererImpl;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
+import org.semanticweb.owlapi.util.ShortFormProvider;
+import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 import uk.ac.manchester.cs.owl.owlapi.OWLEquivalentClassesAxiomImpl;
 
 import java.io.File;
@@ -34,7 +38,15 @@ public class main {
         }
 
         assert expression != null;
-        System.out.println("Concetto in input: " + expression.toString());
+        ShortFormProvider shortFormProvider = new
+                SimpleShortFormProvider();
+        OWLObjectRenderer renderer = new
+                ManchesterOWLSyntaxOWLObjectRendererImpl();
+        renderer.setShortFormProvider(shortFormProvider);
+        System.out.println("Concetto in input:");
+        System.out.println(expression.toString());
+        System.out.println("\nManchester Sintax:");
+        System.out.println(renderer.render(expression));
 
         OWLReasonerFactory ReasonerFactory = new ALCReasonerFactory();
         OWLReasoner ALCReasoner;
