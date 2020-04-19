@@ -1,25 +1,19 @@
-package main.java;
-
-import java.io.File;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 import uk.ac.manchester.cs.owl.owlapi.OWLEquivalentClassesAxiomImpl;
-import uk.ac.manchester.cs.owl.owlapi.OWLObjectIntersectionOfImpl;
 
-import static org.semanticweb.owlapi.model.ClassExpressionType.OBJECT_INTERSECTION_OF;
+import java.io.File;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class main {
 
     public static void main(String[] args) throws Exception {
 
         OWLOntologyManager man = OWLManager.createOWLOntologyManager();
-        OWLOntology ont = man.loadOntologyFromOntologyDocument(new File("AnotA.owl"));
+        OWLOntology ont = man.loadOntologyFromOntologyDocument(new File("06-06-26.owl"));
         OWLDataFactory df = man.getOWLDataFactory();
         IRI iri = ont.getOntologyID().getOntologyIRI().get();
         OWLClass flag = df.getOWLClass(iri + "#assioma");
@@ -39,6 +33,7 @@ public class main {
             }
         }
 
+        assert expression != null;
         System.out.println("Concetto in input: " + expression.toString());
 
         /*
@@ -102,10 +97,9 @@ public class main {
     */
 
     OWLReasonerFactory ReasonerFactory = new ALCReasonerFactory();
-    OWLReasoner ALCReasoner = ReasonerFactory.createReasoner(null);
-
-            System.out.println("The concept is "+ALCReasoner.isSatisfiable(expression.getNNF()));
-
+    OWLReasoner ALCReasoner;
+    ALCReasoner = ReasonerFactory.createReasoner(null);
+    System.out.println("The concept is "+ALCReasoner.isSatisfiable(expression.getNNF()));
 
     }
 

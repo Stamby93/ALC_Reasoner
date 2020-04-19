@@ -15,12 +15,12 @@ public class TableauFactory {
     /**
      * @param type 
      * @param Concept 
-     * @return
+     * @return Tableau
      */
     public Tableau getTableau(String type, OWLClassExpression Concept) {
         switch (type){
             case "Naive":
-                return new NaiveTableau(Concept, null, -1);
+                return new NaiveTableau(Concept, -1);
         }
         return null;
     }

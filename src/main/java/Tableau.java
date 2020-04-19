@@ -1,16 +1,10 @@
-
-import java.util.*;
-
 /**
  * 
  */
 public interface Tableau {
 
-    /**
-     * @return
-     */
-    public boolean SAT();
+    boolean SAT();
 
-    public void printModel();
+    void printModel();
 
 }

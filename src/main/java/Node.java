@@ -10,6 +10,12 @@ import java.util.stream.Collectors;
 
 public class Node {
 
+    private int workingRule;
+
+    private int currentChoice = 0;
+
+    private OWLClassExpression Operand;
+
 
 
     public Node(OWLClassExpression operand, int workingRule) {
@@ -17,16 +23,6 @@ public class Node {
         this.workingRule = workingRule;
 
     }
-
-
-    private int workingRule;
-
-    /**
-     *
-     */
-    private int currentChoice = 0;
-
-    private OWLClassExpression Operand;
 
 
     public List<OWLClassExpression> applyRule(){
@@ -41,9 +37,8 @@ public class Node {
         return null;
 
     }
-    /**
-     * @return
-     */
+
+
     private OWLClassExpression applyChoice() {
         OWLObjectUnionOf union = (OWLObjectUnionOf) Operand;
         List<OWLClassExpression> jointedList = union.operands().collect(Collectors.toList());
@@ -53,14 +48,12 @@ public class Node {
         return null;
     }
 
-    /**
-     * @return
-     */
+
     private List<OWLClassExpression> applyIntersection() {
         OWLObjectIntersectionOf intersection = (OWLObjectIntersectionOf) Operand;
-        List<OWLClassExpression> disjointedList = intersection.operands().collect(Collectors.toList());
-        return disjointedList;
+        return intersection.operands().collect(Collectors.toList());
     }
+
 
     public int getWorkingRule(){
         return workingRule;
