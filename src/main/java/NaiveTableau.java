@@ -1,5 +1,3 @@
-package main.java;
-
 import org.semanticweb.owlapi.model.*;
 
 import java.util.*;
@@ -173,9 +171,9 @@ public class NaiveTableau implements Tableau{
             node = new Node(rule, workingRule);
             branchingNode.add(branchingNode.size(),node);
         }
-        OWLClassExpression choice = node.applyChoice();
+        List<OWLClassExpression> choice = node.applyRule();
         if(choice!=null) {
-            checkIntersection(Collections.singletonList(choice));
+            checkIntersection(choice);
             if (!checkClash())
                 workingRule++;
             else
