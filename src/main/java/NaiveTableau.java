@@ -8,6 +8,10 @@ public class NaiveTableau implements Tableau{
 
     public List<Node> branchingNode;
 
+    private Node workingNode;
+
+    public List<Node> nodeList;
+
     public int workingRule;
 
     private Map<OWLObjectPropertyExpression, List<NaiveTableau>> directSelf;
@@ -23,6 +27,7 @@ public class NaiveTableau implements Tableau{
         Abox.add(Abox.size(), concept);
         branchingNode = new ArrayList<>();
         directSelf= new HashMap<>();
+        nodeList = new ArrayList<>();
     }
 
 
@@ -31,6 +36,9 @@ public class NaiveTableau implements Tableau{
         for (int i = 0; i < Abox.size(); i++) {
 
             OWLClassExpression c = Abox.get(i);
+
+            if(c.isOWLNothing())
+                return true;
 
             for (int i1 = i+1; i1 < Abox.size(); i1++) {
 
@@ -55,8 +63,12 @@ public class NaiveTableau implements Tableau{
     public boolean checkAll(OWLClassExpression expression) {
 
         if(!Abox.contains(expression)){
+            List<OWLClassExpression> flag = new ArrayList<OWLClassExpression>();
+            flag.addAll(Abox);
             Abox.add(Abox.size(),expression);
-            return SAT();
+            boolean result = SAT();
+            Abox = flag;
+            return result;
         }
         return true;
     }
@@ -64,6 +76,7 @@ public class NaiveTableau implements Tableau{
 
     @Override
     public boolean SAT() {
+
 
         while(isWorking()){
             OWLClassExpression rule = Abox.get(workingRule);
@@ -99,12 +112,15 @@ public class NaiveTableau implements Tableau{
 
         }
 
+
+
         return workingRule > 0;
     }
 
     private void applyIntersection(OWLClassExpression rule){
         System.out.println("INTERSECTION");
-        Node node = new Node(rule, workingRule);
+        Node node = new Node(Abox, workingRule);
+        workingNode = node;
         checkIntersection(node.applyRule());
         workingRule++;
     }
@@ -116,11 +132,12 @@ public class NaiveTableau implements Tableau{
         if(branchingNode.size()!=0 && branchingNode.get(branchingNode.size()-1).getWorkingRule()==workingRule) {
             node = branchingNode.get(branchingNode.size()-1);
         } else{
-            node = new Node(rule, workingRule);
+            node = new Node(Abox, workingRule);
             branchingNode.add(branchingNode.size(),node);
         }
+        workingNode = node;
         List<OWLClassExpression> choice = node.applyRule();
-        if(choice!=null) {
+        if(choice.get(0)!=null) {
             checkIntersection(choice);
             if (!checkClash())
                 workingRule++;
@@ -132,7 +149,6 @@ public class NaiveTableau implements Tableau{
             Abox.remove(Abox.size() - 1);
             workingRule--;
         }
-
     }
 
     private void applySome(OWLClassExpression rule){
@@ -172,7 +188,8 @@ public class NaiveTableau implements Tableau{
                 //QUINDI INSTANZIO NUOVO INDIVIDUO E MI SALVO LA RELAZIONE
                 direct = new NaiveTableau(filler, workingRule);
                 if(direct.SAT()) {
-                    directSelf.put(oe, Collections.singletonList(direct));
+                    List<NaiveTableau> flag = directSelf.get(oe);
+                    flag.add(direct);
                     workingRule++;
                 }
                 else
@@ -198,8 +215,8 @@ public class NaiveTableau implements Tableau{
             for (NaiveTableau t: related){
 
                 if(!t.checkAll(filler)){
-                    directSelf.get(oe).remove(t);
                     workingRule = t.parent;
+                    backtrack();
                     check = false;
                     break;
                 }
@@ -212,6 +229,11 @@ public class NaiveTableau implements Tableau{
 
     }
 
+    private void backtrack() {
+        workingNode = nodeList.get(workingRule);
+        Abox = workingNode.getAbox();
+    }
+
     private boolean isWorking() {
         return !((workingRule>=Abox.size()) || (workingRule<0));
 
@@ -219,12 +241,11 @@ public class NaiveTableau implements Tableau{
 
     public void checkIntersection(List<OWLClassExpression> disjointedList){
 
+        nodeList.add(nodeList.size(), workingNode);
         if(disjointedList!=null) {
             for (OWLClassExpression ce: disjointedList ) {
                 if(!Abox.contains(ce))
                     Abox.add(Abox.size(),ce);
-
-
             }
         }
     }

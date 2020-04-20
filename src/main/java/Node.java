@@ -14,19 +14,19 @@ public class Node {
 
     private int currentChoice = 0;
 
-    private OWLClassExpression Operand;
+    private List<OWLClassExpression> Abox;
 
 
 
-    public Node(OWLClassExpression operand, int workingRule) {
-        this.Operand = operand;
+    public Node(List<OWLClassExpression> operand, int workingRule) {
+        this.Abox = operand;
         this.workingRule = workingRule;
 
     }
 
 
     public List<OWLClassExpression> applyRule(){
-        ClassExpressionType type = Operand.getClassExpressionType();
+        ClassExpressionType type = Abox.get(workingRule).getClassExpressionType();
         switch (type){
             case OBJECT_INTERSECTION_OF:
                 return applyIntersection();
@@ -40,7 +40,7 @@ public class Node {
 
 
     private OWLClassExpression applyChoice() {
-        OWLObjectUnionOf union = (OWLObjectUnionOf) Operand;
+        OWLObjectUnionOf union = (OWLObjectUnionOf) Abox.get(workingRule);
         List<OWLClassExpression> jointedList = union.operands().collect(Collectors.toList());
         currentChoice++;
         if(currentChoice - 1 < jointedList.size())
@@ -50,7 +50,7 @@ public class Node {
 
 
     private List<OWLClassExpression> applyIntersection() {
-        OWLObjectIntersectionOf intersection = (OWLObjectIntersectionOf) Operand;
+        OWLObjectIntersectionOf intersection = (OWLObjectIntersectionOf) Abox.get(workingRule);
         return intersection.operands().collect(Collectors.toList());
     }
 
@@ -59,4 +59,7 @@ public class Node {
         return workingRule;
     }
 
+    public List<OWLClassExpression> getAbox() {
+        return Abox;
+    }
 }
