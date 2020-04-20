@@ -1,4 +1,8 @@
+import org.semanticweb.owlapi.io.OWLObjectRenderer;
+import org.semanticweb.owlapi.manchestersyntax.renderer.ManchesterOWLSyntaxOWLObjectRendererImpl;
 import org.semanticweb.owlapi.model.*;
+import org.semanticweb.owlapi.util.ShortFormProvider;
+import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 
 import java.util.*;
 
@@ -253,20 +257,31 @@ public class NaiveTableau implements Tableau{
 
     public void printModel(){
         for (OWLClassExpression e: Abox) {
+            assert e != null;
+            ShortFormProvider shortFormProvider = new
+                    SimpleShortFormProvider();
+            OWLObjectRenderer renderer = new
+                    ManchesterOWLSyntaxOWLObjectRendererImpl();
+            renderer.setShortFormProvider(shortFormProvider);
             ClassExpressionType pe = e.getClassExpressionType();
             switch (pe){
                 case OWL_CLASS:
                 case OBJECT_COMPLEMENT_OF:
-                    System.out.println(e.toString()+ " ");
+                    System.out.print(" "+renderer.render((e))+" |");
                     break;
             }
         }
-
         Set<OWLObjectPropertyExpression> key =  directSelf.keySet();
 
         for (OWLObjectPropertyExpression oe: key) {
+            assert oe != null;
+            ShortFormProvider shortFormProvider = new
+                    SimpleShortFormProvider();
+            OWLObjectRenderer renderer = new
+                    ManchesterOWLSyntaxOWLObjectRendererImpl();
+            renderer.setShortFormProvider(shortFormProvider);
             List<NaiveTableau> related = directSelf.get(oe);
-            System.out.println("EXISTENTIAL RELATION " + oe.toString());
+            System.out.print(" EXIST " + renderer.render((oe))+" |");
                 for (NaiveTableau t : related) {
                     t.printModel();
                 }

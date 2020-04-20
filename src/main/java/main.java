@@ -51,7 +51,7 @@ public class main {
         OWLReasonerFactory ReasonerFactory = new ALCReasonerFactory();
         OWLReasoner ALCReasoner;
         ALCReasoner = ReasonerFactory.createReasoner(null);
-        System.out.println("The concept is "+ALCReasoner.isSatisfiable(expression.getNNF()));
+        System.out.println("\n The concept is "+ALCReasoner.isSatisfiable(expression.getNNF()));
 
     }
 
