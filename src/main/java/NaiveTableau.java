@@ -67,8 +67,7 @@ public class NaiveTableau implements Tableau{
     public boolean checkAll(OWLClassExpression expression) {
 
         if(!Abox.contains(expression)){
-            List<OWLClassExpression> flag = new ArrayList<OWLClassExpression>();
-            flag.addAll(Abox);
+            ArrayList<OWLClassExpression> flag = new ArrayList<>(Abox);
             Abox.add(Abox.size(),expression);
             boolean result = SAT();
             Abox = flag;
@@ -80,17 +79,15 @@ public class NaiveTableau implements Tableau{
 
     @Override
     public boolean SAT() {
-
-
         while(isWorking()){
             OWLClassExpression rule = Abox.get(workingRule);
             ClassExpressionType type = rule.getClassExpressionType();
             switch (type) {
                 case OBJECT_INTERSECTION_OF:
-                    applyIntersection(rule);
+                    applyIntersection();
                     break;
                 case OBJECT_UNION_OF:
-                    applyUnion(rule);
+                    applyUnion();
                     break;
                 case OBJECT_SOME_VALUES_FROM:
                     applySome(rule);
@@ -115,23 +112,19 @@ public class NaiveTableau implements Tableau{
             }
 
         }
-
-
-
         return workingRule > 0;
     }
 
-    private void applyIntersection(OWLClassExpression rule){
-        System.out.println("INTERSECTION");
+    private void applyIntersection(){
+        //System.out.println("INTERSECTION");
         Node node = new Node(Abox, workingRule);
         workingNode = node;
         checkIntersection(node.applyRule());
         workingRule++;
     }
 
-    private void applyUnion(OWLClassExpression rule){
-        System.out.println("UNION");
-
+    private void applyUnion(){
+        //System.out.println("UNION");
         Node node;
         if(branchingNode.size()!=0 && branchingNode.get(branchingNode.size()-1).getWorkingRule()==workingRule) {
             node = branchingNode.get(branchingNode.size()-1);
@@ -156,7 +149,7 @@ public class NaiveTableau implements Tableau{
     }
 
     private void applySome(OWLClassExpression rule){
-        System.out.println("SOME");
+        //System.out.println("SOME");
 
         NaiveTableau direct;
         OWLObjectSomeValuesFrom someValue = (OWLObjectSomeValuesFrom) rule;
@@ -204,7 +197,7 @@ public class NaiveTableau implements Tableau{
     }
 
     private void applyAll(OWLClassExpression rule){
-        System.out.println("ALL");
+        //System.out.println("ALL");
 
         OWLObjectAllValuesFrom allValue = (OWLObjectAllValuesFrom) rule;
         OWLClassExpression filler = allValue.getFiller();
@@ -236,6 +229,7 @@ public class NaiveTableau implements Tableau{
     private void backtrack() {
         workingNode = nodeList.get(workingRule);
         Abox = workingNode.getAbox();
+
     }
 
     private boolean isWorking() {
@@ -244,7 +238,6 @@ public class NaiveTableau implements Tableau{
     }
 
     public void checkIntersection(List<OWLClassExpression> disjointedList){
-
         nodeList.add(nodeList.size(), workingNode);
         if(disjointedList!=null) {
             for (OWLClassExpression ce: disjointedList ) {
@@ -257,34 +250,36 @@ public class NaiveTableau implements Tableau{
 
     public void printModel(){
         for (OWLClassExpression e: Abox) {
-            assert e != null;
-            ShortFormProvider shortFormProvider = new
-                    SimpleShortFormProvider();
-            OWLObjectRenderer renderer = new
-                    ManchesterOWLSyntaxOWLObjectRendererImpl();
-            renderer.setShortFormProvider(shortFormProvider);
-            ClassExpressionType pe = e.getClassExpressionType();
-            switch (pe){
-                case OWL_CLASS:
-                case OBJECT_COMPLEMENT_OF:
-                    System.out.print(" "+renderer.render((e))+" |");
-                    break;
+            if(e != null) {
+                ShortFormProvider shortFormProvider = new
+                        SimpleShortFormProvider();
+                OWLObjectRenderer renderer = new
+                        ManchesterOWLSyntaxOWLObjectRendererImpl();
+                renderer.setShortFormProvider(shortFormProvider);
+                ClassExpressionType pe = e.getClassExpressionType();
+                switch (pe) {
+                    case OWL_CLASS:
+                    case OBJECT_COMPLEMENT_OF:
+                        System.out.print(" " + renderer.render((e)) + " |");
+                        break;
+                }
             }
         }
         Set<OWLObjectPropertyExpression> key =  directSelf.keySet();
 
         for (OWLObjectPropertyExpression oe: key) {
-            assert oe != null;
-            ShortFormProvider shortFormProvider = new
-                    SimpleShortFormProvider();
-            OWLObjectRenderer renderer = new
-                    ManchesterOWLSyntaxOWLObjectRendererImpl();
-            renderer.setShortFormProvider(shortFormProvider);
-            List<NaiveTableau> related = directSelf.get(oe);
-            System.out.print(" EXIST " + renderer.render((oe))+" |");
+            if(oe != null) {
+                ShortFormProvider shortFormProvider = new
+                        SimpleShortFormProvider();
+                OWLObjectRenderer renderer = new
+                        ManchesterOWLSyntaxOWLObjectRendererImpl();
+                renderer.setShortFormProvider(shortFormProvider);
+                List<NaiveTableau> related = directSelf.get(oe);
+                System.out.print(" EXIST " + renderer.render((oe)) + ".");
                 for (NaiveTableau t : related) {
                     t.printModel();
                 }
+            }
         }
     }
 }

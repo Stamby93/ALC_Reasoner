@@ -17,7 +17,7 @@ public class main {
     public static void main(String[] args) throws Exception {
 
         OWLOntologyManager man = OWLManager.createOWLOntologyManager();
-        OWLOntology ont = man.loadOntologyFromOntologyDocument(new File("Ontologie/18-02-08.owl"));
+        OWLOntology ont = man.loadOntologyFromOntologyDocument(new File("Ontologie/18-02-08_PROVA.owl"));
         OWLDataFactory df = man.getOWLDataFactory();
         IRI iri = ont.getOntologyID().getOntologyIRI().get();
         OWLClass flag = df.getOWLClass(iri + "#assioma");
@@ -46,12 +46,12 @@ public class main {
         System.out.println("Concetto in input:");
         System.out.println(expression.toString());
         System.out.println("\nManchester Sintax:");
-        System.out.println(renderer.render(expression));
+        System.out.println(renderer.render(expression)+"\n");
 
         OWLReasonerFactory ReasonerFactory = new ALCReasonerFactory();
         OWLReasoner ALCReasoner;
         ALCReasoner = ReasonerFactory.createReasoner(null);
-        System.out.println("\n The concept is "+ALCReasoner.isSatisfiable(expression.getNNF()));
+        System.out.println("\n\nThe concept is "+ALCReasoner.isSatisfiable(expression.getNNF()));
 
     }
 
