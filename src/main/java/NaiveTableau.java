@@ -4,23 +4,31 @@ import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class NaiveTableau implements Tableau{
 
-    public List<OWLClassExpression> Abox;
+    private List<OWLClassExpression> Abox;
 
-    public List<Node> branchingNode;
+    private List<Node> branchingNode;
 
     private Node workingNode;
 
-    public List<Node> nodeList;
+    private List<Node> nodeList;
 
-    public int workingRule;
+    private int workingRule;
 
     private Map<OWLObjectPropertyExpression, List<NaiveTableau>> directSelf;
 
     private int parent;
+
+    private int modelLength;
+
+    ShortFormProvider shortFormProvider = new
+            SimpleShortFormProvider();
+    OWLObjectRenderer renderer = new
+            ManchesterOWLSyntaxOWLObjectRendererImpl();
 
 
 
@@ -32,11 +40,14 @@ public class NaiveTableau implements Tableau{
         branchingNode = new ArrayList<>();
         directSelf= new HashMap<>();
         nodeList = new ArrayList<>();
+        modelLength = 1;
+        renderer.setShortFormProvider(shortFormProvider);
+
 
     }
 
 
-    public boolean checkClash() {
+    private boolean checkClash() {
 
         for (int i = 0; i < Abox.size(); i++) {
 
@@ -49,8 +60,11 @@ public class NaiveTableau implements Tableau{
 
                 OWLClassExpression c1 = Abox.get(i1);
 
-                if (c.equals(c1.getComplementNNF()))
+                if (c.equals(c1.getComplementNNF())){
+                    //System.out.println("CLASH*********** "+ renderer.render(c) + " " +renderer.render(c1));
+
                     return true;
+                }
             }
         }
         return false;
@@ -67,14 +81,17 @@ public class NaiveTableau implements Tableau{
 
     public boolean checkAll(OWLClassExpression expression) {
 
-        if(!Abox.contains(expression)){
+
             ArrayList<OWLClassExpression> flag = new ArrayList<>(Abox);
-            Abox.add(Abox.size(),expression);
+            checkIntersection(Collections.singletonList(expression));
+        if(Abox.size() != flag.size()){
+            nodeList.add(nodeList.size(), new Node(Abox, workingRule));
             boolean result = SAT();
             Abox.removeAll(Abox);
             Abox.addAll(flag);
             return result;
         }
+
         return true;
     }
 
@@ -101,10 +118,8 @@ public class NaiveTableau implements Tableau{
                 case OBJECT_COMPLEMENT_OF:
                     if(checkClash()){
                         if(branchingNode.size()!=0){
-                            while( workingRule != branchingNode.get(branchingNode.size()-1).getWorkingRule()) {
-                                Abox.remove(Abox.size() - 1);
-                                workingRule--;
-                            }
+                            workingRule-=modelLength;
+                            backtrack();
                         } else
                             return false;
                     }
@@ -118,15 +133,17 @@ public class NaiveTableau implements Tableau{
     }
 
     private void applyIntersection(){
-        //System.out.println("INTERSECTION "+ Abox.get(workingRule));
+        //System.out.println("INTERSECTION "+ renderer.render(Abox.get(workingRule)));
         workingNode = new Node(Abox, workingRule);
         checkIntersection(workingNode.applyRule());
+        modelLength = Abox.size()-1;
+        //System.out.println("MODEL LENGht"+ modelLength);
         nodeList.add(workingRule, workingNode);
         workingRule++;
     }
 
     private void applyUnion(){
-        //System.out.println("UNION " + Abox.get(workingRule));
+        //System.out.println("UNION " + renderer.render(Abox.get(workingRule)));
         if(branchingNode.size()!=0 && branchingNode.get(branchingNode.size()-1).getWorkingRule()==workingRule) {
             workingNode = branchingNode.get(branchingNode.size()-1);
         } else{
@@ -135,7 +152,7 @@ public class NaiveTableau implements Tableau{
         }
         List<OWLClassExpression> choice = workingNode.applyRule();
         if(choice.get(0)!=null) {
-            //System.out.println("CHOICE " + choice.get(0));
+            //System.out.println("CHOICE " + renderer.render(choice.get(0)));
             checkIntersection(choice);
             nodeList.add(workingRule, workingNode);
             if (!checkClash()){
@@ -152,7 +169,7 @@ public class NaiveTableau implements Tableau{
     }
 
     private void applySome(OWLClassExpression rule){
-        //System.out.println("SOME: " + rule);
+        //System.out.println("SOME: "+ workingRule + " " + renderer.render(rule));
 
         NaiveTableau direct;
         OWLObjectSomeValuesFrom someValue = (OWLObjectSomeValuesFrom) rule;
@@ -169,6 +186,8 @@ public class NaiveTableau implements Tableau{
                 workingRule++;
             }
             else{
+                //System.out.println("SOME FALLITO");
+
                 workingRule--;
                 backtrack();
             }
@@ -189,11 +208,14 @@ public class NaiveTableau implements Tableau{
                 //CASO IN CUI NESSUNO DEI NODI CON QUESTA RELAZIONE HA LA FORMULA TRA IL SUO RULE SET
                 //QUINDI INSTANZIO NUOVO INDIVIDUO E MI SALVO LA RELAZIONE
                 if(direct.SAT()) {
-                    List<NaiveTableau> flag = directSelf.get(oe);
+
+                    ArrayList<NaiveTableau> flag = new ArrayList<>(directSelf.get(oe));
                     flag.add(direct);
+                    directSelf.put(oe, flag);
                     workingRule++;
                 }
                 else{
+                    //System.out.println("SOME FALLITO");
                     workingRule--;
                     backtrack();
                 }
@@ -203,7 +225,7 @@ public class NaiveTableau implements Tableau{
     }
 
     private void applyAll(OWLClassExpression rule){
-        //System.out.println("ALL " + rule);
+        //System.out.println("ALL "+ workingRule + " " + renderer.render(rule));
 
         OWLObjectAllValuesFrom allValue = (OWLObjectAllValuesFrom) rule;
         OWLClassExpression filler = allValue.getFiller();
@@ -212,18 +234,17 @@ public class NaiveTableau implements Tableau{
 
         List<NaiveTableau> related = directSelf.get(oe);
         if (related == null){
-            if(nodeList.size()!=0)
-                workingRule = nodeList.get(nodeList.size()-1).getWorkingRule();
-            else
-                workingRule--;
-            backtrack();
+
+                workingRule++;
+            //backtrack();
         }
         else{
             
             for (NaiveTableau t: related){
 
                 if(!t.checkAll(filler)){
-                    workingRule = nodeList.get(nodeList.size()-1).getWorkingRule();
+                    workingRule -=  modelLength;
+        //System.out.println("ALL FALLITO");
                     backtrack();
                     check = false;
                     break;
@@ -244,7 +265,6 @@ public class NaiveTableau implements Tableau{
     private void backtrack() {
         //System.out.println("BACKTRACK :" + workingRule);
 
-
         if(branchingNode.size()!=0) {
             workingNode = nodeList.get(workingRule);
             nodeList = nodeList.subList(0, workingRule);
@@ -252,12 +272,12 @@ public class NaiveTableau implements Tableau{
             Abox.addAll(workingNode.getAbox());
             for (OWLObjectPropertyExpression oe : directSelf.keySet()) {
                 List<NaiveTableau> t = directSelf.get(oe);
-
                 if(t!= null && t.size()!=0){
                     for (int i = t.size() - 1 ; i >=0 ; i--) {
                         if(t.get(i).getParent() > workingRule)
                             t = t.subList(0, i);
                     }
+                    directSelf.put(oe,t);
                 }
             }
         }
