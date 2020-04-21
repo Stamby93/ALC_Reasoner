@@ -300,8 +300,11 @@ public class NaiveTableau implements Tableau{
         }
     }
 
-
     public void printModel(){
+        printModel(false);
+    }
+
+    private void printModel(boolean exist){
         for (OWLClassExpression e: Abox) {
             if(e != null) {
                 ShortFormProvider shortFormProvider = new
@@ -313,7 +316,10 @@ public class NaiveTableau implements Tableau{
                 switch (pe) {
                     case OWL_CLASS:
                     case OBJECT_COMPLEMENT_OF:
-                        System.out.print(" " + renderer.render((e)) + " |");
+                        System.out.print(" " + renderer.render((e)));
+                        if(!exist) {
+                            System.out.print(" |");
+                        }
                         break;
                 }
             }
@@ -328,12 +334,15 @@ public class NaiveTableau implements Tableau{
                         ManchesterOWLSyntaxOWLObjectRendererImpl();
                 renderer.setShortFormProvider(shortFormProvider);
                 List<NaiveTableau> related = directSelf.get(oe);
-                System.out.print(" EXIST " + renderer.render((oe)) + ".");
+                System.out.print(" EXIST " + renderer.render((oe)) + ". {");
                 for (NaiveTableau t : related) {
-                    t.printModel();
+                    t.printModel(true);
+                    System.out.print(" }");
                 }
             }
         }
+        if(!exist)
+            System.out.print(" |");
     }
 }
 
