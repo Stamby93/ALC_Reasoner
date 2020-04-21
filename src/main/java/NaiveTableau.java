@@ -4,7 +4,6 @@ import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class NaiveTableau implements Tableau{
@@ -13,35 +12,37 @@ public class NaiveTableau implements Tableau{
 
     private List<Node> branchingNode;
 
-    private Node workingNode;
+    //private Node workingNode;
 
     private List<Node> nodeList;
 
     private int workingRule;
 
-    private Map<OWLObjectPropertyExpression, List<NaiveTableau>> directSelf;
+    private Map<OWLObjectPropertyExpression, List<NaiveTableau>> someRelation;
 
     private int parent;
 
     private int modelLength;
 
-    ShortFormProvider shortFormProvider = new
+    /*ShortFormProvider shortFormProvider = new
             SimpleShortFormProvider();
     OWLObjectRenderer renderer = new
             ManchesterOWLSyntaxOWLObjectRendererImpl();
+
+     */
 
 
 
     protected NaiveTableau(OWLClassExpression concept, int parent) {
 
-        this.parent = parent;
         Abox = new ArrayList<>();
         Abox.add(Abox.size(), concept);
         branchingNode = new ArrayList<>();
-        directSelf= new HashMap<>();
+        someRelation = new HashMap<>();
         nodeList = new ArrayList<>();
         modelLength = 1;
-        renderer.setShortFormProvider(shortFormProvider);
+        this.parent = parent;
+        //renderer.setShortFormProvider(shortFormProvider);
 
 
     }
@@ -134,7 +135,7 @@ public class NaiveTableau implements Tableau{
 
     private void applyIntersection(){
         //System.out.println("INTERSECTION "+ renderer.render(Abox.get(workingRule)));
-        workingNode = new Node(Abox, workingRule);
+        Node workingNode = new Node(Abox, workingRule);
         checkIntersection(workingNode.applyRule());
         modelLength = Abox.size()-1;
         //System.out.println("MODEL LENGht"+ modelLength);
@@ -144,6 +145,7 @@ public class NaiveTableau implements Tableau{
 
     private void applyUnion(){
         //System.out.println("UNION " + renderer.render(Abox.get(workingRule)));
+        Node workingNode;
         if(branchingNode.size()!=0 && branchingNode.get(branchingNode.size()-1).getWorkingRule()==workingRule) {
             workingNode = branchingNode.get(branchingNode.size()-1);
         } else{
@@ -177,12 +179,12 @@ public class NaiveTableau implements Tableau{
         OWLClassExpression filler = someValue.getFiller();
 
         //VERIFICO SE INDIVIDUO HA LA RELAZIONE
-        List<NaiveTableau> related = directSelf.get(oe);
+        List<NaiveTableau> related = someRelation.get(oe);
         direct = new NaiveTableau(filler, workingRule);
         if (related == null) {
 
             if(direct.SAT()){
-                directSelf.put(oe, Collections.singletonList(direct));
+                someRelation.put(oe, Collections.singletonList(direct));
                 workingRule++;
             }
             else{
@@ -209,9 +211,9 @@ public class NaiveTableau implements Tableau{
                 //QUINDI INSTANZIO NUOVO INDIVIDUO E MI SALVO LA RELAZIONE
                 if(direct.SAT()) {
 
-                    ArrayList<NaiveTableau> flag = new ArrayList<>(directSelf.get(oe));
+                    ArrayList<NaiveTableau> flag = new ArrayList<>(someRelation.get(oe));
                     flag.add(direct);
-                    directSelf.put(oe, flag);
+                    someRelation.put(oe, flag);
                     workingRule++;
                 }
                 else{
@@ -232,7 +234,7 @@ public class NaiveTableau implements Tableau{
         OWLObjectPropertyExpression oe = allValue.getProperty();
         boolean check = true;
 
-        List<NaiveTableau> related = directSelf.get(oe);
+        List<NaiveTableau> related = someRelation.get(oe);
         if (related == null){
 
                 workingRule++;
@@ -266,18 +268,18 @@ public class NaiveTableau implements Tableau{
         //System.out.println("BACKTRACK :" + workingRule);
 
         if(branchingNode.size()!=0) {
-            workingNode = nodeList.get(workingRule);
+            Node workingNode = nodeList.get(workingRule);
             nodeList = nodeList.subList(0, workingRule);
             Abox.removeAll(Abox);
             Abox.addAll(workingNode.getAbox());
-            for (OWLObjectPropertyExpression oe : directSelf.keySet()) {
-                List<NaiveTableau> t = directSelf.get(oe);
+            for (OWLObjectPropertyExpression oe : someRelation.keySet()) {
+                List<NaiveTableau> t = someRelation.get(oe);
                 if(t!= null && t.size()!=0){
                     for (int i = t.size() - 1 ; i >=0 ; i--) {
                         if(t.get(i).getParent() > workingRule)
                             t = t.subList(0, i);
                     }
-                    directSelf.put(oe,t);
+                    someRelation.put(oe,t);
                 }
             }
         }
@@ -324,7 +326,7 @@ public class NaiveTableau implements Tableau{
                 }
             }
         }
-        Set<OWLObjectPropertyExpression> key =  directSelf.keySet();
+        Set<OWLObjectPropertyExpression> key =  someRelation.keySet();
 
         for (OWLObjectPropertyExpression oe: key) {
             if(oe != null) {
@@ -333,7 +335,7 @@ public class NaiveTableau implements Tableau{
                 OWLObjectRenderer renderer = new
                         ManchesterOWLSyntaxOWLObjectRendererImpl();
                 renderer.setShortFormProvider(shortFormProvider);
-                List<NaiveTableau> related = directSelf.get(oe);
+                List<NaiveTableau> related = someRelation.get(oe);
                 System.out.print(" EXIST " + renderer.render((oe)) + ". {");
                 for (NaiveTableau t : related) {
                     t.printModel(true);
