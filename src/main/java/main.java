@@ -17,7 +17,7 @@ public class main {
     public static void main(String[] args) throws Exception {
 
         OWLOntologyManager man = OWLManager.createOWLOntologyManager();
-        OWLOntology ont = man.loadOntologyFromOntologyDocument(new File("Ontologie/Bottom.owl"));
+        OWLOntology ont = man.loadOntologyFromOntologyDocument(new File("Ontologie/18-02-08.owl"));
         OWLDataFactory df = man.getOWLDataFactory();
         IRI iri = ont.getOntologyID().getOntologyIRI().get();
         OWLClass flag = df.getOWLClass(iri + "#assioma");
