@@ -3,6 +3,7 @@ import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLObjectIntersectionOf;
 import org.semanticweb.owlapi.model.OWLObjectUnionOf;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,7 +20,7 @@ public class Node {
 
 
     public Node(List<OWLClassExpression> operand, int workingRule) {
-        this.Abox = operand;
+        this.Abox = new ArrayList<>(operand);
         this.workingRule = workingRule;
 
     }
