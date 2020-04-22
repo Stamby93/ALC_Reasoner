@@ -1,18 +1,12 @@
-import org.semanticweb.owlapi.io.OWLObjectRenderer;
-import org.semanticweb.owlapi.manchestersyntax.renderer.ManchesterOWLSyntaxOWLObjectRendererImpl;
 import org.semanticweb.owlapi.model.*;
-import org.semanticweb.owlapi.util.ShortFormProvider;
-import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 
 import java.util.*;
 
 public class NaiveTableau implements Tableau{
 
-    private final List<OWLClassExpression> Abox = new ArrayList<>();
+    private final List<OWLClassExpression> Abox;
 
     private final List<Node> branchingNode;
-
-    //private Node workingNode;
 
     private List<Node> nodeList;
 
@@ -24,22 +18,17 @@ public class NaiveTableau implements Tableau{
 
     private int modelLength;
 
-    ShortFormProvider shortFormProvider;
-    OWLObjectRenderer renderer;
-
     private static String model;
 
     protected NaiveTableau(OWLClassExpression concept, int parent) {
 
+        Abox = new ArrayList<>();
         Abox.add(Abox.size(), concept);
         branchingNode = new ArrayList<>();
         someRelation = new HashMap<>();
         nodeList = new ArrayList<>();
         modelLength = 1;
         this.parent = parent;
-        shortFormProvider = new SimpleShortFormProvider();
-        renderer = new ManchesterOWLSyntaxOWLObjectRendererImpl();
-        renderer.setShortFormProvider(shortFormProvider);
         model = "";
     }
 
@@ -58,7 +47,7 @@ public class NaiveTableau implements Tableau{
                 OWLClassExpression c1 = Abox.get(i1);
 
                 if (c.equals(c1.getComplementNNF())){
-                    LoggerManager.writeDebug("CLASH "+ renderer.render(c) + " " +renderer.render(c1), NaiveTableau.class);
+                    LoggerManager.writeDebug("CLASH "+ OntologyRenderer.render(c) + " " +OntologyRenderer.render(c1), NaiveTableau.class);
                     return true;
                 }
             }
@@ -128,7 +117,7 @@ public class NaiveTableau implements Tableau{
     }
 
     private void applyIntersection(){
-        LoggerManager.writeDebug("INTERSECTION "+ renderer.render(Abox.get(workingRule)), NaiveTableau.class);
+        LoggerManager.writeDebug("INTERSECTION "+ OntologyRenderer.render(Abox.get(workingRule)), NaiveTableau.class);
         Node workingNode = new Node(Abox, workingRule);
         checkIntersection(workingNode.applyRule());
         modelLength = Abox.size()-1;
@@ -138,7 +127,7 @@ public class NaiveTableau implements Tableau{
     }
 
     private void applyUnion(){
-        LoggerManager.writeDebug("UNION " + renderer.render(Abox.get(workingRule)), NaiveTableau.class);
+        LoggerManager.writeDebug("UNION " + OntologyRenderer.render(Abox.get(workingRule)), NaiveTableau.class);
         Node workingNode;
         if(branchingNode.size()!=0 && branchingNode.get(branchingNode.size()-1).getWorkingRule()==workingRule) {
             workingNode = branchingNode.get(branchingNode.size()-1);
@@ -148,7 +137,7 @@ public class NaiveTableau implements Tableau{
         }
         List<OWLClassExpression> choice = workingNode.applyRule();
         if(choice.get(0)!=null) {
-            LoggerManager.writeDebug("CHOICE " + renderer.render(choice.get(0)),NaiveTableau.class);
+            LoggerManager.writeDebug("CHOICE " + OntologyRenderer.render(choice.get(0)),NaiveTableau.class);
             checkIntersection(choice);
             nodeList.add(workingRule, workingNode);
             if (!checkClash()){
@@ -165,7 +154,7 @@ public class NaiveTableau implements Tableau{
     }
 
     private void applySome(OWLClassExpression rule){
-        LoggerManager.writeDebug("SOME: "+ workingRule + " " + renderer.render(rule), NaiveTableau.class);
+        LoggerManager.writeDebug("SOME: "+ workingRule + " " + OntologyRenderer.render(rule), NaiveTableau.class);
 
         NaiveTableau direct;
         OWLObjectSomeValuesFrom someValue = (OWLObjectSomeValuesFrom) rule;
@@ -221,7 +210,7 @@ public class NaiveTableau implements Tableau{
     }
 
     private void applyAll(OWLClassExpression rule){
-        LoggerManager.writeDebug("ALL "+ workingRule + " " + renderer.render(rule),NaiveTableau.class);
+        LoggerManager.writeDebug("ALL "+ workingRule + " " + OntologyRenderer.render(rule),NaiveTableau.class);
 
         OWLObjectAllValuesFrom allValue = (OWLObjectAllValuesFrom) rule;
         OWLClassExpression filler = allValue.getFiller();
@@ -308,7 +297,7 @@ public class NaiveTableau implements Tableau{
                 switch (pe) {
                     case OWL_CLASS:
                     case OBJECT_COMPLEMENT_OF:
-                        model=model.concat(" " + renderer.render((e))+" |");
+                        model=model.concat(" " + OntologyRenderer.render((e))+" |");
                         break;
                 }
             }
@@ -319,7 +308,7 @@ public class NaiveTableau implements Tableau{
             for (OWLObjectPropertyExpression oe : key) {
                 if (oe != null) {
                     List<NaiveTableau> related = someRelation.get(oe);
-                    model=model.concat(" EXIST " + renderer.render((oe)) + ". {");
+                    model=model.concat(" EXIST " + OntologyRenderer.render((oe)) + ". {");
                     for (NaiveTableau t : related) {
                         t.buildModel(true);
                         model=model.concat(" }");

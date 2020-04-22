@@ -23,10 +23,6 @@ public class main {
         OWLClass flag = df.getOWLClass(iri + "#assioma");
         Set<OWLAxiom> ontologyAxiom = ont.axioms(flag).collect(Collectors.toSet());
 
-        ShortFormProvider shortFormProvider = new SimpleShortFormProvider();
-        OWLObjectRenderer renderer = new ManchesterOWLSyntaxOWLObjectRendererImpl();
-        renderer.setShortFormProvider(shortFormProvider);
-
         LoggerManager.setFile(ontologyFile.getName());
 
         if (ontologyAxiom.size() > 1) {
@@ -50,7 +46,7 @@ public class main {
             System.out.println("Concetto in input:");
             System.out.println(expression.toString());
             System.out.println("\nManchester Sintax:");
-            System.out.println(renderer.render(expression) + "\n");
+            System.out.println(OntologyRenderer.render(expression) + "\n");
 
             OWLReasonerFactory ReasonerFactory = new ALCReasonerFactory();
             OWLReasoner ALCReasoner = ReasonerFactory.createReasoner(null);
