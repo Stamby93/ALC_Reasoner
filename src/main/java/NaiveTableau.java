@@ -107,12 +107,38 @@ public class NaiveTableau implements Tableau{
                         } else
                             return false;
                     }
-                    else
+                    else{
+                        if(workingRule - modelLength < 0){
+                            nodeList.add(nodeList.size(), new Node(Abox,workingRule));
+                        }
                         workingRule++;
+                    }
                     break;
             }
 
         }
+if(parent==-1){
+        int j = 0;
+        for (Node n: nodeList) {
+            System.out.println("ABOX nodeLIST :"+j);
+            List<OWLClassExpression> aB = n.getAbox();
+            for (OWLClassExpression e: aB) {
+                System.out.println(e);
+            }
+            j++;
+
+        }
+    j=0;
+        for (Node n: branchingNode) {
+            System.out.println("ABOX branchingNode :"+j);
+            List<OWLClassExpression> aB = n.getAbox();
+            for (OWLClassExpression e: aB) {
+                System.out.println(e);
+            }
+j++;
+        }
+
+}
         return workingRule > 0;
     }
 
@@ -220,7 +246,8 @@ public class NaiveTableau implements Tableau{
         List<NaiveTableau> related = someRelation.get(oe);
         if (related == null){
 
-                workingRule++;
+            LoggerManager.writeDebug("ALL NO CONDIZIONI",NaiveTableau.class);
+            workingRule++;
             //backtrack();
         }
         else{
