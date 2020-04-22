@@ -21,8 +21,9 @@ public class TableauFactory {
         switch (type){
             case "Naive":
                 return new NaiveTableau(Concept, -1);
+            default:
+                return null;
         }
-        return null;
     }
 
 }

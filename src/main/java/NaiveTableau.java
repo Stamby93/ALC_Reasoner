@@ -8,7 +8,7 @@ import java.util.*;
 
 public class NaiveTableau implements Tableau{
 
-    private final List<OWLClassExpression> Abox;
+    private final List<OWLClassExpression> Abox = new ArrayList<>();
 
     private final List<Node> branchingNode;
 
@@ -35,7 +35,6 @@ public class NaiveTableau implements Tableau{
 
     protected NaiveTableau(OWLClassExpression concept, int parent) {
 
-        Abox = new ArrayList<>();
         Abox.add(Abox.size(), concept);
         branchingNode = new ArrayList<>();
         someRelation = new HashMap<>();

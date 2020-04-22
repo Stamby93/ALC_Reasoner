@@ -11,11 +11,11 @@ import java.util.stream.Collectors;
 
 public class Node {
 
-    private int workingRule;
+    private final int workingRule;
 
     private int currentChoice = 0;
 
-    private List<OWLClassExpression> Abox;
+    private final List<OWLClassExpression> Abox;
 
 
 
