@@ -11,20 +11,28 @@ import uk.ac.manchester.cs.owl.owlapi.OWLEquivalentClassesAxiomImpl;
 import java.io.File;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 public class main {
 
     public static void main(String[] args) throws Exception {
 
         OWLOntologyManager man = OWLManager.createOWLOntologyManager();
-        OWLOntology ont = man.loadOntologyFromOntologyDocument(new File("Ontologie/18-02-08_PROVA_2.owl"));
+        File ontologyFile = new File("Ontologie/18-02-08_PROVA_2.owl");
+        OWLOntology ont = man.loadOntologyFromOntologyDocument(ontologyFile);
         OWLDataFactory df = man.getOWLDataFactory();
         IRI iri = ont.getOntologyID().getOntologyIRI().get();
         OWLClass flag = df.getOWLClass(iri + "#assioma");
         Set<OWLAxiom> ontologyAxiom = ont.axioms(flag).collect(Collectors.toSet());
 
-        if (ontologyAxiom.size() > 1)
+        ShortFormProvider shortFormProvider = new SimpleShortFormProvider();
+        OWLObjectRenderer renderer = new ManchesterOWLSyntaxOWLObjectRendererImpl();
+        renderer.setShortFormProvider(shortFormProvider);
+
+        LoggerManager.setFile(ontologyFile.getName());
+
+        if (ontologyAxiom.size() > 1) {
+            LoggerManager.writeErrorLog("Invalid input concept", main.class);
             throw new IllegalArgumentException("Invalid input concept");
+        }
 
         OWLEquivalentClassesAxiomImpl axiom = (OWLEquivalentClassesAxiomImpl) ontologyAxiom.iterator().next();
 
@@ -37,21 +45,19 @@ public class main {
             }
         }
 
-        assert expression != null;
-        ShortFormProvider shortFormProvider = new
-                SimpleShortFormProvider();
-        OWLObjectRenderer renderer = new
-                ManchesterOWLSyntaxOWLObjectRendererImpl();
-        renderer.setShortFormProvider(shortFormProvider);
-        System.out.println("Concetto in input:");
-        System.out.println(expression.toString());
-        System.out.println("\nManchester Sintax:");
-        System.out.println(renderer.render(expression)+"\n");
+        if(expression != null) {
 
-        OWLReasonerFactory ReasonerFactory = new ALCReasonerFactory();
-        OWLReasoner ALCReasoner = ReasonerFactory.createReasoner(null);
-        System.out.println("\n\nThe concept is "+ALCReasoner.isSatisfiable(expression.getNNF()));
+            System.out.println("Concetto in input:");
+            System.out.println(expression.toString());
+            System.out.println("\nManchester Sintax:");
+            System.out.println(renderer.render(expression) + "\n");
 
+            OWLReasonerFactory ReasonerFactory = new ALCReasonerFactory();
+            OWLReasoner ALCReasoner = ReasonerFactory.createReasoner(null);
+            boolean result = ALCReasoner.isSatisfiable(expression.getNNF());
+            System.out.println("\n\nThe concept is " + result);
+            LoggerManager.writeInfoLog("The concept is " + result,main.class);
+        }
     }
 
 }

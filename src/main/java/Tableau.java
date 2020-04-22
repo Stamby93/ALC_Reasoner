@@ -5,6 +5,6 @@ public interface Tableau {
 
     boolean SAT();
 
-    void printModel();
+    String getModel();
 
 }
