@@ -8,9 +8,9 @@ import java.util.*;
 
 public class NaiveTableau implements Tableau{
 
-    private List<OWLClassExpression> Abox;
+    private final List<OWLClassExpression> Abox;
 
-    private List<Node> branchingNode;
+    private final List<Node> branchingNode;
 
     //private Node workingNode;
 
@@ -18,9 +18,9 @@ public class NaiveTableau implements Tableau{
 
     private int workingRule;
 
-    private Map<OWLObjectPropertyExpression, List<NaiveTableau>> someRelation;
+    private final Map<OWLObjectPropertyExpression, List<NaiveTableau>> someRelation;
 
-    private int parent;
+    private final int parent;
 
     private int modelLength;
 
@@ -82,9 +82,8 @@ public class NaiveTableau implements Tableau{
 
     public boolean checkAll(OWLClassExpression expression) {
 
-
-            ArrayList<OWLClassExpression> flag = new ArrayList<>(Abox);
-            checkIntersection(Collections.singletonList(expression));
+        ArrayList<OWLClassExpression> flag = new ArrayList<>(Abox);
+        checkIntersection(Collections.singletonList(expression));
         if(Abox.size() != flag.size()){
             nodeList.add(nodeList.size(), new Node(Abox, workingRule));
             boolean result = SAT();
@@ -318,33 +317,32 @@ public class NaiveTableau implements Tableau{
                 switch (pe) {
                     case OWL_CLASS:
                     case OBJECT_COMPLEMENT_OF:
-                        System.out.print(" " + renderer.render((e)));
-                        if(!exist) {
-                            System.out.print(" |");
-                        }
+                        System.out.print(" " + renderer.render((e))+" |");
                         break;
                 }
             }
         }
-        Set<OWLObjectPropertyExpression> key =  someRelation.keySet();
+        if(!someRelation.isEmpty()) {
+            Set<OWLObjectPropertyExpression> key = someRelation.keySet();
 
-        for (OWLObjectPropertyExpression oe: key) {
-            if(oe != null) {
-                ShortFormProvider shortFormProvider = new
-                        SimpleShortFormProvider();
-                OWLObjectRenderer renderer = new
-                        ManchesterOWLSyntaxOWLObjectRendererImpl();
-                renderer.setShortFormProvider(shortFormProvider);
-                List<NaiveTableau> related = someRelation.get(oe);
-                System.out.print(" EXIST " + renderer.render((oe)) + ". {");
-                for (NaiveTableau t : related) {
-                    t.printModel(true);
-                    System.out.print(" }");
+            for (OWLObjectPropertyExpression oe : key) {
+                if (oe != null) {
+                    ShortFormProvider shortFormProvider = new
+                            SimpleShortFormProvider();
+                    OWLObjectRenderer renderer = new
+                            ManchesterOWLSyntaxOWLObjectRendererImpl();
+                    renderer.setShortFormProvider(shortFormProvider);
+                    List<NaiveTableau> related = someRelation.get(oe);
+                    System.out.print(" EXIST " + renderer.render((oe)) + ". {");
+                    for (NaiveTableau t : related) {
+                        t.printModel(true);
+                        System.out.print(" }");
+                    }
                 }
             }
+            if (!exist)
+                System.out.print(" |");
         }
-        if(!exist)
-            System.out.print(" |");
     }
 }
 
