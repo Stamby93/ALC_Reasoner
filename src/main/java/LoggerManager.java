@@ -12,19 +12,19 @@ public class LoggerManager {
     public static void writeInfoLog(String msg, Class<?> c){
         Logger log = Logger.getLogger(c.getName());
         PropertyConfigurator.configure("log4j.properties");
-        log.info(msg);
+        log.info(msg+"\n");
     }
 
     public static void writeErrorLog(String msg, Class<?> c){
         Logger log = Logger.getLogger(c.getName());
         PropertyConfigurator.configure("log4j.properties");
-        log.error(msg);
+        log.error(msg+"\n");
     }
 
     public static void writeDebug(String msg, Class<?> c) {
         Logger log = Logger.getLogger(c.getName());
         PropertyConfigurator.configure("log4j.properties");
-        log.debug(msg);
+        log.debug(msg+"\n");
     }
 
     public static void setFile(String name) {
