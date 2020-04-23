@@ -75,19 +75,26 @@
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
                     <owl:Class>
-                                            <owl:unionOf rdf:parseType="Collection">
-                                                <rdf:Description rdf:about="http://www.semanticweb.org/vincenzomanfredi/ontologies/2020/3/untitled-ontology-19#B"/>
-                                                <owl:Restriction>
-                                                    <owl:onProperty rdf:resource="http://www.semanticweb.org/vincenzomanfredi/ontologies/2020/3/untitled-ontology-19#S"/>
-                                                    <owl:someValuesFrom>
-                                                        <owl:Restriction>
-                                                            <owl:onProperty rdf:resource="http://www.semanticweb.org/vincenzomanfredi/ontologies/2020/3/untitled-ontology-19#R"/>
-                                                            <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/vincenzomanfredi/ontologies/2020/3/untitled-ontology-19#A"/>
-                                                        </owl:Restriction>
-                                                    </owl:someValuesFrom>
-                                                </owl:Restriction>
-                                            </owl:unionOf>
-                                        </owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://www.semanticweb.org/vincenzomanfredi/ontologies/2020/3/untitled-ontology-19#S"/>
+                                <owl:someValuesFrom>
+                                    <owl:Class>
+                                        <owl:complementOf rdf:resource="http://www.semanticweb.org/vincenzomanfredi/ontologies/2020/3/untitled-ontology-19#A"/>
+                                    </owl:Class>
+                                </owl:someValuesFrom>
+                            </owl:Restriction>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://www.semanticweb.org/vincenzomanfredi/ontologies/2020/3/untitled-ontology-19#S"/>
+                                <owl:someValuesFrom>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="http://www.semanticweb.org/vincenzomanfredi/ontologies/2020/3/untitled-ontology-19#R"/>
+                                        <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/vincenzomanfredi/ontologies/2020/3/untitled-ontology-19#A"/>
+                                    </owl:Restriction>
+                                </owl:someValuesFrom>
+                            </owl:Restriction>
+                        </owl:unionOf>
+                    </owl:Class>
                     <rdf:Description rdf:about="http://www.semanticweb.org/vincenzomanfredi/ontologies/2020/3/untitled-ontology-19#D"/>
                     <owl:Class>
                         <owl:unionOf rdf:parseType="Collection">

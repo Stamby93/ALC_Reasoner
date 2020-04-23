@@ -6,7 +6,7 @@ public class NaiveTableau implements Tableau{
 
     private final List<OWLClassExpression> Abox;
 
-    private final List<Node> branchingNode;
+    private final List<Integer> branchingNode;
 
     private List<Node> nodeList;
 
@@ -71,8 +71,10 @@ public class NaiveTableau implements Tableau{
         if(Abox.size() != flag.size()){
             nodeList.add(nodeList.size(), new Node(Abox, workingRule));
             boolean result = SAT();
-            Abox.removeAll(Abox);
-            Abox.addAll(flag);
+            if(!result){
+                Abox.removeAll(Abox);
+                Abox.addAll(flag);
+            }
             return result;
         }
 
@@ -117,28 +119,7 @@ public class NaiveTableau implements Tableau{
             }
 
         }
-if(parent==-1){
-        int j = 0;
-        for (Node n: nodeList) {
-            System.out.println("ABOX nodeLIST :"+j);
-            List<OWLClassExpression> aB = n.getAbox();
-            for (OWLClassExpression e: aB) {
-                System.out.println(e);
-            }
-            j++;
 
-        }
-    j=0;
-        for (Node n: branchingNode) {
-            System.out.println("ABOX branchingNode :"+j);
-            List<OWLClassExpression> aB = n.getAbox();
-            for (OWLClassExpression e: aB) {
-                System.out.println(e);
-            }
-j++;
-        }
-
-}
         return workingRule > 0;
     }
 
@@ -155,11 +136,11 @@ j++;
     private void applyUnion(){
         LoggerManager.writeDebug("UNION " + OntologyRenderer.render(Abox.get(workingRule)), NaiveTableau.class);
         Node workingNode;
-        if(branchingNode.size()!=0 && branchingNode.get(branchingNode.size()-1).getWorkingRule()==workingRule) {
-            workingNode = branchingNode.get(branchingNode.size()-1);
+        if(branchingNode.size()!=0 && nodeList.get(branchingNode.get(branchingNode.size()-1)).getWorkingRule()==workingRule) {
+            workingNode = nodeList.get(branchingNode.get(branchingNode.size()-1));
         } else{
             workingNode = new Node(Abox, workingRule);
-            branchingNode.add(branchingNode.size(),workingNode);
+            branchingNode.add(branchingNode.size(),workingRule);
         }
         List<OWLClassExpression> choice = workingNode.applyRule();
         if(choice.get(0)!=null) {
@@ -173,7 +154,7 @@ j++;
                 backtrack();
         }
         else{
-            branchingNode.remove(workingNode);
+            branchingNode.remove(workingRule);
             workingRule--;
             backtrack();
         }

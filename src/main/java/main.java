@@ -16,7 +16,7 @@ public class main {
     public static void main(String[] args) throws Exception {
 
         OWLOntologyManager man = OWLManager.createOWLOntologyManager();
-        File ontologyFile = new File("Ontologie/PROVASCAL1.owl");
+        File ontologyFile = new File("Ontologie/mostropiugrosso.owl");
         OWLOntology ont = man.loadOntologyFromOntologyDocument(ontologyFile);
         OWLDataFactory df = man.getOWLDataFactory();
         IRI iri = ont.getOntologyID().getOntologyIRI().get();
