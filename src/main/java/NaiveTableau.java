@@ -20,8 +20,6 @@ public class NaiveTableau implements Tableau{
 
     private final int parent;
 
-    //private int modelLength;
-
     private static String model;
 
     protected NaiveTableau(OWLClassExpression concept, int parent) {
@@ -31,8 +29,6 @@ public class NaiveTableau implements Tableau{
         branchingNode = new ArrayList<>();
         someRelation = new HashMap<>();
         nodeList = new HashMap<>();
-        //nodeList.add(0,new Node(Abox,workingRule));
-        //modelLength = 1;
         dependency = new ArrayList<>();
         dependency.add(0,0);
         this.parent = parent;
@@ -49,35 +45,6 @@ public class NaiveTableau implements Tableau{
 
     }
 
-
-    /*public boolean checkAll(OWLClassExpression expression) {
-
-        if(!Abox.contains(expression)){
-
-
-
-            Abox.removeAll(Abox);
-
-            Abox.add(concept);
-            branchingNode = new ArrayList<>();
-            someRelation = new HashMap<>();
-            nodeList = new ArrayList<>();
-            modelLength = 1;
-
-
-
-            boolean result = SAT();
-                if(!result){
-                    Abox.removeAll(Abox);
-                    Abox.addAll(oldAbox);
-                    SAT();
-                }
-                return result;
-            }
-
-        return true;
-    }
-*/
 
     @Override
     public boolean SAT() {
@@ -107,23 +74,6 @@ public class NaiveTableau implements Tableau{
                     }
                     else
                         workingRule++;
-                    /*
-                    if(checkClash()){
-                        if(branchingNode.size()!=0){
-                            workingRule-=modelLength;
-                            backtrack();
-                        } else
-                            return false;
-                    }
-                    else{
-                        if(workingRule - modelLength <= 0){
-                            nodeList.add(nodeList.size(), new Node(Abox,workingRule));
-                            modelLength--;
-                        }
-                        workingRule++;
-                    }
-
-                     */
                     break;
             }
 
@@ -140,7 +90,6 @@ public class NaiveTableau implements Tableau{
         Node workingNode = new Node(Abox, workingRule);
         List<OWLClassExpression> flag = workingNode.applyRule();
         checkIntersection(flag);
-        //LoggerManager.writeDebug("MODEL LENGht"+ modelLength, NaiveTableau.class);
         nodeList.put(workingRule,workingNode);
         workingRule++;
     }
