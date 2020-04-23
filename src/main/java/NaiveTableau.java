@@ -95,7 +95,7 @@ public class NaiveTableau implements Tableau{
                    break;
                 case OWL_CLASS:
                 case OBJECT_COMPLEMENT_OF:
-
+                    LoggerManager.writeDebug("CLASS :"+ OntologyRenderer.render(Abox.get(workingRule)), NaiveTableau.class);
                     if(checkClash()){
                         if(branchingNode.size()!=0){
                             workingRule-=modelLength;
@@ -249,14 +249,14 @@ public class NaiveTableau implements Tableau{
         OWLObjectPropertyExpression oe = allValue.getProperty();
         boolean check = true;
 
-        ArrayList<NaiveTableau> related = new ArrayList<>(someRelation.get(oe));
-        if (related == null){
+        if (someRelation.get(oe) == null){
 
             LoggerManager.writeDebug("ALL NO CONDIZIONI",NaiveTableau.class);
             workingRule++;
             //backtrack();
         }
         else{
+            ArrayList<NaiveTableau> related = new ArrayList<>(someRelation.get(oe));
             int i = 0;
             for (NaiveTableau t: related){
 

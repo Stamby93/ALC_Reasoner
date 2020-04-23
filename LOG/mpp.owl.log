@@ -1,5 +1,6 @@
-2020-04-23   18:52:21   DEBUG   - SAT :-1
-2020-04-23   18:52:22   DEBUG   - INTERSECTION A
+2020-04-23   19:05:47   DEBUG   - SAT :-1
+
+2020-04-23   19:05:47   DEBUG   - INTERSECTION A
  and (((B or (S some (R only A)))
  and (D or (S some C))
  and ((not (B)) or (not (D)))
@@ -35,8 +36,12 @@
  and (S only (not (C)))) or (B or (S some (R only A)))))
  and (R some B)
  and (R only C)
-2020-04-23   18:52:22   DEBUG   - MODEL LENGht4
-2020-04-23   18:52:22   DEBUG   - UNION ((B or (S some (R only A)))
+
+2020-04-23   19:05:47   DEBUG   - MODEL LENGht4
+
+2020-04-23   19:05:47   DEBUG   - CLASS :A
+
+2020-04-23   19:05:47   DEBUG   - UNION ((B or (S some (R only A)))
  and (D or (S some C))
  and ((not (B)) or (not (D)))
  and ((S only (not (C))) or (S only (R some (R only (S only (S some 
@@ -69,27 +74,47 @@
  and (not (B))
  and (S only (R some (not (A))))) or ((not (D))
  and (S only (not (C)))) or (B or (S some (R only A))))
-2020-04-23   18:52:22   DEBUG   - CHOICE (B or (S some (R only A)))
+
+2020-04-23   19:05:47   DEBUG   - CHOICE (B or (S some (R only A)))
  and (D or (S some C))
  and ((not (B)) or (not (D)))
  and ((S only (not (C))) or (S only (R some (R only (S only (S some 
     ((B or D)
      and (not (C)))))))))
-2020-04-23   18:52:22   DEBUG   - SOME: 3 R some B
-2020-04-23   18:52:22   DEBUG   - SAT :3
-2020-04-23   18:52:22   DEBUG   - SAT :3true
-2020-04-23   18:52:22   DEBUG   - ALL 4 R only C
-2020-04-23   18:52:22   DEBUG   - SAT :3
-2020-04-23   18:52:22   DEBUG   - INTERSECTION B
+
+2020-04-23   19:05:47   DEBUG   - SOME: 3 R some B
+
+2020-04-23   19:05:47   DEBUG   - SAT :3
+
+2020-04-23   19:05:47   DEBUG   - CLASS :B
+
+2020-04-23   19:05:47   DEBUG   - SAT :3true
+
+2020-04-23   19:05:47   DEBUG   - ALL 4 R only C
+
+2020-04-23   19:05:47   DEBUG   - SAT :3
+
+2020-04-23   19:05:47   DEBUG   - INTERSECTION B
  and C
-2020-04-23   18:52:22   DEBUG   - MODEL LENGht2
-2020-04-23   18:52:22   DEBUG   - SAT :3true
-2020-04-23   18:52:22   DEBUG   - INTERSECTION (B or (S some (R only A)))
+
+2020-04-23   19:05:47   DEBUG   - MODEL LENGht2
+
+2020-04-23   19:05:47   DEBUG   - CLASS :B
+
+2020-04-23   19:05:47   DEBUG   - CLASS :C
+
+2020-04-23   19:05:47   DEBUG   - SAT :3true
+
+2020-04-23   19:05:47   DEBUG   - INTERSECTION (B or (S some (R only A)))
  and (D or (S some C))
  and ((not (B)) or (not (D)))
  and ((S only (not (C))) or (S only (R some (R only (S only (S some 
     ((B or D)
      and (not (C)))))))))
-2020-04-23   18:52:22   DEBUG   - MODEL LENGht4
-2020-04-23   18:52:22   DEBUG   - UNION B or (S some (R only A))
-2020-04-23   18:52:22   DEBUG   - CHOICE B
+
+2020-04-23   19:05:47   DEBUG   - MODEL LENGht4
+
+2020-04-23   19:05:47   DEBUG   - UNION B or (S some (R only A))
+
+2020-04-23   19:05:47   DEBUG   - CHOICE B
+

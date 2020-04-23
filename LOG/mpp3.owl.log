@@ -1,0 +1,120 @@
+2020-04-23   19:09:12   DEBUG   - SAT :-1
+
+2020-04-23   19:09:12   DEBUG   - INTERSECTION A
+ and (((B or (S some (R only A)))
+ and (D or (S some C))
+ and ((not (B)) or (not (D)))
+ and ((S only (not (C))) or (S only (R some (R only (S only (S some 
+    ((B or D)
+     and (not (C)))))))))) or (((D or (S some C))
+ and (not (B))
+ and (S only (R some (not (A))))) or ((not (D))
+ and (S only (not (C)))) or (B or (S some (R only A)))) or (((Z some (Z only (S only 
+    (A
+     and B
+     and D
+     and (not (C))
+     and (R only (S some (R some 
+        ((A
+         and B
+         and D) or (A
+         and C
+         and D
+         and (Nothing or (not (C)))) or (not (A)) or (not (C))))))))))
+ and (S only 
+    ((not (A))
+     and (not (C))))) or (Z some 
+    (((S some (R some 
+        (A or B or C or (not (D))))) or (R only (S only 
+        (((C
+         and D
+         and (not (A)))
+         and (A or B)) or (not (A)) or (not (B)))))) or (R only 
+        ((A
+         and C) or (B
+         and C
+         and (not (D))) or (not (B))))))))
+ and (R some B)
+ and (R only C)
+
+2020-04-23   19:09:12   DEBUG   - MODEL LENGht4
+
+2020-04-23   19:09:12   DEBUG   - CLASS :A
+
+2020-04-23   19:09:12   DEBUG   - UNION ((B or (S some (R only A)))
+ and (D or (S some C))
+ and ((not (B)) or (not (D)))
+ and ((S only (not (C))) or (S only (R some (R only (S only (S some 
+    ((B or D)
+     and (not (C)))))))))) or (((D or (S some C))
+ and (not (B))
+ and (S only (R some (not (A))))) or ((not (D))
+ and (S only (not (C)))) or (B or (S some (R only A)))) or (((Z some (Z only (S only 
+    (A
+     and B
+     and D
+     and (not (C))
+     and (R only (S some (R some 
+        ((A
+         and B
+         and D) or (A
+         and C
+         and D
+         and (Nothing or (not (C)))) or (not (A)) or (not (C))))))))))
+ and (S only 
+    ((not (A))
+     and (not (C))))) or (Z some 
+    (((S some (R some 
+        (A or B or C or (not (D))))) or (R only (S only 
+        (((C
+         and D
+         and (not (A)))
+         and (A or B)) or (not (A)) or (not (B)))))) or (R only 
+        ((A
+         and C) or (B
+         and C
+         and (not (D))) or (not (B)))))))
+
+2020-04-23   19:09:12   DEBUG   - CHOICE (B or (S some (R only A)))
+ and (D or (S some C))
+ and ((not (B)) or (not (D)))
+ and ((S only (not (C))) or (S only (R some (R only (S only (S some 
+    ((B or D)
+     and (not (C)))))))))
+
+2020-04-23   19:09:12   DEBUG   - SOME: 3 R some B
+
+2020-04-23   19:09:12   DEBUG   - SAT :3
+
+2020-04-23   19:09:12   DEBUG   - CLASS :B
+
+2020-04-23   19:09:12   DEBUG   - SAT :3true
+
+2020-04-23   19:09:12   DEBUG   - ALL 4 R only C
+
+2020-04-23   19:09:12   DEBUG   - SAT :3
+
+2020-04-23   19:09:12   DEBUG   - INTERSECTION B
+ and C
+
+2020-04-23   19:09:12   DEBUG   - MODEL LENGht2
+
+2020-04-23   19:09:12   DEBUG   - CLASS :B
+
+2020-04-23   19:09:12   DEBUG   - CLASS :C
+
+2020-04-23   19:09:13   DEBUG   - SAT :3true
+
+2020-04-23   19:09:13   DEBUG   - INTERSECTION (B or (S some (R only A)))
+ and (D or (S some C))
+ and ((not (B)) or (not (D)))
+ and ((S only (not (C))) or (S only (R some (R only (S only (S some 
+    ((B or D)
+     and (not (C)))))))))
+
+2020-04-23   19:09:13   DEBUG   - MODEL LENGht4
+
+2020-04-23   19:09:13   DEBUG   - UNION B or (S some (R only A))
+
+2020-04-23   19:09:13   DEBUG   - CHOICE B
+
