@@ -1,0 +1,21 @@
+2020-04-23   16:34:28   DEBUG   - INTERSECTION (A or B)
+ and ((not (B)) or (R only (S only A)))
+ and ((R only A) or (R only (not (A))))
+ and (R some (not (A)))
+2020-04-23   16:34:28   DEBUG   - MODEL LENGht4
+2020-04-23   16:34:28   DEBUG   - UNION A or B
+2020-04-23   16:34:28   DEBUG   - CHOICE A
+2020-04-23   16:34:28   DEBUG   - UNION (not (B)) or (R only (S only A))
+2020-04-23   16:34:28   DEBUG   - CHOICE not (B)
+2020-04-23   16:34:28   DEBUG   - UNION (R only A) or (R only (not (A)))
+2020-04-23   16:34:28   DEBUG   - CHOICE R only A
+2020-04-23   16:34:28   DEBUG   - CLASH R some (not (A)) R only A
+2020-04-23   16:34:28   DEBUG   - BACKTRACK :3
+2020-04-23   16:34:28   DEBUG   - UNION (R only A) or (R only (not (A)))
+2020-04-23   16:34:28   DEBUG   - CHOICE R only (S only A)
+2020-04-23   16:34:28   DEBUG   - SOME: 4 R some (not (A))
+2020-04-23   16:34:28   DEBUG   - ALL 7 R only (S only A)
+2020-04-23   16:34:28   DEBUG   - ALL 1 S only A
+2020-04-23   16:34:28   DEBUG   - ALL NO CONDIZIONI
+2020-04-23   16:34:28   INFO    - Modello trovato:  A | not (B) | EXIST R. { not (A) | } |
+2020-04-23   16:34:29   INFO    - The concept is true

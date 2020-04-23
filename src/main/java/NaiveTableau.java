@@ -137,8 +137,8 @@ public class NaiveTableau implements Tableau{
     private void applyUnion(){
         LoggerManager.writeDebug("UNION " + OntologyRenderer.render(Abox.get(workingRule)), NaiveTableau.class);
         Node workingNode;
-        if(branchingNode.size()!=0 && nodeList.get(branchingNode.get(branchingNode.size()-1)).getWorkingRule()==workingRule) {
-            workingNode = nodeList.get(branchingNode.get(branchingNode.size()-1));
+        if(branchingNode.size()!=0 && branchingNode.contains(Integer.valueOf(workingRule))) {
+            workingNode = nodeList.get(branchingNode.get(branchingNode.size()-1)-1);
         } else{
             workingNode = new Node(Abox, workingRule);
             branchingNode.add(branchingNode.size(),workingRule);
@@ -155,7 +155,7 @@ public class NaiveTableau implements Tableau{
                 backtrack();
         }
         else{
-            branchingNode.remove(workingRule);
+            branchingNode.remove(Integer.valueOf(workingRule));
             workingRule--;
             backtrack();
         }

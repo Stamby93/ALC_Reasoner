@@ -1,0 +1,26 @@
+2020-04-23   16:34:58   DEBUG   - INTERSECTION (A1 or A2)
+ and (B1 or B2)
+ and ((not (A1)) or (R only 
+    (A1
+     and A2)))
+ and ((R some (not (A1))) or (R some (not (A2))))
+2020-04-23   16:34:58   DEBUG   - MODEL LENGht4
+2020-04-23   16:34:58   DEBUG   - UNION A1 or A2
+2020-04-23   16:34:58   DEBUG   - CHOICE A1
+2020-04-23   16:34:59   DEBUG   - UNION B1 or B2
+2020-04-23   16:34:59   DEBUG   - CHOICE B1
+2020-04-23   16:34:59   DEBUG   - UNION (not (A1)) or (R only 
+    (A1
+     and A2))
+2020-04-23   16:34:59   DEBUG   - CHOICE not (A1)
+2020-04-23   16:34:59   DEBUG   - CLASH A1 not (A1)
+2020-04-23   16:34:59   DEBUG   - BACKTRACK :3
+2020-04-23   16:34:59   DEBUG   - UNION (not (A1)) or (R only 
+    (A1
+     and A2))
+2020-04-23   16:34:59   DEBUG   - CHOICE B2
+2020-04-23   16:34:59   DEBUG   - UNION (R some (not (A1))) or (R some (not (A2)))
+2020-04-23   16:34:59   DEBUG   - CHOICE R some (not (A1))
+2020-04-23   16:34:59   DEBUG   - SOME: 8 R some (not (A1))
+2020-04-23   16:34:59   INFO    - Modello trovato:  A1 | B1 | B2 | EXIST R. { not (A1) | } |
+2020-04-23   16:34:59   INFO    - The concept is true
