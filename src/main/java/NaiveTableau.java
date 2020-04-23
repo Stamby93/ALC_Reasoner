@@ -112,6 +112,7 @@ public class NaiveTableau implements Tableau{
                     else{
                         if(workingRule - modelLength < 0){
                             nodeList.add(nodeList.size(), new Node(Abox,workingRule));
+                            modelLength--;
                         }
                         workingRule++;
                     }
@@ -175,12 +176,21 @@ public class NaiveTableau implements Tableau{
 
             if(direct.SAT()){
                 someRelation.put(oe, Collections.singletonList(direct));
+                if(workingRule - modelLength < 0){
+                    nodeList.add(nodeList.size(), new Node(Abox,workingRule));
+                    modelLength--;
+                }
                 workingRule++;
             }
             else{
                 LoggerManager.writeDebug("SOME FALLITO",NaiveTableau.class);
 
-                workingRule--;
+                if(workingRule - modelLength < 0){
+                    workingRule = -1;
+                }
+                else
+                    workingRule -= modelLength;
+
                 backtrack();
             }
         }
@@ -204,11 +214,19 @@ public class NaiveTableau implements Tableau{
                     ArrayList<NaiveTableau> flag = new ArrayList<>(someRelation.get(oe));
                     flag.add(direct);
                     someRelation.put(oe, flag);
+                    if(workingRule - modelLength < 0){
+                        nodeList.add(nodeList.size(), new Node(Abox,workingRule));
+                        modelLength--;
+                    }
                     workingRule++;
                 }
                 else{
                     LoggerManager.writeDebug("SOME FALLITO", NaiveTableau.class);
-                    workingRule--;
+                    if(workingRule - modelLength < 0){
+                        workingRule = -1;
+                    }
+                    else
+                        workingRule -= modelLength;
                     backtrack();
                 }
             } else
