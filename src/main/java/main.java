@@ -16,7 +16,7 @@ public class main {
     public static void main(String[] args) throws Exception {
 
         OWLOntologyManager man = OWLManager.createOWLOntologyManager();
-        File ontologyFile = new File("Ontologie/18-02-08_PROVA.owl");
+        File ontologyFile = new File("Ontologie/mpp.owl");
         OWLOntology ont = man.loadOntologyFromOntologyDocument(ontologyFile);
         OWLDataFactory df = man.getOWLDataFactory();
         IRI iri = ont.getOntologyID().getOntologyIRI().get();
@@ -46,7 +46,7 @@ public class main {
             System.out.println("Concetto in input:");
             System.out.println(expression.toString());
             System.out.println("\nManchester Sintax:");
-            System.out.println(OntologyRenderer.render(expression) + "\n");
+            System.out.println(OntologyRenderer.render(expression.getNNF()) + "\n");
 
             OWLReasonerFactory ReasonerFactory = new ALCReasonerFactory();
             OWLReasoner ALCReasoner = ReasonerFactory.createReasoner(null);

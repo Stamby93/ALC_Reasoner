@@ -1,40 +1,45 @@
-2020-04-22   14:47:54   DEBUG   - INTERSECTION (B or (S some (R only A)))
+2020-04-23   16:38:42   DEBUG   - INTERSECTION (B or (S some (R only A)))
  and (D or (S some C))
  and ((not (B)) or (not (D)))
  and ((S only (not (C))) or (S only (R some (R only (S only (S some (not (C))))))))
-2020-04-22   14:47:54   DEBUG   - MODEL LENGht4
-2020-04-22   14:47:54   DEBUG   - UNION B or (S some (R only A))
-2020-04-22   14:47:54   DEBUG   - CHOICE B
-2020-04-22   14:47:54   DEBUG   - UNION D or (S some C)
-2020-04-22   14:47:54   DEBUG   - CHOICE D
-2020-04-22   14:47:54   DEBUG   - UNION (not (B)) or (not (D))
-2020-04-22   14:47:54   DEBUG   - CHOICE not (B)
-2020-04-22   14:47:54   DEBUG   - CLASH B not (B)
-2020-04-22   14:47:55   DEBUG   - BACKTRACK :3
-2020-04-22   14:47:55   DEBUG   - UNION (not (B)) or (not (D))
-2020-04-22   14:47:55   DEBUG   - CHOICE not (D)
-2020-04-22   14:47:55   DEBUG   - CLASH D not (D)
-2020-04-22   14:47:55   DEBUG   - BACKTRACK :3
-2020-04-22   14:47:55   DEBUG   - UNION (not (B)) or (not (D))
-2020-04-22   14:47:55   DEBUG   - BACKTRACK :2
-2020-04-22   14:47:55   DEBUG   - UNION D or (S some C)
-2020-04-22   14:47:55   DEBUG   - CHOICE S some C
-2020-04-22   14:47:55   DEBUG   - UNION (not (B)) or (not (D))
-2020-04-22   14:47:55   DEBUG   - CHOICE not (B)
-2020-04-22   14:47:55   DEBUG   - CLASH B not (B)
-2020-04-22   14:47:55   DEBUG   - BACKTRACK :3
-2020-04-22   14:47:55   DEBUG   - UNION (not (B)) or (not (D))
-2020-04-22   14:47:55   DEBUG   - CHOICE not (D)
-2020-04-22   14:47:55   DEBUG   - UNION (S only (not (C))) or (S only (R some (R only (S only (S some (not (C)))))))
-2020-04-22   14:47:55   DEBUG   - CHOICE S only (not (C))
-2020-04-22   14:47:55   DEBUG   - CLASH S some C S only (not (C))
-2020-04-22   14:47:55   DEBUG   - BACKTRACK :4
-2020-04-22   14:47:55   DEBUG   - UNION (S only (not (C))) or (S only (R some (R only (S only (S some (not (C)))))))
-2020-04-22   14:47:55   DEBUG   - CHOICE S only (R some (R only (S only (S some (not (C))))))
-2020-04-22   14:47:55   DEBUG   - SOME: 6 S some C
-2020-04-22   14:47:55   DEBUG   - ALL 8 S only (R some (R only (S only (S some (not (C))))))
-2020-04-22   14:47:55   DEBUG   - SOME: 1 R some (R only (S only (S some (not (C)))))
-2020-04-22   14:47:55   DEBUG   - ALL 0 R only (S only (S some (not (C))))
-2020-04-22   14:47:55   DEBUG   - ALL NO CONDIZIONI
-2020-04-22   14:47:55   INFO    - Modello trovato:  B | not (D) | EXIST S. { C | EXIST R. { } } |
-2020-04-22   14:47:56   INFO    - The concept is true
+2020-04-23   16:38:42   DEBUG   - MODEL LENGht4
+2020-04-23   16:38:42   DEBUG   - UNION B or (S some (R only A))
+2020-04-23   16:38:42   DEBUG   - CHOICE B
+2020-04-23   16:38:42   DEBUG   - UNION D or (S some C)
+2020-04-23   16:38:42   DEBUG   - CHOICE D
+2020-04-23   16:38:42   DEBUG   - UNION (not (B)) or (not (D))
+2020-04-23   16:38:42   DEBUG   - CHOICE not (B)
+2020-04-23   16:38:42   DEBUG   - CLASH B not (B)
+2020-04-23   16:38:42   DEBUG   - BACKTRACK :3
+2020-04-23   16:38:42   DEBUG   - UNION (not (B)) or (not (D))
+2020-04-23   16:38:42   DEBUG   - CHOICE S some C
+2020-04-23   16:38:42   DEBUG   - UNION (S only (not (C))) or (S only (R some (R only (S only (S some (not (C)))))))
+2020-04-23   16:38:42   DEBUG   - CHOICE S only (not (C))
+2020-04-23   16:38:42   DEBUG   - CLASH S some C S only (not (C))
+2020-04-23   16:38:43   DEBUG   - BACKTRACK :4
+2020-04-23   16:38:43   DEBUG   - UNION (S only (not (C))) or (S only (R some (R only (S only (S some (not (C)))))))
+2020-04-23   16:38:43   DEBUG   - BACKTRACK :3
+2020-04-23   16:38:43   DEBUG   - UNION (not (B)) or (not (D))
+2020-04-23   16:38:43   DEBUG   - BACKTRACK :2
+2020-04-23   16:38:43   DEBUG   - UNION D or (S some C)
+2020-04-23   16:38:43   DEBUG   - CHOICE S some (R only A)
+2020-04-23   16:38:43   DEBUG   - UNION (not (B)) or (not (D))
+2020-04-23   16:38:43   DEBUG   - CHOICE not (B)
+2020-04-23   16:38:43   DEBUG   - CLASH B not (B)
+2020-04-23   16:38:43   DEBUG   - BACKTRACK :3
+2020-04-23   16:38:43   DEBUG   - UNION (not (B)) or (not (D))
+2020-04-23   16:38:43   DEBUG   - BACKTRACK :2
+2020-04-23   16:38:43   DEBUG   - UNION D or (S some C)
+2020-04-23   16:38:43   DEBUG   - BACKTRACK :1
+2020-04-23   16:38:43   DEBUG   - UNION B or (S some (R only A))
+2020-04-23   16:38:43   DEBUG   - CHOICE B or (S some (R only A))
+2020-04-23   16:38:43   DEBUG   - UNION D or (S some C)
+2020-04-23   16:38:43   DEBUG   - CHOICE D
+2020-04-23   16:38:43   DEBUG   - UNION (not (B)) or (not (D))
+2020-04-23   16:38:43   DEBUG   - CHOICE not (B)
+2020-04-23   16:38:43   DEBUG   - UNION (S only (not (C))) or (S only (R some (R only (S only (S some (not (C)))))))
+2020-04-23   16:38:43   DEBUG   - CHOICE S only (not (C))
+2020-04-23   16:38:43   DEBUG   - ALL 7 S only (not (C))
+2020-04-23   16:38:43   DEBUG   - ALL NO CONDIZIONI
+2020-04-23   16:38:43   INFO    - Modello trovato:  D | not (B) |
+2020-04-23   16:38:43   INFO    - The concept is true

@@ -1,0 +1,9 @@
+2020-04-23   17:47:27   DEBUG   - INTERSECTION (R some (not (A)))
+ and (R only 
+    (A or B))
+2020-04-23   17:47:27   DEBUG   - MODEL LENGht2
+2020-04-23   17:47:27   DEBUG   - SOME: 1 R some (not (A))
+2020-04-23   17:47:27   DEBUG   - ALL 2 R only 
+    (A or B)
+2020-04-23   17:47:27   INFO    - Modello trovato:  EXIST R. { not (A) | } |
+2020-04-23   17:47:27   INFO    - The concept is true

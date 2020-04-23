@@ -1,4 +1,6 @@
 import org.semanticweb.owlapi.model.*;
+import org.semanticweb.owlapi.util.OWLClassLiteralCollector;
+import uk.ac.manchester.cs.owl.owlapi.OWLObjectIntersectionOfImpl;
 
 import java.util.*;
 
@@ -12,7 +14,7 @@ public class NaiveTableau implements Tableau{
 
     private int workingRule;
 
-    private final Map<OWLObjectPropertyExpression, List<NaiveTableau>> someRelation;
+    private Map<OWLObjectPropertyExpression, List<NaiveTableau>> someRelation;
 
     private final int parent;
 
@@ -33,28 +35,7 @@ public class NaiveTableau implements Tableau{
     }
 
 
-    private boolean checkClash() {
 
-        for (int i = 0; i < Abox.size(); i++) {
-
-            OWLClassExpression c = Abox.get(i);
-
-            if(c.isOWLNothing())
-                return true;
-
-            for (int i1 = i+1; i1 < Abox.size(); i1++) {
-
-                OWLClassExpression c1 = Abox.get(i1);
-
-                if (c.equals(c1.getComplementNNF())){
-                    LoggerManager.writeDebug("CLASH "+ OntologyRenderer.render(c) + " " +OntologyRenderer.render(c1), NaiveTableau.class);
-                    return true;
-                }
-            }
-        }
-        return false;
-
-    }
 
 
     public boolean checkSome(OWLClassExpression expression) {
@@ -64,26 +45,38 @@ public class NaiveTableau implements Tableau{
     }
 
 
-    public boolean checkAll(OWLClassExpression expression) {
+    /*public boolean checkAll(OWLClassExpression expression) {
 
-        ArrayList<OWLClassExpression> flag = new ArrayList<>(Abox);
-        checkIntersection(Collections.singletonList(expression));
-        if(Abox.size() != flag.size()){
-            nodeList.add(nodeList.size(), new Node(Abox, workingRule));
+        if(!Abox.contains(expression)){
+
+
+
+            Abox.removeAll(Abox);
+
+            Abox.add(concept);
+            branchingNode = new ArrayList<>();
+            someRelation = new HashMap<>();
+            nodeList = new ArrayList<>();
+            modelLength = 1;
+
+
+
             boolean result = SAT();
-            if(!result){
-                Abox.removeAll(Abox);
-                Abox.addAll(flag);
+                if(!result){
+                    Abox.removeAll(Abox);
+                    Abox.addAll(oldAbox);
+                    SAT();
+                }
+                return result;
             }
-            return result;
-        }
 
         return true;
     }
-
+*/
 
     @Override
     public boolean SAT() {
+        LoggerManager.writeDebug("SAT :"+ parent, NaiveTableau.class);
         while(isWorking()){
             OWLClassExpression rule = Abox.get(workingRule);
             ClassExpressionType type = rule.getClassExpressionType();
@@ -102,6 +95,7 @@ public class NaiveTableau implements Tableau{
                    break;
                 case OWL_CLASS:
                 case OBJECT_COMPLEMENT_OF:
+
                     if(checkClash()){
                         if(branchingNode.size()!=0){
                             workingRule-=modelLength;
@@ -110,7 +104,7 @@ public class NaiveTableau implements Tableau{
                             return false;
                     }
                     else{
-                        if(workingRule - modelLength < 0){
+                        if(workingRule - modelLength <= 0){
                             nodeList.add(nodeList.size(), new Node(Abox,workingRule));
                             modelLength--;
                         }
@@ -121,16 +115,20 @@ public class NaiveTableau implements Tableau{
 
         }
 
+        LoggerManager.writeDebug("SAT :"+ parent + (workingRule > 0), NaiveTableau.class);
+
         return workingRule > 0;
+
     }
 
     private void applyIntersection(){
         LoggerManager.writeDebug("INTERSECTION "+ OntologyRenderer.render(Abox.get(workingRule)), NaiveTableau.class);
         Node workingNode = new Node(Abox, workingRule);
-        checkIntersection(workingNode.applyRule());
-        modelLength = Abox.size()-1;
+        List<OWLClassExpression> flag = workingNode.applyRule();
+        checkIntersection(flag);
+        modelLength = flag.size();
         LoggerManager.writeDebug("MODEL LENGht"+ modelLength, NaiveTableau.class);
-        nodeList.add(workingRule, workingNode);
+        nodeList.add(nodeList.size(), workingNode);
         workingRule++;
     }
 
@@ -138,16 +136,23 @@ public class NaiveTableau implements Tableau{
         LoggerManager.writeDebug("UNION " + OntologyRenderer.render(Abox.get(workingRule)), NaiveTableau.class);
         Node workingNode;
         if(branchingNode.size()!=0 && branchingNode.contains(Integer.valueOf(workingRule))) {
+            System.out.println("CONTIENE " + nodeList.size());
             workingNode = nodeList.get(branchingNode.get(branchingNode.size()-1)-1);
+            System.out.println("WORKING: " + workingNode.getWorkingRule());
+
         } else{
+            System.out.println("NON CONTIENE " + nodeList.size());
             workingNode = new Node(Abox, workingRule);
             branchingNode.add(branchingNode.size(),workingRule);
+
         }
         List<OWLClassExpression> choice = workingNode.applyRule();
-        if(choice.get(0)!=null) {
+        if(choice!=null && choice.get(0)!=null) {
             LoggerManager.writeDebug("CHOICE " + OntologyRenderer.render(choice.get(0)),NaiveTableau.class);
             checkIntersection(choice);
             nodeList.add(workingRule, workingNode);
+            System.out.println("NODELIST " + nodeList.size());
+
             if (!checkClash()){
                 workingRule++;
             }
@@ -155,6 +160,8 @@ public class NaiveTableau implements Tableau{
                 backtrack();
         }
         else{
+            System.out.println("SCELTE FINITE");
+
             branchingNode.remove(Integer.valueOf(workingRule));
             workingRule--;
             backtrack();
@@ -242,7 +249,7 @@ public class NaiveTableau implements Tableau{
         OWLObjectPropertyExpression oe = allValue.getProperty();
         boolean check = true;
 
-        List<NaiveTableau> related = someRelation.get(oe);
+        ArrayList<NaiveTableau> related = new ArrayList<>(someRelation.get(oe));
         if (related == null){
 
             LoggerManager.writeDebug("ALL NO CONDIZIONI",NaiveTableau.class);
@@ -250,18 +257,26 @@ public class NaiveTableau implements Tableau{
             //backtrack();
         }
         else{
-            
+            int i = 0;
             for (NaiveTableau t: related){
 
-                if(!t.checkAll(filler)){
+                ArrayList<OWLClassExpression> operands = new ArrayList<>();
+                operands.add(t.getAbox().get(0));
+                operands.add(filler);
+                OWLObjectIntersectionOf concept = new OWLObjectIntersectionOfImpl(operands);
+
+                NaiveTableau flag = new NaiveTableau(concept.getNNF(),t.getParent());
+                if(!flag.SAT()){
                     workingRule -=  modelLength;
                     LoggerManager.writeDebug("ALL FALLITO",NaiveTableau.class);
                     backtrack();
                     check = false;
                     break;
                 }
+                related.set(i,flag);
+                i++;
             }
-
+            someRelation.put(oe,related);
             if(check)
                 workingRule++;
 
@@ -272,6 +287,11 @@ public class NaiveTableau implements Tableau{
     public int getParent() {
         return parent;
     }
+
+    public List<OWLClassExpression> getAbox() {
+        return Abox;
+    }
+
 
     private void backtrack() {
         LoggerManager.writeDebug("BACKTRACK :" + workingRule,NaiveTableau.class);
@@ -344,6 +364,29 @@ public class NaiveTableau implements Tableau{
             if (!exist)
                 model=model.concat(" |");
         }
+    }
+
+    private boolean checkClash() {
+
+        for (int i = 0; i < Abox.size(); i++) {
+
+            OWLClassExpression c = Abox.get(i);
+
+            if(c.isOWLNothing())
+                return true;
+
+            for (int i1 = i+1; i1 < Abox.size(); i1++) {
+
+                OWLClassExpression c1 = Abox.get(i1);
+
+                if (c.equals(c1.getComplementNNF())){
+                    LoggerManager.writeDebug("CLASH "+ OntologyRenderer.render(c) + " " +OntologyRenderer.render(c1), NaiveTableau.class);
+                    return true;
+                }
+            }
+        }
+        return false;
+
     }
 }
 

@@ -34,6 +34,8 @@ public class Node {
             case OBJECT_UNION_OF:
                 return Collections.singletonList(applyChoice());
         }
+        System.out.println("NODE: " + currentChoice);
+
 
         return null;
 
