@@ -1,0 +1,23 @@
+2020-04-23   21:46:37   DEBUG   - SAT :-1
+
+2020-04-23   21:46:37   DEBUG   - UNION (not (A)) or (S some (R only (Z some (S only (R some (Z only 
+    ((A or D or (not (C)) or (not (D)))
+     and (C or D or (not (A)) or (not (B)))))))))) or (Z some 
+    ((R some 
+        ((S some 
+            (B or D or (A
+             and (not (C))) or (Z only (not (C))))) or (R only (Z some 
+            (B
+             and D))))) or (S only (R only (Z only 
+        (A or B or C or D))))))
+
+2020-04-23   21:46:37   DEBUG   - CHOICE not (A)
+
+2020-04-23   21:46:37   DEBUG   - CLASS :not (A)
+
+2020-04-23   21:46:37   DEBUG   - SAT :-1true
+
+2020-04-23   21:46:37   INFO    - Modello trovato:  not (A) |
+
+2020-04-23   21:46:37   INFO    - The concept is true
+

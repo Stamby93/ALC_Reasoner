@@ -1,0 +1,13 @@
+2020-04-23   21:44:10   DEBUG   - SAT :-1
+
+2020-04-23   21:44:10   DEBUG   - INTERSECTION Nothing
+ and (B or A)
+
+2020-04-23   21:44:10   DEBUG   - CLASS :Nothing
+
+2020-04-23   21:44:10   DEBUG   - BACKTRACK :0
+
+2020-04-23   21:44:10   DEBUG   - SAT :-1false
+
+2020-04-23   21:44:10   INFO    - The concept is false
+

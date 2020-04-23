@@ -1,0 +1,36 @@
+2020-04-23   21:49:30   DEBUG   - SAT :-1
+
+2020-04-23   21:49:30   DEBUG   - INTERSECTION (R some A)
+ and (R only 
+    (A or B))
+
+2020-04-23   21:49:30   DEBUG   - SOME: 1 R some A
+
+2020-04-23   21:49:30   DEBUG   - SAT :1
+
+2020-04-23   21:49:30   DEBUG   - CLASS :A
+
+2020-04-23   21:49:30   DEBUG   - SAT :1true
+
+2020-04-23   21:49:30   DEBUG   - ALL 2 R only 
+    (A or B)
+
+2020-04-23   21:49:30   DEBUG   - SAT :2
+
+2020-04-23   21:49:30   DEBUG   - INTERSECTION A
+ and (A or B)
+
+2020-04-23   21:49:30   DEBUG   - CLASS :A
+
+2020-04-23   21:49:30   DEBUG   - UNION A or B
+
+2020-04-23   21:49:30   DEBUG   - CHOICE A
+
+2020-04-23   21:49:30   DEBUG   - SAT :2true
+
+2020-04-23   21:49:30   DEBUG   - SAT :-1true
+
+2020-04-23   21:49:30   INFO    - Modello trovato:  EXIST R. { A | } A | } |
+
+2020-04-23   21:49:30   INFO    - The concept is true
+

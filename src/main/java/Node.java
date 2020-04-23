@@ -65,4 +65,5 @@ public class Node {
     public List<OWLClassExpression> getAbox() {
         return Abox;
     }
+
 }

@@ -1,103 +1,130 @@
-2020-04-23   19:13:26   DEBUG   - SAT :-1
+2020-04-23   21:39:40   DEBUG   - SAT :-1
 
-2020-04-23   19:13:26   DEBUG   - INTERSECTION (B or (S some (R only A)))
+2020-04-23   21:39:40   DEBUG   - INTERSECTION (B or (S some (R only A)))
  and (D or (S some C))
  and ((not (B)) or (not (D)))
  and ((S only (not (C))) or (S only (R some 
     (A
      and (not (A))))))
 
-2020-04-23   19:13:26   DEBUG   - MODEL LENGht4
+2020-04-23   21:39:40   DEBUG   - UNION B or (S some (R only A))
 
-2020-04-23   19:13:26   DEBUG   - UNION B or (S some (R only A))
+2020-04-23   21:39:40   DEBUG   - CHOICE B
 
-2020-04-23   19:13:26   DEBUG   - CHOICE B
+2020-04-23   21:39:40   DEBUG   - UNION D or (S some C)
 
-2020-04-23   19:13:26   DEBUG   - UNION D or (S some C)
+2020-04-23   21:39:41   DEBUG   - CHOICE D
 
-2020-04-23   19:13:26   DEBUG   - CHOICE D
+2020-04-23   21:39:41   DEBUG   - UNION (not (B)) or (not (D))
 
-2020-04-23   19:13:26   DEBUG   - UNION (not (B)) or (not (D))
+2020-04-23   21:39:41   DEBUG   - CHOICE not (B)
 
-2020-04-23   19:13:26   DEBUG   - CHOICE not (B)
+2020-04-23   21:39:41   DEBUG   - CLASH B not (B)
 
-2020-04-23   19:13:26   DEBUG   - CLASH B not (B)
+2020-04-23   21:39:41   DEBUG   - BACKTRACK :3
 
-2020-04-23   19:13:26   DEBUG   - BACKTRACK :3
+2020-04-23   21:39:41   DEBUG   - UNION (not (B)) or (not (D))
 
-2020-04-23   19:13:26   DEBUG   - UNION (not (B)) or (not (D))
+2020-04-23   21:39:41   DEBUG   - CHOICE not (D)
 
-2020-04-23   19:13:26   DEBUG   - CHOICE S some C
+2020-04-23   21:39:41   DEBUG   - CLASH D not (D)
 
-2020-04-23   19:13:26   DEBUG   - UNION (S only (not (C))) or (S only (R some 
+2020-04-23   21:39:41   DEBUG   - BACKTRACK :3
+
+2020-04-23   21:39:41   DEBUG   - UNION (not (B)) or (not (D))
+
+2020-04-23   21:39:41   DEBUG   - BACKTRACK :0
+
+2020-04-23   21:39:41   DEBUG   - INTERSECTION (B or (S some (R only A)))
+ and (D or (S some C))
+ and ((not (B)) or (not (D)))
+ and ((S only (not (C))) or (S only (R some 
+    (A
+     and (not (A))))))
+
+2020-04-23   21:39:41   DEBUG   - UNION B or (S some (R only A))
+
+2020-04-23   21:39:41   DEBUG   - CHOICE S some (R only A)
+
+2020-04-23   21:39:41   DEBUG   - UNION D or (S some C)
+
+2020-04-23   21:39:41   DEBUG   - CHOICE S some C
+
+2020-04-23   21:39:41   DEBUG   - UNION (not (B)) or (not (D))
+
+2020-04-23   21:39:41   DEBUG   - CHOICE not (B)
+
+2020-04-23   21:39:41   DEBUG   - UNION (S only (not (C))) or (S only (R some 
     (A
      and (not (A)))))
 
-2020-04-23   19:13:26   DEBUG   - CHOICE S only (not (C))
+2020-04-23   21:39:41   DEBUG   - CHOICE S only (not (C))
 
-2020-04-23   19:13:26   DEBUG   - CLASH S some C S only (not (C))
+2020-04-23   21:39:41   DEBUG   - CLASH S some C S only (not (C))
 
-2020-04-23   19:13:26   DEBUG   - BACKTRACK :4
+2020-04-23   21:39:41   DEBUG   - BACKTRACK :4
 
-2020-04-23   19:13:27   DEBUG   - UNION (S only (not (C))) or (S only (R some 
+2020-04-23   21:39:41   DEBUG   - UNION (S only (not (C))) or (S only (R some 
     (A
      and (not (A)))))
 
-2020-04-23   19:13:27   DEBUG   - BACKTRACK :3
-
-2020-04-23   19:13:27   DEBUG   - UNION (not (B)) or (not (D))
-
-2020-04-23   19:13:27   DEBUG   - BACKTRACK :2
-
-2020-04-23   19:13:27   DEBUG   - UNION D or (S some C)
-
-2020-04-23   19:13:27   DEBUG   - CHOICE S some (R only A)
-
-2020-04-23   19:13:27   DEBUG   - UNION (not (B)) or (not (D))
-
-2020-04-23   19:13:27   DEBUG   - CHOICE not (B)
-
-2020-04-23   19:13:27   DEBUG   - CLASH B not (B)
-
-2020-04-23   19:13:27   DEBUG   - BACKTRACK :3
-
-2020-04-23   19:13:27   DEBUG   - UNION (not (B)) or (not (D))
-
-2020-04-23   19:13:27   DEBUG   - BACKTRACK :2
-
-2020-04-23   19:13:27   DEBUG   - UNION D or (S some C)
-
-2020-04-23   19:13:27   DEBUG   - BACKTRACK :1
-
-2020-04-23   19:13:27   DEBUG   - UNION B or (S some (R only A))
-
-2020-04-23   19:13:27   DEBUG   - CHOICE B or (S some (R only A))
-
-2020-04-23   19:13:27   DEBUG   - UNION D or (S some C)
-
-2020-04-23   19:13:27   DEBUG   - CHOICE D
-
-2020-04-23   19:13:27   DEBUG   - UNION (not (B)) or (not (D))
-
-2020-04-23   19:13:27   DEBUG   - CHOICE not (B)
-
-2020-04-23   19:13:27   DEBUG   - UNION (S only (not (C))) or (S only (R some 
+2020-04-23   21:39:41   DEBUG   - CHOICE S only (R some 
     (A
-     and (not (A)))))
+     and (not (A))))
 
-2020-04-23   19:13:27   DEBUG   - CHOICE S only (not (C))
+2020-04-23   21:39:41   DEBUG   - SOME: 5 S some (R only A)
 
-2020-04-23   19:13:27   DEBUG   - CLASS :D
+2020-04-23   21:39:41   DEBUG   - SAT :5
 
-2020-04-23   19:13:27   DEBUG   - CLASS :not (B)
+2020-04-23   21:39:41   DEBUG   - ALL 0 R only A
 
-2020-04-23   19:13:27   DEBUG   - ALL 7 S only (not (C))
+2020-04-23   21:39:41   DEBUG   - ALL NO CONDIZIONI
 
-2020-04-23   19:13:27   DEBUG   - ALL NO CONDIZIONI
+2020-04-23   21:39:41   DEBUG   - SAT :5true
 
-2020-04-23   19:13:27   DEBUG   - SAT :-1true
+2020-04-23   21:39:41   DEBUG   - SOME: 6 S some C
 
-2020-04-23   19:13:27   INFO    - Modello trovato:  D | not (B) |
+2020-04-23   21:39:41   DEBUG   - SAT :6
 
-2020-04-23   19:13:27   INFO    - The concept is true
+2020-04-23   21:39:41   DEBUG   - CLASS :C
+
+2020-04-23   21:39:41   DEBUG   - SAT :6true
+
+2020-04-23   21:39:41   DEBUG   - CLASS :not (B)
+
+2020-04-23   21:39:41   DEBUG   - ALL 8 S only (R some 
+    (A
+     and (not (A))))
+
+2020-04-23   21:39:41   DEBUG   - SAT :8
+
+2020-04-23   21:39:41   DEBUG   - INTERSECTION (R some 
+    (A
+     and (not (A))))
+ and (R only A)
+
+2020-04-23   21:39:41   DEBUG   - SOME: 1 R some 
+    (A
+     and (not (A)))
+
+2020-04-23   21:39:41   DEBUG   - SAT :1
+
+2020-04-23   21:39:41   DEBUG   - INTERSECTION A
+ and (not (A))
+
+2020-04-23   21:39:41   DEBUG   - CLASS :A
+
+2020-04-23   21:39:41   DEBUG   - CLASS :not (A)
+
+2020-04-23   21:39:41   DEBUG   - SAT :1true
+
+2020-04-23   21:39:41   DEBUG   - ALL 2 R only A
+
+2020-04-23   21:39:41   DEBUG   - SAT :8true
+
+2020-04-23   21:39:41   DEBUG   - SAT :-1true
+
+2020-04-23   21:39:41   INFO    - Modello trovato:  not (B) | EXIST S. { } C | } EXIST R. { A | not (A) | } } |
+
+2020-04-23   21:39:41   INFO    - The concept is true
 
