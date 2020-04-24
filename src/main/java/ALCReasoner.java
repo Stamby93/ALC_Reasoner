@@ -271,12 +271,10 @@ public class ALCReasoner implements OWLReasoner {
     public boolean isSatisfiable(OWLClassExpression owlClassExpression) {
         boolean result;
         Tableau = TableauFactory.getTableau("Naive", owlClassExpression);
-        result = Tableau.SAT();
-        if(result) {
-            String model = "Modello trovato: |"+Tableau.getModel();
-            System.out.println(model);
-            LoggerManager.writeInfoLog(model, ALCReasoner.class);
-        }
-        return result;
+        return Tableau.SAT();
+    }
+
+    public String getModel(){
+        return Tableau.getModel();
     }
 }
