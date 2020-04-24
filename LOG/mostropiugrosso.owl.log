@@ -1,6 +1,7 @@
-2020-04-23   21:47:57   DEBUG   - SAT :-1
+2020-04-24   12:01:57   DEBUG   - 
+SAT: -1
 
-2020-04-23   21:47:57   DEBUG   - INTERSECTION A
+2020-04-24   12:01:57   DEBUG   - INTERSECTION A
  and ((Z some 
     (((S some (R some 
         (A or B or C or (not (D))))) or (R only (S only 
@@ -27,9 +28,9 @@
          and D
          and (Nothing or (not (C)))) or (not (A)) or (not (C))))))))))
 
-2020-04-23   21:47:57   DEBUG   - CLASS :A
+2020-04-24   12:01:57   DEBUG   - Rule: 1 CLASS: A
 
-2020-04-23   21:47:57   DEBUG   - UNION (Z some 
+2020-04-24   12:01:57   DEBUG   - Rule: 2 UNION: (Z some 
     (((S some (R some 
         (A or B or C or (not (D))))) or (R only (S only 
         (((C
@@ -43,7 +44,7 @@
     ((not (A))
      and (not (C))))
 
-2020-04-23   21:47:57   DEBUG   - CHOICE Z some 
+2020-04-24   12:01:57   DEBUG   - CHOICE Z some 
     (((S some (R some 
         (A or B or C or (not (D))))) or (R only (S only 
         (((C
@@ -55,7 +56,7 @@
          and C
          and (not (D))) or (not (B)))))
 
-2020-04-23   21:47:57   DEBUG   - SOME: 3 Z some (Z only (S only 
+2020-04-24   12:01:57   DEBUG   - Rule: 3 SOME: Z some (Z only (S only 
     (A
      and B
      and D
@@ -68,9 +69,10 @@
          and D
          and (Nothing or (not (C)))) or (not (A)) or (not (C)))))))))
 
-2020-04-23   21:47:57   DEBUG   - SAT :3
+2020-04-24   12:01:57   DEBUG   - 
+SAT: 3
 
-2020-04-23   21:47:57   DEBUG   - ALL 0 Z only (S only 
+2020-04-24   12:01:57   DEBUG   - Rule: 0 ALL: Z only (S only 
     (A
      and B
      and D
@@ -83,11 +85,11 @@
          and D
          and (Nothing or (not (C)))) or (not (A)) or (not (C))))))))
 
-2020-04-23   21:47:57   DEBUG   - ALL NO CONDIZIONI
+2020-04-24   12:01:57   DEBUG   - ALL NO CONDIZIONI
 
-2020-04-23   21:47:57   DEBUG   - SAT :3true
+2020-04-24   12:01:57   DEBUG   - SAT: 3 true
 
-2020-04-23   21:47:57   DEBUG   - SOME: 4 Z some 
+2020-04-24   12:01:57   DEBUG   - Rule: 4 SOME: Z some 
     (((S some (R some 
         (A or B or C or (not (D))))) or (R only (S only 
         (((C
@@ -99,9 +101,10 @@
          and C
          and (not (D))) or (not (B)))))
 
-2020-04-23   21:47:57   DEBUG   - SAT :4
+2020-04-24   12:01:57   DEBUG   - 
+SAT: 4
 
-2020-04-23   21:47:57   DEBUG   - UNION ((S some (R some 
+2020-04-24   12:01:57   DEBUG   - Rule: 0 UNION: ((S some (R some 
     (A or B or C or (not (D))))) or (R only (S only 
     (((C
      and D
@@ -112,48 +115,50 @@
      and C
      and (not (D))) or (not (B))))
 
-2020-04-23   21:47:57   DEBUG   - CHOICE (S some (R some 
+2020-04-24   12:01:57   DEBUG   - CHOICE (S some (R some 
     (A or B or C or (not (D))))) or (R only (S only 
     (((C
      and D
      and (not (A)))
      and (A or B)) or (not (A)) or (not (B)))))
 
-2020-04-23   21:47:57   DEBUG   - UNION (S some (R some 
+2020-04-24   12:01:57   DEBUG   - Rule: 1 UNION: (S some (R some 
     (A or B or C or (not (D))))) or (R only (S only 
     (((C
      and D
      and (not (A)))
      and (A or B)) or (not (A)) or (not (B)))))
 
-2020-04-23   21:47:57   DEBUG   - CHOICE S some (R some 
+2020-04-24   12:01:57   DEBUG   - CHOICE S some (R some 
     (A or B or C or (not (D))))
 
-2020-04-23   21:47:57   DEBUG   - SOME: 2 S some (R some 
+2020-04-24   12:01:57   DEBUG   - Rule: 2 SOME: S some (R some 
     (A or B or C or (not (D))))
 
-2020-04-23   21:47:57   DEBUG   - SAT :2
+2020-04-24   12:01:57   DEBUG   - 
+SAT: 2
 
-2020-04-23   21:47:57   DEBUG   - SOME: 0 R some 
+2020-04-24   12:01:57   DEBUG   - Rule: 0 SOME: R some 
     (A or B or C or (not (D)))
 
-2020-04-23   21:47:57   DEBUG   - SAT :0
+2020-04-24   12:01:57   DEBUG   - 
+SAT: 0
 
-2020-04-23   21:47:57   DEBUG   - UNION A or B or C or (not (D))
+2020-04-24   12:01:57   DEBUG   - Rule: 0 UNION: A or B or C or (not (D))
 
-2020-04-23   21:47:57   DEBUG   - CHOICE A
+2020-04-24   12:01:57   DEBUG   - CHOICE A
 
-2020-04-23   21:47:57   DEBUG   - CLASS :A
+2020-04-24   12:01:57   DEBUG   - Rule: 1 CLASS: A
 
-2020-04-23   21:47:57   DEBUG   - SAT :0true
+2020-04-24   12:01:57   DEBUG   - SAT: 0 true
 
-2020-04-23   21:47:57   DEBUG   - SAT :2true
+2020-04-24   12:01:57   DEBUG   - SAT: 2 true
 
-2020-04-23   21:47:57   DEBUG   - SAT :4true
+2020-04-24   12:01:57   DEBUG   - SAT: 4 true
 
-2020-04-23   21:47:57   DEBUG   - SAT :-1true
+2020-04-24   12:01:57   DEBUG   - SAT: -1 true
 
-2020-04-23   21:47:57   INFO    - Modello trovato:  A | EXIST Z. { } EXIST S. { EXIST R. { A | } } } |
+2020-04-24   12:01:57   INFO    - Modello trovato:  A | EXIST Z. { } EXIST Z. { EXIST S. { EXIST R. { A | } } } |
 
-2020-04-23   21:47:57   INFO    - The concept is true
+2020-04-24   12:01:57   INFO    - The concept is true
 

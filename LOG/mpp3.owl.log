@@ -1,6 +1,6 @@
-2020-04-23   21:49:04   DEBUG   - SAT :-1
+2020-04-24   11:02:43   DEBUG   - SAT :-1
 
-2020-04-23   21:49:04   DEBUG   - INTERSECTION A
+2020-04-24   11:02:43   DEBUG   - INTERSECTION A
  and (((B or (S some (R only A)))
  and (D or (S some C))
  and ((not (B)) or (not (D)))
@@ -37,9 +37,9 @@
  and (R some B)
  and (R only C)
 
-2020-04-23   21:49:04   DEBUG   - CLASS :A
+2020-04-24   11:02:43   DEBUG   - CLASS :A
 
-2020-04-23   21:49:04   DEBUG   - UNION ((B or (S some (R only A)))
+2020-04-24   11:02:43   DEBUG   - UNION ((B or (S some (R only A)))
  and (D or (S some C))
  and ((not (B)) or (not (D)))
  and ((S only (not (C))) or (S only (R some (R only (S only (S some 
@@ -73,175 +73,157 @@
          and C
          and (not (D))) or (not (B)))))))
 
-2020-04-23   21:49:05   DEBUG   - CHOICE (B or (S some (R only A)))
+2020-04-24   11:02:43   DEBUG   - CHOICE (B or (S some (R only A)))
  and (D or (S some C))
  and ((not (B)) or (not (D)))
  and ((S only (not (C))) or (S only (R some (R only (S only (S some 
     ((B or D)
      and (not (C)))))))))
 
-2020-04-23   21:49:05   DEBUG   - SOME: 3 R some B
+2020-04-24   11:02:43   DEBUG   - SOME: 3 R some B
 
-2020-04-23   21:49:05   DEBUG   - SAT :3
+2020-04-24   11:02:43   DEBUG   - SAT :3
 
-2020-04-23   21:49:05   DEBUG   - CLASS :B
+2020-04-24   11:02:43   DEBUG   - CLASS :B
 
-2020-04-23   21:49:05   DEBUG   - SAT :3true
+2020-04-24   11:02:43   DEBUG   - SAT :3true
 
-2020-04-23   21:49:05   DEBUG   - ALL 4 R only C
+2020-04-24   11:02:43   DEBUG   - ALL 4 R only C
 
-2020-04-23   21:49:05   DEBUG   - SAT :4
+2020-04-24   11:02:43   DEBUG   - SAT :4
 
-2020-04-23   21:49:05   DEBUG   - INTERSECTION B
+2020-04-24   11:02:43   DEBUG   - INTERSECTION B
  and C
 
-2020-04-23   21:49:05   DEBUG   - CLASS :B
+2020-04-24   11:02:43   DEBUG   - CLASS :B
 
-2020-04-23   21:49:05   DEBUG   - CLASS :C
+2020-04-24   11:02:43   DEBUG   - CLASS :C
 
-2020-04-23   21:49:05   DEBUG   - SAT :4true
+2020-04-24   11:02:43   DEBUG   - SAT :4true
 
-2020-04-23   21:49:05   DEBUG   - INTERSECTION (B or (S some (R only A)))
+2020-04-24   11:02:43   DEBUG   - INTERSECTION (B or (S some (R only A)))
  and (D or (S some C))
  and ((not (B)) or (not (D)))
  and ((S only (not (C))) or (S only (R some (R only (S only (S some 
     ((B or D)
      and (not (C)))))))))
 
-2020-04-23   21:49:05   DEBUG   - UNION B or (S some (R only A))
+2020-04-24   11:02:43   DEBUG   - UNION B or (S some (R only A))
 
-2020-04-23   21:49:05   DEBUG   - CHOICE B
+2020-04-24   11:02:43   DEBUG   - CHOICE B
 
-2020-04-23   21:49:05   DEBUG   - UNION D or (S some C)
+2020-04-24   11:02:44   DEBUG   - UNION D or (S some C)
 
-2020-04-23   21:49:05   DEBUG   - CHOICE D
+2020-04-24   11:02:44   DEBUG   - CHOICE D
 
-2020-04-23   21:49:05   DEBUG   - UNION (not (B)) or (not (D))
+2020-04-24   11:02:44   DEBUG   - UNION (not (B)) or (not (D))
 
-2020-04-23   21:49:06   DEBUG   - CHOICE not (B)
+2020-04-24   11:02:44   DEBUG   - CHOICE not (B)
 
-2020-04-23   21:49:06   DEBUG   - CLASH B not (B)
+2020-04-24   11:02:44   DEBUG   - CLASH B not (B)
 
-2020-04-23   21:49:06   DEBUG   - BACKTRACK :8
+2020-04-24   11:02:44   DEBUG   - BACKTRACK :8
 
-2020-04-23   21:49:06   DEBUG   - UNION (not (B)) or (not (D))
+2020-04-24   11:02:44   DEBUG   - branching size :4
 
-2020-04-23   21:49:06   DEBUG   - CHOICE not (D)
+2020-04-24   11:02:44   DEBUG   - UNION (not (B)) or (not (D))
 
-2020-04-23   21:49:06   DEBUG   - CLASH D not (D)
+2020-04-24   11:02:44   DEBUG   - CHOICE not (D)
 
-2020-04-23   21:49:06   DEBUG   - BACKTRACK :8
+2020-04-24   11:02:44   DEBUG   - CLASH D not (D)
 
-2020-04-23   21:49:06   DEBUG   - UNION (not (B)) or (not (D))
+2020-04-24   11:02:44   DEBUG   - BACKTRACK :8
 
-2020-04-23   21:49:06   DEBUG   - BACKTRACK :5
+2020-04-24   11:02:44   DEBUG   - branching size :4
 
-2020-04-23   21:49:06   DEBUG   - INTERSECTION (B or (S some (R only A)))
- and (D or (S some C))
- and ((not (B)) or (not (D)))
- and ((S only (not (C))) or (S only (R some (R only (S only (S some 
-    ((B or D)
-     and (not (C)))))))))
+2020-04-24   11:02:44   DEBUG   - UNION (not (B)) or (not (D))
 
-2020-04-23   21:49:06   DEBUG   - UNION B or (S some (R only A))
+2020-04-24   11:02:44   DEBUG   - BACKTRACK :7
 
-2020-04-23   21:49:06   DEBUG   - CHOICE S some (R only A)
+2020-04-24   11:02:44   DEBUG   - branching size :3
 
-2020-04-23   21:49:06   DEBUG   - UNION D or (S some C)
+2020-04-24   11:02:44   DEBUG   - UNION D or (S some C)
 
-2020-04-23   21:49:06   DEBUG   - CHOICE S some C
+2020-04-24   11:02:44   DEBUG   - CHOICE S some C
 
-2020-04-23   21:49:06   DEBUG   - UNION (not (B)) or (not (D))
+2020-04-24   11:02:44   DEBUG   - UNION (not (B)) or (not (D))
 
-2020-04-23   21:49:07   DEBUG   - CHOICE not (B)
+2020-04-24   11:02:44   DEBUG   - CHOICE not (B)
 
-2020-04-23   21:49:07   DEBUG   - UNION (S only (not (C))) or (S only (R some (R only (S only (S some 
-    ((B or D)
-     and (not (C))))))))
+2020-04-24   11:02:44   DEBUG   - CLASH B not (B)
 
-2020-04-23   21:49:07   DEBUG   - CHOICE S only (not (C))
+2020-04-24   11:02:44   DEBUG   - BACKTRACK :8
 
-2020-04-23   21:49:07   DEBUG   - CLASH S some C S only (not (C))
+2020-04-24   11:02:44   DEBUG   - branching size :4
 
-2020-04-23   21:49:07   DEBUG   - BACKTRACK :9
+2020-04-24   11:02:44   DEBUG   - UNION (not (B)) or (not (D))
 
-2020-04-23   21:49:07   DEBUG   - UNION (S only (not (C))) or (S only (R some (R only (S only (S some 
+2020-04-24   11:02:44   DEBUG   - CHOICE not (D)
+
+2020-04-24   11:02:44   DEBUG   - UNION (S only (not (C))) or (S only (R some (R only (S only (S some 
     ((B or D)
      and (not (C))))))))
 
-2020-04-23   21:49:07   DEBUG   - CHOICE S only (R some (R only (S only (S some 
+2020-04-24   11:02:44   DEBUG   - CHOICE S only (not (C))
+
+2020-04-24   11:02:44   DEBUG   - CLASH S some C S only (not (C))
+
+2020-04-24   11:02:44   DEBUG   - BACKTRACK :9
+
+2020-04-24   11:02:44   DEBUG   - branching size :5
+
+2020-04-24   11:02:44   DEBUG   - UNION (S only (not (C))) or (S only (R some (R only (S only (S some 
+    ((B or D)
+     and (not (C))))))))
+
+2020-04-24   11:02:44   DEBUG   - CHOICE S only (R some (R only (S only (S some 
     ((B or D)
      and (not (C)))))))
 
-2020-04-23   21:49:07   DEBUG   - SOME: 10 S some (R only A)
+2020-04-24   11:02:44   DEBUG   - CLASS :B
 
-2020-04-23   21:49:07   DEBUG   - SAT :10
+2020-04-24   11:02:44   DEBUG   - SOME: 11 S some C
 
-2020-04-23   21:49:07   DEBUG   - ALL 0 R only A
+2020-04-24   11:02:44   DEBUG   - SAT :11
 
-2020-04-23   21:49:07   DEBUG   - ALL NO CONDIZIONI
+2020-04-24   11:02:44   DEBUG   - CLASS :C
 
-2020-04-23   21:49:07   DEBUG   - SAT :10true
+2020-04-24   11:02:44   DEBUG   - SAT :11true
 
-2020-04-23   21:49:07   DEBUG   - SOME: 11 S some C
+2020-04-24   11:02:44   DEBUG   - CLASS :not (D)
 
-2020-04-23   21:49:07   DEBUG   - SAT :11
-
-2020-04-23   21:49:07   DEBUG   - CLASS :C
-
-2020-04-23   21:49:07   DEBUG   - SAT :11true
-
-2020-04-23   21:49:07   DEBUG   - CLASS :not (B)
-
-2020-04-23   21:49:07   DEBUG   - ALL 13 S only (R some (R only (S only (S some 
+2020-04-24   11:02:44   DEBUG   - ALL 13 S only (R some (R only (S only (S some 
     ((B or D)
      and (not (C)))))))
 
-2020-04-23   21:49:07   DEBUG   - SAT :13
+2020-04-24   11:02:44   DEBUG   - SAT :13
 
-2020-04-23   21:49:07   DEBUG   - INTERSECTION (R some (R only (S only (S some 
+2020-04-24   11:02:44   DEBUG   - INTERSECTION C
+ and (R some (R only (S only (S some 
     ((B or D)
      and (not (C)))))))
- and (R only A)
 
-2020-04-23   21:49:07   DEBUG   - SOME: 1 R some (R only (S only (S some 
+2020-04-24   11:02:44   DEBUG   - CLASS :C
+
+2020-04-24   11:02:44   DEBUG   - SOME: 2 R some (R only (S only (S some 
     ((B or D)
      and (not (C))))))
 
-2020-04-23   21:49:07   DEBUG   - SAT :1
+2020-04-24   11:02:44   DEBUG   - SAT :2
 
-2020-04-23   21:49:07   DEBUG   - ALL 0 R only (S only (S some 
+2020-04-24   11:02:44   DEBUG   - ALL 0 R only (S only (S some 
     ((B or D)
      and (not (C)))))
 
-2020-04-23   21:49:07   DEBUG   - ALL NO CONDIZIONI
+2020-04-24   11:02:44   DEBUG   - ALL NO CONDIZIONI
 
-2020-04-23   21:49:07   DEBUG   - SAT :1true
+2020-04-24   11:02:44   DEBUG   - SAT :2true
 
-2020-04-23   21:49:07   DEBUG   - ALL 2 R only A
+2020-04-24   11:02:44   DEBUG   - SAT :13true
 
-2020-04-23   21:49:07   DEBUG   - SAT :2
+2020-04-24   11:02:44   DEBUG   - SAT :-1true
 
-2020-04-23   21:49:07   DEBUG   - INTERSECTION A
- and (R only (S only (S some 
-    ((B or D)
-     and (not (C))))))
+2020-04-24   11:02:44   INFO    - Modello trovato:  A | B | not (D) | EXIST S. { C | } C | EXIST R. { } } EXIST R. { B | } B | C | } |
 
-2020-04-23   21:49:07   DEBUG   - CLASS :A
-
-2020-04-23   21:49:07   DEBUG   - ALL 2 R only (S only (S some 
-    ((B or D)
-     and (not (C)))))
-
-2020-04-23   21:49:07   DEBUG   - ALL NO CONDIZIONI
-
-2020-04-23   21:49:07   DEBUG   - SAT :2true
-
-2020-04-23   21:49:07   DEBUG   - SAT :13true
-
-2020-04-23   21:49:07   DEBUG   - SAT :-1true
-
-2020-04-23   21:49:07   INFO    - Modello trovato:  A | not (B) | EXIST S. { } C | } EXIST R. { } A | } } EXIST R. { B | } B | C | } |
-
-2020-04-23   21:49:07   INFO    - The concept is true
+2020-04-24   11:02:44   INFO    - The concept is true
 
