@@ -5,9 +5,9 @@ import java.util.*;
 
 public class NaiveTableau implements Tableau{
 
-    private final List<OWLClassExpression> Abox;
+    private List<OWLClassExpression> Abox;
 
-    private final List<Integer> branchingNode;
+    private List<Integer> branchingNode;
 
     private List<Integer> dependency;
 
@@ -308,7 +308,7 @@ public class NaiveTableau implements Tableau{
     }
 
     public String getModel(){
-        buildModel(false);
+        buildModel();
         return model;
     }
 
@@ -333,8 +333,8 @@ public class NaiveTableau implements Tableau{
             for (OWLObjectPropertyExpression oe : key) {
                 if (oe != null) {
                     List<NaiveTableau> related = someRelation.get(oe);
-                    model=model.concat(" EXIST " + OntologyRenderer.render((oe)) + ". {");
                     for (NaiveTableau t : related) {
+                        model=model.concat(" EXIST " + OntologyRenderer.render((oe)) + ". {");
                         t.buildModel();
                         if(model.chars().filter(ch -> ch == '}').count() < model.chars().filter(ch -> ch == '{').count())
                             model=model.concat(" }");
