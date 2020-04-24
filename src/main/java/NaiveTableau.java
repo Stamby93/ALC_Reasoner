@@ -5,17 +5,17 @@ import java.util.*;
 
 public class NaiveTableau implements Tableau{
 
-    private final List<OWLClassExpression> Abox;
+    private List<OWLClassExpression> Abox;
 
-    private final List<Integer> branchingNode;
+    private List<Integer> branchingNode;
 
     private List<Integer> dependency;
 
-    private final Map<Integer, Node> nodeList;
+    private Map<Integer, Node> nodeList;
 
     private int workingRule = 0;
 
-    private final Map<OWLObjectPropertyExpression, List<NaiveTableau>> someRelation;
+    private Map<OWLObjectPropertyExpression, List<NaiveTableau>> someRelation;
 
     private final int parent;
 
@@ -66,7 +66,7 @@ public class NaiveTableau implements Tableau{
                     break;
                 case OWL_CLASS:
                 case OBJECT_COMPLEMENT_OF:
-                    LoggerManager.writeDebug("CLASS: "+ OntologyRenderer.render(Abox.get(workingRule)), NaiveTableau.class);
+                    LoggerManager.writeDebug("CLASS :"+ OntologyRenderer.render(Abox.get(workingRule)), NaiveTableau.class);
                     if(checkClash()){
                         workingRule = dependency.get(workingRule);
                         backtrack();
@@ -78,7 +78,7 @@ public class NaiveTableau implements Tableau{
 
         }
 
-        LoggerManager.writeDebug("SAT: "+ parent + " " + (workingRule > 0), NaiveTableau.class);
+        LoggerManager.writeDebug("SAT: "+ parent+ " " + (workingRule > 0), NaiveTableau.class);
 
         return workingRule >= 0;
 
@@ -94,10 +94,10 @@ public class NaiveTableau implements Tableau{
     }
 
     private void applyUnion(){
-        LoggerManager.writeDebug("UNION " + OntologyRenderer.render(Abox.get(workingRule)), NaiveTableau.class);
+        LoggerManager.writeDebug("Rule: " + workingRule + " UNION: " + OntologyRenderer.render(Abox.get(workingRule)), NaiveTableau.class);
         Node workingNode;
 
-        if(branchingNode.size()!=0 && branchingNode.contains(workingRule)) {
+        if(branchingNode.size()!=0 && branchingNode.contains(Integer.valueOf(workingRule))) {
             workingNode = nodeList.get(workingRule);
 
         } else{
@@ -118,13 +118,13 @@ public class NaiveTableau implements Tableau{
         }
         else{
             branchingNode.remove(Integer.valueOf(workingRule));
-            workingRule = dependency.get(workingRule);
+            workingRule--;
             backtrack();
         }
     }
 
     private void applySome(OWLClassExpression rule){
-        LoggerManager.writeDebug("SOME: "+ workingRule + " " + OntologyRenderer.render(rule), NaiveTableau.class);
+        LoggerManager.writeDebug("Rule: " + workingRule + " SOME: " + OntologyRenderer.render(rule), NaiveTableau.class);
 
         NaiveTableau direct;
         OWLObjectSomeValuesFrom someValue = (OWLObjectSomeValuesFrom) rule;
@@ -141,7 +141,7 @@ public class NaiveTableau implements Tableau{
                 workingRule++;
             }
             else{
-                LoggerManager.writeDebug("SOME FALLITO",NaiveTableau.class);
+                LoggerManager.writeDebug("SOME UNSATISFIABLE",NaiveTableau.class);
 
                 workingRule = dependency.get(workingRule);
 
@@ -171,18 +171,19 @@ public class NaiveTableau implements Tableau{
                     workingRule++;
                 }
                 else{
-                    LoggerManager.writeDebug("SOME FALLITO", NaiveTableau.class);
+                    LoggerManager.writeDebug("SOME UNSATISFIABLE", NaiveTableau.class);
                     workingRule = dependency.get(workingRule);
                     backtrack();
                 }
             } else{
+                LoggerManager.writeDebug("SOME ALREADY PRESENT", NaiveTableau.class);
                 workingRule++;
             }
         }
     }
 
     private void applyAll(OWLClassExpression rule){
-        LoggerManager.writeDebug("ALL "+ workingRule + " " + OntologyRenderer.render(rule),NaiveTableau.class);
+        LoggerManager.writeDebug("Rule: " + workingRule + " ALL: "+ OntologyRenderer.render(rule),NaiveTableau.class);
 
         OWLObjectAllValuesFrom allValue = (OWLObjectAllValuesFrom) rule;
         OWLClassExpression filler = allValue.getFiller();
@@ -193,7 +194,6 @@ public class NaiveTableau implements Tableau{
 
             LoggerManager.writeDebug("ALL NO CONDIZIONI",NaiveTableau.class);
             workingRule++;
-            //backtrack();
         }
         else{
 
@@ -211,7 +211,7 @@ public class NaiveTableau implements Tableau{
 
                     NaiveTableau flag = new NaiveTableau(concept.getNNF(),workingRule);
                     if(!flag.SAT()){
-                        LoggerManager.writeDebug("ALL FALLITO",NaiveTableau.class);
+                        LoggerManager.writeDebug("ALL UNSATISFIABLE",NaiveTableau.class);
                         workingRule =  dependency.get(workingRule);
                         backtrack();
                         check = false;
@@ -244,12 +244,11 @@ public class NaiveTableau implements Tableau{
         if(branchingNode.size()!=0) {
             Node workingNode = nodeList.get(workingRule);
             for (Integer i: nodeList.keySet()) {
-                if(i>workingRule) {
+                if(i>workingRule)
                     nodeList.remove(nodeList.get(i));
-                }
 
             }
-            Abox.removeAll(Collections.unmodifiableList(Abox));
+            Abox.removeAll(Abox);
             Abox.addAll(workingNode.getAbox());
             dependency = dependency.subList(0,Abox.size());
             for (OWLObjectPropertyExpression oe : someRelation.keySet()) {
@@ -334,8 +333,8 @@ public class NaiveTableau implements Tableau{
             for (OWLObjectPropertyExpression oe : key) {
                 if (oe != null) {
                     List<NaiveTableau> related = someRelation.get(oe);
-                    model=model.concat(" EXIST " + OntologyRenderer.render((oe)) + ". {");
                     for (NaiveTableau t : related) {
+                        model=model.concat(" EXIST " + OntologyRenderer.render((oe)) + ". {");
                         t.buildModel();
                         if(model.chars().filter(ch -> ch == '}').count() < model.chars().filter(ch -> ch == '{').count())
                             model=model.concat(" }");
