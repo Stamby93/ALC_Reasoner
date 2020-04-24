@@ -1,5 +1,5 @@
 # exclude everything
-somefolder/*
+LOG/*
 
 # exception to the rule
-!somefolder/.gitkeep
+!LOG/.gitkeep
