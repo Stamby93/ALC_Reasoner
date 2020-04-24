@@ -19,8 +19,6 @@ public class NaiveTableau implements Tableau{
 
     private final int parent;
 
-    private static String model;
-
     protected NaiveTableau(OWLClassExpression concept, int parent) {
 
         Abox = new ArrayList<>();
@@ -31,7 +29,6 @@ public class NaiveTableau implements Tableau{
         dependency = new ArrayList<>();
         dependency.add(0,0);
         this.parent = parent;
-        model = "";
     }
 
 
@@ -324,11 +321,7 @@ public class NaiveTableau implements Tableau{
     }
 
     public String getModel(){
-        buildModel();
-        return model;
-    }
-
-    private void buildModel(){
+        String model = "";
         for (OWLClassExpression e: Abox) {
             if(e != null) {
                 ClassExpressionType pe = e.getClassExpressionType();
@@ -351,7 +344,7 @@ public class NaiveTableau implements Tableau{
                     List<NaiveTableau> related = someRelation.get(oe);
                     for (NaiveTableau t : related) {
                         model=model.concat(" EXIST " + OntologyRenderer.render((oe)) + ". {");
-                        t.buildModel();
+                        t.getModel();
                         if(model.chars().filter(ch -> ch == '}').count() < model.chars().filter(ch -> ch == '{').count())
                             model=model.concat(" }");
                     }
@@ -361,6 +354,7 @@ public class NaiveTableau implements Tableau{
                 model = model.concat(" |");
             }
         }
+        return model;
     }
 }
 
