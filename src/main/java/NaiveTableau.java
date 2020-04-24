@@ -15,7 +15,7 @@ public class NaiveTableau implements Tableau{
 
     private int workingRule = 0;
 
-    private final Map<OWLObjectPropertyExpression, List<NaiveTableau>> someRelation;
+    private final HashMap<OWLObjectPropertyExpression, List<NaiveTableau>> someRelation;
 
     private final int parent;
 
@@ -85,7 +85,7 @@ public class NaiveTableau implements Tableau{
     }
 
     private void applyIntersection(){
-        LoggerManager.writeDebug("INTERSECTION "+ OntologyRenderer.render(Abox.get(workingRule)), NaiveTableau.class);
+        LoggerManager.writeDebug("Rule: " + workingRule + " INTERSECTION: "+ OntologyRenderer.render(Abox.get(workingRule)), NaiveTableau.class);
         Node workingNode = new Node(Abox, workingRule);
         List<OWLClassExpression> flag = workingNode.applyRule();
         checkIntersection(flag);
@@ -155,7 +155,10 @@ public class NaiveTableau implements Tableau{
             for (NaiveTableau t : related) {
 
                 if (t.checkSome(filler)) {
+                    System.out.println("SOME"+ t.getParent());
+
                     check = true;
+
                     break;
                 }
 
@@ -251,14 +254,23 @@ public class NaiveTableau implements Tableau{
             Abox.removeAll(Collections.unmodifiableList(Abox));
             Abox.addAll(workingNode.getAbox());
             dependency = dependency.subList(0,Abox.size());
-            for (OWLObjectPropertyExpression oe : someRelation.keySet()) {
-                List<NaiveTableau> t = someRelation.get(oe);
+            Set<OWLObjectPropertyExpression> listSome = someRelation.keySet();
+            for (OWLObjectPropertyExpression oe : listSome) {
+
+                ArrayList<NaiveTableau> t = new ArrayList<>(someRelation.remove(oe));
+
                 if(t!= null && t.size()!=0){
-                    for (int i = t.size() - 1 ; i >=0 ; i--) {
-                        if(t.get(i).getParent() > workingRule)
-                            t = t.subList(0, i);
+                    System.out.println("SIZE PRE: "+ t.size());
+
+                    for (int i = t.size() - 1; i >=0 ; i--) {
+                        if(t.get(i).getParent() > workingRule){
+                            System.out.println("RIMUOVO: "+ t.get(i).getParent());
+                            t.remove(i);
+                        }
                     }
-                    someRelation.put(oe,t);
+                    System.out.println("SIZE POST: "+ t.size()+someRelation.isEmpty());
+                    if(t.size()!=0)
+                        someRelation.put(oe,t);
                 }
             }
         }
