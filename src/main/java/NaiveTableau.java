@@ -19,7 +19,7 @@ public class NaiveTableau implements Tableau{
 
     private final int parent;
 
-    private String model;
+    private static String model;
 
     protected NaiveTableau(OWLClassExpression concept, int parent) {
 
@@ -47,7 +47,7 @@ public class NaiveTableau implements Tableau{
 
     @Override
     public boolean SAT() {
-        LoggerManager.writeDebug("SAT :"+ parent, NaiveTableau.class);
+        LoggerManager.writeDebug("SAT: "+ parent, NaiveTableau.class);
         while(isWorking()){
             OWLClassExpression rule = Abox.get(workingRule);
             ClassExpressionType type = rule.getClassExpressionType();
@@ -66,7 +66,7 @@ public class NaiveTableau implements Tableau{
                     break;
                 case OWL_CLASS:
                 case OBJECT_COMPLEMENT_OF:
-                    LoggerManager.writeDebug("CLASS :"+ OntologyRenderer.render(Abox.get(workingRule)), NaiveTableau.class);
+                    LoggerManager.writeDebug("CLASS: "+ OntologyRenderer.render(Abox.get(workingRule)), NaiveTableau.class);
                     if(checkClash()){
                         workingRule = dependency.get(workingRule);
                         backtrack();
@@ -78,7 +78,7 @@ public class NaiveTableau implements Tableau{
 
         }
 
-        LoggerManager.writeDebug("SAT :"+ parent + (workingRule > 0), NaiveTableau.class);
+        LoggerManager.writeDebug("SAT: "+ parent + " " + (workingRule > 0), NaiveTableau.class);
 
         return workingRule >= 0;
 
@@ -331,14 +331,14 @@ public class NaiveTableau implements Tableau{
         }
         if(!someRelation.isEmpty()) {
             Set<OWLObjectPropertyExpression> key = someRelation.keySet();
-
             for (OWLObjectPropertyExpression oe : key) {
                 if (oe != null) {
                     List<NaiveTableau> related = someRelation.get(oe);
                     model=model.concat(" EXIST " + OntologyRenderer.render((oe)) + ". {");
                     for (NaiveTableau t : related) {
                         t.buildModel();
-                        model=model.concat(" }");
+                        if(model.chars().filter(ch -> ch == '}').count() < model.chars().filter(ch -> ch == '{').count())
+                            model=model.concat(" }");
                     }
                 }
             }
