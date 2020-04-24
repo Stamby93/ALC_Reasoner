@@ -1,5 +1,4 @@
 import org.semanticweb.owlapi.model.*;
-import org.semanticweb.owlapi.util.OWLClassLiteralCollector;
 import uk.ac.manchester.cs.owl.owlapi.OWLObjectIntersectionOfImpl;
 
 import java.util.*;
@@ -12,15 +11,15 @@ public class NaiveTableau implements Tableau{
 
     private List<Integer> dependency;
 
-    private Map<Integer, Node> nodeList;
+    private final Map<Integer, Node> nodeList;
 
     private int workingRule = 0;
 
-    private Map<OWLObjectPropertyExpression, List<NaiveTableau>> someRelation;
+    private final Map<OWLObjectPropertyExpression, List<NaiveTableau>> someRelation;
 
     private final int parent;
 
-    private static String model;
+    private String model;
 
     protected NaiveTableau(OWLClassExpression concept, int parent) {
 
@@ -98,7 +97,7 @@ public class NaiveTableau implements Tableau{
         LoggerManager.writeDebug("UNION " + OntologyRenderer.render(Abox.get(workingRule)), NaiveTableau.class);
         Node workingNode;
 
-        if(branchingNode.size()!=0 && branchingNode.contains(Integer.valueOf(workingRule))) {
+        if(branchingNode.size()!=0 && branchingNode.contains(workingRule)) {
             workingNode = nodeList.get(workingRule);
 
         } else{
@@ -245,11 +244,12 @@ public class NaiveTableau implements Tableau{
         if(branchingNode.size()!=0) {
             Node workingNode = nodeList.get(workingRule);
             for (Integer i: nodeList.keySet()) {
-                if(i>workingRule)
+                if(i>workingRule) {
                     nodeList.remove(nodeList.get(i));
+                }
 
             }
-            Abox.removeAll(Abox);
+            Abox.removeAll(Collections.unmodifiableList(Abox));
             Abox.addAll(workingNode.getAbox());
             dependency = dependency.subList(0,Abox.size());
             for (OWLObjectPropertyExpression oe : someRelation.keySet()) {
@@ -284,40 +284,6 @@ public class NaiveTableau implements Tableau{
         }
     }
 
-    public String getModel(){
-        buildModel(false);
-        return model;
-    }
-
-    private void buildModel(boolean exist){
-        for (OWLClassExpression e: Abox) {
-            if(e != null) {
-                ClassExpressionType pe = e.getClassExpressionType();
-                switch (pe) {
-                    case OWL_CLASS:
-                    case OBJECT_COMPLEMENT_OF:
-                        model=model.concat(" " + OntologyRenderer.render((e))+" |");
-                        break;
-                }
-            }
-        }
-        if(!someRelation.isEmpty()) {
-            Set<OWLObjectPropertyExpression> key = someRelation.keySet();
-
-            for (OWLObjectPropertyExpression oe : key) {
-                if (oe != null) {
-                    List<NaiveTableau> related = someRelation.get(oe);
-                    model=model.concat(" EXIST " + OntologyRenderer.render((oe)) + ". {");
-                    for (NaiveTableau t : related) {
-                        t.buildModel(true);
-                        model=model.concat(" }");
-                    }
-                }
-            }
-            if (!exist)
-                model=model.concat(" |");
-        }
-    }
 
     private boolean checkClash() {
 
@@ -340,6 +306,46 @@ public class NaiveTableau implements Tableau{
         }
         return false;
 
+    }
+
+    public String getModel(){
+        buildModel();
+        return model;
+    }
+
+    private void buildModel(){
+        for (OWLClassExpression e: Abox) {
+            if(e != null) {
+                ClassExpressionType pe = e.getClassExpressionType();
+                switch (pe) {
+                    case OWL_CLASS:
+                    case OBJECT_COMPLEMENT_OF:
+                        model=model.concat(" " + OntologyRenderer.render((e)));
+                        if(parent==-1) {
+                            model = model.concat(" |");
+                        }
+
+                        break;
+                }
+            }
+        }
+        if(!someRelation.isEmpty()) {
+            Set<OWLObjectPropertyExpression> key = someRelation.keySet();
+
+            for (OWLObjectPropertyExpression oe : key) {
+                if (oe != null) {
+                    List<NaiveTableau> related = someRelation.get(oe);
+                    model=model.concat(" EXIST " + OntologyRenderer.render((oe)) + ". {");
+                    for (NaiveTableau t : related) {
+                        t.buildModel();
+                        model=model.concat(" }");
+                    }
+                }
+            }
+            if (parent==-1 && !model.endsWith("|")) {
+                model = model.concat(" |");
+            }
+        }
     }
 }
 

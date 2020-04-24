@@ -273,10 +273,9 @@ public class ALCReasoner implements OWLReasoner {
         Tableau = TableauFactory.getTableau("Naive", owlClassExpression);
         result = Tableau.SAT();
         if(result) {
-            System.out.print("Il modello trovato è: |");
-            String model = Tableau.getModel();
-            LoggerManager.writeInfoLog("Modello trovato: "+model, ALCReasoner.class);
-            System.out.print(model);
+            String model = "Modello trovato: |"+Tableau.getModel();
+            System.out.println(model);
+            LoggerManager.writeInfoLog(model, ALCReasoner.class);
         }
         return result;
     }
