@@ -5,17 +5,17 @@ import java.util.*;
 
 public class NaiveTableau implements Tableau{
 
-    private List<OWLClassExpression> Abox;
+    private final List<OWLClassExpression> Abox;
 
-    private List<Integer> branchingNode;
+    private final List<Integer> branchingNode;
 
     private List<Integer> dependency;
 
-    private Map<Integer, Node> nodeList;
+    private final Map<Integer, Node> nodeList;
 
     private int workingRule = 0;
 
-    private Map<OWLObjectPropertyExpression, List<NaiveTableau>> someRelation;
+    private final Map<OWLObjectPropertyExpression, List<NaiveTableau>> someRelation;
 
     private final int parent;
 
@@ -97,7 +97,7 @@ public class NaiveTableau implements Tableau{
         LoggerManager.writeDebug("Rule: " + workingRule + " UNION: " + OntologyRenderer.render(Abox.get(workingRule)), NaiveTableau.class);
         Node workingNode;
 
-        if(branchingNode.size()!=0 && branchingNode.contains(Integer.valueOf(workingRule))) {
+        if(branchingNode.size()!=0 && branchingNode.contains(workingRule)) {
             workingNode = nodeList.get(workingRule);
 
         } else{
@@ -248,7 +248,7 @@ public class NaiveTableau implements Tableau{
                     nodeList.remove(nodeList.get(i));
 
             }
-            Abox.removeAll(Abox);
+            Abox.removeAll(Collections.unmodifiableList(Abox));
             Abox.addAll(workingNode.getAbox());
             dependency = dependency.subList(0,Abox.size());
             for (OWLObjectPropertyExpression oe : someRelation.keySet()) {
