@@ -7,12 +7,12 @@ import uk.ac.manchester.cs.owl.owlapi.OWLEquivalentClassesAxiomImpl;
 import java.io.File;
 import java.util.Set;
 import java.util.stream.Collectors;
-public class main {
+public class Launcher {
 
     public static void main(String[] args) throws Exception {
 
         OWLOntologyManager man = OWLManager.createOWLOntologyManager();
-        File ontologyFile = new File("Ontologie/mpp.owl");
+        File ontologyFile = new File("Ontologie/stupido2.owl");
         OWLOntology ont = man.loadOntologyFromOntologyDocument(ontologyFile);
         OWLDataFactory df = man.getOWLDataFactory();
         IRI iri = ont.getOntologyID().getOntologyIRI().get();
@@ -22,7 +22,7 @@ public class main {
         LoggerManager.setFile(ontologyFile.getName());
 
         if (ontologyAxiom.size() > 1) {
-            LoggerManager.writeErrorLog("Invalid input concept", main.class);
+            LoggerManager.writeErrorLog("Invalid input concept", Launcher.class);
             throw new IllegalArgumentException("Invalid input concept");
         }
 
@@ -45,10 +45,15 @@ public class main {
             System.out.println(OntologyRenderer.render(expression.getNNF()) + "\n");
 
             OWLReasonerFactory ReasonerFactory = new ALCReasonerFactory();
-            OWLReasoner ALCReasoner = ReasonerFactory.createReasoner(null);
-            boolean result = ALCReasoner.isSatisfiable(expression.getNNF());
+            OWLReasoner reasoner = ReasonerFactory.createReasoner(null);
+            boolean result = reasoner.isSatisfiable(expression.getNNF());
             System.out.println("\n\nThe concept is " + result);
-            LoggerManager.writeInfoLog("The concept is " + result,main.class);
+            LoggerManager.writeInfoLog("The concept is " + result, Launcher.class);
+            if(result) {
+                String model = "Modello trovato: |"+((ALCReasoner)reasoner).getModel();
+                System.out.println(model);
+                LoggerManager.writeInfoLog(model, ALCReasoner.class);
+            }
         }
     }
 
