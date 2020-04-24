@@ -94,7 +94,7 @@ public class NaiveTableau implements Tableau{
     }
 
     private void applyUnion(){
-        LoggerManager.writeDebug("Rule: " + workingRule + " UNION: " + OntologyRenderer.render(Abox.get(workingRule)), NaiveTableau.class);
+        LoggerManager.writeDebug("Rule: "+ workingRule + " UNION: " + OntologyRenderer.render(Abox.get(workingRule)), NaiveTableau.class);
         Node workingNode;
 
         if(branchingNode.size()!=0 && branchingNode.contains(workingRule)) {
@@ -134,28 +134,14 @@ public class NaiveTableau implements Tableau{
         //VERIFICO SE INDIVIDUO HA LA RELAZIONE
         List<NaiveTableau> related = someRelation.get(oe);
         direct = new NaiveTableau(filler, workingRule);
-        if (related == null) {
 
-            if(direct.SAT()){
-                someRelation.put(oe, Collections.singletonList(direct));
-                workingRule++;
-            }
-            else{
-                LoggerManager.writeDebug("SOME UNSATISFIABLE",NaiveTableau.class);
-
-                workingRule = dependency.get(workingRule);
-
-                backtrack();
-            }
-        }
-        //CASO IN CUI RELAZIONE RICHIESTA ESISTE, VERIFICO SE E' PRESENTE LA REGOLA NEL RULE SET
-        else{
+        if (related != null && related.size()!=0) {
+            //CASO IN CUI RELAZIONE RICHIESTA ESISTE, VERIFICO SE E' PRESENTE LA REGOLA NEL RULE SET
             boolean check = false;
 
             for (NaiveTableau t : related) {
 
                 if (t.checkSome(filler)) {
-                    System.out.println("SOME"+ t.getParent());
 
                     check = true;
 
@@ -182,6 +168,22 @@ public class NaiveTableau implements Tableau{
                 LoggerManager.writeDebug("SOME ALREADY PRESENT", NaiveTableau.class);
                 workingRule++;
             }
+
+
+        }
+        else{
+
+            if(direct.SAT()){
+                someRelation.put(oe, Collections.singletonList(direct));
+                workingRule++;
+            }
+            else{
+                LoggerManager.writeDebug("SOME UNSATISFIABLE",NaiveTableau.class);
+
+                workingRule = dependency.get(workingRule);
+
+                backtrack();
+            }
         }
     }
 
@@ -195,7 +197,7 @@ public class NaiveTableau implements Tableau{
 
         if (someRelation.get(oe) == null){
 
-            LoggerManager.writeDebug("ALL NO CONDIZIONI",NaiveTableau.class);
+            LoggerManager.writeDebug("ALL NO CONDITIONS",NaiveTableau.class);
             workingRule++;
         }
         else{
@@ -224,9 +226,11 @@ public class NaiveTableau implements Tableau{
                 }
                 i++;
             }
-            someRelation.put(oe,related);
-            if(check)
+
+            if(check){
+                someRelation.put(oe,related);
                 workingRule++;
+            }
 
         }
 
@@ -242,15 +246,18 @@ public class NaiveTableau implements Tableau{
 
 
     private void backtrack() {
-        LoggerManager.writeDebug("BACKTRACK :" + workingRule,NaiveTableau.class);
+        LoggerManager.writeDebug("BACKTRACK :" + workingRule+someRelation.isEmpty(),NaiveTableau.class);
 
         if(branchingNode.size()!=0) {
+
             Node workingNode = nodeList.get(workingRule);
+
             for (Integer i: nodeList.keySet()) {
                 if(i>workingRule)
                     nodeList.remove(nodeList.get(i));
 
             }
+
             Abox.removeAll(Collections.unmodifiableList(Abox));
             Abox.addAll(workingNode.getAbox());
             dependency = dependency.subList(0,Abox.size());
@@ -260,15 +267,12 @@ public class NaiveTableau implements Tableau{
                 ArrayList<NaiveTableau> t = new ArrayList<>(someRelation.remove(oe));
 
                 if(t!= null && t.size()!=0){
-                    System.out.println("SIZE PRE: "+ t.size());
 
                     for (int i = t.size() - 1; i >=0 ; i--) {
-                        if(t.get(i).getParent() > workingRule){
-                            System.out.println("RIMUOVO: "+ t.get(i).getParent());
+                        if(t.get(i).getParent() > workingRule)
                             t.remove(i);
-                        }
                     }
-                    System.out.println("SIZE POST: "+ t.size()+someRelation.isEmpty());
+
                     if(t.size()!=0)
                         someRelation.put(oe,t);
                 }
