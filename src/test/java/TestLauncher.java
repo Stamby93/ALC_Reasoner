@@ -208,6 +208,31 @@ public class TestLauncher {
         assertEquals(result, expResult);
     }
 
+    @Test
+    public void testOntology27() throws OWLOntologyCreationException {
+        ontologyFileName = "Ontologie/PROVASCAL1.owl";
+        result = run(ontologyFileName);
+        expResult = true;
+        assertEquals(result, expResult);
+    }
+
+    @Test
+    public void testOntology28() throws OWLOntologyCreationException {
+        ontologyFileName = "Ontologie/PROVASCAL2.owl";
+        result = run(ontologyFileName);
+        expResult = true;
+        assertEquals(result, expResult);
+    }
+
+    @Test
+    public void testOntology29() throws OWLOntologyCreationException {
+        ontologyFileName = "Ontologie/PROVASCAL3.owl";
+        result = run(ontologyFileName);
+        expResult = false;
+        assertEquals(result, expResult);
+    }
+
+
 
     private boolean run(String ontologyFileName) throws OWLOntologyCreationException {
         File ontologyFile = new File(ontologyFileName);
