@@ -66,7 +66,7 @@ public class NaiveTableau implements Tableau{
                     break;
                 case OWL_CLASS:
                 case OBJECT_COMPLEMENT_OF:
-                    LoggerManager.writeDebug("Rule: " + workingRule + " CLASS: "+ OntologyRenderer.render(Abox.get(workingRule)), NaiveTableau.class);
+                    LoggerManager.writeDebug("CLASS :"+ OntologyRenderer.render(Abox.get(workingRule)), NaiveTableau.class);
                     if(checkClash()){
                         workingRule = dependency.get(workingRule);
                         backtrack();
@@ -241,7 +241,6 @@ public class NaiveTableau implements Tableau{
     private void backtrack() {
         LoggerManager.writeDebug("BACKTRACK :" + workingRule,NaiveTableau.class);
 
-
         if(branchingNode.size()!=0) {
             Node workingNode = nodeList.get(workingRule);
             for (Integer i: nodeList.keySet()) {
@@ -249,7 +248,6 @@ public class NaiveTableau implements Tableau{
                     nodeList.remove(nodeList.get(i));
 
             }
-
             Abox.removeAll(Abox);
             Abox.addAll(workingNode.getAbox());
             dependency = dependency.subList(0,Abox.size());
@@ -285,41 +283,6 @@ public class NaiveTableau implements Tableau{
         }
     }
 
-    public String getModel(){
-        buildModel(false);
-        return model;
-    }
-
-    private void buildModel(boolean exist){
-        for (OWLClassExpression e: Abox) {
-            if(e != null) {
-                ClassExpressionType pe = e.getClassExpressionType();
-                switch (pe) {
-                    case OWL_CLASS:
-                    case OBJECT_COMPLEMENT_OF:
-                        model=model.concat(" " + OntologyRenderer.render((e))+" |");
-                        break;
-                }
-            }
-        }
-        if(!someRelation.isEmpty()) {
-            Set<OWLObjectPropertyExpression> key = someRelation.keySet();
-
-            for (OWLObjectPropertyExpression oe : key) {
-                if (oe != null) {
-                    List<NaiveTableau> related = someRelation.get(oe);
-                    for (NaiveTableau t : related) {
-                        model=model.concat(" EXIST " + OntologyRenderer.render((oe)) + ". {");
-                        t.buildModel(true);
-                        model=model.concat(" }");
-                    }
-                }
-            }
-            if (!exist)
-                model=model.concat(" |");
-
-        }
-    }
 
     private boolean checkClash() {
 
@@ -342,6 +305,46 @@ public class NaiveTableau implements Tableau{
         }
         return false;
 
+    }
+
+    public String getModel(){
+        buildModel(false);
+        return model;
+    }
+
+    private void buildModel(){
+        for (OWLClassExpression e: Abox) {
+            if(e != null) {
+                ClassExpressionType pe = e.getClassExpressionType();
+                switch (pe) {
+                    case OWL_CLASS:
+                    case OBJECT_COMPLEMENT_OF:
+                        model=model.concat(" " + OntologyRenderer.render((e)));
+                        if(parent==-1) {
+                            model = model.concat(" |");
+                        }
+
+                        break;
+                }
+            }
+        }
+        if(!someRelation.isEmpty()) {
+            Set<OWLObjectPropertyExpression> key = someRelation.keySet();
+            for (OWLObjectPropertyExpression oe : key) {
+                if (oe != null) {
+                    List<NaiveTableau> related = someRelation.get(oe);
+                    model=model.concat(" EXIST " + OntologyRenderer.render((oe)) + ". {");
+                    for (NaiveTableau t : related) {
+                        t.buildModel();
+                        if(model.chars().filter(ch -> ch == '}').count() < model.chars().filter(ch -> ch == '{').count())
+                            model=model.concat(" }");
+                    }
+                }
+            }
+            if (parent==-1 && !model.endsWith("|")) {
+                model = model.concat(" |");
+            }
+        }
     }
 }
 

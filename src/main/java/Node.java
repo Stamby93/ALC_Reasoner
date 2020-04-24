@@ -58,12 +58,7 @@ public class Node {
     }
 
 
-    public int getWorkingRule(){
-        return workingRule;
-    }
-
     public List<OWLClassExpression> getAbox() {
         return Abox;
     }
-
 }
