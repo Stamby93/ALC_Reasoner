@@ -17,12 +17,12 @@ public class TestLauncher {
     private String ontologyFileName;
     private boolean result;
     private boolean expResult;
-    private OWLReasoner ALCReasoner;
+    private OWLReasoner reasoner;
     @Before
     public void setUp() {
         man = OWLManager.createOWLOntologyManager();
         OWLReasonerFactory reasonerFactory = new ALCReasonerFactory();
-        ALCReasoner = reasonerFactory.createReasoner(null);
+        reasoner = reasonerFactory.createReasoner(null);
     }
 
     @Test
@@ -216,7 +216,7 @@ public class TestLauncher {
         IRI iri = ont.getOntologyID().getOntologyIRI().get();
         OWLClass flag = df.getOWLClass(iri + "#assioma");
         Set<OWLAxiom> ontologyAxiom = ont.axioms(flag).collect(Collectors.toSet());
-
+        boolean result = false;
         LoggerManager.setFile(ontologyFile.getName());
 
         if (ontologyAxiom.size() > 1) {
@@ -236,9 +236,14 @@ public class TestLauncher {
         }
 
         if (expression != null) {
-            return ALCReasoner.isSatisfiable(expression.getNNF());
+            result = reasoner.isSatisfiable(expression.getNNF());
+            if(result) {
+                LoggerManager.writeInfoLog("The concept is "+result, TestLauncher.class);
+                String model = "Modello trovato: |"+((ALCReasoner)reasoner).getModel();
+                LoggerManager.writeInfoLog(model, TestLauncher.class);
+            }
         }
-        return false;
+        return result;
     }
 
 }

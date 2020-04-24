@@ -52,7 +52,7 @@ public class Launcher {
             if(result) {
                 String model = "Modello trovato: |"+((ALCReasoner)reasoner).getModel();
                 System.out.println(model);
-                LoggerManager.writeInfoLog(model, ALCReasoner.class);
+                LoggerManager.writeInfoLog(model, Launcher.class);
             }
         }
     }
