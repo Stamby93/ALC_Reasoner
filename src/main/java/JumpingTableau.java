@@ -278,6 +278,7 @@ public class JumpingTableau implements Tableau{
     private void backtrack() {
         LoggerManager.writeDebug("BACKTRACK :" + workingRule,JumpingTableau.class);
 
+        iteration++;
 
         if(actualDependency.size()!=0) {
 

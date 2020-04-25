@@ -251,6 +251,8 @@ public class ChronologicalTableau implements Tableau{
     private void backtrack() {
         LoggerManager.writeDebug("BACKTRACK :" + workingRule, ChronologicalTableau.class);
 
+        iteration++;
+
         if(branchingNode.size()!=0) {
 
             Node workingNode = nodeList.get(workingRule);

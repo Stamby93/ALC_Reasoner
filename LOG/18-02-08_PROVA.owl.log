@@ -1,190 +1,234 @@
-2020-04-24   19:45:49   DEBUG   - SAT: -1
+2020-04-25   16:38:22   DEBUG   - SAT: -1
 
-2020-04-24   19:45:49   DEBUG   - Rule: 0 INTERSECTION: (B or (S some (R only A)))
+2020-04-25   16:38:22   DEBUG   - DEPENDECY :[]
+
+2020-04-25   16:38:22   DEBUG   - Rule: 0 INTERSECTION: (B or (S some (R only A)))
  and (D or (S some C))
  and ((not (B)) or (not (D)))
  and ((S only (not (C))) or (S only (R some 
     (A
      and (not (A))))))
 
-2020-04-24   19:45:49   DEBUG   - Rule: 1 UNION: B or (S some (R only A))
+2020-04-25   16:38:22   DEBUG   - DEPENDECY :[]
 
-2020-04-24   19:45:49   DEBUG   - CHOICE B
+2020-04-25   16:38:22   DEBUG   - Rule: 1 UNION: B or (S some (R only A))
 
-2020-04-24   19:45:49   DEBUG   - Rule: 2 UNION: D or (S some C)
+2020-04-25   16:38:22   DEBUG   - CHOICE B
 
-2020-04-24   19:45:49   DEBUG   - CHOICE D
+2020-04-25   16:38:22   DEBUG   - DEPENDECY :[1]
 
-2020-04-24   19:45:49   DEBUG   - Rule: 3 UNION: (not (B)) or (not (D))
+2020-04-25   16:38:22   DEBUG   - Rule: 2 UNION: D or (S some C)
 
-2020-04-24   19:45:49   DEBUG   - CHOICE not (B)
+2020-04-25   16:38:22   DEBUG   - CHOICE D
 
-2020-04-24   19:45:49   DEBUG   - CLASH B not (B)
+2020-04-25   16:38:22   DEBUG   - DEPENDECY :[1, 2]
 
-2020-04-24   19:45:49   DEBUG   - BACKTRACK :3true
+2020-04-25   16:38:22   DEBUG   - Rule: 3 UNION: (not (B)) or (not (D))
 
-2020-04-24   19:45:49   DEBUG   - Rule: 3 UNION: (not (B)) or (not (D))
+2020-04-25   16:38:22   DEBUG   - CHOICE not (B)
 
-2020-04-24   19:45:49   DEBUG   - CHOICE not (D)
+2020-04-25   16:38:22   DEBUG   - CLASH B not (B)
 
-2020-04-24   19:45:49   DEBUG   - CLASH D not (D)
+2020-04-25   16:38:22   DEBUG   - BACKTRACK :3
 
-2020-04-24   19:45:49   DEBUG   - BACKTRACK :3true
+2020-04-25   16:38:22   DEBUG   - DEPENDECY :[1, 2, 3]
 
-2020-04-24   19:45:49   DEBUG   - Rule: 3 UNION: (not (B)) or (not (D))
+2020-04-25   16:38:22   DEBUG   - Rule: 3 UNION: (not (B)) or (not (D))
 
-2020-04-24   19:45:49   DEBUG   - BACKTRACK :2true
+2020-04-25   16:38:22   DEBUG   - CHOICE not (D)
 
-2020-04-24   19:45:49   DEBUG   - Rule: 2 UNION: D or (S some C)
+2020-04-25   16:38:22   DEBUG   - CLASH D not (D)
 
-2020-04-24   19:45:49   DEBUG   - CHOICE S some C
+2020-04-25   16:38:22   DEBUG   - BACKTRACK :2
 
-2020-04-24   19:45:49   DEBUG   - Rule: 3 UNION: (not (B)) or (not (D))
+2020-04-25   16:38:22   DEBUG   - DEPENDECY :[1, 2]
 
-2020-04-24   19:45:49   DEBUG   - CHOICE not (B)
+2020-04-25   16:38:22   DEBUG   - Rule: 2 UNION: D or (S some C)
 
-2020-04-24   19:45:49   DEBUG   - CLASH B not (B)
+2020-04-25   16:38:22   DEBUG   - CHOICE S some C
 
-2020-04-24   19:45:49   DEBUG   - BACKTRACK :3true
+2020-04-25   16:38:22   DEBUG   - DEPENDECY :[1]
 
-2020-04-24   19:45:49   DEBUG   - Rule: 3 UNION: (not (B)) or (not (D))
+2020-04-25   16:38:22   DEBUG   - Rule: 3 UNION: (not (B)) or (not (D))
 
-2020-04-24   19:45:49   DEBUG   - CHOICE not (D)
+2020-04-25   16:38:22   DEBUG   - CHOICE not (B)
 
-2020-04-24   19:45:49   DEBUG   - Rule: 4 UNION: (S only (not (C))) or (S only (R some 
+2020-04-25   16:38:22   DEBUG   - CLASH B not (B)
+
+2020-04-25   16:38:22   DEBUG   - BACKTRACK :3
+
+2020-04-25   16:38:22   DEBUG   - DEPENDECY :[1, 3]
+
+2020-04-25   16:38:22   DEBUG   - Rule: 3 UNION: (not (B)) or (not (D))
+
+2020-04-25   16:38:22   DEBUG   - CHOICE not (D)
+
+2020-04-25   16:38:22   DEBUG   - DEPENDECY :[1]
+
+2020-04-25   16:38:23   DEBUG   - Rule: 4 UNION: (S only (not (C))) or (S only (R some 
     (A
      and (not (A)))))
 
-2020-04-24   19:45:49   DEBUG   - CHOICE S only (not (C))
+2020-04-25   16:38:23   DEBUG   - CHOICE S only (not (C))
 
-2020-04-24   19:45:49   DEBUG   - CLASH S some C S only (not (C))
+2020-04-25   16:38:23   DEBUG   - CLASH S some C S only (not (C))
 
-2020-04-24   19:45:49   DEBUG   - BACKTRACK :4true
+2020-04-25   16:38:23   DEBUG   - BACKTRACK :4
 
-2020-04-24   19:45:49   DEBUG   - Rule: 4 UNION: (S only (not (C))) or (S only (R some 
+2020-04-25   16:38:23   DEBUG   - DEPENDECY :[1, 4]
+
+2020-04-25   16:38:23   DEBUG   - Rule: 4 UNION: (S only (not (C))) or (S only (R some 
     (A
      and (not (A)))))
 
-2020-04-24   19:45:49   DEBUG   - CHOICE S only (R some 
+2020-04-25   16:38:23   DEBUG   - CHOICE S only (R some 
     (A
      and (not (A))))
 
-2020-04-24   19:45:49   DEBUG   - CLASS :B
+2020-04-25   16:38:23   DEBUG   - DEPENDECY :[1]
 
-2020-04-24   19:45:49   DEBUG   - Rule: 6 SOME: S some C
+2020-04-25   16:38:23   DEBUG   - CLASS :B
 
-2020-04-24   19:45:49   DEBUG   - SAT: 6
+2020-04-25   16:38:23   DEBUG   - DEPENDECY :[1]
 
-2020-04-24   19:45:49   DEBUG   - CLASS :C
+2020-04-25   16:38:23   DEBUG   - Rule: 6 SOME: S some C
 
-2020-04-24   19:45:49   DEBUG   - SAT: 6 true
+2020-04-25   16:38:23   DEBUG   - SAT: 6
 
-2020-04-24   19:45:49   DEBUG   - CLASS :not (D)
+2020-04-25   16:38:23   DEBUG   - DEPENDECY :[]
 
-2020-04-24   19:45:49   DEBUG   - Rule: 8 ALL: S only (R some 
+2020-04-25   16:38:23   DEBUG   - CLASS :C
+
+2020-04-25   16:38:23   DEBUG   - SAT: 6 true
+
+2020-04-25   16:38:23   DEBUG   - DEPENDECY :[1]
+
+2020-04-25   16:38:23   DEBUG   - CLASS :not (D)
+
+2020-04-25   16:38:23   DEBUG   - DEPENDECY :[1]
+
+2020-04-25   16:38:23   DEBUG   - Rule: 8 ALL: S only (R some 
     (A
      and (not (A))))
 
-2020-04-24   19:45:49   DEBUG   - SAT: 8
+2020-04-25   16:38:23   DEBUG   - SAT: 8
 
-2020-04-24   19:45:49   DEBUG   - Rule: 0 INTERSECTION: C
+2020-04-25   16:38:23   DEBUG   - DEPENDECY :[]
+
+2020-04-25   16:38:23   DEBUG   - Rule: 0 INTERSECTION: C
  and (R some 
     (A
      and (not (A))))
 
-2020-04-24   19:45:49   DEBUG   - CLASS :C
+2020-04-25   16:38:23   DEBUG   - DEPENDECY :[]
 
-2020-04-24   19:45:49   DEBUG   - Rule: 2 SOME: R some 
+2020-04-25   16:38:23   DEBUG   - CLASS :C
+
+2020-04-25   16:38:23   DEBUG   - DEPENDECY :[]
+
+2020-04-25   16:38:23   DEBUG   - Rule: 2 SOME: R some 
     (A
      and (not (A)))
 
-2020-04-24   19:45:49   DEBUG   - SAT: 2
+2020-04-25   16:38:23   DEBUG   - SAT: 2
 
-2020-04-24   19:45:49   DEBUG   - Rule: 0 INTERSECTION: A
+2020-04-25   16:38:23   DEBUG   - DEPENDECY :[]
+
+2020-04-25   16:38:23   DEBUG   - Rule: 0 INTERSECTION: A
  and (not (A))
 
-2020-04-24   19:45:49   DEBUG   - CLASS :A
+2020-04-25   16:38:23   DEBUG   - DEPENDECY :[]
 
-2020-04-24   19:45:49   DEBUG   - CLASH A not (A)
+2020-04-25   16:38:23   DEBUG   - CLASS :A
 
-2020-04-24   19:45:49   DEBUG   - BACKTRACK :0true
+2020-04-25   16:38:23   DEBUG   - CLASH A not (A)
 
-2020-04-24   19:45:49   DEBUG   - SAT: 2 false
+2020-04-25   16:38:23   DEBUG   - SAT: 2 false
 
-2020-04-24   19:45:49   DEBUG   - SOME UNSATISFIABLE
+2020-04-25   16:38:23   DEBUG   - SOME UNSATISFIABLE
 
-2020-04-24   19:45:49   DEBUG   - BACKTRACK :0true
+2020-04-25   16:38:23   DEBUG   - SAT: 8 false
 
-2020-04-24   19:45:49   DEBUG   - SAT: 8 false
+2020-04-25   16:38:23   DEBUG   - ALL UNSATISFIABLE
 
-2020-04-24   19:45:49   DEBUG   - ALL UNSATISFIABLE
+2020-04-25   16:38:23   DEBUG   - BACKTRACK :1
 
-2020-04-24   19:45:49   DEBUG   - BACKTRACK :4false
+2020-04-25   16:38:23   DEBUG   - DEPENDECY :[1]
 
-2020-04-24   19:45:49   DEBUG   - Rule: 4 UNION: (S only (not (C))) or (S only (R some 
+2020-04-25   16:38:23   DEBUG   - Rule: 1 UNION: B or (S some (R only A))
+
+2020-04-25   16:38:23   DEBUG   - CHOICE S some (R only A)
+
+2020-04-25   16:38:23   DEBUG   - DEPENDECY :[]
+
+2020-04-25   16:38:23   DEBUG   - Rule: 2 UNION: D or (S some C)
+
+2020-04-25   16:38:23   DEBUG   - CHOICE D
+
+2020-04-25   16:38:23   DEBUG   - DEPENDECY :[2]
+
+2020-04-25   16:38:23   DEBUG   - Rule: 3 UNION: (not (B)) or (not (D))
+
+2020-04-25   16:38:23   DEBUG   - CHOICE not (B)
+
+2020-04-25   16:38:23   DEBUG   - DEPENDECY :[2, 3]
+
+2020-04-25   16:38:23   DEBUG   - Rule: 4 UNION: (S only (not (C))) or (S only (R some 
     (A
      and (not (A)))))
 
-2020-04-24   19:45:49   DEBUG   - BACKTRACK :3true
+2020-04-25   16:38:23   DEBUG   - CHOICE S only (not (C))
 
-2020-04-24   19:45:49   DEBUG   - Rule: 3 UNION: (not (B)) or (not (D))
+2020-04-25   16:38:23   DEBUG   - DEPENDECY :[2, 3, 4]
 
-2020-04-24   19:45:49   DEBUG   - BACKTRACK :2true
+2020-04-25   16:38:23   DEBUG   - Rule: 5 SOME: S some (R only A)
 
-2020-04-24   19:45:49   DEBUG   - Rule: 2 UNION: D or (S some C)
+2020-04-25   16:38:23   DEBUG   - SAT: 5
 
-2020-04-24   19:45:49   DEBUG   - BACKTRACK :1true
+2020-04-25   16:38:23   DEBUG   - DEPENDECY :[]
 
-2020-04-24   19:45:49   DEBUG   - Rule: 1 UNION: B or (S some (R only A))
+2020-04-25   16:38:23   DEBUG   - Rule: 0 ALL: R only A
 
-2020-04-24   19:45:49   DEBUG   - CHOICE S some (R only A)
+2020-04-25   16:38:23   DEBUG   - ALL NO CONDITIONS
 
-2020-04-24   19:45:49   DEBUG   - Rule: 2 UNION: D or (S some C)
+2020-04-25   16:38:23   DEBUG   - SAT: 5 true
 
-2020-04-24   19:45:49   DEBUG   - CHOICE D
+2020-04-25   16:38:23   DEBUG   - DEPENDECY :[2, 3, 4]
 
-2020-04-24   19:45:49   DEBUG   - Rule: 3 UNION: (not (B)) or (not (D))
+2020-04-25   16:38:23   DEBUG   - CLASS :D
 
-2020-04-24   19:45:49   DEBUG   - CHOICE not (B)
+2020-04-25   16:38:23   DEBUG   - DEPENDECY :[2, 3, 4]
 
-2020-04-24   19:45:49   DEBUG   - Rule: 4 UNION: (S only (not (C))) or (S only (R some 
-    (A
-     and (not (A)))))
+2020-04-25   16:38:23   DEBUG   - CLASS :not (B)
 
-2020-04-24   19:45:49   DEBUG   - CHOICE S only (not (C))
+2020-04-25   16:38:23   DEBUG   - DEPENDECY :[2, 3, 4]
 
-2020-04-24   19:45:49   DEBUG   - Rule: 5 SOME: S some (R only A)
+2020-04-25   16:38:23   DEBUG   - Rule: 8 ALL: S only (not (C))
 
-2020-04-24   19:45:49   DEBUG   - SAT: 5
+2020-04-25   16:38:23   DEBUG   - SAT: 8
 
-2020-04-24   19:45:49   DEBUG   - Rule: 0 ALL: R only A
+2020-04-25   16:38:23   DEBUG   - DEPENDECY :[]
 
-2020-04-24   19:45:49   DEBUG   - ALL NO CONDITIONS
-
-2020-04-24   19:45:49   DEBUG   - SAT: 5 true
-
-2020-04-24   19:45:49   DEBUG   - CLASS :D
-
-2020-04-24   19:45:49   DEBUG   - CLASS :not (B)
-
-2020-04-24   19:45:49   DEBUG   - Rule: 8 ALL: S only (not (C))
-
-2020-04-24   19:45:49   DEBUG   - SAT: 8
-
-2020-04-24   19:45:49   DEBUG   - Rule: 0 INTERSECTION: (not (C))
+2020-04-25   16:38:23   DEBUG   - Rule: 0 INTERSECTION: (not (C))
  and (R only A)
 
-2020-04-24   19:45:49   DEBUG   - CLASS :not (C)
+2020-04-25   16:38:23   DEBUG   - DEPENDECY :[]
 
-2020-04-24   19:45:49   DEBUG   - Rule: 2 ALL: R only A
+2020-04-25   16:38:23   DEBUG   - CLASS :not (C)
 
-2020-04-24   19:45:49   DEBUG   - ALL NO CONDITIONS
+2020-04-25   16:38:23   DEBUG   - DEPENDECY :[]
 
-2020-04-24   19:45:49   DEBUG   - SAT: 8 true
+2020-04-25   16:38:23   DEBUG   - Rule: 2 ALL: R only A
 
-2020-04-24   19:45:49   DEBUG   - SAT: -1 true
+2020-04-25   16:38:23   DEBUG   - ALL NO CONDITIONS
 
-2020-04-24   19:45:49   INFO    - The concept is true
+2020-04-25   16:38:23   DEBUG   - SAT: 8 true
 
-2020-04-24   19:45:49   INFO    - Modello trovato: | D | not (B) | EXIST S. { } EXIST S. { } |
+2020-04-25   16:38:23   DEBUG   - SAT: -1 true
+
+2020-04-25   16:38:23   DEBUG   - NUMERO ITERAZIONI 26
+
+2020-04-25   16:38:23   INFO    - The concept is true
+
+2020-04-25   16:38:23   INFO    - Modello trovato: | D | not (B) | EXIST S. { } EXIST S. { } |
 
