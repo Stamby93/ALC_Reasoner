@@ -25,9 +25,13 @@ public class Launcher {
         ReasonerFactory factoryHermit = new ReasonerFactory();
         OWLReasoner hermit = factoryHermit.createReasoner(ont);
 
-        /*TABLEAU*/
-        OWLReasonerFactory ReasonerFactory = new ALCReasonerFactory();
-        OWLReasoner reasoner = ReasonerFactory.createReasoner(null);
+        /*TABLEAU Chronological*/
+        OWLReasonerFactory factoryALC_chrono = new ALCReasonerFactory();
+        OWLReasoner alc_chrono = factoryALC_chrono.createReasoner(null);
+
+        /*TABLEAU Jumping*/
+        OWLReasonerFactory factoryALC_jump = new ALCReasonerFactory();
+        OWLReasoner alc_jump = factoryALC_jump.createReasoner(null);
 
         LoggerManager.setFile(ontologyFile.getName());
 
@@ -54,23 +58,32 @@ public class Launcher {
             System.out.println("\nManchester Sintax:");
             System.out.println(OntologyRenderer.render(expression) + "\n");
 
-            long ALC_StartTime = System.currentTimeMillis();
-            boolean result = reasoner.isSatisfiable(expression);
-            long ALC_EndTime = System.currentTimeMillis();
-            System.out.println("\n\nALC(Tableau): " + result + " ("+(ALC_EndTime - ALC_StartTime) + " milliseconds)");
+            LoggerManager.writeInfoLog("\n\n\nSTARTING Chronological Tableau\n\n\n", Launcher.class);
 
-            long HERMIT_StartTime = System.currentTimeMillis();
-            boolean Hresult = hermit.isSatisfiable(expression);
-            long HERMIT_EndTime = System.currentTimeMillis();
-            System.out.println("HermiT: " + Hresult + " ("+(HERMIT_EndTime - HERMIT_StartTime) + " milliseconds)");
+            long chrono_StartTime = System.currentTimeMillis();
+            boolean resultChrono = alc_chrono.isSatisfiable(expression);
+            long chrono_EndTime = System.currentTimeMillis();
+            Integer chronoIteration=((ALCReasoner)alc_chrono).getIteration();
+            System.out.println("\n\nALC(Chronological Tableau): " + resultChrono + " ("+(chrono_EndTime - chrono_StartTime) + " milliseconds - "+ chronoIteration+" iterazioni");
+            LoggerManager.writeInfoLog("ALC(Chronological Tableau): " + resultChrono, Launcher.class);
 
-            LoggerManager.writeInfoLog("ALC(Tableau): " + result, Launcher.class);
-            if(result != Hresult) {
-                LoggerManager.writeInfoLog("HermiT: " + Hresult, Launcher.class);
-            }
+            LoggerManager.writeInfoLog("\n\n\nSTARTING Jumping Tableau\n\n\n", Launcher.class);
 
-            if(result) {
-                String model = "\n\n\nModello: |"+((ALCReasoner)reasoner).getModel();
+            long jump_StartTime = System.currentTimeMillis();
+            boolean resultJump = alc_jump.isSatisfiable(expression);
+            long jump_EndTime = System.currentTimeMillis();
+            Integer jumpIteration=((ALCReasoner)alc_chrono).getIteration();
+            System.out.println("ALC(Jumping Tableau): " + resultJump + " ("+(jump_EndTime - jump_StartTime) + " milliseconds) - "+ jumpIteration+" iterazioni");
+            LoggerManager.writeInfoLog("ALC(Chronological Tableau): " + resultJump, Launcher.class);
+
+            long hermit_StartTime = System.currentTimeMillis();
+            boolean resultHermit = hermit.isSatisfiable(expression);
+            long hermit_EndTime = System.currentTimeMillis();
+            System.out.println("HermiT: " + resultHermit + " ("+(hermit_EndTime - hermit_StartTime) + " milliseconds)");
+            LoggerManager.writeInfoLog("\n\nHermiT: " + resultHermit, Launcher.class);
+
+            if(resultChrono) {
+                String model = "\n\n\nModello: |"+((ALCReasoner)alc_chrono).getModel();
                 System.out.println(model);
                 LoggerManager.writeInfoLog(model, Launcher.class);
             }

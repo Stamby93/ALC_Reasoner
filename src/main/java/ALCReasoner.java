@@ -13,6 +13,7 @@ public class ALCReasoner implements OWLReasoner {
 
     public TableauFactory TableauFactory = null;
     public Tableau Tableau = null;
+    private final String type = "Chronological";
 
     /**
      * Default constructor
@@ -21,6 +22,10 @@ public class ALCReasoner implements OWLReasoner {
         TableauFactory = new TableauFactory();
     }
 
+    public ALCReasoner(String type){
+        type = this.type;
+        TableauFactory = new TableauFactory();
+    }
 
     @Override
     public Node<OWLClass> getUnsatisfiableClasses() {
@@ -270,11 +275,15 @@ public class ALCReasoner implements OWLReasoner {
     @Override
     public boolean isSatisfiable(OWLClassExpression owlClassExpression) {
 
-        Tableau = TableauFactory.getTableau("Chronological", owlClassExpression.getNNF());
+        Tableau = TableauFactory.getTableau(type, owlClassExpression.getNNF());
         return Tableau.SAT();
     }
 
     public String getModel(){
         return Tableau.getModel();
+    }
+
+    public Integer getIteration(){
+        return Tableau.getIteration();
     }
 }

@@ -31,6 +31,12 @@ public class ALCReasonerFactory implements OWLReasonerFactory {
         throw new RuntimeException("Input ontology must be empty");
     }
 
+    public OWLReasoner createReasoner(String type, OWLOntology ontology) {
+        if(ontology == null)
+            return new ALCReasoner(type);
+        throw new RuntimeException("Input ontology must be empty");
+    }
+
     @Override
     public OWLReasoner createNonBufferingReasoner(OWLOntology owlOntology, OWLReasonerConfiguration owlReasonerConfiguration) {
         throw new UnsupportedOperationException("This is a simple ALC reasoner factory");

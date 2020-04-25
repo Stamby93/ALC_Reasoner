@@ -365,7 +365,7 @@ public class ChronologicalTableau implements Tableau{
         return model;
     }
 
-    public int getIteration(){
+    public Integer getIteration(){
 
         int it=iteration;
 

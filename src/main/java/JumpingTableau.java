@@ -9,7 +9,7 @@ public class JumpingTableau implements Tableau{
 
     private List<List<Integer>> dependency;
 
-    private List<Integer> actualDependency;
+    private final List<Integer> actualDependency;
 
     private List<Integer> clashList;
 
@@ -300,7 +300,7 @@ public class JumpingTableau implements Tableau{
 
                     if(j > workingRule)
                         l.remove(j);
-                    else if(j == workingRule && !actualDependency.contains(Integer.valueOf(workingRule)))
+                    else if(j == workingRule && !actualDependency.contains(workingRule))
                         l.remove(j);
 
                 }
@@ -317,7 +317,7 @@ public class JumpingTableau implements Tableau{
 
                 ArrayList<JumpingTableau> t = new ArrayList<>(someRelation.remove(oe));
 
-                if(t!= null && t.size()!=0){
+                if(t.size() != 0){
 
                     for (int i = t.size() - 1; i >=0 ; i--) {
                         if(t.get(i).getParent() > workingRule)
@@ -419,7 +419,7 @@ public class JumpingTableau implements Tableau{
         return model;
     }
 
-    public int getIteration(){
+    public Integer getIteration(){
 
         int it=iteration;
 
