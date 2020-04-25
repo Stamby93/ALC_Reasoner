@@ -12,11 +12,7 @@ public class TableauFactory {
     public TableauFactory() {
     }
 
-    /**
-     * @param type 
-     * @param Concept 
-     * @return Tableau
-     */
+
     public Tableau getTableau(String type, OWLClassExpression Concept) {
         switch (type){
             case "Chronological":

@@ -8,17 +8,22 @@ import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
  */
 public class ALCReasonerFactory implements OWLReasonerFactory {
 
+    private String type = "Chronological";
     /**
      * Default constructor
      */
     public ALCReasonerFactory() {
     }
 
+    public ALCReasonerFactory(String type){
+        this.type = type;
+    }
+
     /**
      * @return
      */
     public ALCReasoner createReasoner() {
-        return new ALCReasoner();
+        return new ALCReasoner(type);
     }
 
     /**
@@ -28,12 +33,6 @@ public class ALCReasonerFactory implements OWLReasonerFactory {
     public OWLReasoner createReasoner(OWLOntology ontology) {
         if(ontology == null)
             return createReasoner();
-        throw new RuntimeException("Input ontology must be empty");
-    }
-
-    public OWLReasoner createReasoner(String type, OWLOntology ontology) {
-        if(ontology == null)
-            return new ALCReasoner(type);
         throw new RuntimeException("Input ontology must be empty");
     }
 

@@ -13,7 +13,7 @@ public class ALCReasoner implements OWLReasoner {
 
     public TableauFactory TableauFactory = null;
     public Tableau Tableau = null;
-    private final String type = "Chronological";
+    private String type = "Chronological";
 
     /**
      * Default constructor
@@ -23,7 +23,7 @@ public class ALCReasoner implements OWLReasoner {
     }
 
     public ALCReasoner(String type){
-        type = this.type;
+        this.type = type;
         TableauFactory = new TableauFactory();
     }
 

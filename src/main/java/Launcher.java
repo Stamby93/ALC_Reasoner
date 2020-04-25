@@ -14,7 +14,7 @@ public class Launcher {
     public static void main(String[] args) throws Exception {
 
         OWLOntologyManager man = OWLManager.createOWLOntologyManager();
-        File ontologyFile = new File("Ontologie/spaccatuttoFalso.owl");
+        File ontologyFile = new File("Ontologie/mgp.owl");
         OWLOntology ont = man.loadOntologyFromOntologyDocument(ontologyFile);
         OWLDataFactory df = man.getOWLDataFactory();
         IRI iri = ont.getOntologyID().getOntologyIRI().get();
@@ -30,7 +30,7 @@ public class Launcher {
         OWLReasoner alc_chrono = factoryALC_chrono.createReasoner(null);
 
         /*TABLEAU Jumping*/
-        OWLReasonerFactory factoryALC_jump = new ALCReasonerFactory();
+        OWLReasonerFactory factoryALC_jump = new ALCReasonerFactory("Jumping");
         OWLReasoner alc_jump = factoryALC_jump.createReasoner(null);
 
         LoggerManager.setFile(ontologyFile.getName());
@@ -72,7 +72,7 @@ public class Launcher {
             long jump_StartTime = System.currentTimeMillis();
             boolean resultJump = alc_jump.isSatisfiable(expression);
             long jump_EndTime = System.currentTimeMillis();
-            Integer jumpIteration=((ALCReasoner)alc_chrono).getIteration();
+            Integer jumpIteration=((ALCReasoner)alc_jump).getIteration();
             System.out.println("ALC(Jumping Tableau): " + resultJump + " ("+(jump_EndTime - jump_StartTime) + " milliseconds) - "+ jumpIteration+" iterazioni");
             LoggerManager.writeInfoLog("ALC(Chronological Tableau): " + resultJump, Launcher.class);
 
