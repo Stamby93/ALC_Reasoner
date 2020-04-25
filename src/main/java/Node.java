@@ -61,4 +61,10 @@ public class Node {
     public List<OWLClassExpression> getAbox() {
         return Abox;
     }
+
+    public boolean hasChoice(){
+        OWLObjectUnionOf union = (OWLObjectUnionOf) Abox.get(workingRule);
+        List<OWLClassExpression> jointedList = union.operands().collect(Collectors.toList());
+        return currentChoice < jointedList.size();
+    }
 }

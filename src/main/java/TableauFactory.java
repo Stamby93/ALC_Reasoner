@@ -21,6 +21,8 @@ public class TableauFactory {
         switch (type){
             case "Naive":
                 return new NaiveTableau(Concept, -1);
+            case "Jumping":
+                return new JumpingTableau(Concept, -1);
             default:
                 return null;
         }

@@ -3,33 +3,35 @@ import uk.ac.manchester.cs.owl.owlapi.OWLObjectIntersectionOfImpl;
 
 import java.util.*;
 
-public class NaiveTableau implements Tableau{
+public class JumpingTableau implements Tableau{
 
     private final List<OWLClassExpression> Abox;
 
-    private final List<Integer> branchingNode;
+    private List<List<Integer>> dependency;
 
-    private List<Integer> dependency;
+    private List<Integer> actualDependency;
+
+    private List<Integer> clashList;
 
     private final Map<Integer, Node> nodeList;
 
     private int workingRule = 0;
 
-    private final HashMap<OWLObjectPropertyExpression, List<NaiveTableau>> someRelation;
+    private final HashMap<OWLObjectPropertyExpression, List<JumpingTableau>> someRelation;
 
     private final int parent;
 
-    private int iteration=0;
+    private int iteration = 0;
 
-    protected NaiveTableau(OWLClassExpression concept, int parent) {
+    protected JumpingTableau(OWLClassExpression concept, int parent) {
 
         Abox = new ArrayList<>();
         Abox.add(0, concept);
-        branchingNode = new ArrayList<>();
         someRelation = new HashMap<>();
         nodeList = new HashMap<>();
         dependency = new ArrayList<>();
-        dependency.add(0,0);
+        dependency.add(0,Collections.singletonList(0));
+        actualDependency = new ArrayList<>();
         this.parent = parent;
     }
 
@@ -46,9 +48,10 @@ public class NaiveTableau implements Tableau{
 
     @Override
     public boolean SAT() {
-
-        LoggerManager.writeDebug("SAT: "+ parent, NaiveTableau.class);
+        LoggerManager.writeDebug("SAT: "+ parent, JumpingTableau.class);
         while(isWorking()){
+            LoggerManager.writeDebug("DEPENDECY :" + actualDependency,JumpingTableau.class);
+
             OWLClassExpression rule = Abox.get(workingRule);
             ClassExpressionType type = rule.getClassExpressionType();
             switch (type) {
@@ -66,21 +69,27 @@ public class NaiveTableau implements Tableau{
                     break;
                 case OWL_CLASS:
                 case OBJECT_COMPLEMENT_OF:
-                    LoggerManager.writeDebug("CLASS :"+ OntologyRenderer.render(Abox.get(workingRule)), NaiveTableau.class);
+                    LoggerManager.writeDebug("CLASS :"+ OntologyRenderer.render(Abox.get(workingRule)), JumpingTableau.class);
                     if(checkClash()){
-                        workingRule = dependency.get(workingRule);
-                        backtrack();
+
+                        if(clashList!= null && clashList.size()!=0) {
+                            workingRule = clashList.get(clashList.size()-1);
+                            backtrack();
+                        }
+                        else
+                            workingRule = -1;
                     }
                     else
                         workingRule++;
                     break;
             }
-        iteration++;
+            iteration++;
+
         }
 
-        LoggerManager.writeDebug("SAT: "+ parent+ " " + (workingRule > 0), NaiveTableau.class);
-        if (parent==-1)
-            LoggerManager.writeDebug("NUMERO ITERAZIONI" + getIteration(), JumpingTableau.class);
+        LoggerManager.writeDebug("SAT: "+ parent+ " " + (workingRule > 0), JumpingTableau.class);
+        if(parent==-1)
+            LoggerManager.writeDebug("NUMERO ITERAZIONI " + getIteration(), JumpingTableau.class);
 
 
         return workingRule >= 0;
@@ -88,7 +97,7 @@ public class NaiveTableau implements Tableau{
     }
 
     private void applyIntersection(){
-        LoggerManager.writeDebug("Rule: " + workingRule + " INTERSECTION: "+ OntologyRenderer.render(Abox.get(workingRule)), NaiveTableau.class);
+        LoggerManager.writeDebug("Rule: " + workingRule + " INTERSECTION: "+ OntologyRenderer.render(Abox.get(workingRule)), JumpingTableau.class);
         Node workingNode = new Node(Abox, workingRule);
         List<OWLClassExpression> flag = workingNode.applyRule();
         checkIntersection(flag);
@@ -97,52 +106,51 @@ public class NaiveTableau implements Tableau{
     }
 
     private void applyUnion(){
-        LoggerManager.writeDebug("Rule: "+ workingRule + " UNION: " + OntologyRenderer.render(Abox.get(workingRule)), NaiveTableau.class);
+        LoggerManager.writeDebug("Rule: "+ workingRule + " UNION: " + OntologyRenderer.render(Abox.get(workingRule)), JumpingTableau.class);
         Node workingNode;
 
-        if(branchingNode.size()!=0 && branchingNode.contains(workingRule)) {
+        if(actualDependency.size()!=0 && actualDependency.contains(workingRule))
             workingNode = nodeList.get(workingRule);
-
-        } else{
+        else
             workingNode = new Node(Abox, workingRule);
-            branchingNode.add(branchingNode.size(),workingRule);
 
-        }
         List<OWLClassExpression> choice = workingNode.applyRule();
         if(choice!=null && choice.get(0)!=null) {
-            LoggerManager.writeDebug("CHOICE " + OntologyRenderer.render(choice.get(0)),NaiveTableau.class);
+            LoggerManager.writeDebug("CHOICE " + OntologyRenderer.render(choice.get(0)),JumpingTableau.class);
+            if(workingNode.hasChoice() && !actualDependency.contains(workingRule))
+                actualDependency.add(actualDependency.size(),workingRule);
+            else
+                actualDependency.remove(Integer.valueOf(workingRule));
+
             checkIntersection(choice);
             nodeList.put(workingRule, workingNode);
             if (!checkClash()){
                 workingRule++;
             }
-            else
+            else{
+                workingRule = clashList.get(clashList.size()-1);
                 backtrack();
-        }
-        else{
-            branchingNode.remove(Integer.valueOf(workingRule));
-            workingRule--;
-            backtrack();
+            }
         }
     }
 
     private void applySome(OWLClassExpression rule){
-        LoggerManager.writeDebug("Rule: " + workingRule + " SOME: " + OntologyRenderer.render(rule), NaiveTableau.class);
+        LoggerManager.writeDebug("Rule: " + workingRule + " SOME: " + OntologyRenderer.render(rule), JumpingTableau.class);
 
-        NaiveTableau direct;
+        JumpingTableau direct;
         OWLObjectSomeValuesFrom someValue = (OWLObjectSomeValuesFrom) rule;
         OWLObjectPropertyExpression oe = someValue.getProperty();
         OWLClassExpression filler = someValue.getFiller();
 
         //VERIFICO SE INDIVIDUO HA LA RELAZIONE
-        List<NaiveTableau> related = someRelation.get(oe);
-        direct = new NaiveTableau(filler, workingRule);
+        List<JumpingTableau> related = someRelation.get(oe);
+        direct = new JumpingTableau(filler, workingRule);
 
         if (related != null && related.size()!=0) {
             //CASO IN CUI RELAZIONE RICHIESTA ESISTE, VERIFICO SE E' PRESENTE LA REGOLA NEL RULE SET
             boolean check = false;
 
-            for (NaiveTableau t : related) {
+            for (JumpingTableau t : related) {
 
                 if (t.checkSome(filler)) {
 
@@ -157,18 +165,19 @@ public class NaiveTableau implements Tableau{
                 //QUINDI INSTANZIO NUOVO INDIVIDUO E MI SALVO LA RELAZIONE
                 if(direct.SAT()) {
 
-                    ArrayList<NaiveTableau> flag = new ArrayList<>(someRelation.get(oe));
+                    ArrayList<JumpingTableau> flag = new ArrayList<>(someRelation.get(oe));
                     flag.add(direct);
                     someRelation.put(oe, flag);
                     workingRule++;
                 }
                 else{
-                    LoggerManager.writeDebug("SOME UNSATISFIABLE", NaiveTableau.class);
-                    workingRule = dependency.get(workingRule);
+                    LoggerManager.writeDebug("SOME UNSATISFIABLE", JumpingTableau.class);
+                    List<Integer> dep = dependency.get(workingRule);
+                    workingRule = dep.get(dep.size()-1);
                     backtrack();
                 }
             } else{
-                LoggerManager.writeDebug("SOME ALREADY PRESENT", NaiveTableau.class);
+                LoggerManager.writeDebug("SOME ALREADY PRESENT", JumpingTableau.class);
                 workingRule++;
             }
 
@@ -181,17 +190,21 @@ public class NaiveTableau implements Tableau{
                 workingRule++;
             }
             else{
-                LoggerManager.writeDebug("SOME UNSATISFIABLE",NaiveTableau.class);
+                LoggerManager.writeDebug("SOME UNSATISFIABLE",JumpingTableau.class);
 
-                workingRule = dependency.get(workingRule);
-
-                backtrack();
+                List<Integer> dep = dependency.get(workingRule);
+                if(dep.size()!=0) {
+                    workingRule = clashList.get(clashList.size()-1);
+                    backtrack();
+                }
+                else
+                    workingRule = -1;
             }
         }
     }
 
     private void applyAll(OWLClassExpression rule){
-        LoggerManager.writeDebug("Rule: " + workingRule + " ALL: "+ OntologyRenderer.render(rule),NaiveTableau.class);
+        LoggerManager.writeDebug("Rule: " + workingRule + " ALL: "+ OntologyRenderer.render(rule),JumpingTableau.class);
 
         OWLObjectAllValuesFrom allValue = (OWLObjectAllValuesFrom) rule;
         OWLClassExpression filler = allValue.getFiller();
@@ -200,16 +213,16 @@ public class NaiveTableau implements Tableau{
 
         if (someRelation.get(oe) == null){
 
-            LoggerManager.writeDebug("ALL NO CONDITIONS",NaiveTableau.class);
+            LoggerManager.writeDebug("ALL NO CONDITIONS",JumpingTableau.class);
             workingRule++;
         }
         else{
 
-            ArrayList<NaiveTableau> related = new ArrayList<>(someRelation.get(oe));
+            ArrayList<JumpingTableau> related = new ArrayList<>(someRelation.get(oe));
             int j = related.size();
             for (int i  = 0; (i < j) && check; i++){
 
-                NaiveTableau t = related.get(i);
+                JumpingTableau t = related.get(i);
                 if(!t.checkSome(filler)){
 
                     ArrayList<OWLClassExpression> operands = new ArrayList<>();
@@ -217,11 +230,25 @@ public class NaiveTableau implements Tableau{
                     operands.add(filler);
                     OWLObjectIntersectionOf concept = new OWLObjectIntersectionOfImpl(operands);
 
-                    NaiveTableau flag = new NaiveTableau(concept.getNNF(),workingRule);
+                    JumpingTableau flag = new JumpingTableau(concept.getNNF(),workingRule);
                     if(!flag.SAT()){
-                        LoggerManager.writeDebug("ALL UNSATISFIABLE",NaiveTableau.class);
-                        workingRule =  dependency.get(workingRule);
-                        backtrack();
+                        LoggerManager.writeDebug("ALL UNSATISFIABLE",JumpingTableau.class);
+                        clashList = new ArrayList<>(dependency.get(workingRule));
+                        for (Integer k :dependency.get(t.getParent())) {
+                            if(!clashList.contains(k)){
+                                clashList.add(k);
+                            }
+
+                        }
+                        Collections.sort(clashList);
+
+                        if(clashList.size()!=0){
+                            workingRule =  clashList.get(clashList.size()-1);
+                            backtrack();
+                        }
+                        else
+                            workingRule = -1;
+
                         check = false;
                     }
                     else
@@ -249,9 +276,10 @@ public class NaiveTableau implements Tableau{
 
 
     private void backtrack() {
-        LoggerManager.writeDebug("BACKTRACK :" + workingRule,NaiveTableau.class);
+        LoggerManager.writeDebug("BACKTRACK :" + workingRule,JumpingTableau.class);
 
-        if(branchingNode.size()!=0) {
+
+        if(actualDependency.size()!=0) {
 
             Node workingNode = nodeList.get(workingRule);
 
@@ -264,10 +292,29 @@ public class NaiveTableau implements Tableau{
             Abox.removeAll(Collections.unmodifiableList(Abox));
             Abox.addAll(workingNode.getAbox());
             dependency = dependency.subList(0,Abox.size());
+            for (int i = 0; i<dependency.size();i++) {
+
+                ArrayList<Integer> l = new ArrayList<>(dependency.get(i));
+                for (Integer j: l) {
+
+                    if(j > workingRule)
+                        l.remove(j);
+                    else if(j == workingRule && !actualDependency.contains(Integer.valueOf(workingRule)))
+                        l.remove(j);
+
+                }
+                dependency.set(i,l);
+
+            }
+
+            for (int i = actualDependency.size()-1; i>=0; i--){
+                if(actualDependency.get(i)>workingRule)
+                    actualDependency.remove(actualDependency.get(i));
+            }
             Set<OWLObjectPropertyExpression> listSome = someRelation.keySet();
             for (OWLObjectPropertyExpression oe : listSome) {
 
-                ArrayList<NaiveTableau> t = new ArrayList<>(someRelation.remove(oe));
+                ArrayList<JumpingTableau> t = new ArrayList<>(someRelation.remove(oe));
 
                 if(t!= null && t.size()!=0){
 
@@ -295,7 +342,7 @@ public class NaiveTableau implements Tableau{
         if(disjointedList!=null) {
             for (OWLClassExpression ce: disjointedList ) {
                 if(!Abox.contains(ce)){
-                    dependency.add(Abox.size(),workingRule);
+                    dependency.add(Abox.size(),new ArrayList<>(actualDependency));
                     Abox.add(Abox.size(),ce);
                 }
             }
@@ -317,7 +364,15 @@ public class NaiveTableau implements Tableau{
                 OWLClassExpression c1 = Abox.get(i1);
 
                 if (c.equals(c1.getComplementNNF())){
-                    LoggerManager.writeDebug("CLASH "+ OntologyRenderer.render(c) + " " +OntologyRenderer.render(c1), NaiveTableau.class);
+                    LoggerManager.writeDebug("CLASH "+ OntologyRenderer.render(c) + " " +OntologyRenderer.render(c1), JumpingTableau.class);
+                    clashList = new ArrayList<>(dependency.get(i));
+                    for (Integer j:dependency.get(i1)) {
+                        if(!clashList.contains(j)){
+                            clashList.add(j);
+                        }
+
+                    }
+                    Collections.sort(clashList);
                     return true;
                 }
             }
@@ -347,8 +402,8 @@ public class NaiveTableau implements Tableau{
             Set<OWLObjectPropertyExpression> key = someRelation.keySet();
             for (OWLObjectPropertyExpression oe : key) {
                 if (oe != null) {
-                    List<NaiveTableau> related = someRelation.get(oe);
-                    for (NaiveTableau t : related) {
+                    List<JumpingTableau> related = someRelation.get(oe);
+                    for (JumpingTableau t : related) {
                         model=model.concat(" EXIST " + OntologyRenderer.render((oe)) + ". {");
                         t.getModel();
                         if(model.chars().filter(ch -> ch == '}').count() < model.chars().filter(ch -> ch == '{').count())
@@ -371,16 +426,15 @@ public class NaiveTableau implements Tableau{
 
         for (OWLObjectPropertyExpression oe : listSome) {
 
-            ArrayList<NaiveTableau> lt = new ArrayList<>(someRelation.get(oe));
+            List<JumpingTableau> lt = someRelation.get(oe);
 
-            for (NaiveTableau t: lt) {
+            for (JumpingTableau t: lt) {
                 it+=t.getIteration();
 
             }
         }
         return it;
     }
-
 }
 
 
