@@ -19,8 +19,8 @@ public class TableauFactory {
      */
     public Tableau getTableau(String type, OWLClassExpression Concept) {
         switch (type){
-            case "Naive":
-                return new NaiveTableau(Concept, -1);
+            case "Chronological":
+                return new ChronologicalTableau(Concept, -1);
             case "Jumping":
                 return new JumpingTableau(Concept, -1);
             default:

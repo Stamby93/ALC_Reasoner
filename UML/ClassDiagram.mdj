@@ -2754,7 +2754,7 @@
 											"top": 271,
 											"width": 424.88037109375,
 											"height": 13,
-											"text": "NaiveTableau"
+											"text": "ChronologicalTableau"
 										},
 										{
 											"_type": "LabelView",
@@ -2915,7 +2915,7 @@
 											"top": 366,
 											"width": 433.544921875,
 											"height": 13,
-											"text": "-someRelation: Map<OWLObjectPropertyExpression; List<NaiveTableau>>",
+											"text": "-someRelation: Map<OWLObjectPropertyExpression; List<ChronologicalTableau>>",
 											"horizontalAlignment": 0
 										},
 										{
@@ -2983,7 +2983,7 @@
 											"top": 364,
 											"width": 424.88037109375,
 											"height": 13,
-											"text": "#NaiveTableau(concept: OWLClassExpression, parent: int): NaiveTableau",
+											"text": "#ChronologicalTableau(concept: OWLClassExpression, parent: int): ChronologicalTableau",
 											"horizontalAlignment": 0
 										},
 										{
@@ -8384,7 +8384,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "NaiveTableau",
+					"name": "ChronologicalTableau",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -8578,7 +8578,7 @@
 							},
 							"name": "someRelation",
 							"visibility": "private",
-							"type": "Map<OWLObjectPropertyExpression; List<NaiveTableau>>"
+							"type": "Map<OWLObjectPropertyExpression; List<ChronologicalTableau>>"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -8608,7 +8608,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFxiNp8deDFElU="
 							},
-							"name": "NaiveTableau",
+							"name": "ChronologicalTableau",
 							"visibility": "protected",
 							"parameters": [
 								{

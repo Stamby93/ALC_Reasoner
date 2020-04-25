@@ -3,7 +3,7 @@ import uk.ac.manchester.cs.owl.owlapi.OWLObjectIntersectionOfImpl;
 
 import java.util.*;
 
-public class NaiveTableau implements Tableau{
+public class ChronologicalTableau implements Tableau{
 
     private final List<OWLClassExpression> Abox;
 
@@ -15,13 +15,13 @@ public class NaiveTableau implements Tableau{
 
     private int workingRule = 0;
 
-    private final HashMap<OWLObjectPropertyExpression, List<NaiveTableau>> someRelation;
+    private final HashMap<OWLObjectPropertyExpression, List<ChronologicalTableau>> someRelation;
 
     private final int parent;
 
     private int iteration=0;
 
-    protected NaiveTableau(OWLClassExpression concept, int parent) {
+    protected ChronologicalTableau(OWLClassExpression concept, int parent) {
 
         Abox = new ArrayList<>();
         Abox.add(0, concept);
@@ -47,7 +47,7 @@ public class NaiveTableau implements Tableau{
     @Override
     public boolean SAT() {
 
-        LoggerManager.writeDebug("SAT: "+ parent, NaiveTableau.class);
+        LoggerManager.writeDebug("SAT: "+ parent, ChronologicalTableau.class);
         while(isWorking()){
             OWLClassExpression rule = Abox.get(workingRule);
             ClassExpressionType type = rule.getClassExpressionType();
@@ -66,7 +66,7 @@ public class NaiveTableau implements Tableau{
                     break;
                 case OWL_CLASS:
                 case OBJECT_COMPLEMENT_OF:
-                    LoggerManager.writeDebug("CLASS :"+ OntologyRenderer.render(Abox.get(workingRule)), NaiveTableau.class);
+                    LoggerManager.writeDebug("CLASS :"+ OntologyRenderer.render(Abox.get(workingRule)), ChronologicalTableau.class);
                     if(checkClash()){
                         workingRule = dependency.get(workingRule);
                         backtrack();
@@ -78,7 +78,7 @@ public class NaiveTableau implements Tableau{
         iteration++;
         }
 
-        LoggerManager.writeDebug("SAT: "+ parent+ " " + (workingRule > 0), NaiveTableau.class);
+        LoggerManager.writeDebug("SAT: "+ parent+ " " + (workingRule > 0), ChronologicalTableau.class);
         if (parent==-1)
             LoggerManager.writeDebug("NUMERO ITERAZIONI" + getIteration(), JumpingTableau.class);
 
@@ -88,7 +88,7 @@ public class NaiveTableau implements Tableau{
     }
 
     private void applyIntersection(){
-        LoggerManager.writeDebug("Rule: " + workingRule + " INTERSECTION: "+ OntologyRenderer.render(Abox.get(workingRule)), NaiveTableau.class);
+        LoggerManager.writeDebug("Rule: " + workingRule + " INTERSECTION: "+ OntologyRenderer.render(Abox.get(workingRule)), ChronologicalTableau.class);
         Node workingNode = new Node(Abox, workingRule);
         List<OWLClassExpression> flag = workingNode.applyRule();
         checkIntersection(flag);
@@ -97,7 +97,7 @@ public class NaiveTableau implements Tableau{
     }
 
     private void applyUnion(){
-        LoggerManager.writeDebug("Rule: "+ workingRule + " UNION: " + OntologyRenderer.render(Abox.get(workingRule)), NaiveTableau.class);
+        LoggerManager.writeDebug("Rule: "+ workingRule + " UNION: " + OntologyRenderer.render(Abox.get(workingRule)), ChronologicalTableau.class);
         Node workingNode;
 
         if(branchingNode.size()!=0 && branchingNode.contains(workingRule)) {
@@ -110,7 +110,7 @@ public class NaiveTableau implements Tableau{
         }
         List<OWLClassExpression> choice = workingNode.applyRule();
         if(choice!=null && choice.get(0)!=null) {
-            LoggerManager.writeDebug("CHOICE " + OntologyRenderer.render(choice.get(0)),NaiveTableau.class);
+            LoggerManager.writeDebug("CHOICE " + OntologyRenderer.render(choice.get(0)), ChronologicalTableau.class);
             checkIntersection(choice);
             nodeList.put(workingRule, workingNode);
             if (!checkClash()){
@@ -127,22 +127,22 @@ public class NaiveTableau implements Tableau{
     }
 
     private void applySome(OWLClassExpression rule){
-        LoggerManager.writeDebug("Rule: " + workingRule + " SOME: " + OntologyRenderer.render(rule), NaiveTableau.class);
+        LoggerManager.writeDebug("Rule: " + workingRule + " SOME: " + OntologyRenderer.render(rule), ChronologicalTableau.class);
 
-        NaiveTableau direct;
+        ChronologicalTableau direct;
         OWLObjectSomeValuesFrom someValue = (OWLObjectSomeValuesFrom) rule;
         OWLObjectPropertyExpression oe = someValue.getProperty();
         OWLClassExpression filler = someValue.getFiller();
 
         //VERIFICO SE INDIVIDUO HA LA RELAZIONE
-        List<NaiveTableau> related = someRelation.get(oe);
-        direct = new NaiveTableau(filler, workingRule);
+        List<ChronologicalTableau> related = someRelation.get(oe);
+        direct = new ChronologicalTableau(filler, workingRule);
 
         if (related != null && related.size()!=0) {
             //CASO IN CUI RELAZIONE RICHIESTA ESISTE, VERIFICO SE E' PRESENTE LA REGOLA NEL RULE SET
             boolean check = false;
 
-            for (NaiveTableau t : related) {
+            for (ChronologicalTableau t : related) {
 
                 if (t.checkSome(filler)) {
 
@@ -157,18 +157,18 @@ public class NaiveTableau implements Tableau{
                 //QUINDI INSTANZIO NUOVO INDIVIDUO E MI SALVO LA RELAZIONE
                 if(direct.SAT()) {
 
-                    ArrayList<NaiveTableau> flag = new ArrayList<>(someRelation.get(oe));
+                    ArrayList<ChronologicalTableau> flag = new ArrayList<>(someRelation.get(oe));
                     flag.add(direct);
                     someRelation.put(oe, flag);
                     workingRule++;
                 }
                 else{
-                    LoggerManager.writeDebug("SOME UNSATISFIABLE", NaiveTableau.class);
+                    LoggerManager.writeDebug("SOME UNSATISFIABLE", ChronologicalTableau.class);
                     workingRule = dependency.get(workingRule);
                     backtrack();
                 }
             } else{
-                LoggerManager.writeDebug("SOME ALREADY PRESENT", NaiveTableau.class);
+                LoggerManager.writeDebug("SOME ALREADY PRESENT", ChronologicalTableau.class);
                 workingRule++;
             }
 
@@ -181,7 +181,7 @@ public class NaiveTableau implements Tableau{
                 workingRule++;
             }
             else{
-                LoggerManager.writeDebug("SOME UNSATISFIABLE",NaiveTableau.class);
+                LoggerManager.writeDebug("SOME UNSATISFIABLE", ChronologicalTableau.class);
 
                 workingRule = dependency.get(workingRule);
 
@@ -191,7 +191,7 @@ public class NaiveTableau implements Tableau{
     }
 
     private void applyAll(OWLClassExpression rule){
-        LoggerManager.writeDebug("Rule: " + workingRule + " ALL: "+ OntologyRenderer.render(rule),NaiveTableau.class);
+        LoggerManager.writeDebug("Rule: " + workingRule + " ALL: "+ OntologyRenderer.render(rule), ChronologicalTableau.class);
 
         OWLObjectAllValuesFrom allValue = (OWLObjectAllValuesFrom) rule;
         OWLClassExpression filler = allValue.getFiller();
@@ -200,16 +200,16 @@ public class NaiveTableau implements Tableau{
 
         if (someRelation.get(oe) == null){
 
-            LoggerManager.writeDebug("ALL NO CONDITIONS",NaiveTableau.class);
+            LoggerManager.writeDebug("ALL NO CONDITIONS", ChronologicalTableau.class);
             workingRule++;
         }
         else{
 
-            ArrayList<NaiveTableau> related = new ArrayList<>(someRelation.get(oe));
+            ArrayList<ChronologicalTableau> related = new ArrayList<>(someRelation.get(oe));
             int j = related.size();
             for (int i  = 0; (i < j) && check; i++){
 
-                NaiveTableau t = related.get(i);
+                ChronologicalTableau t = related.get(i);
                 if(!t.checkSome(filler)){
 
                     ArrayList<OWLClassExpression> operands = new ArrayList<>();
@@ -217,9 +217,9 @@ public class NaiveTableau implements Tableau{
                     operands.add(filler);
                     OWLObjectIntersectionOf concept = new OWLObjectIntersectionOfImpl(operands);
 
-                    NaiveTableau flag = new NaiveTableau(concept.getNNF(),workingRule);
+                    ChronologicalTableau flag = new ChronologicalTableau(concept.getNNF(),workingRule);
                     if(!flag.SAT()){
-                        LoggerManager.writeDebug("ALL UNSATISFIABLE",NaiveTableau.class);
+                        LoggerManager.writeDebug("ALL UNSATISFIABLE", ChronologicalTableau.class);
                         workingRule =  dependency.get(workingRule);
                         backtrack();
                         check = false;
@@ -249,7 +249,7 @@ public class NaiveTableau implements Tableau{
 
 
     private void backtrack() {
-        LoggerManager.writeDebug("BACKTRACK :" + workingRule,NaiveTableau.class);
+        LoggerManager.writeDebug("BACKTRACK :" + workingRule, ChronologicalTableau.class);
 
         if(branchingNode.size()!=0) {
 
@@ -267,7 +267,7 @@ public class NaiveTableau implements Tableau{
             Set<OWLObjectPropertyExpression> listSome = someRelation.keySet();
             for (OWLObjectPropertyExpression oe : listSome) {
 
-                ArrayList<NaiveTableau> t = new ArrayList<>(someRelation.remove(oe));
+                ArrayList<ChronologicalTableau> t = new ArrayList<>(someRelation.remove(oe));
 
                 if(t!= null && t.size()!=0){
 
@@ -317,7 +317,7 @@ public class NaiveTableau implements Tableau{
                 OWLClassExpression c1 = Abox.get(i1);
 
                 if (c.equals(c1.getComplementNNF())){
-                    LoggerManager.writeDebug("CLASH "+ OntologyRenderer.render(c) + " " +OntologyRenderer.render(c1), NaiveTableau.class);
+                    LoggerManager.writeDebug("CLASH "+ OntologyRenderer.render(c) + " " +OntologyRenderer.render(c1), ChronologicalTableau.class);
                     return true;
                 }
             }
@@ -347,8 +347,8 @@ public class NaiveTableau implements Tableau{
             Set<OWLObjectPropertyExpression> key = someRelation.keySet();
             for (OWLObjectPropertyExpression oe : key) {
                 if (oe != null) {
-                    List<NaiveTableau> related = someRelation.get(oe);
-                    for (NaiveTableau t : related) {
+                    List<ChronologicalTableau> related = someRelation.get(oe);
+                    for (ChronologicalTableau t : related) {
                         model=model.concat(" EXIST " + OntologyRenderer.render((oe)) + ". {");
                         t.getModel();
                         if(model.chars().filter(ch -> ch == '}').count() < model.chars().filter(ch -> ch == '{').count())
@@ -371,9 +371,9 @@ public class NaiveTableau implements Tableau{
 
         for (OWLObjectPropertyExpression oe : listSome) {
 
-            ArrayList<NaiveTableau> lt = new ArrayList<>(someRelation.get(oe));
+            ArrayList<ChronologicalTableau> lt = new ArrayList<>(someRelation.get(oe));
 
-            for (NaiveTableau t: lt) {
+            for (ChronologicalTableau t: lt) {
                 it+=t.getIteration();
 
             }
