@@ -39,8 +39,7 @@ public class TestLauncher {
         ontologyFileName = "Ontologie/06-06-26.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner();
-        expResult = Hermit();
-        System.out.println("\n\nThe concept is " + result +" - The Hermit concept is "+ expResult);
+        expResult = Hermit_Reasoner();
         assertEquals(expResult, result);
 }
     @Test
@@ -48,7 +47,7 @@ public class TestLauncher {
         ontologyFileName = "Ontologie/06-07-24.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner();
-        expResult = Hermit();
+        expResult = Hermit_Reasoner();
         assertEquals(expResult, result);
 }
     @Test
@@ -56,7 +55,7 @@ public class TestLauncher {
         ontologyFileName = "Ontologie/09-06-01.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner();
-        expResult = Hermit();
+        expResult = Hermit_Reasoner();
 
         assertEquals(expResult, result);
 }
@@ -65,7 +64,7 @@ public class TestLauncher {
         ontologyFileName = "Ontologie/12-06-08.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner();
-        expResult = Hermit();
+        expResult = Hermit_Reasoner();
         assertEquals(expResult, result);
 }
     @Test
@@ -73,7 +72,7 @@ public class TestLauncher {
         ontologyFileName = "Ontologie/17-01-27.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner();
-        expResult = Hermit();
+        expResult = Hermit_Reasoner();
         assertEquals(expResult, result);
 }
     @Test
@@ -81,7 +80,7 @@ public class TestLauncher {
         ontologyFileName = "Ontologie/17-02-23.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner();
-        expResult = Hermit();
+        expResult = Hermit_Reasoner();
         assertEquals(expResult, result);
 }
     @Test
@@ -89,7 +88,7 @@ public class TestLauncher {
         ontologyFileName = "Ontologie/18-02-08_PROVA_2.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner();
-        expResult = Hermit();
+        expResult = Hermit_Reasoner();
         assertEquals(expResult, result);
 }
     @Test
@@ -97,7 +96,7 @@ public class TestLauncher {
         ontologyFileName = "Ontologie/18-02-08_PROVA_3.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner();
-        expResult = Hermit();
+        expResult = Hermit_Reasoner();
         assertEquals(expResult, result);
 }
     @Test
@@ -105,7 +104,7 @@ public class TestLauncher {
         ontologyFileName = "Ontologie/18-02-08_PROVA.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner();
-        expResult = Hermit();
+        expResult = Hermit_Reasoner();
         assertEquals(expResult, result);
 }
     @Test
@@ -113,7 +112,7 @@ public class TestLauncher {
         ontologyFileName = "Ontologie/18-02-08.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner();
-        expResult = Hermit();
+        expResult = Hermit_Reasoner();
         assertEquals(expResult, result);
 }
     @Test
@@ -121,7 +120,7 @@ public class TestLauncher {
         ontologyFileName = "Ontologie/AnotA.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner();
-        expResult = Hermit();
+        expResult = Hermit_Reasoner();
         assertEquals(expResult, result);
 }
     @Test
@@ -129,7 +128,7 @@ public class TestLauncher {
         ontologyFileName = "Ontologie/Bottom.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner();
-        expResult = Hermit();
+        expResult = Hermit_Reasoner();
         assertEquals(expResult, result);
 }
     @Test
@@ -137,7 +136,7 @@ public class TestLauncher {
         ontologyFileName = "Ontologie/enzo_Fantasy.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner();
-        expResult = Hermit();
+        expResult = Hermit_Reasoner();
         assertEquals(expResult, result);
 }
     @Test
@@ -145,7 +144,7 @@ public class TestLauncher {
         ontologyFileName = "Ontologie/PerOgni.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner();
-        expResult = Hermit();
+        expResult = Hermit_Reasoner();
         assertEquals(expResult, result);
 }
     @Test
@@ -153,7 +152,7 @@ public class TestLauncher {
         ontologyFileName = "Ontologie/mostro.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner();
-        expResult = Hermit();
+        expResult = Hermit_Reasoner();
         assertEquals(expResult, result);
 }
     @Test
@@ -161,7 +160,7 @@ public class TestLauncher {
         ontologyFileName = "Ontologie/mostropiugrosso.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner();
-        expResult = Hermit();
+        expResult = Hermit_Reasoner();
         assertEquals(expResult, result);
 }
     @Test
@@ -169,7 +168,7 @@ public class TestLauncher {
         ontologyFileName = "Ontologie/PROVASCAL1.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner();
-        expResult = Hermit();
+        expResult = Hermit_Reasoner();
         assertEquals(expResult, result);
 }
     @Test
@@ -177,7 +176,7 @@ public class TestLauncher {
         ontologyFileName = "Ontologie/mpp.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner();
-        expResult = Hermit();
+        expResult = Hermit_Reasoner();
         assertEquals(expResult, result);
 }
     @Test
@@ -185,7 +184,7 @@ public class TestLauncher {
         ontologyFileName = "Ontologie/mpp2.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner();
-        expResult = Hermit();
+        expResult = Hermit_Reasoner();
         assertEquals(expResult, result);
 }
     @Test
@@ -193,7 +192,7 @@ public class TestLauncher {
         ontologyFileName = "Ontologie/mpp3.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner();
-        expResult = Hermit();
+        expResult = Hermit_Reasoner();
         assertEquals(expResult, result);
 }
     @Test
@@ -201,7 +200,7 @@ public class TestLauncher {
         ontologyFileName = "Ontologie/mgp.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner();
-        expResult = Hermit();
+        expResult = Hermit_Reasoner();
         assertEquals(expResult, result);
 }
     @Test
@@ -209,7 +208,7 @@ public class TestLauncher {
         ontologyFileName = "Ontologie/Satisfiable.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner();
-        expResult = Hermit();
+        expResult = Hermit_Reasoner();
         assertEquals(expResult, result);
 }
     @Test
@@ -217,7 +216,7 @@ public class TestLauncher {
         ontologyFileName = "Ontologie/stupido.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner();
-        expResult = Hermit();
+        expResult = Hermit_Reasoner();
         assertEquals(expResult, result);
 }
     @Test
@@ -225,7 +224,7 @@ public class TestLauncher {
         ontologyFileName = "Ontologie/stupido2.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner();
-        expResult = Hermit();
+        expResult = Hermit_Reasoner();
         assertEquals(expResult, result);
 }
     @Test
@@ -233,7 +232,7 @@ public class TestLauncher {
         ontologyFileName = "Ontologie/spaccatuttoVero.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner();
-        expResult = Hermit();
+        expResult = Hermit_Reasoner();
         assertEquals(expResult, result);
 }
     @Test
@@ -241,7 +240,7 @@ public class TestLauncher {
         ontologyFileName = "Ontologie/spaccatuttoFalso.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner();
-        expResult = Hermit();
+        expResult = Hermit_Reasoner();
         assertEquals(expResult, result);
 }
 
@@ -250,7 +249,7 @@ public class TestLauncher {
         ontologyFileName = "Ontologie/PROVASCAL1.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner();
-        expResult = Hermit();
+        expResult = Hermit_Reasoner();
         assertEquals(expResult, result);
 }
 
@@ -259,7 +258,7 @@ public class TestLauncher {
         ontologyFileName = "Ontologie/PROVASCAL2.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner();
-        expResult = Hermit();
+        expResult = Hermit_Reasoner();
         assertEquals(expResult, result);
 }
 
@@ -268,7 +267,7 @@ public class TestLauncher {
         ontologyFileName = "Ontologie/PROVASCAL3.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner();
-        expResult = Hermit();
+        expResult = Hermit_Reasoner();
         assertEquals(expResult, result);
 }
 
@@ -301,7 +300,7 @@ public class TestLauncher {
         }
     }
 
-    private boolean Hermit() {
+    private boolean Hermit_Reasoner() {
         return oracle.isSatisfiable(expression.getNNF());
     }
 
