@@ -2073,11 +2073,30 @@
 									"model": {
 										"$ref": "AAAAAAFxeOpFhqtVLpk="
 									},
+									"subViews": [
+										{
+											"_type": "UMLAttributeView",
+											"_id": "AAAAAAFxsnM8bONV1eM=",
+											"_parent": {
+												"$ref": "AAAAAAFxeOpFiKtdutU="
+											},
+											"model": {
+												"$ref": "AAAAAAFxsnM8KeNMIiA="
+											},
+											"font": "Arial;13;0",
+											"left": 517,
+											"top": 246,
+											"width": 271,
+											"height": 13,
+											"text": "-type: String",
+											"horizontalAlignment": 0
+										}
+									],
 									"font": "Arial;13;0",
 									"left": 512,
 									"top": 241,
 									"width": 281,
-									"height": 10
+									"height": 23
 								},
 								{
 									"_type": "UMLOperationCompartmentView",
@@ -2118,7 +2137,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 517,
-											"top": 258,
+											"top": 271,
 											"width": 271,
 											"height": 13,
 											"text": "+createReasoner(): ALCReasoner",
@@ -2135,7 +2154,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 517,
-											"top": 273,
+											"top": 286,
 											"width": 271,
 											"height": 13,
 											"text": "+createReasoner(type: String): ALCReasoner",
@@ -2144,7 +2163,7 @@
 									],
 									"font": "Arial;13;0",
 									"left": 512,
-									"top": 251,
+									"top": 264,
 									"width": 281,
 									"height": 40
 								},
@@ -2186,7 +2205,7 @@
 							"left": 512,
 							"top": 216,
 							"width": 281,
-							"height": 75,
+							"height": 88,
 							"nameCompartment": {
 								"$ref": "AAAAAAFxeOpFh6tYFdY="
 							},
@@ -9685,6 +9704,18 @@
 							"target": {
 								"$ref": "AAAAAAFxeJfSwnHp70k="
 							}
+						}
+					],
+					"attributes": [
+						{
+							"_type": "UMLAttribute",
+							"_id": "AAAAAAFxsnM8KeNMIiA=",
+							"_parent": {
+								"$ref": "AAAAAAFxeOpFhqtVLpk="
+							},
+							"name": "type",
+							"visibility": "private",
+							"type": "String"
 						}
 					],
 					"operations": [

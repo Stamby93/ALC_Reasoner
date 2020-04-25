@@ -74,7 +74,7 @@ public class Launcher {
             long jump_EndTime = System.currentTimeMillis();
             Integer jumpIteration=((ALCReasoner)alc_jump).getIteration();
             System.out.println("ALC(Jumping Tableau): " + resultJump + " ("+(jump_EndTime - jump_StartTime) + " milliseconds) - "+ jumpIteration+" iterazioni");
-            LoggerManager.writeInfoLog("ALC(Chronological Tableau): " + resultJump, Launcher.class);
+            LoggerManager.writeInfoLog("ALC(Jumping Tableau): " + resultJump, Launcher.class);
 
             long hermit_StartTime = System.currentTimeMillis();
             boolean resultHermit = hermit.isSatisfiable(expression);
