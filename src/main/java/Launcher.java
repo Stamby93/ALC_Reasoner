@@ -1,4 +1,6 @@
+
 import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.HermiT.ReasonerFactory;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
@@ -18,6 +20,10 @@ public class Launcher {
         IRI iri = ont.getOntologyID().getOntologyIRI().get();
         OWLClass flag = df.getOWLClass(iri + "#assioma");
         Set<OWLAxiom> ontologyAxiom = ont.axioms(flag).collect(Collectors.toSet());
+
+        ReasonerFactory factoryHermit = new ReasonerFactory();
+
+        OWLReasoner oracle = factoryHermit.createReasoner(ont);
 
         LoggerManager.setFile(ontologyFile.getName());
 
@@ -46,11 +52,21 @@ public class Launcher {
 
             OWLReasonerFactory ReasonerFactory = new ALCReasonerFactory();
             OWLReasoner reasoner = ReasonerFactory.createReasoner(null);
+            long ALC_StartTime = System.currentTimeMillis();
             boolean result = reasoner.isSatisfiable(expression.getNNF());
-            System.out.println("\n\nThe concept is " + result);
+            long ALC_EndTime = System.currentTimeMillis();
+            System.out.println("\n\nThe ALC concept is " + result + " ("+(ALC_EndTime - ALC_StartTime) + " milliseconds)");
+
+            long HERMIT_StartTime = System.currentTimeMillis();
+            boolean Hresult = oracle.isSatisfiable(expression.getNNF());
+            long HERMIT_EndTime = System.currentTimeMillis();
+            System.out.println("\nThe Hermit concept is " + Hresult + " ("+(HERMIT_EndTime - HERMIT_StartTime) + " milliseconds)");
+
             LoggerManager.writeInfoLog("The concept is " + result, Launcher.class);
+            LoggerManager.writeInfoLog("The Hermit concept is " + Hresult, Launcher.class);
+
             if(result) {
-                String model = "Modello trovato: |"+((ALCReasoner)reasoner).getModel();
+                String model = "\nModello trovato: |"+((ALCReasoner)reasoner).getModel();
                 System.out.println(model);
                 LoggerManager.writeInfoLog(model, Launcher.class);
             }
