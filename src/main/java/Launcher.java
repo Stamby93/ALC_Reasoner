@@ -14,16 +14,20 @@ public class Launcher {
     public static void main(String[] args) throws Exception {
 
         OWLOntologyManager man = OWLManager.createOWLOntologyManager();
-        File ontologyFile = new File("Ontologie/mpp.owl");
+        File ontologyFile = new File("Ontologie/spaccatuttoFalso.owl");
         OWLOntology ont = man.loadOntologyFromOntologyDocument(ontologyFile);
         OWLDataFactory df = man.getOWLDataFactory();
         IRI iri = ont.getOntologyID().getOntologyIRI().get();
         OWLClass flag = df.getOWLClass(iri + "#assioma");
         Set<OWLAxiom> ontologyAxiom = ont.axioms(flag).collect(Collectors.toSet());
 
+        /*HERMIT*/
         ReasonerFactory factoryHermit = new ReasonerFactory();
+        OWLReasoner hermit = factoryHermit.createReasoner(ont);
 
-        OWLReasoner oracle = factoryHermit.createReasoner(ont);
+        /*TABLEAU*/
+        OWLReasonerFactory ReasonerFactory = new ALCReasonerFactory();
+        OWLReasoner reasoner = ReasonerFactory.createReasoner(null);
 
         LoggerManager.setFile(ontologyFile.getName());
 
@@ -48,25 +52,25 @@ public class Launcher {
             System.out.println("Concetto in input:");
             System.out.println(expression.toString());
             System.out.println("\nManchester Sintax:");
-            System.out.println(OntologyRenderer.render(expression.getNNF()) + "\n");
+            System.out.println(OntologyRenderer.render(expression) + "\n");
 
-            OWLReasonerFactory ReasonerFactory = new ALCReasonerFactory();
-            OWLReasoner reasoner = ReasonerFactory.createReasoner(null);
             long ALC_StartTime = System.currentTimeMillis();
-            boolean result = reasoner.isSatisfiable(expression.getNNF());
+            boolean result = reasoner.isSatisfiable(expression);
             long ALC_EndTime = System.currentTimeMillis();
-            System.out.println("\n\nThe ALC concept is " + result + " ("+(ALC_EndTime - ALC_StartTime) + " milliseconds)");
+            System.out.println("\n\nALC(Tableau): " + result + " ("+(ALC_EndTime - ALC_StartTime) + " milliseconds)");
 
             long HERMIT_StartTime = System.currentTimeMillis();
-            boolean Hresult = oracle.isSatisfiable(expression.getNNF());
+            boolean Hresult = hermit.isSatisfiable(expression);
             long HERMIT_EndTime = System.currentTimeMillis();
-            System.out.println("\nThe Hermit concept is " + Hresult + " ("+(HERMIT_EndTime - HERMIT_StartTime) + " milliseconds)");
+            System.out.println("HermiT: " + Hresult + " ("+(HERMIT_EndTime - HERMIT_StartTime) + " milliseconds)");
 
-            LoggerManager.writeInfoLog("The concept is " + result, Launcher.class);
-            LoggerManager.writeInfoLog("The Hermit concept is " + Hresult, Launcher.class);
+            LoggerManager.writeInfoLog("ALC(Tableau): " + result, Launcher.class);
+            if(result != Hresult) {
+                LoggerManager.writeInfoLog("HermiT: " + Hresult, Launcher.class);
+            }
 
             if(result) {
-                String model = "\nModello trovato: |"+((ALCReasoner)reasoner).getModel();
+                String model = "\n\n\nModello: |"+((ALCReasoner)reasoner).getModel();
                 System.out.println(model);
                 LoggerManager.writeInfoLog(model, Launcher.class);
             }

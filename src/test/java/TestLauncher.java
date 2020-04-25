@@ -278,7 +278,6 @@ public class TestLauncher {
         OWLDataFactory df = man.getOWLDataFactory();
         IRI iri = ont.getOntologyID().getOntologyIRI().get();
         OWLClass flag = df.getOWLClass(iri + "#assioma");
-        boolean result = false;
         Set<OWLAxiom> ontologyAxiom = ont.axioms(flag).collect(Collectors.toSet());
         oracle = factoryHermit.createReasoner(ont);
 
@@ -301,14 +300,19 @@ public class TestLauncher {
     }
 
     private boolean Hermit_Reasoner() {
-        return oracle.isSatisfiable(expression.getNNF());
+        boolean result = false;
+        if (expression != null) {
+            result = oracle.isSatisfiable(expression);
+        }
+        return result;
     }
 
     private boolean ALC_Reasoner(){
+        boolean result = false;
         if (expression != null) {
-            result = reasoner.isSatisfiable(expression.getNNF());
+            result = reasoner.isSatisfiable(expression);
+            LoggerManager.writeInfoLog("The concept is "+result, TestLauncher.class);
             if(result) {
-                LoggerManager.writeInfoLog("The concept is "+result, TestLauncher.class);
                 String model = "Modello trovato: |"+((ALCReasoner)reasoner).getModel();
                 LoggerManager.writeInfoLog(model, TestLauncher.class);
             }
