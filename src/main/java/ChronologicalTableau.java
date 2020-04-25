@@ -29,7 +29,7 @@ public class ChronologicalTableau implements Tableau{
         someRelation = new HashMap<>();
         nodeList = new HashMap<>();
         dependency = new ArrayList<>();
-        dependency.add(0,0);
+        dependency.add(0,-1);
         this.parent = parent;
     }
 
@@ -48,7 +48,10 @@ public class ChronologicalTableau implements Tableau{
     public boolean SAT() {
 
         LoggerManager.writeDebug("SAT: "+ parent, ChronologicalTableau.class);
+
         while(isWorking()){
+
+
             OWLClassExpression rule = Abox.get(workingRule);
             ClassExpressionType type = rule.getClassExpressionType();
             switch (type) {
@@ -80,7 +83,7 @@ public class ChronologicalTableau implements Tableau{
 
         LoggerManager.writeDebug("SAT: "+ parent+ " " + (workingRule > 0), ChronologicalTableau.class);
         if (parent==-1)
-            LoggerManager.writeDebug("NUMERO ITERAZIONI" + getIteration(), JumpingTableau.class);
+            LoggerManager.writeDebug("NUMERO ITERAZIONI: " + getIteration(), JumpingTableau.class);
 
 
         return workingRule >= 0;
@@ -90,10 +93,13 @@ public class ChronologicalTableau implements Tableau{
     private void applyIntersection(){
         LoggerManager.writeDebug("Rule: " + workingRule + " INTERSECTION: "+ OntologyRenderer.render(Abox.get(workingRule)), ChronologicalTableau.class);
         Node workingNode = new Node(Abox, workingRule);
-        List<OWLClassExpression> flag = workingNode.applyRule();
-        checkIntersection(flag);
         nodeList.put(workingRule,workingNode);
-        workingRule++;
+
+        List<OWLClassExpression> flag = workingNode.applyRule();
+        Integer i = workingRule;
+        workingRule = dependency.get(i);
+        checkIntersection(flag);
+        workingRule = i +1;
     }
 
     private void applyUnion(){

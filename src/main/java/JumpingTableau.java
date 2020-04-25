@@ -30,7 +30,7 @@ public class JumpingTableau implements Tableau{
         someRelation = new HashMap<>();
         nodeList = new HashMap<>();
         dependency = new ArrayList<>();
-        dependency.add(0,Collections.singletonList(0));
+        dependency.add(0,Collections.singletonList(-1));
         actualDependency = new ArrayList<>();
         this.parent = parent;
     }
@@ -50,7 +50,6 @@ public class JumpingTableau implements Tableau{
     public boolean SAT() {
         LoggerManager.writeDebug("SAT: "+ parent, JumpingTableau.class);
         while(isWorking()){
-            LoggerManager.writeDebug("DEPENDECY :" + actualDependency,JumpingTableau.class);
 
             OWLClassExpression rule = Abox.get(workingRule);
             ClassExpressionType type = rule.getClassExpressionType();
