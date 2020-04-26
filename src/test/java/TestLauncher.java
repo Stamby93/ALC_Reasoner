@@ -10,6 +10,7 @@ import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 import uk.ac.manchester.cs.owl.owlapi.OWLEquivalentClassesAxiomImpl;
 
 import java.io.File;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -21,7 +22,6 @@ public class TestLauncher {
     private boolean expResult;
     private OWLReasoner reasoner;
     private OWLReasoner oracle;
-    private OWLOntology ont;
     private OWLClassExpression expression;
     private ReasonerFactory factoryHermit;
 
@@ -273,10 +273,12 @@ public class TestLauncher {
 
     private void loadOntology(String ontologyFileName) throws OWLOntologyCreationException {
         File ontologyFile = new File(ontologyFileName);
-        ont = man.loadOntologyFromOntologyDocument(ontologyFile);
+        OWLOntology ont = man.loadOntologyFromOntologyDocument(ontologyFile);
         LoggerManager.setFile(ontologyFile.getName());
         OWLDataFactory df = man.getOWLDataFactory();
-        IRI iri = ont.getOntologyID().getOntologyIRI().get();
+        Optional<IRI> optIri = ont.getOntologyID().getOntologyIRI();
+        assert optIri.isPresent();
+        IRI iri = optIri.get();
         OWLClass flag = df.getOWLClass(iri + "#assioma");
         Set<OWLAxiom> ontologyAxiom = ont.axioms(flag).collect(Collectors.toSet());
         oracle = factoryHermit.createReasoner(ont);

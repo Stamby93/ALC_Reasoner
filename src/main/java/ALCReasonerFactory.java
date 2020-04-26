@@ -20,15 +20,14 @@ public class ALCReasonerFactory implements OWLReasonerFactory {
     }
 
     /**
-     * @return
+     * @return OWLReasoner
      */
-    public ALCReasoner createReasoner() {
+    public OWLReasoner createReasoner() {
         return new ALCReasoner(type);
     }
 
     /**
-     * @param ontology 
-     * @return
+     * @return OWLReasoner
      */
     public OWLReasoner createReasoner(OWLOntology ontology) {
         if(ontology == null)

@@ -1,8 +1,6 @@
 import org.semanticweb.owlapi.io.OWLObjectRenderer;
 import org.semanticweb.owlapi.manchestersyntax.renderer.ManchesterOWLSyntaxOWLObjectRendererImpl;
-import org.semanticweb.owlapi.manchestersyntax.renderer.ManchesterOWLSyntaxPrefixNameShortFormProvider;
 import org.semanticweb.owlapi.model.OWLObject;
-import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 
@@ -17,10 +15,10 @@ public class OntologyRenderer {
         initialized = true;
     }
 
-    public static String render(OWLObject e){
+    public static String render(OWLObject object){
         if(!initialized)
             initRendered();
-        return renderer.render(e);
+        return renderer.render(object);
     }
 
 }

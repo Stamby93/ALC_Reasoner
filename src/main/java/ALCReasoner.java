@@ -11,7 +11,7 @@ import java.util.*;
  */
 public class ALCReasoner implements OWLReasoner {
 
-    public TableauFactory TableauFactory = null;
+    public TableauFactory TableauFactory;
     public Tableau Tableau = null;
     private String type = "Chronological";
 

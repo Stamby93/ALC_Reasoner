@@ -1,4 +1,3 @@
-import org.semanticweb.HermiT.ReasonerFactory;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
@@ -6,6 +5,7 @@ import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 import uk.ac.manchester.cs.owl.owlapi.OWLEquivalentClassesAxiomImpl;
 
 import java.io.File;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -21,7 +21,9 @@ public class Battery {
             OWLOntologyManager man = OWLManager.createOWLOntologyManager();
             OWLOntology ont = man.loadOntologyFromOntologyDocument(ontologyFile);
             OWLDataFactory df = man.getOWLDataFactory();
-            IRI iri = ont.getOntologyID().getOntologyIRI().get();
+            Optional<IRI> optIri = ont.getOntologyID().getOntologyIRI();
+            assert optIri.isPresent();
+            IRI iri = optIri.get();
             OWLClass flag = df.getOWLClass(iri + "#assioma");
             Set<OWLAxiom> ontologyAxiom = ont.axioms(flag).collect(Collectors.toSet());
 
