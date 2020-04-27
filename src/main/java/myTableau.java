@@ -227,23 +227,19 @@ public class myTableau implements Tableau{
             Tableau t = new myTableau(filler.getNNF(),workingRule);
             nodeList.add(workingNode,t);
 
-            if(t.SAT()){
+            if(allRelation.get(oe) == null)
+                allRelation.put(oe,Collections.singletonList(workingNode));
+            else{
 
-                if(allRelation.get(oe) == null)
-                    allRelation.put(oe,Collections.singletonList(workingNode));
-                else{
+                ArrayList<Integer> l = new ArrayList<>(allRelation.get(oe));
+                l.add(l.size(),workingNode);
+                allRelation.put(oe,l);
 
-                    ArrayList<Integer> l = new ArrayList<>(allRelation.get(oe));
-                    l.add(l.size(),workingNode);
-                    allRelation.put(oe,l);
-
-                }
-
-                workingNode++;
-                workingRule++;
             }
-            else
-                backtrack();
+
+            workingNode++;
+            workingRule++;
+
         }
         else{
 

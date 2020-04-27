@@ -256,25 +256,21 @@ public class myJumpingTableau implements Tableau{
             Tableau t = new myJumpingTableau(filler.getNNF(),workingRule);
             nodeList.add(workingNode,t);
 
-            if(t.SAT()){
 
-                if(allRelation.get(oe) == null)
-                    allRelation.put(oe,Collections.singletonList(workingNode));
-                else{
-
-                    ArrayList<Integer> l = new ArrayList<>(allRelation.get(oe));
-                    l.add(l.size(),workingNode);
-                    allRelation.put(oe,l);
-
-                }
-
-                workingNode++;
-                workingRule++;
-            }
+            if(allRelation.get(oe) == null)
+                allRelation.put(oe,Collections.singletonList(workingNode));
             else{
-                clashList = new ArrayList<>(dependency.get(workingRule));
-                backtrack();
+
+                ArrayList<Integer> l = new ArrayList<>(allRelation.get(oe));
+                l.add(l.size(),workingNode);
+                allRelation.put(oe,l);
+
             }
+
+            workingNode++;
+            workingRule++;
+
+
         }
         else{
 
