@@ -61,17 +61,23 @@ public class Battery {
                 boolean resultChrono = alc_chrono.isSatisfiable(expression);
                 long chrono_EndTime = System.currentTimeMillis();
                 Integer chronoIteration = ((ALCReasoner) alc_chrono).getIteration();
-                System.out.println("ALC(Chronological Tableau): " + resultChrono + " (" + (chrono_EndTime - chrono_StartTime) + " milliseconds - " + chronoIteration + " iterazioni");
+                String chrono_model = ((ALCReasoner) alc_chrono).getModel();
+                System.out.println("ALC(Chronological Tableau): " + resultChrono + " (" + (chrono_EndTime - chrono_StartTime) + " milliseconds - " + chronoIteration + " iterazioni)");
+                System.out.println("Model: " + chrono_model);
                 LoggerManager.writeInfoLog("ALC(Chronological Tableau): " + resultChrono, Launcher.class);
-
+                LoggerManager.writeInfoLog("Model " + chrono_model, Launcher.class);
                 LoggerManager.writeInfoLog("\n\n\nSTARTING Jumping Tableau\n\n\n", Launcher.class);
 
                 long jump_StartTime = System.currentTimeMillis();
                 boolean resultJump = alc_jump.isSatisfiable(expression);
                 long jump_EndTime = System.currentTimeMillis();
+                String jump_model =((ALCReasoner) alc_jump).getModel();
                 Integer jumpIteration = ((ALCReasoner) alc_jump).getIteration();
-                System.out.println("ALC(Jumping Tableau): " + resultJump + " (" + (jump_EndTime - jump_StartTime) + " milliseconds) - " + jumpIteration + " iterazioni");
+                System.out.println("ALC(Jumping Tableau): " + resultJump + " (" + (jump_EndTime - jump_StartTime) + " milliseconds) - " + jumpIteration + " iterazioni)");
+                System.out.println("Model: " + jump_model);
                 LoggerManager.writeInfoLog("ALC(Jumping Tableau): " + resultJump, Launcher.class);
+                LoggerManager.writeInfoLog("Model " + jump_model, Launcher.class);
+
             }
         }
     }

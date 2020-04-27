@@ -112,7 +112,7 @@ public class myJumpingTableau implements Tableau{
         nodeList.add(workingNode,Node);
         Abox.removeAll(Abox);
         Abox.addAll(Node.getAbox());
-        Collections.reverse(Abox);
+        //Collections.reverse(Abox);
         workingRule ++;
         workingNode ++;
     }
@@ -148,7 +148,7 @@ public class myJumpingTableau implements Tableau{
             if(checkClash()){
                 Abox.removeAll(Abox);
                 Abox.addAll(saveT);
-                Collections.reverse(Abox);
+                //Collections.reverse(Abox);
                 dependency = dependency.subList(0,old_dimension);
                 iteration++;
                 last = false;

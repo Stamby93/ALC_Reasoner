@@ -92,7 +92,7 @@ public class myTableau implements Tableau{
         nodeList.add(workingNode,Node);
         Abox.removeAll(Abox);
         Abox.addAll(Node.getAbox());
-        Collections.reverse(Abox);
+        //Collections.reverse(Abox);
         workingRule ++;
         workingNode ++;
     }
@@ -121,7 +121,7 @@ public class myTableau implements Tableau{
             if(checkClash()){
                 Abox.removeAll(Abox);
                 Abox.addAll(saveT);
-                Collections.reverse(Abox);
+                //Collections.reverse(Abox);
                 iteration++;
             }
             else{

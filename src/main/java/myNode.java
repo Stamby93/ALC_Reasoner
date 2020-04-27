@@ -17,7 +17,7 @@ public class myNode implements Tableau{
 
     private List<OWLClassExpression> Abox;
 
-    private final List<OWLClassExpression> oldAbox;
+    protected final List<OWLClassExpression> oldAbox;
 
     protected myNode(List<OWLClassExpression> operand, int workingRule) {
         this.oldAbox = new ArrayList<>(operand);
@@ -36,10 +36,10 @@ public class myNode implements Tableau{
                     Abox = new ArrayList<>(oldAbox);
                     OWLObjectIntersectionOf intersection = (OWLObjectIntersectionOf) Abox.get(workingRule);
                     List<OWLClassExpression> operand = intersection.operands().collect(Collectors.toList());
-                    Collections.reverse(operand);
+                    //Collections.reverse(operand);
                     for (OWLClassExpression e: operand) {
                         if(!Abox.contains(e))
-                            Abox.add(Abox.size()-1,e);
+                            Abox.add(Abox.size(),e);
                     }
                     return true;
                 }

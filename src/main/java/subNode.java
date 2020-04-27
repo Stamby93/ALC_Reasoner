@@ -3,7 +3,7 @@ import org.semanticweb.owlapi.model.OWLClassExpression;
 import java.util.ArrayList;
 import java.util.List;
 
-public class subNode extends Node {
+public class subNode extends myNode {
 
     public subNode(List<OWLClassExpression> operand, int workingRule) {
         super(operand,workingRule);
@@ -11,7 +11,7 @@ public class subNode extends Node {
     }
 
     public void alterRule(OWLClassExpression o, int rule){
-        super.Abox.set(rule,o);
+        super.oldAbox.set(rule,o);
     }
 
 }

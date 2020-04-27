@@ -5,52 +5,53 @@ import java.util.*;
 
 public class DynamicTableau implements Tableau{
 
-    private List<OWLClassExpression> Abox;
+    private final List<OWLClassExpression> Abox;
 
-    private List<List<Integer>> dependency;
+    private final List<Integer> branchingNode;
 
-    private final List<Integer> actualDependency;
-
-    private List<Integer> clashList;
-
-    private final Map<Integer, subNode> nodeList;
+    private List<Tableau> nodeList;
 
     private int workingRule = 0;
+    
+    private int temporanyNode = 0;
 
-    private final HashMap<OWLObjectPropertyExpression, List<DynamicTableau>> someRelation;
+    private int workingNode = 0;
+
+    private final Map<OWLObjectPropertyExpression, List<Integer>> someRelation;
+
+    private final Map<OWLObjectPropertyExpression, List<Integer>> allRelation;
 
     private final int parent;
 
-    private int iteration = 0;
-    private int temporanyRule;
+    private int iteration=0;
+
+    private List<Integer> clashList;
+
+    private List<List<Integer>> dependency;
+
+
 
     protected DynamicTableau(OWLClassExpression concept, int parent) {
 
         Abox = new ArrayList<>();
         Abox.add(0, concept);
+        branchingNode = new ArrayList<>();
         someRelation = new HashMap<>();
-        nodeList = new HashMap<>();
+        allRelation = new HashMap<>();
+        nodeList = new ArrayList<>();
         dependency = new ArrayList<>();
         dependency.add(0,Collections.singletonList(-1));
-        actualDependency = new ArrayList<>();
+        clashList = new ArrayList<>();
         this.parent = parent;
     }
 
-
-
-
-
-    public boolean checkSome(OWLClassExpression expression) {
-
-        return Abox.contains(expression);
-
-    }
-
-
     @Override
     public boolean SAT() {
+
         LoggerManager.writeDebug("SAT: "+ parent, DynamicTableau.class);
+
         while(isWorking()){
+
 
             OWLClassExpression rule = Abox.get(workingRule);
             ClassExpressionType type = rule.getClassExpressionType();
@@ -69,147 +70,186 @@ public class DynamicTableau implements Tableau{
                     break;
                 case OWL_CLASS:
                 case OBJECT_COMPLEMENT_OF:
-                    LoggerManager.writeDebug("CLASS :"+ OntologyRenderer.render(Abox.get(workingRule)), DynamicTableau.class);
-                    if(checkClash()){
 
-                        if(clashList!= null && clashList.size()!=0) {
-                            temporanyRule = workingRule;
-                            workingRule = clashList.get(clashList.size()-1);
-                            backtrack();
-                        }
-                        else
-                            workingRule = -1;
-                    }
+                    LoggerManager.writeDebug("CLASS :"+ OntologyRenderer.render(Abox.get(workingRule)), DynamicTableau.class);
+                    if(checkClash())
+                        backtrack();
                     else
                         workingRule++;
                     break;
             }
             iteration++;
-
         }
 
-        LoggerManager.writeDebug("SAT: "+ parent+ " " + (workingRule > 0), DynamicTableau.class);
-        if (parent==-1){
+        LoggerManager.writeDebug("SAT: "+ parent+ " " + ((workingRule >= 0) & (workingNode >= 0)), DynamicTableau.class);
+
+        if (parent==-1 && ((workingRule >= 0) & (workingNode >= 0))){
             LoggerManager.writeDebug("NUMERO ITERAZIONI: " + getIteration(), JumpingTableau.class);
             LoggerManager.writeDebug("MODELLO: " + getModel(), JumpingTableau.class);
+
         }
 
-        return workingRule >= 0;
+
+        return ((workingRule >= 0) & (workingNode >= 0));
+
+    }
+
+    private void addDependecy(int oldD, int newD){
+
+        for(int i = oldD; i<newD; i++)
+            dependency.add(i,branchingNode);
+
+    }
+
+    private void updateDependecy(int start){
+
+        for(int i = start; i<dependency.size(); i++)
+            dependency.set(i,branchingNode);
 
     }
 
     private void applyIntersection(){
         LoggerManager.writeDebug("Rule: " + workingRule + " INTERSECTION: "+ OntologyRenderer.render(Abox.get(workingRule)), DynamicTableau.class);
-        subNode workingNode = new subNode(new ArrayList<>(Abox), workingRule);
-        List<OWLClassExpression> flag = workingNode.applyRule();
-        checkIntersection(flag);
-        nodeList.put(workingRule,workingNode);
-        workingRule++;
+
+        Tableau Node = new subNode(Abox, workingRule);
+        Node.SAT();
+        int old_dimension = Abox.size();
+        int new_dimension = Node.getAbox().size();
+        addDependecy(old_dimension,new_dimension);
+        nodeList.add(workingNode,Node);
+        Abox.removeAll(Abox);
+        Abox.addAll(Node.getAbox());
+        workingRule ++;
+        workingNode ++;
     }
 
     private void applyUnion(){
         LoggerManager.writeDebug("Rule: "+ workingRule + " UNION: " + OntologyRenderer.render(Abox.get(workingRule)), DynamicTableau.class);
-        subNode workingNode;
 
-        if(actualDependency.size()!=0 && actualDependency.contains(workingRule))
-            workingNode = nodeList.get(workingRule);
-        else
-            workingNode = new subNode(new ArrayList<>(Abox), workingRule);
+        subNode Node;
 
-        List<OWLClassExpression> choice = workingNode.applyRule();
-        if(choice!=null && choice.get(0)!=null) {
-            LoggerManager.writeDebug("CHOICE " + OntologyRenderer.render(choice.get(0)),DynamicTableau.class);
-            if(workingNode.hasChoice() && !actualDependency.contains(workingRule))
-                actualDependency.add(actualDependency.size(),workingRule);
-            else
-                actualDependency.remove(Integer.valueOf(workingRule));
+        if(branchingNode.contains(Integer.valueOf(workingNode)))
+            Node = (subNode)nodeList.get(workingNode);
+        else{
+            Node = new subNode(Abox, workingRule);
+            branchingNode.add(branchingNode.size(),workingNode);
+            nodeList.add(workingNode,Node);
+        }
 
-            checkIntersection(choice);
-            nodeList.put(workingRule, workingNode);
-            if (!checkClash()){
-                workingRule++;
+        boolean last = false;
+        while(Node.SAT()){
+            last = true;
+            int old_dimension = Abox.size();
+            ArrayList<OWLClassExpression> saveT = new ArrayList<>(Abox);
+            Abox.removeAll(Abox);
+            Abox.addAll(Node.getAbox());
+            int new_dimension = Abox.size();
+
+            LoggerManager.writeDebug("CHOICE " + OntologyRenderer.render(Abox.get(Abox.size()-1)), ChronologicalTableau.class);
+            if(!Node.hasChoice()){
+                branchingNode.remove(Integer.valueOf(workingNode));}
+
+            addDependecy(old_dimension,new_dimension);
+
+            if(checkClash()){
+                Abox.removeAll(Abox);
+                Abox.addAll(saveT);
+                //Collections.reverse(Abox);
+                dependency = dependency.subList(0,old_dimension);
+                iteration++;
+                last = false;
             }
             else{
-                temporanyRule = workingRule;
-                workingRule = clashList.get(clashList.size()-1);
-                backtrack();
+
+                workingRule++;
+                workingNode++;
+                break;
             }
         }
+
+        if(!last)
+            backtrack();
+
+
     }
 
     private void applySome(OWLClassExpression rule){
         LoggerManager.writeDebug("Rule: " + workingRule + " SOME: " + OntologyRenderer.render(rule), DynamicTableau.class);
 
-        DynamicTableau direct;
+        Tableau direct;
         OWLObjectSomeValuesFrom someValue = (OWLObjectSomeValuesFrom) rule;
         OWLObjectPropertyExpression oe = someValue.getProperty();
         OWLClassExpression filler = someValue.getFiller();
 
-        //VERIFICO SE INDIVIDUO HA LA RELAZIONE
-        List<DynamicTableau> related = someRelation.get(oe);
-        direct = new DynamicTableau(filler, workingRule);
+        List<Integer> related;
+        //VERIFICO SE INDIVIDUO HA LA RELAZIONE QUESTO
+        if(someRelation.get(oe)!=null)
+            related = new ArrayList<>(someRelation.get(oe));
+        else
+            related = new ArrayList<>();
 
-        if (related != null && related.size()!=0) {
-            //CASO IN CUI RELAZIONE RICHIESTA ESISTE, VERIFICO SE E' PRESENTE LA REGOLA NEL RULE SET
-            boolean check = false;
+        boolean condition = true;
 
-            for (DynamicTableau t : related) {
+        //CASO IN CUI RELAZIONE RICHIESTA ESISTE, VERIFICO SE E' PRESENTE LA REGOLA NEL RULE SET
+        if (related.size()!=0) {
 
-                if (t.checkSome(filler)) {
+            for (Integer r : related) {
 
-                    check = true;
+                direct = nodeList.get(r);
+
+                if (direct.getAbox().contains(filler)) {
+
+                    LoggerManager.writeDebug("SOME ALREADY PRESENT", DynamicTableau.class);
+                    condition = false;
+                    workingRule++;
 
                     break;
                 }
-
             }
-            if (!check) {
-                //CASO IN CUI NESSUNO DEI NODI CON QUESTA RELAZIONE HA LA FORMULA TRA IL SUO RULE SET
-                //QUINDI INSTANZIO NUOVO INDIVIDUO E MI SALVO LA RELAZIONE
-                if(direct.SAT()) {
-
-                    ArrayList<DynamicTableau> flag = new ArrayList<>(someRelation.get(oe));
-                    flag.add(direct);
-                    someRelation.put(oe, flag);
-                    workingRule++;
-                }
-                else{
-                    LoggerManager.writeDebug("SOME UNSATISFIABLE", DynamicTableau.class);
-                    temporanyRule = workingRule;
-                    List<Integer> dep = dependency.get(workingRule);
-                    workingRule = dep.get(dep.size()-1);
-                    backtrack();
-                }
-            } else{
-                LoggerManager.writeDebug("SOME ALREADY PRESENT", DynamicTableau.class);
-                workingRule++;
-            }
-
-
         }
-        else{
+        //CASO IN CUI INDIVIDUO O NON HA LA RELAZIONE O
+        //NESSUNO DEI INDIVIDUI CON QUESTA RELAZIONE HA LA FORMULA TRA IL SUO RULE SET
+        //QUINDI INSTANZIO NUOVO INDIVIDUO E MI SALVO LA RELAZIONE
+        if (condition) {
 
-            if(direct.SAT()){
-                someRelation.put(oe, Collections.singletonList(direct));
+            if(allRelation.get(oe)!=null){
+
+                ArrayList<OWLClassExpression> operands = new ArrayList<>();
+
+                for (Integer i: allRelation.get(oe)) {
+
+                    direct = nodeList.get(i);
+                    operands.add(direct.getAbox().get(0));
+
+                }
+
+                operands.add(filler);
+                OWLObjectIntersectionOf concept = new OWLObjectIntersectionOfImpl(operands);
+                filler = concept;
+
+            }
+
+            direct = new DynamicTableau(filler, workingRule);
+            nodeList.add(workingNode,direct);
+            if(direct.SAT()) {
+
+                related.add(related.size(),workingNode);
+                someRelation.put(oe, related);
+                workingNode++;
                 workingRule++;
             }
             else{
-                LoggerManager.writeDebug("SOME UNSATISFIABLE",DynamicTableau.class);
 
-                List<Integer> dep = dependency.get(workingRule);
-                if(dep.size()!=0) {
-                    temporanyRule = workingRule;
-                    workingRule = dep.get(dep.size()-1);
-                    backtrack();
-                }
-                else
-                    workingRule = -1;
+                LoggerManager.writeDebug("SOME UNSATISFIABLE", DynamicTableau.class);
+                clashList = new ArrayList<>(dependency.get(workingRule));
+                backtrack();
+
             }
         }
     }
 
     private void applyAll(OWLClassExpression rule){
-        LoggerManager.writeDebug("Rule: " + workingRule + " ALL: "+ OntologyRenderer.render(rule),DynamicTableau.class);
+        LoggerManager.writeDebug("Rule: " + workingRule + " ALL: "+ OntologyRenderer.render(rule), DynamicTableau.class);
 
         OWLObjectAllValuesFrom allValue = (OWLObjectAllValuesFrom) rule;
         OWLClassExpression filler = allValue.getFiller();
@@ -217,191 +257,180 @@ public class DynamicTableau implements Tableau{
         boolean check = true;
 
         if (someRelation.get(oe) == null){
+            LoggerManager.writeDebug("ALL NO CONDITIONS", DynamicTableau.class);
 
-            LoggerManager.writeDebug("ALL NO CONDITIONS",DynamicTableau.class);
+            Tableau t = new DynamicTableau(filler.getNNF(),workingRule);
+            nodeList.add(workingNode,t);
+
+
+            if(allRelation.get(oe) == null)
+                allRelation.put(oe,Collections.singletonList(workingNode));
+            else{
+
+                ArrayList<Integer> l = new ArrayList<>(allRelation.get(oe));
+                l.add(l.size(),workingNode);
+                allRelation.put(oe,l);
+
+            }
+
+            workingNode++;
             workingRule++;
+
+
         }
         else{
 
-            ArrayList<DynamicTableau> related = new ArrayList<>(someRelation.get(oe));
-            int j = related.size();
-            for (int i  = 0; (i < j) && check; i++){
+            ArrayList<Integer> newRelated = new ArrayList<>();
+            ArrayList<Integer> related = new ArrayList<>(someRelation.get(oe));
 
-                DynamicTableau t = related.get(i);
-                if(!t.checkSome(filler)){
+            if(allRelation.get(oe)!=null){
+
+                related.addAll(new ArrayList<>(allRelation.get(oe)));
+                Collections.sort(related);
+
+            }
+
+            for (int i  = 0 ; (i < related.size()) && check; i++){
+
+                Tableau t = nodeList.get(related.get(i));
+
+                if(!t.getAbox().contains(filler)){
 
                     ArrayList<OWLClassExpression> operands = new ArrayList<>();
                     operands.add(t.getAbox().get(0));
                     operands.add(filler);
                     OWLObjectIntersectionOf concept = new OWLObjectIntersectionOfImpl(operands);
-
                     DynamicTableau flag = new DynamicTableau(concept.getNNF(),workingRule);
+                    nodeList.add(workingNode,t);
+
                     if(!flag.SAT()){
-                        LoggerManager.writeDebug("ALL UNSATISFIABLE",DynamicTableau.class);
-                        clashList = new ArrayList<>(dependency.get(workingRule));
-                        for (Integer k :dependency.get(t.getParent())) {
-                            if(!clashList.contains(k)){
-                                clashList.add(k);
-                            }
 
-                        }
-                        Collections.sort(clashList);
-
-                        if(clashList.size()!=0){
-                            temporanyRule = workingRule;
-                            workingRule =  clashList.get(clashList.size()-1);
-                            backtrack();
-                        }
-                        else
-                            workingRule = -1;
-
+                        LoggerManager.writeDebug("ALL UNSATISFIABLE", DynamicTableau.class);
+                        backtrack();
                         check = false;
+
                     }
-                    else
-                        related.add(related.size(),flag);
+                    else{
+
+                        newRelated.add(newRelated.size(),workingNode);
+                        workingNode++;
+
+                    }
                 }
                 i++;
             }
 
             if(check){
-                someRelation.put(oe,related);
+
+                if(newRelated.size()!=0){
+
+                    Collections.sort(newRelated);
+
+                    if(allRelation.get(oe)!=null)
+                        newRelated.addAll(allRelation.get(oe));
+
+                    allRelation.put(oe,newRelated);
+                }
+
                 workingRule++;
+
             }
-
         }
-
     }
-
-    public int getParent() {
-        return parent;
-    }
-
-    public List<OWLClassExpression> getAbox() {
-        return Abox;
-    }
-
 
     private void backtrack() {
-        LoggerManager.writeDebug("BACKTRACK :" + workingRule,DynamicTableau.class);
 
         iteration++;
 
-        if(actualDependency.size()!=0) {
+        if(clashList.size()!=0 && clashList.get(clashList.size()-1)!=-1) {
 
-            subNode workingNode = nodeList.get(workingRule);
+            nodeList.remove(workingNode);
 
-            if(workingNode.hasChoice()){
+            workingNode = clashList.remove(clashList.size()-1);
 
-                List<OWLClassExpression> choice = workingNode.applyRule();
-                LoggerManager.writeDebug("CHOICE " + OntologyRenderer.render(choice.get(0)),DynamicTableau.class);
-                Abox.set(workingNode.getAbox().size()-1,choice.get(0));
-                if(!checkClash()){
-                    for (int i = workingRule; i< nodeList.size(); i++){
-                        nodeList.get(i).alterRule(choice.get(0),workingNode.getAbox().size()-1);
-                    }
-                    if(!workingNode.hasChoice()){
-                        actualDependency.remove(Integer.valueOf(workingRule));
-                        for(int i = 0; i<dependency.size(); i++){
-                            if(dependency.get(i).contains(Integer.valueOf(workingRule))) {
-                                dependency.get(i).remove(Integer.valueOf(workingRule));
-                            }
-                        }
-                    }
-                    if(workingRule==temporanyRule)
-                        workingRule++;
-                    else
-                        workingRule = temporanyRule;
+            subNode t = (subNode)nodeList.get(workingNode);
+
+            List<OWLClassExpression> nAbox;
+            ArrayList<OWLClassExpression> oldAbox = new ArrayList<>(Abox);
+            boolean goOn = false;
+            while(t.hasChoice()){
+                t.SAT();
+                nAbox = t.getAbox();
+                Abox.set(nAbox.size(),nAbox.get(nAbox.size()-1));
+                if(checkClash()){
+                    Abox.removeAll(Abox);
+                    Abox.addAll(oldAbox);
                 }
                 else{
-System.out.println("CLASHHHHHH");
-                    if(clashList.size()!=0){
-                        //clashList.remove(Integer.valueOf(workingRule));
-                        if(!workingNode.hasChoice()){
-                            actualDependency.remove(Integer.valueOf(workingRule));
-                            clashList.remove(Integer.valueOf(workingRule));
-                        }
-                        //workingNode =nodeList.get(workingRule);
-                        ArrayList<OWLClassExpression> flag = new ArrayList<>(Abox.subList(0,workingNode.getAbox().size()));
-                        Abox.removeAll(Abox);
-                        Abox.addAll(flag);
-                        //System.out.println("NEW ABOX:"+Abox);
-                        workingRule = clashList.get(clashList.size()-1);
-                        backtrack();
-                    }
-                    else 
-                        workingRule = -1;
+                    goOn = true;
+                    break;
                 }
 
             }
-            /*else{
 
-                for (Integer i: nodeList.keySet()) {
-                    if(i>workingRule)
-                        nodeList.remove(nodeList.get(i));
+            if(!t.hasChoice()){
+                branchingNode.remove(Integer.valueOf(workingNode));
+                updateDependecy(t.getParent());
+            }
+            if (goOn == true){
+                int rule = t.getAbox().size();
+                OWLClassExpression e = t.getAbox().get(rule-1);
+                for (int i = workingNode+1; i<nodeList.size();i++){
 
-                }
-
-                Abox.removeAll(Collections.unmodifiableList(Abox));
-                Abox.addAll(workingNode.getAbox());
-                dependency = dependency.subList(0,Abox.size());
-                for (int i = 0; i<dependency.size();i++) {
-
-                    ArrayList<Integer> l = new ArrayList<>(dependency.get(i));
-                    for (Integer j: l) {
-
-                        if(j > workingRule)
-                            l.remove(j);
-                        else if(j == workingRule && !actualDependency.contains(workingRule))
-                            l.remove(j);
-
-                    }
-                    dependency.set(i,l);
+                    t = (subNode)nodeList.get(i);
+                    t.alterRule(e,rule);
 
                 }
+                workingNode = temporanyNode;
+            }
+            else{
+                backtrack();
+            }
 
-                for (int i = actualDependency.size()-1; i>=0; i--){
-                    if(actualDependency.get(i)>workingRule)
-                        actualDependency.remove(actualDependency.get(i));
-                }
-                Set<OWLObjectPropertyExpression> listSome = someRelation.keySet();
-                for (OWLObjectPropertyExpression oe : listSome) {
 
-                    ArrayList<DynamicTableau> t = new ArrayList<>(someRelation.remove(oe));
+            nodeList = nodeList.subList(0,workingNode+1);
+            cleanRelation(someRelation);
+            cleanRelation(allRelation);
 
-                    if(t.size() != 0){
+            Tableau Node = nodeList.get(workingNode);
+            int dim = Node.getAbox().size();
 
-                        for (int i = t.size() - 1; i >=0 ; i--) {
-                            if(t.get(i).getParent() > workingRule)
-                                t.remove(i);
-                        }
-
-                        if(t.size()!=0)
-                            someRelation.put(oe,t);
-                    }
-                }
-            }*/
+            Abox.removeAll(Abox);
+            Abox.addAll(Node.getAbox().subList(0,dim-2));
+            workingRule = Node.getParent();
+            dependency = dependency.subList(0,Abox.size());
         }
         else
-            workingRule = -1;
+            workingNode = -1;
+
+        LoggerManager.writeDebug("BACKTRACK :" + workingNode, DynamicTableau.class);
 
     }
 
     private boolean isWorking() {
-        return !((workingRule>=Abox.size()) || (workingRule<0));
+        return !(((workingRule>=Abox.size()) || (workingRule<0)) || (workingNode<0));
 
     }
 
-    private void checkIntersection(List<OWLClassExpression> disjointedList){
-        if(disjointedList!=null) {
-            for (OWLClassExpression ce: disjointedList ) {
-                if(!Abox.contains(ce)){
-                    dependency.add(Abox.size(),new ArrayList<>(actualDependency));
-                    Abox.add(Abox.size(),ce);
+    private void cleanRelation(Map<OWLObjectPropertyExpression, List<Integer>> relation){
+        Set<OWLObjectPropertyExpression> list = relation.keySet();
+        for (OWLObjectPropertyExpression oe : list) {
+
+            ArrayList<Integer> t = new ArrayList<>(relation.remove(oe));
+
+            if(t!= null && t.size()!=0){
+
+                for (int i = t.size() - 1; i >=0 ; i--) {
+                    if(t.get(i) > workingNode)
+                        t.remove(i);
                 }
+
+                if(t.size()!=0)
+                    relation.put(oe,t);
             }
         }
-    }
 
+    }
 
     private boolean checkClash() {
 
@@ -417,18 +446,15 @@ System.out.println("CLASHHHHHH");
                 OWLClassExpression c1 = Abox.get(i1);
 
                 if (c.equals(c1.getComplementNNF())){
-                    //LoggerManager.writeDebug("CLASH "+ OntologyRenderer.render(c) + " "+ OntologyRenderer.render(c1), DynamicTableau.class);
+                    LoggerManager.writeDebug("CLASH "+ OntologyRenderer.render(c) + " " +OntologyRenderer.render(c1), JumpingTableau.class);
                     clashList = new ArrayList<>(dependency.get(i));
                     for (Integer j:dependency.get(i1)) {
                         if(!clashList.contains(j)){
                             clashList.add(j);
                         }
 
-
                     }
                     Collections.sort(clashList);
-                    LoggerManager.writeDebug("CLASH "+ clashList, DynamicTableau.class);
-                    //Abox.remove(c1);
                     return true;
                 }
             }
@@ -437,6 +463,7 @@ System.out.println("CLASHHHHHH");
 
     }
 
+    @Override
     public String getModel(){
         String model = "";
         for (OWLClassExpression e: Abox) {
@@ -458,23 +485,44 @@ System.out.println("CLASHHHHHH");
             Set<OWLObjectPropertyExpression> key = someRelation.keySet();
             for (OWLObjectPropertyExpression oe : key) {
                 if (oe != null) {
-                    List<DynamicTableau> related = someRelation.get(oe);
-                    for (DynamicTableau t : related) {
+                    List<Integer> related = someRelation.get(oe);
+
+                    for (Integer j : related) {
+                        DynamicTableau t = (DynamicTableau)nodeList.get(j);
                         model=model.concat(" EXIST " + OntologyRenderer.render((oe)) + ". {");
-                        t.getModel();
+                        model = model.concat(t.getModel());
                         if(model.chars().filter(ch -> ch == '}').count() < model.chars().filter(ch -> ch == '{').count())
                             model=model.concat(" }");
                     }
                 }
             }
-            if (parent==-1 && !model.endsWith("|")) {
-                model = model.concat(" |");
+
+        }
+        if(!allRelation.isEmpty()) {
+            Set<OWLObjectPropertyExpression> key = allRelation.keySet();
+            for (OWLObjectPropertyExpression oe : key) {
+                if (oe != null) {
+                    List<Integer> related = allRelation.get(oe);
+
+                    for (Integer j : related) {
+                        DynamicTableau t = (DynamicTableau)nodeList.get(j);
+                        model=model.concat(" EXIST " + OntologyRenderer.render((oe)) + ". {");
+                        model = model.concat(t.getModel());
+                        if(model.chars().filter(ch -> ch == '}').count() < model.chars().filter(ch -> ch == '{').count())
+                            model=model.concat(" }");
+                    }
+                }
             }
         }
+        if (parent==-1 && !model.endsWith("|"))
+            model = model.concat(" |");
+
         return model;
     }
 
+    @Override
     public Integer getIteration(){
+
 
         int it=iteration;
 
@@ -482,14 +530,38 @@ System.out.println("CLASHHHHHH");
 
         for (OWLObjectPropertyExpression oe : listSome) {
 
-            List<DynamicTableau> lt = someRelation.get(oe);
+            ArrayList<Integer> lt = new ArrayList<>(someRelation.get(oe));
 
-            for (DynamicTableau t: lt) {
-                it+=t.getIteration();
+            for (Integer t: lt) {
+                Tableau m = nodeList.get(t);
+                it+=m.getIteration();
+
+            }
+        }
+
+        Set<OWLObjectPropertyExpression> listAll = allRelation.keySet();
+
+        for (OWLObjectPropertyExpression oe : listAll) {
+
+            ArrayList<Integer> lt = new ArrayList<>(allRelation.get(oe));
+
+            for (Integer t: lt) {
+                Tableau m = nodeList.get(t);
+                it+=m.getIteration();
 
             }
         }
         return it;
+    }
+
+    @Override
+    public int getParent() {
+        return parent;
+    }
+
+    @Override
+    public List<OWLClassExpression> getAbox() {
+        return Abox;
     }
 }
 
