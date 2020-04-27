@@ -92,7 +92,6 @@ public class ChronologicalTableau implements Tableau{
         nodeList.add(workingNode,Node);
         Abox.removeAll(Collections.unmodifiableList(Abox));
         Abox.addAll(Node.getAbox());
-        Collections.reverse(Abox);
         workingRule ++;
         workingNode ++;
     }
@@ -121,7 +120,6 @@ public class ChronologicalTableau implements Tableau{
             if(checkClash()){
                 Abox.removeAll(Collections.unmodifiableList(Abox));
                 Abox.addAll(saveT);
-                Collections.reverse(Abox);
                 iteration++;
             }
             else{
