@@ -56,7 +56,6 @@ public class myNode implements Tableau{
                     return true;
                 }
                 return false;
-
         }
 
         return false;
@@ -80,6 +79,14 @@ public class myNode implements Tableau{
     @Override
     public Integer getIteration() {
         return null;
+    }
+
+    public boolean hasChoice(){
+        OWLObjectUnionOf union = (OWLObjectUnionOf) Abox.get(workingRule);
+        List<OWLClassExpression> jointedList = union.operands().collect(Collectors.toList());
+        if(currentChoice < jointedList.size())
+            return true;
+        return false;
     }
 
 }
