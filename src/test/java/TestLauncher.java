@@ -43,10 +43,6 @@ public class TestLauncher {
         result = ALC_Reasoner(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-
-        NOTresult = ALC_Reasoner(expression.getComplementNNF());
-        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
-        assertEquals(NOTexpResult, NOTresult);
     }
     @Test
     public void testOntology2() throws OWLOntologyCreationException {
@@ -55,10 +51,6 @@ public class TestLauncher {
         result = ALC_Reasoner(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-
-        NOTresult = ALC_Reasoner(expression.getComplementNNF());
-        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
-        assertEquals(NOTexpResult, NOTresult);
     }
     @Test
     public void testOntology3() throws OWLOntologyCreationException {
@@ -66,7 +58,6 @@ public class TestLauncher {
         loadOntology(ontologyFileName);
         result = ALC_Reasoner(expression);
         expResult = Hermit_Reasoner(expression);
-
         assertEquals(expResult, result);
     }
     @Test
@@ -76,10 +67,6 @@ public class TestLauncher {
         result = ALC_Reasoner(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-
-        NOTresult = ALC_Reasoner(expression.getComplementNNF());
-        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
-        assertEquals(NOTexpResult, NOTresult);
     }
     @Test
     public void testOntology5() throws OWLOntologyCreationException {
@@ -88,10 +75,6 @@ public class TestLauncher {
         result = ALC_Reasoner(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-
-        NOTresult = ALC_Reasoner(expression.getComplementNNF());
-        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
-        assertEquals(NOTexpResult, NOTresult);
     }
     @Test
     public void testOntology6() throws OWLOntologyCreationException {
@@ -100,10 +83,6 @@ public class TestLauncher {
         result = ALC_Reasoner(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-
-        NOTresult = ALC_Reasoner(expression.getComplementNNF());
-        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
-        assertEquals(NOTexpResult, NOTresult);
     }
     @Test
     public void testOntology7() throws OWLOntologyCreationException {
@@ -112,10 +91,6 @@ public class TestLauncher {
         result = ALC_Reasoner(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-
-        NOTresult = ALC_Reasoner(expression.getComplementNNF());
-        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
-        assertEquals(NOTexpResult, NOTresult);
     }
     @Test
     public void testOntology8() throws OWLOntologyCreationException {
@@ -124,10 +99,6 @@ public class TestLauncher {
         result = ALC_Reasoner(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-
-        NOTresult = ALC_Reasoner(expression.getComplementNNF());
-        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
-        assertEquals(NOTexpResult, NOTresult);
     }
     @Test
     public void testOntology9() throws OWLOntologyCreationException {
@@ -136,10 +107,6 @@ public class TestLauncher {
         result = ALC_Reasoner(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-
-        NOTresult = ALC_Reasoner(expression.getComplementNNF());
-        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
-        assertEquals(NOTexpResult, NOTresult);
     }
     @Test
     public void testOntology10() throws OWLOntologyCreationException {
@@ -148,10 +115,6 @@ public class TestLauncher {
         result = ALC_Reasoner(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-
-        NOTresult = ALC_Reasoner(expression.getComplementNNF());
-        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
-        assertEquals(NOTexpResult, NOTresult);
     }
     @Test
     public void testOntology11() throws OWLOntologyCreationException {
@@ -160,10 +123,6 @@ public class TestLauncher {
         result = ALC_Reasoner(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-
-        NOTresult = ALC_Reasoner(expression.getComplementNNF());
-        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
-        assertEquals(NOTexpResult, NOTresult);
     }
     @Test
     public void testOntology12() throws OWLOntologyCreationException {
@@ -172,10 +131,6 @@ public class TestLauncher {
         result = ALC_Reasoner(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-
-        NOTresult = ALC_Reasoner(expression.getComplementNNF());
-        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
-        assertEquals(NOTexpResult, NOTresult);
     }
     @Test
     public void testOntology13() throws OWLOntologyCreationException {
@@ -184,10 +139,6 @@ public class TestLauncher {
         result = ALC_Reasoner(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-
-        NOTresult = ALC_Reasoner(expression.getComplementNNF());
-        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
-        assertEquals(NOTexpResult, NOTresult);
     }
     @Test
     public void testOntology14() throws OWLOntologyCreationException {
@@ -196,10 +147,6 @@ public class TestLauncher {
         result = ALC_Reasoner(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-
-        NOTresult = ALC_Reasoner(expression.getComplementNNF());
-        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
-        assertEquals(NOTexpResult, NOTresult);
     }
     @Test
     public void testOntology15() throws OWLOntologyCreationException {
@@ -208,10 +155,6 @@ public class TestLauncher {
         result = ALC_Reasoner(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-
-        NOTresult = ALC_Reasoner(expression.getComplementNNF());
-        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
-        assertEquals(NOTexpResult, NOTresult);
     }
     @Test
     public void testOntology16() throws OWLOntologyCreationException {
@@ -220,10 +163,6 @@ public class TestLauncher {
         result = ALC_Reasoner(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-
-        NOTresult = ALC_Reasoner(expression.getComplementNNF());
-        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
-        assertEquals(NOTexpResult, NOTresult);
     }
     @Test
     public void testOntology17() throws OWLOntologyCreationException {
@@ -232,10 +171,6 @@ public class TestLauncher {
         result = ALC_Reasoner(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-
-        NOTresult = ALC_Reasoner(expression.getComplementNNF());
-        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
-        assertEquals(NOTexpResult, NOTresult);
     }
     @Test
     public void testOntology18() throws OWLOntologyCreationException {
@@ -244,10 +179,6 @@ public class TestLauncher {
         result = ALC_Reasoner(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-
-        NOTresult = ALC_Reasoner(expression.getComplementNNF());
-        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
-        assertEquals(NOTexpResult, NOTresult);
     }
     @Test
     public void testOntology19() throws OWLOntologyCreationException {
@@ -256,10 +187,6 @@ public class TestLauncher {
         result = ALC_Reasoner(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-
-        NOTresult = ALC_Reasoner(expression.getComplementNNF());
-        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
-        assertEquals(NOTexpResult, NOTresult);
     }
     @Test
     public void testOntology20() throws OWLOntologyCreationException {
@@ -268,10 +195,6 @@ public class TestLauncher {
         result = ALC_Reasoner(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-
-        NOTresult = ALC_Reasoner(expression.getComplementNNF());
-        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
-        assertEquals(NOTexpResult, NOTresult);
     }
     @Test
     public void testOntology21() throws OWLOntologyCreationException {
@@ -280,10 +203,6 @@ public class TestLauncher {
         result = ALC_Reasoner(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-
-        NOTresult = ALC_Reasoner(expression.getComplementNNF());
-        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
-        assertEquals(NOTexpResult, NOTresult);
     }
     @Test
     public void testOntology22() throws OWLOntologyCreationException {
@@ -292,10 +211,6 @@ public class TestLauncher {
         result = ALC_Reasoner(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-
-        NOTresult = ALC_Reasoner(expression.getComplementNNF());
-        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
-        assertEquals(NOTexpResult, NOTresult);
     }
     @Test
     public void testOntology23() throws OWLOntologyCreationException {
@@ -304,10 +219,6 @@ public class TestLauncher {
         result = ALC_Reasoner(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-
-        NOTresult = ALC_Reasoner(expression.getComplementNNF());
-        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
-        assertEquals(NOTexpResult, NOTresult);
     }
     @Test
     public void testOntology24() throws OWLOntologyCreationException {
@@ -316,10 +227,6 @@ public class TestLauncher {
         result = ALC_Reasoner(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-
-        NOTresult = ALC_Reasoner(expression.getComplementNNF());
-        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
-        assertEquals(NOTexpResult, NOTresult);
     }
     @Test
     public void testOntology25() throws OWLOntologyCreationException {
@@ -328,10 +235,6 @@ public class TestLauncher {
         result = ALC_Reasoner(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-
-        NOTresult = ALC_Reasoner(expression.getComplementNNF());
-        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
-        assertEquals(NOTexpResult, NOTresult);
     }
     @Test
     public void testOntology26() throws OWLOntologyCreationException {
@@ -340,10 +243,6 @@ public class TestLauncher {
         result = ALC_Reasoner(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-
-        NOTresult = ALC_Reasoner(expression.getComplementNNF());
-        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
-        assertEquals(NOTexpResult, NOTresult);
     }
 
     @Test
@@ -353,10 +252,6 @@ public class TestLauncher {
         result = ALC_Reasoner(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-
-        NOTresult = ALC_Reasoner(expression.getComplementNNF());
-        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
-        assertEquals(NOTexpResult, NOTresult);
     }
 
     @Test
@@ -366,10 +261,6 @@ public class TestLauncher {
         result = ALC_Reasoner(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-
-        NOTresult = ALC_Reasoner(expression.getComplementNNF());
-        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
-        assertEquals(NOTexpResult, NOTresult);
     }
 
     @Test
@@ -379,16 +270,12 @@ public class TestLauncher {
         result = ALC_Reasoner(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-
-        NOTresult = ALC_Reasoner(expression.getComplementNNF());
-        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
-        assertEquals(NOTexpResult, NOTresult);
     }
 
     private void loadOntology(String ontologyFileName) throws OWLOntologyCreationException {
         File ontologyFile = new File(ontologyFileName);
         OWLOntology ont = man.loadOntologyFromOntologyDocument(ontologyFile);
-        LoggerManager.setFile(ontologyFile.getName());
+        LoggerManager.setFile(ontologyFile.getName(), TestLauncher.class);
         OWLDataFactory df = man.getOWLDataFactory();
         Optional<IRI> optIri = ont.getOntologyID().getOntologyIRI();
         assert optIri.isPresent();

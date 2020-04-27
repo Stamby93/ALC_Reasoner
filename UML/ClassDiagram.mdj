@@ -2451,7 +2451,7 @@
 											"top": 695,
 											"width": 392.7041015625,
 											"height": 13,
-											"text": "Node"
+											"text": "oldNode"
 										},
 										{
 											"_type": "LabelView",
@@ -2646,7 +2646,7 @@
 											"top": 758,
 											"width": 392.7041015625,
 											"height": 13,
-											"text": "+Node(operand: OWLClassExpression, workingRule: int): Node",
+											"text": "+oldNode(operand: OWLClassExpression, workingRule: int): oldNode",
 											"horizontalAlignment": 0
 										},
 										{
@@ -2857,7 +2857,7 @@
 											"top": 271,
 											"width": 517.39111328125,
 											"height": 13,
-											"text": "ChronologicalTableau"
+											"text": "oldChronologicalTableau"
 										},
 										{
 											"_type": "LabelView",
@@ -2965,7 +2965,7 @@
 											"top": 351,
 											"width": 433.544921875,
 											"height": 13,
-											"text": "-nodeList: List<Node>",
+											"text": "-nodeList: List<oldNode>",
 											"horizontalAlignment": 0
 										},
 										{
@@ -3018,7 +3018,7 @@
 											"top": 366,
 											"width": 479.80029296875,
 											"height": 13,
-											"text": "-someRelation: Map<OWLObjectPropertyExpression; List<ChronologicalTableau>>",
+											"text": "-someRelation: Map<OWLObjectPropertyExpression; List<oldChronologicalTableau>>",
 											"horizontalAlignment": 0
 										},
 										{
@@ -3086,7 +3086,7 @@
 											"top": 364,
 											"width": 517.39111328125,
 											"height": 13,
-											"text": "#ChronologicalTableau(concept: OWLClassExpression, parent: int): ChronologicalTableau",
+											"text": "#oldChronologicalTableau(concept: OWLClassExpression, parent: int): oldChronologicalTableau",
 											"horizontalAlignment": 0
 										},
 										{
@@ -8882,7 +8882,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Node",
+					"name": "oldNode",
 					"ownedElements": [
 						{
 							"_type": "UMLDependency",
@@ -9027,7 +9027,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFxgoqU+HbeLAM="
 							},
-							"name": "Node",
+							"name": "oldNode",
 							"parameters": [
 								{
 									"_type": "UMLParameter",
@@ -9189,7 +9189,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "ChronologicalTableau",
+					"name": "oldChronologicalTableau",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -9354,7 +9354,7 @@
 							},
 							"name": "nodeList",
 							"visibility": "private",
-							"type": "List<Node>"
+							"type": "List<oldNode>"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -9383,7 +9383,7 @@
 							},
 							"name": "someRelation",
 							"visibility": "private",
-							"type": "Map<OWLObjectPropertyExpression; List<ChronologicalTableau>>"
+							"type": "Map<OWLObjectPropertyExpression; List<oldChronologicalTableau>>"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -9413,7 +9413,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFxiNp8deDFElU="
 							},
-							"name": "ChronologicalTableau",
+							"name": "oldChronologicalTableau",
 							"visibility": "protected",
 							"parameters": [
 								{

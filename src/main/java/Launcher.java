@@ -15,7 +15,7 @@ public class Launcher {
     public static void main(String[] args) throws Exception {
 
         OWLOntologyManager man = OWLManager.createOWLOntologyManager();
-        File ontologyFile = new File("Ontologie/18-02-08_PROVA.owl");
+        File ontologyFile = new File("Ontologie/PROVASCAL3.owl");
         OWLOntology ont = man.loadOntologyFromOntologyDocument(ontologyFile);
         OWLDataFactory df = man.getOWLDataFactory();
         Optional<IRI> optIri = ont.getOntologyID().getOntologyIRI();
@@ -36,7 +36,8 @@ public class Launcher {
         OWLReasonerFactory factoryALC_jump = new ALCReasonerFactory("Jumping");
         OWLReasoner alc_jump = factoryALC_jump.createReasoner(null);
 
-        LoggerManager.setFile(ontologyFile.getName());
+         /*Logger*/
+        LoggerManager.setFile(ontologyFile.getName().replace(".owl",""), Launcher.class);
 
         if (ontologyAxiom.size() > 1) {
             LoggerManager.writeErrorLog("Invalid input concept", Launcher.class);
@@ -61,36 +62,42 @@ public class Launcher {
             System.out.println("\nManchester Sintax:");
             System.out.println(OntologyRenderer.render(expression) + "\n");
 
-            LoggerManager.writeInfoLog("\n\n\nSTARTING Chronological Tableau\n\n\n", Launcher.class);
-
-            long chrono_StartTime = System.currentTimeMillis();
-            boolean resultChrono = alc_chrono.isSatisfiable(expression);
-            long chrono_EndTime = System.currentTimeMillis();
-            Integer chronoIteration=((ALCReasoner)alc_chrono).getIteration();
-            System.out.println("\n\nALC(Chronological Tableau): " + resultChrono + " ("+(chrono_EndTime - chrono_StartTime) + " milliseconds - "+ chronoIteration+" iterazioni");
-            LoggerManager.writeInfoLog("ALC(Chronological Tableau): " + resultChrono, Launcher.class);
-
-            LoggerManager.writeInfoLog("\n\n\nSTARTING Jumping Tableau\n\n\n", Launcher.class);
-
-            long jump_StartTime = System.currentTimeMillis();
-            boolean resultJump = alc_jump.isSatisfiable(expression);
-            long jump_EndTime = System.currentTimeMillis();
-            Integer jumpIteration=((ALCReasoner)alc_jump).getIteration();
-            System.out.println("ALC(Jumping Tableau): " + resultJump + " ("+(jump_EndTime - jump_StartTime) + " milliseconds) - "+ jumpIteration+" iterazioni");
-            LoggerManager.writeInfoLog("ALC(Jumping Tableau): " + resultJump, Launcher.class);
-
+            /*HermiT*/
             long hermit_StartTime = System.currentTimeMillis();
             boolean resultHermit = hermit.isSatisfiable(expression);
             long hermit_EndTime = System.currentTimeMillis();
             System.out.println("HermiT: " + resultHermit + " ("+(hermit_EndTime - hermit_StartTime) + " milliseconds)");
-            LoggerManager.writeInfoLog("\n\nHermiT: " + resultHermit, Launcher.class);
+            LoggerManager.writeInfoLog("\nHermiT: " + resultHermit, Launcher.class);
 
+            /*ChronologicaTableau*/
+            LoggerManager.setFile(ontologyFile.getName().replace(".owl","")+"_Chronological", Launcher.class);
+            long chrono_StartTime = System.currentTimeMillis();
+            boolean resultChrono = alc_chrono.isSatisfiable(expression);
+            long chrono_EndTime = System.currentTimeMillis();
+            Integer chronoIteration=((ALCReasoner)alc_chrono).getIteration();
+            System.out.println("\nALC(Chronological Tableau): " + resultChrono + " ("+(chrono_EndTime - chrono_StartTime) + " milliseconds - "+ chronoIteration+" iterazioni");
+            LoggerManager.writeInfoLog("ALC(Chronological Tableau): " + resultChrono, Launcher.class);
             if(resultChrono) {
-                String model = "\n\n\nModello: |"+((ALCReasoner)alc_chrono).getModel();
+                String model = "Modello: |"+((ALCReasoner)alc_chrono).getModel();
+                System.out.println(model);
+                LoggerManager.writeInfoLog(model, Launcher.class);
+            }
+
+            /*JumpingTableau*/
+            LoggerManager.setFile(ontologyFile.getName().replace(".owl","")+"_Jumping", Launcher.class);
+            long jump_StartTime = System.currentTimeMillis();
+            boolean resultJump = alc_jump.isSatisfiable(expression);
+            long jump_EndTime = System.currentTimeMillis();
+            Integer jumpIteration=((ALCReasoner)alc_jump).getIteration();
+            System.out.println("\n\nALC(Jumping Tableau): " + resultJump + " ("+(jump_EndTime - jump_StartTime) + " milliseconds) - "+ jumpIteration+" iterazioni");
+            LoggerManager.writeInfoLog("ALC(Jumping Tableau): " + resultJump, Launcher.class);
+            if(resultJump) {
+                String model = "Modello: |"+((ALCReasoner)alc_jump).getModel();
                 System.out.println(model);
                 LoggerManager.writeInfoLog(model, Launcher.class);
             }
         }
     }
+
 
 }
