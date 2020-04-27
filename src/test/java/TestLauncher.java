@@ -20,8 +20,6 @@ public class TestLauncher {
     private String ontologyFileName;
     private boolean result;
     private boolean expResult;
-    private boolean NOTresult;
-    private boolean NOTexpResult;
     private OWLReasoner reasoner;
     private OWLReasoner oracle;
     private OWLClassExpression expression;
