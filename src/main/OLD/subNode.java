@@ -1,6 +1,5 @@
 import org.semanticweb.owlapi.model.OWLClassExpression;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class subNode extends myNode {

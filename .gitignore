@@ -1,3 +1,8 @@
-LOG/*
+LOG/Battery/*
+LOG/Launcher/*
+LOG/TestLauncher/*
 
 !LOG/.gitkeep
+!LOG/Launcher/.gitkeep
+!LOG/TestLauncher/.gitkeep
+!LOG/Battery/.gitkeep
