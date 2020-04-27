@@ -19,6 +19,8 @@ public class TestLauncher {
     private String ontologyFileName;
     private boolean result;
     private boolean expResult;
+    private boolean NOTresult;
+    private boolean NOTexpResult;
     private OWLReasoner reasoner;
     private OWLReasoner oracle;
     private OWLOntology ont;
@@ -29,7 +31,7 @@ public class TestLauncher {
     @Before
     public void setUp() {
         man = OWLManager.createOWLOntologyManager();
-        OWLReasonerFactory reasonerFactory = new ALCReasonerFactory();
+        OWLReasonerFactory reasonerFactory = new ALCReasonerFactory("Jumping");
         reasoner = reasonerFactory.createReasoner(null);
         factoryHermit = new ReasonerFactory();
     }
@@ -38,238 +40,350 @@ public class TestLauncher {
     public void testOntology1() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/06-06-26.owl";
         loadOntology(ontologyFileName);
-        result = ALC_Reasoner();
-        expResult = Hermit_Reasoner();
+        result = ALC_Reasoner(expression);
+        expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-}
+
+        NOTresult = ALC_Reasoner(expression.getComplementNNF());
+        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
+        assertEquals(NOTexpResult, NOTresult);
+    }
     @Test
     public void testOntology2() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/06-07-24.owl";
         loadOntology(ontologyFileName);
-        result = ALC_Reasoner();
-        expResult = Hermit_Reasoner();
+        result = ALC_Reasoner(expression);
+        expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-}
+
+        NOTresult = ALC_Reasoner(expression.getComplementNNF());
+        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
+        assertEquals(NOTexpResult, NOTresult);
+    }
     @Test
     public void testOntology3() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/09-06-01.owl";
         loadOntology(ontologyFileName);
-        result = ALC_Reasoner();
-        expResult = Hermit_Reasoner();
+        result = ALC_Reasoner(expression);
+        expResult = Hermit_Reasoner(expression);
 
         assertEquals(expResult, result);
-}
+    }
     @Test
     public void testOntology4() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/12-06-08.owl";
         loadOntology(ontologyFileName);
-        result = ALC_Reasoner();
-        expResult = Hermit_Reasoner();
+        result = ALC_Reasoner(expression);
+        expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-}
+
+        NOTresult = ALC_Reasoner(expression.getComplementNNF());
+        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
+        assertEquals(NOTexpResult, NOTresult);
+    }
     @Test
     public void testOntology5() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/17-01-27.owl";
         loadOntology(ontologyFileName);
-        result = ALC_Reasoner();
-        expResult = Hermit_Reasoner();
+        result = ALC_Reasoner(expression);
+        expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-}
+
+        NOTresult = ALC_Reasoner(expression.getComplementNNF());
+        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
+        assertEquals(NOTexpResult, NOTresult);
+    }
     @Test
     public void testOntology6() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/17-02-23.owl";
         loadOntology(ontologyFileName);
-        result = ALC_Reasoner();
-        expResult = Hermit_Reasoner();
+        result = ALC_Reasoner(expression);
+        expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-}
+
+        NOTresult = ALC_Reasoner(expression.getComplementNNF());
+        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
+        assertEquals(NOTexpResult, NOTresult);
+    }
     @Test
     public void testOntology7() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/18-02-08_PROVA_2.owl";
         loadOntology(ontologyFileName);
-        result = ALC_Reasoner();
-        expResult = Hermit_Reasoner();
+        result = ALC_Reasoner(expression);
+        expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-}
+
+        NOTresult = ALC_Reasoner(expression.getComplementNNF());
+        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
+        assertEquals(NOTexpResult, NOTresult);
+    }
     @Test
     public void testOntology8() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/18-02-08_PROVA_3.owl";
         loadOntology(ontologyFileName);
-        result = ALC_Reasoner();
-        expResult = Hermit_Reasoner();
+        result = ALC_Reasoner(expression);
+        expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-}
+
+        NOTresult = ALC_Reasoner(expression.getComplementNNF());
+        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
+        assertEquals(NOTexpResult, NOTresult);
+    }
     @Test
     public void testOntology9() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/18-02-08_PROVA.owl";
         loadOntology(ontologyFileName);
-        result = ALC_Reasoner();
-        expResult = Hermit_Reasoner();
+        result = ALC_Reasoner(expression);
+        expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-}
+
+        NOTresult = ALC_Reasoner(expression.getComplementNNF());
+        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
+        assertEquals(NOTexpResult, NOTresult);
+    }
     @Test
     public void testOntology10() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/18-02-08.owl";
         loadOntology(ontologyFileName);
-        result = ALC_Reasoner();
-        expResult = Hermit_Reasoner();
+        result = ALC_Reasoner(expression);
+        expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-}
+
+        NOTresult = ALC_Reasoner(expression.getComplementNNF());
+        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
+        assertEquals(NOTexpResult, NOTresult);
+    }
     @Test
     public void testOntology11() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/AnotA.owl";
         loadOntology(ontologyFileName);
-        result = ALC_Reasoner();
-        expResult = Hermit_Reasoner();
+        result = ALC_Reasoner(expression);
+        expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-}
+
+        NOTresult = ALC_Reasoner(expression.getComplementNNF());
+        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
+        assertEquals(NOTexpResult, NOTresult);
+    }
     @Test
     public void testOntology12() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/Bottom.owl";
         loadOntology(ontologyFileName);
-        result = ALC_Reasoner();
-        expResult = Hermit_Reasoner();
+        result = ALC_Reasoner(expression);
+        expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-}
+
+        NOTresult = ALC_Reasoner(expression.getComplementNNF());
+        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
+        assertEquals(NOTexpResult, NOTresult);
+    }
     @Test
     public void testOntology13() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/enzo_Fantasy.owl";
         loadOntology(ontologyFileName);
-        result = ALC_Reasoner();
-        expResult = Hermit_Reasoner();
+        result = ALC_Reasoner(expression);
+        expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-}
+
+        NOTresult = ALC_Reasoner(expression.getComplementNNF());
+        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
+        assertEquals(NOTexpResult, NOTresult);
+    }
     @Test
     public void testOntology14() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/PerOgni.owl";
         loadOntology(ontologyFileName);
-        result = ALC_Reasoner();
-        expResult = Hermit_Reasoner();
+        result = ALC_Reasoner(expression);
+        expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-}
+
+        NOTresult = ALC_Reasoner(expression.getComplementNNF());
+        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
+        assertEquals(NOTexpResult, NOTresult);
+    }
     @Test
     public void testOntology15() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/mostro.owl";
         loadOntology(ontologyFileName);
-        result = ALC_Reasoner();
-        expResult = Hermit_Reasoner();
+        result = ALC_Reasoner(expression);
+        expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-}
+
+        NOTresult = ALC_Reasoner(expression.getComplementNNF());
+        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
+        assertEquals(NOTexpResult, NOTresult);
+    }
     @Test
     public void testOntology16() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/mostropiugrosso.owl";
         loadOntology(ontologyFileName);
-        result = ALC_Reasoner();
-        expResult = Hermit_Reasoner();
+        result = ALC_Reasoner(expression);
+        expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-}
+
+        NOTresult = ALC_Reasoner(expression.getComplementNNF());
+        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
+        assertEquals(NOTexpResult, NOTresult);
+    }
     @Test
     public void testOntology17() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/PROVASCAL1.owl";
         loadOntology(ontologyFileName);
-        result = ALC_Reasoner();
-        expResult = Hermit_Reasoner();
+        result = ALC_Reasoner(expression);
+        expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-}
+
+        NOTresult = ALC_Reasoner(expression.getComplementNNF());
+        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
+        assertEquals(NOTexpResult, NOTresult);
+    }
     @Test
     public void testOntology18() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/mpp.owl";
         loadOntology(ontologyFileName);
-        result = ALC_Reasoner();
-        expResult = Hermit_Reasoner();
+        result = ALC_Reasoner(expression);
+        expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-}
+
+        NOTresult = ALC_Reasoner(expression.getComplementNNF());
+        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
+        assertEquals(NOTexpResult, NOTresult);
+    }
     @Test
     public void testOntology19() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/mpp2.owl";
         loadOntology(ontologyFileName);
-        result = ALC_Reasoner();
-        expResult = Hermit_Reasoner();
+        result = ALC_Reasoner(expression);
+        expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-}
+
+        NOTresult = ALC_Reasoner(expression.getComplementNNF());
+        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
+        assertEquals(NOTexpResult, NOTresult);
+    }
     @Test
     public void testOntology20() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/mpp3.owl";
         loadOntology(ontologyFileName);
-        result = ALC_Reasoner();
-        expResult = Hermit_Reasoner();
+        result = ALC_Reasoner(expression);
+        expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-}
+
+        NOTresult = ALC_Reasoner(expression.getComplementNNF());
+        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
+        assertEquals(NOTexpResult, NOTresult);
+    }
     @Test
     public void testOntology21() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/mgp.owl";
         loadOntology(ontologyFileName);
-        result = ALC_Reasoner();
-        expResult = Hermit_Reasoner();
+        result = ALC_Reasoner(expression);
+        expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-}
+
+        NOTresult = ALC_Reasoner(expression.getComplementNNF());
+        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
+        assertEquals(NOTexpResult, NOTresult);
+    }
     @Test
     public void testOntology22() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/Satisfiable.owl";
         loadOntology(ontologyFileName);
-        result = ALC_Reasoner();
-        expResult = Hermit_Reasoner();
+        result = ALC_Reasoner(expression);
+        expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-}
+
+        NOTresult = ALC_Reasoner(expression.getComplementNNF());
+        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
+        assertEquals(NOTexpResult, NOTresult);
+    }
     @Test
     public void testOntology23() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/stupido.owl";
         loadOntology(ontologyFileName);
-        result = ALC_Reasoner();
-        expResult = Hermit_Reasoner();
+        result = ALC_Reasoner(expression);
+        expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-}
+
+        NOTresult = ALC_Reasoner(expression.getComplementNNF());
+        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
+        assertEquals(NOTexpResult, NOTresult);
+    }
     @Test
     public void testOntology24() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/stupido2.owl";
         loadOntology(ontologyFileName);
-        result = ALC_Reasoner();
-        expResult = Hermit_Reasoner();
+        result = ALC_Reasoner(expression);
+        expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-}
+
+        NOTresult = ALC_Reasoner(expression.getComplementNNF());
+        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
+        assertEquals(NOTexpResult, NOTresult);
+    }
     @Test
     public void testOntology25() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/spaccatuttoVero.owl";
         loadOntology(ontologyFileName);
-        result = ALC_Reasoner();
-        expResult = Hermit_Reasoner();
+        result = ALC_Reasoner(expression);
+        expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-}
+
+        NOTresult = ALC_Reasoner(expression.getComplementNNF());
+        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
+        assertEquals(NOTexpResult, NOTresult);
+    }
     @Test
     public void testOntology26() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/spaccatuttoFalso.owl";
         loadOntology(ontologyFileName);
-        result = ALC_Reasoner();
-        expResult = Hermit_Reasoner();
+        result = ALC_Reasoner(expression);
+        expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-}
+
+        NOTresult = ALC_Reasoner(expression.getComplementNNF());
+        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
+        assertEquals(NOTexpResult, NOTresult);
+    }
 
     @Test
     public void testOntology27() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/PROVASCAL1.owl";
         loadOntology(ontologyFileName);
-        result = ALC_Reasoner();
-        expResult = Hermit_Reasoner();
+        result = ALC_Reasoner(expression);
+        expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-}
+
+        NOTresult = ALC_Reasoner(expression.getComplementNNF());
+        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
+        assertEquals(NOTexpResult, NOTresult);
+    }
 
     @Test
     public void testOntology28() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/PROVASCAL2.owl";
         loadOntology(ontologyFileName);
-        result = ALC_Reasoner();
-        expResult = Hermit_Reasoner();
+        result = ALC_Reasoner(expression);
+        expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-}
+
+        NOTresult = ALC_Reasoner(expression.getComplementNNF());
+        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
+        assertEquals(NOTexpResult, NOTresult);
+    }
 
     @Test
     public void testOntology29() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/PROVASCAL3.owl";
         loadOntology(ontologyFileName);
-        result = ALC_Reasoner();
-        expResult = Hermit_Reasoner();
+        result = ALC_Reasoner(expression);
+        expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-}
+
+        NOTresult = ALC_Reasoner(expression.getComplementNNF());
+        NOTexpResult = Hermit_Reasoner(expression.getComplementNNF());
+        assertEquals(NOTexpResult, NOTresult);
+    }
 
     private void loadOntology(String ontologyFileName) throws OWLOntologyCreationException {
         File ontologyFile = new File(ontologyFileName);
@@ -299,7 +413,7 @@ public class TestLauncher {
         }
     }
 
-    private boolean Hermit_Reasoner() {
+    private boolean Hermit_Reasoner(OWLClassExpression expression) {
         boolean result = false;
         if (expression != null) {
             result = oracle.isSatisfiable(expression);
@@ -307,7 +421,7 @@ public class TestLauncher {
         return result;
     }
 
-    private boolean ALC_Reasoner(){
+    private boolean ALC_Reasoner(OWLClassExpression expression){
         boolean result = false;
         if (expression != null) {
             result = reasoner.isSatisfiable(expression);

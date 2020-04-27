@@ -15,7 +15,9 @@ public class Node {
 
     private int currentChoice = 0;
 
-    private final List<OWLClassExpression> Abox;
+    protected final List<OWLClassExpression> Abox;
+
+    private List<OWLClassExpression> jointedList;
 
 
 
@@ -30,12 +32,11 @@ public class Node {
         ClassExpressionType type = Abox.get(workingRule).getClassExpressionType();
         switch (type){
             case OBJECT_INTERSECTION_OF:
+                jointedList = new ArrayList<>();
                 return applyIntersection();
             case OBJECT_UNION_OF:
                 return Collections.singletonList(applyChoice());
         }
-        System.out.println("NODE: " + currentChoice);
-
 
         return null;
 
@@ -44,7 +45,7 @@ public class Node {
 
     private OWLClassExpression applyChoice() {
         OWLObjectUnionOf union = (OWLObjectUnionOf) Abox.get(workingRule);
-        List<OWLClassExpression> jointedList = union.operands().collect(Collectors.toList());
+        jointedList = union.operands().collect(Collectors.toList());
         currentChoice++;
         if(currentChoice - 1 < jointedList.size())
             return jointedList.get(currentChoice-1);
@@ -63,8 +64,6 @@ public class Node {
     }
 
     public boolean hasChoice(){
-        OWLObjectUnionOf union = (OWLObjectUnionOf) Abox.get(workingRule);
-        List<OWLClassExpression> jointedList = union.operands().collect(Collectors.toList());
         return currentChoice < jointedList.size();
     }
 }

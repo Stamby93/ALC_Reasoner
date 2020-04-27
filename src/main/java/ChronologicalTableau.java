@@ -82,8 +82,11 @@ public class ChronologicalTableau implements Tableau{
         }
 
         LoggerManager.writeDebug("SAT: "+ parent+ " " + (workingRule > 0), ChronologicalTableau.class);
-        if (parent==-1)
-            LoggerManager.writeDebug("NUMERO ITERAZIONI: " + getIteration(), JumpingTableau.class);
+        if (parent==-1){
+            LoggerManager.writeDebug("NUMERO ITERAZIONI: " + getIteration(), ChronologicalTableau.class);
+            LoggerManager.writeDebug("MODELLO: " + getModel(), ChronologicalTableau.class);
+
+        }
 
 
         return workingRule >= 0;
@@ -358,7 +361,7 @@ public class ChronologicalTableau implements Tableau{
                     List<ChronologicalTableau> related = someRelation.get(oe);
                     for (ChronologicalTableau t : related) {
                         model=model.concat(" EXIST " + OntologyRenderer.render((oe)) + ". {");
-                        t.getModel();
+                        model = model.concat(t.getModel());
                         if(model.chars().filter(ch -> ch == '}').count() < model.chars().filter(ch -> ch == '{').count())
                             model=model.concat(" }");
                     }

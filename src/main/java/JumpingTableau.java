@@ -87,8 +87,11 @@ public class JumpingTableau implements Tableau{
         }
 
         LoggerManager.writeDebug("SAT: "+ parent+ " " + (workingRule > 0), JumpingTableau.class);
-        if(parent==-1)
-            LoggerManager.writeDebug("NUMERO ITERAZIONI " + getIteration(), JumpingTableau.class);
+        if (parent==-1){
+            LoggerManager.writeDebug("NUMERO ITERAZIONI: " + getIteration(), JumpingTableau.class);
+            LoggerManager.writeDebug("MODELLO: " + getModel(), JumpingTableau.class);
+
+        }
 
 
         return workingRule >= 0;
@@ -193,7 +196,7 @@ public class JumpingTableau implements Tableau{
 
                 List<Integer> dep = dependency.get(workingRule);
                 if(dep.size()!=0) {
-                    workingRule = clashList.get(clashList.size()-1);
+                    workingRule = dep.get(dep.size()-1);
                     backtrack();
                 }
                 else
@@ -405,7 +408,7 @@ public class JumpingTableau implements Tableau{
                     List<JumpingTableau> related = someRelation.get(oe);
                     for (JumpingTableau t : related) {
                         model=model.concat(" EXIST " + OntologyRenderer.render((oe)) + ". {");
-                        t.getModel();
+                        model = model.concat(t.getModel());
                         if(model.chars().filter(ch -> ch == '}').count() < model.chars().filter(ch -> ch == '{').count())
                             model=model.concat(" }");
                     }
