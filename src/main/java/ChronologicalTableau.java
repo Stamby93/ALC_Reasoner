@@ -378,17 +378,15 @@ public class ChronologicalTableau implements Tableau{
 
     @Override
     public String getModel(){
-        String model = "";
+        String model = "| ";
         for (OWLClassExpression e: Abox) {
             if(e != null) {
                 ClassExpressionType pe = e.getClassExpressionType();
                 switch (pe) {
                     case OWL_CLASS:
                     case OBJECT_COMPLEMENT_OF:
-                        model=model.concat(" " + OntologyRenderer.render((e)));
-                        if(parent==-1) {
-                            model = model.concat(" |");
-                        }
+
+                        model=model.concat(OntologyRenderer.render((e))+ " | ");
 
                         break;
                 }
@@ -402,10 +400,10 @@ public class ChronologicalTableau implements Tableau{
 
                     for (Integer j : related) {
                         Tableau t = nodeList.get(j);
-                        model=model.concat(" EXIST " + OntologyRenderer.render((oe)) + ". {");
+                        model=model.concat("EXIST " + OntologyRenderer.render((oe)) + ". { ");
                         model = model.concat(t.getModel());
                         if(model.chars().filter(ch -> ch == '}').count() < model.chars().filter(ch -> ch == '{').count())
-                            model=model.concat(" }");
+                            model=model.concat("} | ");
                     }
                 }
             }
@@ -420,17 +418,16 @@ public class ChronologicalTableau implements Tableau{
                     for (Integer j : related) {
                         Tableau t = nodeList.get(j);
                         if(t.getIteration()!=0) {
-                            model=model.concat(" FORALL " + OntologyRenderer.render((oe)) + ". {");
+                            model=model.concat("EXIST " + OntologyRenderer.render((oe)) + ". { ");
                             model = model.concat(t.getModel());
                             if(model.chars().filter(ch -> ch == '}').count() < model.chars().filter(ch -> ch == '{').count())
-                                model=model.concat(" }");
+                                model=model.concat("} | ");
                         }
                     }
                 }
             }
         }
-        if (parent==-1 && !model.endsWith("|"))
-            model = model.concat(" |");
+
 
         return model;
     }
