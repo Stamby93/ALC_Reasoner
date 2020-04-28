@@ -54,7 +54,7 @@ public class Battery {
 
             if (expression != null) {
 
-                /*ChronologicaTableau*/
+                /*ChronologicalTableau*/
                 LoggerManager.setFile(ontologyFile.getName().replace(".owl", "") + "_Chronological", Battery.class);
                 long chrono_StartTime = System.currentTimeMillis();
                 boolean resultChrono = alc_chrono.isSatisfiable(expression);
@@ -63,13 +63,12 @@ public class Battery {
                 String chrono_model = ((ALCReasoner) alc_chrono).getModel();
 
                 System.out.println("\n\n"+ ontologyFile.getName()+"\nALC(Chronological Tableau): " + resultChrono + " (" + (chrono_EndTime - chrono_StartTime) + " milliseconds - " + chronoIteration + " iterazioni)");
-                LoggerManager.writeInfoLog("ALC(Chronological Tableau): " + resultChrono, Launcher.class);
-                LoggerManager.writeInfoLog("Model " + chrono_model, Launcher.class);
-                LoggerManager.writeInfoLog("\n\n\nSTARTING Jumping Tableau\n\n\n", Launcher.class);
+                LoggerManager.writeInfoLog("ALC(Chronological Tableau): " + resultChrono, Battery.class);
+                LoggerManager.writeInfoLog("Model " + chrono_model, Battery.class);
 
                 if (resultChrono) {
                     String model = "Modello: |" + chrono_model;
-                    LoggerManager.writeInfoLog(model, Launcher.class);
+                    LoggerManager.writeInfoLog(model, Battery.class);
                 }
 
                 /*JumpingTableau*/
@@ -80,10 +79,9 @@ public class Battery {
                 String jump_model =((ALCReasoner) alc_jump).getModel();
                 Integer jumpIteration = ((ALCReasoner) alc_jump).getIteration();
                 System.out.println("ALC(Jumping Tableau): " + resultJump + " (" + (jump_EndTime - jump_StartTime) + " milliseconds) - " + jumpIteration + " iterazioni)");
-                //System.out.println("Model: " + jump_model);
-                //System.out.println("ALC(Jumping Tableau): " + resultJump + " (" + (jump_EndTime - jump_StartTime) + " milliseconds) - " + jumpIteration + " iterazioni");
-                LoggerManager.writeInfoLog("ALC(Jumping Tableau): " + resultJump, Launcher.class);
-                LoggerManager.writeInfoLog("Model " + jump_model, Launcher.class);
+
+                LoggerManager.writeInfoLog("ALC(Jumping Tableau): " + resultJump, Battery.class);
+                LoggerManager.writeInfoLog("Model " + jump_model, Battery.class);
 
                 if (resultJump) {
                     String model = "Modello: |" + jump_model;

@@ -418,7 +418,7 @@ public class ChronologicalTableau implements Tableau{
                     for (Integer j : related) {
                         Tableau t = nodeList.get(j);
                         if(t.getIteration()!=0) {
-                            model=model.concat(" EXIST " + OntologyRenderer.render((oe)) + ". {");
+                            model=model.concat(" FORALL " + OntologyRenderer.render((oe)) + ". {");
                             model = model.concat(t.getModel());
                             if(model.chars().filter(ch -> ch == '}').count() < model.chars().filter(ch -> ch == '{').count())
                                 model=model.concat(" }");

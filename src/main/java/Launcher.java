@@ -15,7 +15,7 @@ public class Launcher {
     public static void main(String[] args) throws Exception {
 
         OWLOntologyManager man = OWLManager.createOWLOntologyManager();
-        File ontologyFile = new File("Ontologie/PROVASCAL3.owl");
+        File ontologyFile = new File("Ontologie/18-02-08_PROVA_2.owl");
         OWLOntology ont = man.loadOntologyFromOntologyDocument(ontologyFile);
         OWLDataFactory df = man.getOWLDataFactory();
         Optional<IRI> optIri = ont.getOntologyID().getOntologyIRI();
