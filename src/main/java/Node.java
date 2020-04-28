@@ -16,7 +16,7 @@ public class Node implements Tableau{
 
     private List<OWLClassExpression> Abox;
 
-    private final List<OWLClassExpression> oldAbox;
+    protected final List<OWLClassExpression> oldAbox;
 
     protected Node(List<OWLClassExpression> operand, int workingRule) {
         this.oldAbox = new ArrayList<>(operand);

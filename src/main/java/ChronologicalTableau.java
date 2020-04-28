@@ -416,11 +416,13 @@ public class ChronologicalTableau implements Tableau{
                     List<Integer> related = allRelation.get(oe);
 
                     for (Integer j : related) {
-                        ChronologicalTableau t = (ChronologicalTableau)nodeList.get(j);
-                        model=model.concat(" EXIST " + OntologyRenderer.render((oe)) + ". {");
-                        model = model.concat(t.getModel());
-                        if(model.chars().filter(ch -> ch == '}').count() < model.chars().filter(ch -> ch == '{').count())
-                            model=model.concat(" }");
+                        Tableau t = nodeList.get(j);
+                        if(t.getIteration()!=0) {
+                            model=model.concat(" EXIST " + OntologyRenderer.render((oe)) + ". {");
+                            model = model.concat(t.getModel());
+                            if(model.chars().filter(ch -> ch == '}').count() < model.chars().filter(ch -> ch == '{').count())
+                                model=model.concat(" }");
+                        }
                     }
                 }
             }
