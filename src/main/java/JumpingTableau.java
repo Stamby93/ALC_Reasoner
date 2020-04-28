@@ -94,10 +94,10 @@ public class JumpingTableau implements Tableau{
 
     }
 
-    public void addDependecy(int oldD, int newD){
+    public void addDependecy(int oldD, int newD, List<Integer> dep){
 
         for(int i = oldD; i<newD; i++)
-            dependency.add(i,branchingNode);
+            dependency.add(i,dep);
 
     }
 
@@ -108,7 +108,7 @@ public class JumpingTableau implements Tableau{
         Node.SAT();
         int old_dimension = Abox.size();
         int new_dimension = Node.getAbox().size();
-        addDependecy(old_dimension,new_dimension);
+        addDependecy(old_dimension,new_dimension,dependency.get(workingRule));
         nodeList.add(workingNode,Node);
         Abox.removeAll(Collections.unmodifiableList(Abox));
         Abox.addAll(Node.getAbox());
@@ -140,9 +140,11 @@ public class JumpingTableau implements Tableau{
 
             LoggerManager.writeDebugLog("CHOICE " + OntologyRenderer.render(Abox.get(Abox.size()-1)), ChronologicalTableau.class);
             if(!Node.hasChoice()){
-                branchingNode.remove(Integer.valueOf(workingNode));}
-
-            addDependecy(old_dimension,new_dimension);
+                branchingNode.remove(Integer.valueOf(workingNode));
+                addDependecy(old_dimension,new_dimension, branchingNode); //dependency.get(workingRule)
+            }
+            else
+                addDependecy(old_dimension,new_dimension, Collections.singletonList(workingRule));
 
             if(checkClash()){
                 Abox.removeAll(Collections.unmodifiableList(Abox));
@@ -204,14 +206,27 @@ public class JumpingTableau implements Tableau{
         //QUINDI INSTANZIO NUOVO INDIVIDUO E MI SALVO LA RELAZIONE
         if (condition) {
 
+            ArrayList<Integer> allRelated = new ArrayList<>();
+            clashList = new ArrayList<>(dependency.get(workingRule));
+            List<Integer> tD;
+
             if(allRelation.get(oe)!=null){
 
+                allRelated.addAll(allRelation.get(oe));
                 ArrayList<OWLClassExpression> operands = new ArrayList<>();
 
-                for (Integer i: allRelation.get(oe)) {
+                for (Integer i: allRelated) {
 
                     direct = nodeList.get(i);
                     operands.add(direct.getAbox().get(0));
+
+                    tD = dependency.get(direct.getParent());
+
+                    for(int d = 0; d<tD.size(); d++){
+                        if(!clashList.contains(tD.get(d)))
+                            clashList.add(tD.get(d));
+                    }
+
 
                 }
 
@@ -230,9 +245,9 @@ public class JumpingTableau implements Tableau{
                 workingRule++;
             }
             else{
-
                 LoggerManager.writeDebugLog("SOME UNSATISFIABLE", JumpingTableau.class);
-                clashList = new ArrayList<>(dependency.get(workingRule));
+
+                Collections.sort(clashList);
                 backtrack();
 
             }
@@ -297,6 +312,12 @@ public class JumpingTableau implements Tableau{
                     if(!flag.SAT()){
 
                         LoggerManager.writeDebugLog("ALL UNSATISFIABLE", JumpingTableau.class);
+                        clashList = new ArrayList<>(dependency.get(workingRule));
+                        for (Integer j: dependency.get(t.getParent())) {
+                            if(!clashList.contains(j))
+                                clashList.add(j);
+                        }
+                        Collections.sort(clashList);
                         backtrack();
                         check = false;
 

@@ -383,12 +383,12 @@ public class DynamicTableau implements Tableau{
                 int rule = t.getAbox().size();
                 OWLClassExpression e = t.getAbox().get(rule-1);
                 for (int i = workingNode+1; i<nodeList.size();i++){
-                    if(someRelation.s)
+                    if(someRelation.isEmpty())
                     t = (subNode)nodeList.get(i);
                     t.alterRule(e,rule);
 
                 }
-                for(int i = 0; i < dependency.co)
+                for(int i = 0; i < dependency.size(); i++)
                 workingNode = temporanyNode;
             }
             else{
