@@ -20,16 +20,15 @@ public class oldNode {
     private List<OWLClassExpression> jointedList;
 
 
-
     public oldNode(List<OWLClassExpression> operand, int workingRule) {
         this.Abox = new ArrayList<>(operand);
         this.workingRule = workingRule;
 
     }
 
-    public List<OWLClassExpression> applyRule(){
+    public List<OWLClassExpression> applyRule() {
         ClassExpressionType type = Abox.get(workingRule).getClassExpressionType();
-        switch (type){
+        switch (type) {
             case OBJECT_INTERSECTION_OF:
                 jointedList = new ArrayList<>();
                 return applyIntersection();
@@ -46,8 +45,8 @@ public class oldNode {
         OWLObjectUnionOf union = (OWLObjectUnionOf) Abox.get(workingRule);
         jointedList = union.operands().collect(Collectors.toList());
         currentChoice++;
-        if(currentChoice - 1 < jointedList.size())
-            return jointedList.get(currentChoice-1);
+        if (currentChoice - 1 < jointedList.size())
+            return jointedList.get(currentChoice - 1);
         return null;
     }
 
@@ -62,7 +61,7 @@ public class oldNode {
         return Abox;
     }
 
-    public boolean hasChoice(){
+    public boolean hasChoice() {
         return currentChoice < jointedList.size();
     }
 }

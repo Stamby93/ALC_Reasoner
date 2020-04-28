@@ -94,7 +94,7 @@ public class JumpingTableau implements Tableau{
 
     }
 
-    public void addDependecy(int oldD, int newD, List<Integer> dep){
+    private void addDependecy(int oldD, int newD, List<Integer> dep){
 
         for(int i = oldD; i<newD; i++)
             dependency.add(i,dep);
@@ -226,8 +226,6 @@ public class JumpingTableau implements Tableau{
                         if(!clashList.contains(tD.get(d)))
                             clashList.add(tD.get(d));
                     }
-
-
                 }
 
                 operands.add(filler);
@@ -307,7 +305,7 @@ public class JumpingTableau implements Tableau{
                     operands.add(filler);
                     OWLObjectIntersectionOf concept = new OWLObjectIntersectionOfImpl(operands);
                     JumpingTableau flag = new JumpingTableau(concept.getNNF(),workingRule);
-                    nodeList.add(workingNode,t);
+                    nodeList.add(workingNode,flag);
 
                     if(!flag.SAT()){
 

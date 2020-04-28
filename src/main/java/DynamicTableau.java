@@ -94,10 +94,10 @@ public class DynamicTableau implements Tableau{
 
     }
 
-    private void addDependecy(int oldD, int newD){
+    private void addDependecy(int oldD, int newD, List<Integer> dep){
 
         for(int i = oldD; i<newD; i++)
-            dependency.add(i,branchingNode);
+            dependency.add(i,dep);
 
     }
 
@@ -115,7 +115,7 @@ public class DynamicTableau implements Tableau{
         Node.SAT();
         int old_dimension = Abox.size();
         int new_dimension = Node.getAbox().size();
-        addDependecy(old_dimension,new_dimension);
+        addDependecy(old_dimension,new_dimension,dependency.get(workingRule));
         nodeList.add(workingNode,Node);
         Abox.removeAll(Abox);
         Abox.addAll(Node.getAbox());
@@ -149,14 +149,12 @@ public class DynamicTableau implements Tableau{
             if(!Node.hasChoice())
                 branchingNode.remove(Integer.valueOf(workingNode));
 
-            if(branchingNode.contains(Integer.valueOf(workingNode))){
-                List<Integer> old_Branch = new ArrayList<>(branchingNode);
-                branchingNode = Collections.singletonList(workingNode);
-                addDependecy(old_dimension,new_dimension);
-                branchingNode = old_Branch;
+            if(!Node.hasChoice()){
+                branchingNode.remove(Integer.valueOf(workingNode));
+                addDependecy(old_dimension,new_dimension, branchingNode);
             }
             else
-                addDependecy(old_dimension,new_dimension);
+                addDependecy(old_dimension,new_dimension, Collections.singletonList(workingRule));
 
             if(checkClash()){
                 Abox.removeAll(Abox);
@@ -219,24 +217,34 @@ public class DynamicTableau implements Tableau{
         //QUINDI INSTANZIO NUOVO INDIVIDUO E MI SALVO LA RELAZIONE
         if (condition) {
 
+            ArrayList<Integer> allRelated = new ArrayList<>();
+            clashList = new ArrayList<>(dependency.get(workingRule));
+            List<Integer> tD;
+
             if(allRelation.get(oe)!=null){
 
+                allRelated.addAll(allRelation.get(oe));
                 ArrayList<OWLClassExpression> operands = new ArrayList<>();
 
-                for (Integer i: allRelation.get(oe)) {
+                for (Integer i: allRelated) {
 
                     direct = nodeList.get(i);
                     operands.add(direct.getAbox().get(0));
 
+                    tD = dependency.get(direct.getParent());
+
+                    for(int d = 0; d<tD.size(); d++){
+                        if(!clashList.contains(tD.get(d)))
+                            clashList.add(tD.get(d));
+                    }
                 }
 
                 operands.add(filler);
-                OWLObjectIntersectionOf concept = new OWLObjectIntersectionOfImpl(operands);
-                filler = concept;
+                filler = new OWLObjectIntersectionOfImpl(operands);
 
             }
 
-            direct = new DynamicTableau(filler, workingRule);
+            direct = new JumpingTableau(filler, workingRule);
             nodeList.add(workingNode,direct);
             if(direct.SAT()) {
 
@@ -246,9 +254,9 @@ public class DynamicTableau implements Tableau{
                 workingRule++;
             }
             else{
+                LoggerManager.writeDebugLog("SOME UNSATISFIABLE", JumpingTableau.class);
 
-                LoggerManager.writeDebugLog("SOME UNSATISFIABLE", DynamicTableau.class);
-                clashList = new ArrayList<>(dependency.get(workingRule));
+                Collections.sort(clashList);
                 backtrack();
 
             }
@@ -311,8 +319,14 @@ public class DynamicTableau implements Tableau{
                     nodeList.add(workingNode,t);
 
                     if(!flag.SAT()){
-
                         LoggerManager.writeDebugLog("ALL UNSATISFIABLE", DynamicTableau.class);
+
+                        clashList = new ArrayList<>(dependency.get(workingRule));
+                        for (Integer j: dependency.get(t.getParent())) {
+                            if(!clashList.contains(j))
+                                clashList.add(j);
+                        }
+                        Collections.sort(clashList);
                         backtrack();
                         check = false;
 

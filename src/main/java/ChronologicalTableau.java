@@ -260,8 +260,8 @@ public class ChronologicalTableau implements Tableau{
                     operands.add(t.getAbox().get(0));
                     operands.add(filler);
                     OWLObjectIntersectionOf concept = new OWLObjectIntersectionOfImpl(operands);
-                    ChronologicalTableau flag = new ChronologicalTableau(concept.getNNF(),workingRule);
-                    nodeList.add(workingNode,t);
+                    Tableau flag = new ChronologicalTableau(concept.getNNF(),workingRule);
+                    nodeList.add(workingNode,flag);
 
                     if(!flag.SAT()){
 
@@ -284,12 +284,14 @@ public class ChronologicalTableau implements Tableau{
 
                 if(newRelated.size()!=0){
 
-                    Collections.sort(newRelated);
-
-                    if(allRelation.get(oe)!=null)
+                    if(allRelation.get(oe)!=null) {
                         newRelated.addAll(allRelation.get(oe));
+                        allRelation.remove(oe);
+                    }
 
+                    Collections.sort(newRelated);
                     allRelation.put(oe,newRelated);
+
                 }
 
                 workingRule++;
@@ -399,7 +401,7 @@ public class ChronologicalTableau implements Tableau{
                     List<Integer> related = someRelation.get(oe);
 
                     for (Integer j : related) {
-                        ChronologicalTableau t = (ChronologicalTableau)nodeList.get(j);
+                        Tableau t = nodeList.get(j);
                         model=model.concat(" EXIST " + OntologyRenderer.render((oe)) + ". {");
                         model = model.concat(t.getModel());
                         if(model.chars().filter(ch -> ch == '}').count() < model.chars().filter(ch -> ch == '{').count())
