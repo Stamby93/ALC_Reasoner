@@ -90,8 +90,10 @@ public class ChronologicalTableau implements Tableau{
         Tableau Node = new Node(Abox, workingRule);
         Node.SAT();
         nodeList.add(workingNode,Node);
-        Abox.removeAll(Collections.unmodifiableList(Abox));
-        Abox.addAll(Node.getAbox());
+        if(Abox.size() != Node.getAbox().size()){
+            Abox.removeAll(Collections.unmodifiableList(Abox));
+            Abox.addAll(Node.getAbox());
+        }
         workingRule ++;
         workingNode ++;
     }
@@ -112,15 +114,24 @@ public class ChronologicalTableau implements Tableau{
         boolean haveChoice = false;
         while(Node.SAT()){
 
-            ArrayList<OWLClassExpression> saveT = new ArrayList<>(Abox);
-            Abox.removeAll(Collections.unmodifiableList(Abox));
-            Abox.addAll(Node.getAbox());
-
-            LoggerManager.writeDebugLog("CHOICE " + OntologyRenderer.render(Abox.get(Abox.size()-1)), ChronologicalTableau.class);
-            if(checkClash()){
+            if(Abox.size() != Node.getAbox().size()){
+                ArrayList<OWLClassExpression> saveT = new ArrayList<>(Abox);
                 Abox.removeAll(Collections.unmodifiableList(Abox));
-                Abox.addAll(saveT);
-                iteration++;
+                Abox.addAll(Node.getAbox());
+
+                LoggerManager.writeDebugLog("CHOICE " + OntologyRenderer.render(Abox.get(Abox.size()-1)), ChronologicalTableau.class);
+
+                if(checkClash()){
+                    Abox.removeAll(Collections.unmodifiableList(Abox));
+                    Abox.addAll(saveT);
+                    iteration++;
+                }
+                else{
+                    workingRule++;
+                    workingNode++;
+                    haveChoice = true;
+                    break;
+                }
             }
             else{
                 workingRule++;
