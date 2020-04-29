@@ -50,6 +50,9 @@ public class JumpingTableau implements Tableau{
 
         while(isWorking()){
 
+            //LoggerManager.writeDebugLog("DEPENDENCY: " + dependency, JumpingTableau.class);
+            //LoggerManager.writeDebugLog("ABOX: "+ printAbox(), JumpingTableau.class);
+
 
             OWLClassExpression rule = Abox.get(workingRule);
             ClassExpressionType type = rule.getClassExpressionType();
@@ -94,15 +97,28 @@ public class JumpingTableau implements Tableau{
 
     }
 
-    private void addDependecy(int oldD, int newD, List<Integer> dep){
+    public void addDependecy(int oldD, int newD, List<Integer> dep){
 
         for(int i = oldD; i<newD; i++)
             dependency.add(i,dep);
 
     }
 
+    private String printAbox(){
+
+        String a = new String("");
+        int i = 0;
+        for (OWLClassExpression e:Abox
+             ) {
+            a = a.concat("\n ELEMENT " + i + "):  " + OntologyRenderer.render(e));
+            i++;
+        }
+        return a;
+    }
+
     private void applyIntersection(){
         LoggerManager.writeDebugLog("Rule: " + workingRule + " INTERSECTION: "+ OntologyRenderer.render(Abox.get(workingRule)), JumpingTableau.class);
+        //LoggerManager.writeDebugLog("Dependency: " + dependency.get(workingRule), JumpingTableau.class);
 
         Tableau Node = new Node(Abox, workingRule);
         Node.SAT();
@@ -112,17 +128,27 @@ public class JumpingTableau implements Tableau{
         nodeList.add(workingNode,Node);
         Abox.removeAll(Collections.unmodifiableList(Abox));
         Abox.addAll(Node.getAbox());
+
+
+
         workingRule ++;
         workingNode ++;
     }
 
     private void applyUnion(){
         LoggerManager.writeDebugLog("Rule: "+ workingRule + " UNION: " + OntologyRenderer.render(Abox.get(workingRule)), JumpingTableau.class);
+        //LoggerManager.writeDebugLog("Dependency: " + dependency.get(workingRule), JumpingTableau.class);
+
 
         Node Node;
+        List<Integer> dep = new ArrayList<>();
+        dep.add(Integer.valueOf(workingNode));
 
-        if(branchingNode.contains(workingNode))
+
+        if(branchingNode.contains(Integer.valueOf(workingNode))){
             Node = (Node)nodeList.get(workingNode);
+
+        }
         else{
             Node = new Node(Abox, workingRule);
             branchingNode.add(branchingNode.size(),workingNode);
@@ -131,6 +157,8 @@ public class JumpingTableau implements Tableau{
 
         boolean last = false;
         while(Node.SAT()){
+            //LoggerManager.writeDebugLog("CLASH LIST " + clashList, JumpingTableau.class);
+
             last = true;
             int old_dimension = Abox.size();
             ArrayList<OWLClassExpression> saveT = new ArrayList<>(Abox);
@@ -138,20 +166,34 @@ public class JumpingTableau implements Tableau{
             Abox.addAll(Node.getAbox());
             int new_dimension = Abox.size();
 
-            LoggerManager.writeDebugLog("CHOICE " + OntologyRenderer.render(Abox.get(Abox.size()-1)), ChronologicalTableau.class);
+            LoggerManager.writeDebugLog("CHOICE " + OntologyRenderer.render(Abox.get(Abox.size()-1)), JumpingTableau.class);
             if(!Node.hasChoice()){
                 branchingNode.remove(Integer.valueOf(workingNode));
-                addDependecy(old_dimension,new_dimension, branchingNode); //dependency.get(workingRule)
+                dep.remove(Integer.valueOf(workingNode));
+                clashList.remove(Integer.valueOf(workingNode));
+                dep.removeAll(dep);
+                if(!clashList.isEmpty())
+                    dep.addAll(clashList);
+                else
+                    dep.addAll(dependency.get(workingRule));
             }
-            else
-                addDependecy(old_dimension,new_dimension, Collections.singletonList(workingRule));
+
+            addDependecy(old_dimension,new_dimension, dep);
 
             if(checkClash()){
-                Abox.removeAll(Collections.unmodifiableList(Abox));
-                Abox.addAll(saveT);
-                dependency = dependency.subList(0,old_dimension);
-                iteration++;
-                last = false;
+
+                if(clashList.contains(Integer.valueOf(workingNode))){
+                    Abox.removeAll(Collections.unmodifiableList(Abox));
+                    Abox.addAll(saveT);
+                    dependency = dependency.subList(0,old_dimension);
+                    if(clashList.size()>1)
+                        dep.add(dep.size(),clashList.get(clashList.size()-2));
+
+                }
+                else{
+                    last = false;
+                    break;
+                }
             }
             else{
 
@@ -163,12 +205,13 @@ public class JumpingTableau implements Tableau{
 
         if(!last)
             backtrack();
-
-
+        
     }
 
     private void applySome(OWLClassExpression rule){
         LoggerManager.writeDebugLog("Rule: " + workingRule + " SOME: " + OntologyRenderer.render(rule), JumpingTableau.class);
+        //LoggerManager.writeDebugLog("Dependency: " + dependency.get(workingRule), JumpingTableau.class);
+
 
         Tableau direct;
         OWLObjectSomeValuesFrom someValue = (OWLObjectSomeValuesFrom) rule;
@@ -222,10 +265,11 @@ public class JumpingTableau implements Tableau{
 
                     tD = dependency.get(direct.getParent());
 
-                    for(int d = 0; d<tD.size(); d++){
+                    for(int d = 0; d < tD.size(); d++){
                         if(!clashList.contains(tD.get(d)))
                             clashList.add(tD.get(d));
                     }
+
                 }
 
                 operands.add(filler);
@@ -254,6 +298,8 @@ public class JumpingTableau implements Tableau{
 
     private void applyAll(OWLClassExpression rule){
         LoggerManager.writeDebugLog("Rule: " + workingRule + " ALL: "+ OntologyRenderer.render(rule), JumpingTableau.class);
+        //LoggerManager.writeDebugLog("Dependency: " + dependency.get(workingRule), JumpingTableau.class);
+
 
         OWLObjectAllValuesFrom allValue = (OWLObjectAllValuesFrom) rule;
         OWLClassExpression filler = allValue.getFiller();
@@ -286,12 +332,16 @@ public class JumpingTableau implements Tableau{
 
             ArrayList<Integer> newRelated = new ArrayList<>();
             ArrayList<Integer> related = new ArrayList<>(someRelation.get(oe));
+            clashList = new ArrayList<>(dependency.get(workingRule));
 
             if(allRelation.get(oe)!=null){
 
-                related.addAll(new ArrayList<>(allRelation.get(oe)));
-                Collections.sort(related);
+                for (Integer j: allRelation.get(oe)) {
 
+                    if(nodeList.get(j).getIteration()!=0)
+                        related.add(related.size(),j);
+
+                }
             }
 
             for (int i  = 0 ; (i < related.size()) && check; i++){
@@ -310,7 +360,6 @@ public class JumpingTableau implements Tableau{
                     if(!flag.SAT()){
 
                         LoggerManager.writeDebugLog("ALL UNSATISFIABLE", JumpingTableau.class);
-                        clashList = new ArrayList<>(dependency.get(workingRule));
                         for (Integer j: dependency.get(t.getParent())) {
                             if(!clashList.contains(j))
                                 clashList.add(j);
@@ -352,9 +401,10 @@ public class JumpingTableau implements Tableau{
 
         iteration++;
 
+
         if(clashList.size()!=0 && clashList.get(clashList.size()-1)!=-1) {
 
-            workingNode = clashList.get(clashList.size()-1);
+            workingNode = clashList.remove(clashList.size()-1);
             nodeList = nodeList.subList(0,workingNode+1);
             cleanRelation(someRelation);
             cleanRelation(allRelation);
@@ -363,9 +413,15 @@ public class JumpingTableau implements Tableau{
             int dim = Node.getAbox().size();
 
             Abox.removeAll(Collections.unmodifiableList(Abox));
-            Abox.addAll(Node.getAbox().subList(0,dim-2));
+            Abox.addAll(Node.getAbox().subList(0,dim-1));
             workingRule = Node.getParent();
             dependency = dependency.subList(0,Abox.size());
+            int i = branchingNode.size() - 1;
+            for (; i >= 0; i--) {
+                if (branchingNode.get(i)>workingNode)
+                    branchingNode.remove(i);
+
+            }
         }
         else
             workingNode = -1;
@@ -432,17 +488,15 @@ public class JumpingTableau implements Tableau{
 
     @Override
     public String getModel(){
-        String model = "";
+        String model = "| ";
         for (OWLClassExpression e: Abox) {
             if(e != null) {
                 ClassExpressionType pe = e.getClassExpressionType();
                 switch (pe) {
                     case OWL_CLASS:
                     case OBJECT_COMPLEMENT_OF:
-                        model=model.concat(" " + OntologyRenderer.render((e)));
-                        if(parent==-1) {
-                            model = model.concat(" |");
-                        }
+
+                        model=model.concat(OntologyRenderer.render((e))+ " | ");
 
                         break;
                 }
@@ -455,11 +509,11 @@ public class JumpingTableau implements Tableau{
                     List<Integer> related = someRelation.get(oe);
 
                     for (Integer j : related) {
-                        JumpingTableau t = (JumpingTableau)nodeList.get(j);
-                        model=model.concat(" EXIST " + OntologyRenderer.render((oe)) + ". {");
+                        Tableau t = nodeList.get(j);
+                        model=model.concat("EXIST " + OntologyRenderer.render((oe)) + ". { ");
                         model = model.concat(t.getModel());
                         if(model.chars().filter(ch -> ch == '}').count() < model.chars().filter(ch -> ch == '{').count())
-                            model=model.concat(" }");
+                            model=model.concat("} | ");
                     }
                 }
             }
@@ -474,17 +528,16 @@ public class JumpingTableau implements Tableau{
                     for (Integer j : related) {
                         Tableau t = nodeList.get(j);
                         if(t.getIteration()!=0) {
-                            model=model.concat(" EXIST " + OntologyRenderer.render((oe)) + ". {");
+                            model=model.concat("EXIST " + OntologyRenderer.render((oe)) + ". { ");
                             model = model.concat(t.getModel());
                             if(model.chars().filter(ch -> ch == '}').count() < model.chars().filter(ch -> ch == '{').count())
-                                model=model.concat(" }");
+                                model=model.concat("} | ");
                         }
                     }
                 }
             }
         }
-        if (parent==-1 && !model.endsWith("|"))
-            model = model.concat(" |");
+
 
         return model;
     }

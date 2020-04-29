@@ -32,7 +32,7 @@ public class Battery {
             OWLReasoner alc_chrono = factoryALC_chrono.createReasoner(null);
 
             /*TABLEAU Jumping*/
-            OWLReasonerFactory factoryALC_jump = new ALCReasonerFactory("Jumping");
+            OWLReasonerFactory factoryALC_jump = new ALCReasonerFactory("Dynamic");
             OWLReasoner alc_jump = factoryALC_jump.createReasoner(null);
 
             if (ontologyAxiom.size() > 1) {

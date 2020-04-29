@@ -1,0 +1,37 @@
+2020-04-28   20:50:53   DEBUG   - SAT: -1
+
+2020-04-28   20:50:53   DEBUG   - Rule: 0 UNION: ((D or (S some C))
+ and (not (B))
+ and (S only (R some (not (A))))) or ((not (D))
+ and (S only (not (C)))) or (B or (S some (R only A)))
+
+2020-04-28   20:50:53   DEBUG   - CHOICE (D or (S some C))
+ and (not (B))
+ and (S only (R some (not (A))))
+
+2020-04-28   20:50:53   DEBUG   - Rule: 1 INTERSECTION: (D or (S some C))
+ and (not (B))
+ and (S only (R some (not (A))))
+
+2020-04-28   20:50:53   DEBUG   - Rule: 2 UNION: D or (S some C)
+
+2020-04-28   20:50:53   DEBUG   - CHOICE D
+
+2020-04-28   20:50:53   DEBUG   - CLASS :not (B)
+
+2020-04-28   20:50:53   DEBUG   - Rule: 4 ALL: S only (R some (not (A)))
+
+2020-04-28   20:50:53   DEBUG   - ALL NO CONDITIONS
+
+2020-04-28   20:50:53   DEBUG   - CLASS :D
+
+2020-04-28   20:50:53   DEBUG   - SAT: -1 true
+
+2020-04-28   20:50:53   DEBUG   - NUMERO ITERAZIONI: 6
+
+2020-04-28   20:50:53   DEBUG   - MODELLO: | not (B) | D | 
+
+2020-04-28   20:50:53   INFO    - The concept is true
+
+2020-04-28   20:50:53   INFO    - Modello trovato: || not (B) | D | 
+

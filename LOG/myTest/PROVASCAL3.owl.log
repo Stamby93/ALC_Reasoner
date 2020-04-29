@@ -1,0 +1,47 @@
+2020-04-28   20:50:55   DEBUG   - SAT: -1
+
+2020-04-28   20:50:55   DEBUG   - Rule: 0 INTERSECTION: ((S only (not (C))) or (S only (not (D))))
+ and (S some 
+    (C
+     and D))
+
+2020-04-28   20:50:55   DEBUG   - Rule: 1 UNION: (S only (not (C))) or (S only (not (D)))
+
+2020-04-28   20:50:55   DEBUG   - CHOICE S only (not (C))
+
+2020-04-28   20:50:55   DEBUG   - Rule: 2 SOME: S some 
+    (C
+     and D)
+
+2020-04-28   20:50:55   DEBUG   - SAT: 2
+
+2020-04-28   20:50:55   DEBUG   - Rule: 0 INTERSECTION: C
+ and D
+
+2020-04-28   20:50:55   DEBUG   - CLASS :C
+
+2020-04-28   20:50:55   DEBUG   - CLASS :D
+
+2020-04-28   20:50:55   DEBUG   - SAT: 2 true
+
+2020-04-28   20:50:55   DEBUG   - Rule: 3 ALL: S only (not (C))
+
+2020-04-28   20:50:55   DEBUG   - SAT: 3
+
+2020-04-28   20:50:55   DEBUG   - Rule: 0 INTERSECTION: (C
+ and D)
+ and (not (C))
+
+2020-04-28   20:50:55   DEBUG   - Rule: 1 INTERSECTION: C
+ and D
+
+2020-04-28   20:50:55   DEBUG   - CLASS :not (C)
+
+2020-04-28   20:50:55   DEBUG   - CLASH not (C) C
+
+2020-04-28   20:50:55   DEBUG   - BACKTRACK :-1
+
+2020-04-28   20:50:55   DEBUG   - SAT: 3 false
+
+2020-04-28   20:50:55   DEBUG   - ALL UNSATISFIABLE
+

@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class Node implements Tableau{
 
-    private final int workingRule;
+    protected int workingRule;
 
     private int currentChoice = 0;
 

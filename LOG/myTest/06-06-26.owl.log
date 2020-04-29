@@ -1,0 +1,49 @@
+2020-04-28   20:50:56   DEBUG   - SAT: -1
+
+2020-04-28   20:50:56   DEBUG   - Rule: 0 INTERSECTION: (A or B)
+ and (A2 or B2)
+ and ((not (B)) or (R only (S only A)))
+ and (R some (S some (not (A))))
+
+2020-04-28   20:50:56   DEBUG   - Rule: 1 UNION: A or B
+
+2020-04-28   20:50:56   DEBUG   - CHOICE A
+
+2020-04-28   20:50:56   DEBUG   - Rule: 2 UNION: A2 or B2
+
+2020-04-28   20:50:56   DEBUG   - CHOICE A2
+
+2020-04-28   20:50:56   DEBUG   - Rule: 3 UNION: (not (B)) or (R only (S only A))
+
+2020-04-28   20:50:56   DEBUG   - CHOICE not (B)
+
+2020-04-28   20:50:56   DEBUG   - Rule: 4 SOME: R some (S some (not (A)))
+
+2020-04-28   20:50:56   DEBUG   - SAT: 4
+
+2020-04-28   20:50:56   DEBUG   - Rule: 0 SOME: S some (not (A))
+
+2020-04-28   20:50:56   DEBUG   - SAT: 0
+
+2020-04-28   20:50:56   DEBUG   - CLASS :not (A)
+
+2020-04-28   20:50:56   DEBUG   - SAT: 0 true
+
+2020-04-28   20:50:56   DEBUG   - SAT: 4 true
+
+2020-04-28   20:50:56   DEBUG   - CLASS :A
+
+2020-04-28   20:50:56   DEBUG   - CLASS :A2
+
+2020-04-28   20:50:56   DEBUG   - CLASS :not (B)
+
+2020-04-28   20:50:56   DEBUG   - SAT: -1 true
+
+2020-04-28   20:50:56   DEBUG   - NUMERO ITERAZIONI: 10
+
+2020-04-28   20:50:56   DEBUG   - MODELLO: | A | A2 | not (B) | EXIST R. { | EXIST S. { | not (A) | } | } | 
+
+2020-04-28   20:50:56   INFO    - The concept is true
+
+2020-04-28   20:50:56   INFO    - Modello trovato: || A | A2 | not (B) | EXIST R. { | EXIST S. { | not (A) | } | } | 
+

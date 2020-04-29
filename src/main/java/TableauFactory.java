@@ -19,6 +19,8 @@ public class TableauFactory {
                 return new ChronologicalTableau(Concept, -1);
             case "Jumping":
                 return new JumpingTableau(Concept, -1);
+            case "Dynamic":
+                return new DynamicTableau(Concept, -1);
             default:
                 return null;
         }

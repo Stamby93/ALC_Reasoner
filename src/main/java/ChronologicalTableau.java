@@ -245,9 +245,10 @@ public class ChronologicalTableau implements Tableau{
 
             if(allRelation.get(oe)!=null){
 
-                related.addAll(new ArrayList<>(allRelation.get(oe)));
-                Collections.sort(related);
-
+                for (Integer j: allRelation.get(oe)) {
+                    if(nodeList.get(j).getIteration()!=0)
+                        related.add(related.size(),j);
+                }
             }
 
             for (int i  = 0 ; (i < related.size()) && check; i++){

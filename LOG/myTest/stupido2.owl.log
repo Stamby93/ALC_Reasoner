@@ -1,0 +1,33 @@
+2020-04-28   20:50:55   DEBUG   - SAT: -1
+
+2020-04-28   20:50:55   DEBUG   - Rule: 0 INTERSECTION: A
+ and B
+ and C
+ and D
+ and (A or (C
+ and D))
+
+2020-04-28   20:50:55   DEBUG   - CLASS :A
+
+2020-04-28   20:50:55   DEBUG   - CLASS :B
+
+2020-04-28   20:50:55   DEBUG   - CLASS :C
+
+2020-04-28   20:50:55   DEBUG   - CLASS :D
+
+2020-04-28   20:50:55   DEBUG   - Rule: 5 UNION: A or (C
+ and D)
+
+2020-04-28   20:50:55   DEBUG   - CHOICE A or (C
+ and D)
+
+2020-04-28   20:50:55   DEBUG   - SAT: -1 true
+
+2020-04-28   20:50:55   DEBUG   - NUMERO ITERAZIONI: 6
+
+2020-04-28   20:50:55   DEBUG   - MODELLO: | A | B | C | D | 
+
+2020-04-28   20:50:55   INFO    - The concept is true
+
+2020-04-28   20:50:55   INFO    - Modello trovato: || A | B | C | D | 
+
