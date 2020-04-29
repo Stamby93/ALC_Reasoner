@@ -7,25 +7,32 @@ import java.nio.file.Files;
 
 public class LoggerManager {
 
+    private static boolean enable = false;
     private LoggerManager() {
     }
 
     public static void writeInfoLog(String msg, Class<?> c){
-        Logger log = Logger.getLogger(c.getName());
-        PropertyConfigurator.configure("log4j.properties");
-        log.info(msg+"\n");
+        if(enable) {
+            Logger log = Logger.getLogger(c.getName());
+            PropertyConfigurator.configure("log4j.properties");
+            log.info(msg + "\n");
+        }
     }
 
     public static void writeErrorLog(String msg, Class<?> c){
-        Logger log = Logger.getLogger(c.getName());
-        PropertyConfigurator.configure("log4j.properties");
-        log.error(msg+"\n");
+        if(enable) {
+            Logger log = Logger.getLogger(c.getName());
+            PropertyConfigurator.configure("log4j.properties");
+            log.error(msg + "\n");
+        }
     }
 
     public static void writeDebugLog(String msg, Class<?> c) {
-        Logger log = Logger.getLogger(c.getName());
-        PropertyConfigurator.configure("log4j.properties");
-        log.debug(msg+"\n");
+        if(enable) {
+            Logger log = Logger.getLogger(c.getName());
+            PropertyConfigurator.configure("log4j.properties");
+            log.debug(msg + "\n");
+        }
     }
 
     public static void setFile(String name, Class<?> c) {
@@ -36,6 +43,7 @@ public class LoggerManager {
             e.printStackTrace();
         }
         System.setProperty("logfile.name","LOG/"+c.getName()+"/"+name+".log");
+        enable = true;
     }
 
 
