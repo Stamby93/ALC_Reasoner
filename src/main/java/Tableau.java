@@ -11,7 +11,7 @@ public interface Tableau {
 
     String getModel();
     Integer getIteration();
-    List<OWLClassExpression> getAbox();
+    List<OWLClassExpression> getConceptList();
     int getParent();
 
 }

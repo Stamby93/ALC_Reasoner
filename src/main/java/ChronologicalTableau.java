@@ -5,7 +5,7 @@ import java.util.*;
 
 public class ChronologicalTableau implements Tableau{
 
-    private final List<OWLClassExpression> Abox;
+    private final List<OWLClassExpression> conceptList;
 
     private final List<Integer> branchingNode;
 
@@ -25,8 +25,8 @@ public class ChronologicalTableau implements Tableau{
 
     protected ChronologicalTableau(OWLClassExpression concept, int parent) {
 
-        Abox = new ArrayList<>();
-        Abox.add(0, concept);
+        conceptList = new ArrayList<>();
+        conceptList.add(0, concept);
         branchingNode = new ArrayList<>();
         someRelation = new HashMap<>();
         allRelation = new HashMap<>();
@@ -42,7 +42,7 @@ public class ChronologicalTableau implements Tableau{
         while(isWorking()){
 
 
-            OWLClassExpression rule = Abox.get(workingRule);
+            OWLClassExpression rule = conceptList.get(workingRule);
             ClassExpressionType type = rule.getClassExpressionType();
             switch (type) {
                 case OBJECT_INTERSECTION_OF:
@@ -60,7 +60,7 @@ public class ChronologicalTableau implements Tableau{
                 case OWL_CLASS:
                 case OBJECT_COMPLEMENT_OF:
 
-                    LoggerManager.writeDebugLog("CLASS :"+ OntologyRenderer.render(Abox.get(workingRule)), ChronologicalTableau.class);
+                    LoggerManager.writeDebugLog("CLASS :"+ OntologyRenderer.render(conceptList.get(workingRule)), ChronologicalTableau.class);
                     if(checkClash()){
                         workingNode--;
                         backtrack();
@@ -86,27 +86,27 @@ public class ChronologicalTableau implements Tableau{
     }
 
     private void applyIntersection(){
-        LoggerManager.writeDebugLog("Rule: " + workingRule + " INTERSECTION: "+ OntologyRenderer.render(Abox.get(workingRule)), ChronologicalTableau.class);
-        Tableau Node = new Node(Abox, workingRule);
+        LoggerManager.writeDebugLog("Rule: " + workingRule + " INTERSECTION: "+ OntologyRenderer.render(conceptList.get(workingRule)), ChronologicalTableau.class);
+        Tableau Node = new Node(conceptList, workingRule);
         Node.SAT();
         nodeList.add(workingNode,Node);
-        if(Abox.size() != Node.getAbox().size()){
-            Abox.removeAll(Collections.unmodifiableList(Abox));
-            Abox.addAll(Node.getAbox());
+        if(conceptList.size() != Node.getConceptList().size()){
+            conceptList.removeAll(Collections.unmodifiableList(conceptList));
+            conceptList.addAll(Node.getConceptList());
         }
         workingRule ++;
         workingNode ++;
     }
 
     private void applyUnion(){
-        LoggerManager.writeDebugLog("Rule: "+ workingRule + " UNION: " + OntologyRenderer.render(Abox.get(workingRule)), ChronologicalTableau.class);
+        LoggerManager.writeDebugLog("Rule: "+ workingRule + " UNION: " + OntologyRenderer.render(conceptList.get(workingRule)), ChronologicalTableau.class);
 
         Tableau Node;
 
         if(branchingNode.contains(workingNode))
             Node = nodeList.get(workingNode);
         else{
-            Node = new Node(Abox, workingRule);
+            Node = new Node(conceptList, workingRule);
             branchingNode.add(branchingNode.size(),workingNode);
             nodeList.add(workingNode,Node);
         }
@@ -114,16 +114,16 @@ public class ChronologicalTableau implements Tableau{
         boolean haveChoice = false;
         while(Node.SAT()){
 
-            if(Abox.size() != Node.getAbox().size()){
-                ArrayList<OWLClassExpression> saveT = new ArrayList<>(Abox);
-                Abox.removeAll(Collections.unmodifiableList(Abox));
-                Abox.addAll(Node.getAbox());
+            if(conceptList.size() != Node.getConceptList().size()){
+                ArrayList<OWLClassExpression> saveT = new ArrayList<>(conceptList);
+                conceptList.removeAll(Collections.unmodifiableList(conceptList));
+                conceptList.addAll(Node.getConceptList());
 
-                LoggerManager.writeDebugLog("CHOICE " + OntologyRenderer.render(Abox.get(Abox.size()-1)), ChronologicalTableau.class);
+                LoggerManager.writeDebugLog("CHOICE " + OntologyRenderer.render(conceptList.get(conceptList.size()-1)), ChronologicalTableau.class);
 
                 if(checkClash()){
-                    Abox.removeAll(Collections.unmodifiableList(Abox));
-                    Abox.addAll(saveT);
+                    conceptList.removeAll(Collections.unmodifiableList(conceptList));
+                    conceptList.addAll(saveT);
                     iteration++;
                 }
                 else{
@@ -172,7 +172,7 @@ public class ChronologicalTableau implements Tableau{
 
                 direct = nodeList.get(r);
 
-                if (direct.getAbox().contains(filler)) {
+                if (direct.getConceptList().contains(filler)) {
 
                     LoggerManager.writeDebugLog("SOME ALREADY PRESENT", ChronologicalTableau.class);
                     condition = false;
@@ -194,7 +194,7 @@ public class ChronologicalTableau implements Tableau{
                 for (Integer i: allRelation.get(oe)) {
 
                     direct = nodeList.get(i);
-                    operands.add(direct.getAbox().get(0));
+                    operands.add(direct.getConceptList().get(0));
 
                 }
 
@@ -266,10 +266,10 @@ public class ChronologicalTableau implements Tableau{
 
                 Tableau t = nodeList.get(related.get(i));
 
-                if(!t.getAbox().contains(filler)){
+                if(!t.getConceptList().contains(filler)){
 
                     ArrayList<OWLClassExpression> operands = new ArrayList<>();
-                    operands.add(t.getAbox().get(0));
+                    operands.add(t.getConceptList().get(0));
                     operands.add(filler);
                     OWLObjectIntersectionOf concept = new OWLObjectIntersectionOfImpl(operands);
                     Tableau flag = new ChronologicalTableau(concept.getNNF(),workingRule);
@@ -330,10 +330,10 @@ public class ChronologicalTableau implements Tableau{
             else{
 
                 Tableau Node = nodeList.get(workingNode);
-                int dim = Node.getAbox().size();
+                int dim = Node.getConceptList().size();
 
-                Abox.removeAll(Collections.unmodifiableList(Abox));
-                Abox.addAll(Node.getAbox().subList(0,dim-2));
+                conceptList.removeAll(Collections.unmodifiableList(conceptList));
+                conceptList.addAll(Node.getConceptList().subList(0,dim-2));
                 workingRule = Node.getParent();
 
             }
@@ -341,7 +341,7 @@ public class ChronologicalTableau implements Tableau{
     }
 
     private boolean isWorking() {
-        return !(((workingRule>=Abox.size()) || (workingRule<0)) || (workingNode<0));
+        return !(((workingRule>= conceptList.size()) || (workingRule<0)) || (workingNode<0));
 
     }
 
@@ -367,16 +367,16 @@ public class ChronologicalTableau implements Tableau{
 
     private boolean checkClash() {
 
-        for (int i = 0; i < Abox.size(); i++) {
+        for (int i = 0; i < conceptList.size(); i++) {
 
-            OWLClassExpression c = Abox.get(i);
+            OWLClassExpression c = conceptList.get(i);
 
             if(c.isOWLNothing())
                 return true;
 
-            for (int i1 = i+1; i1 < Abox.size(); i1++) {
+            for (int i1 = i+1; i1 < conceptList.size(); i1++) {
 
-                OWLClassExpression c1 = Abox.get(i1);
+                OWLClassExpression c1 = conceptList.get(i1);
 
                 if (c.equals(c1.getComplementNNF())){
                     LoggerManager.writeDebugLog("CLASH "+ OntologyRenderer.render(c) + " " +OntologyRenderer.render(c1), ChronologicalTableau.class);
@@ -391,7 +391,7 @@ public class ChronologicalTableau implements Tableau{
     @Override
     public String getModel(){
         String model = "| ";
-        for (OWLClassExpression e: Abox) {
+        for (OWLClassExpression e: conceptList) {
             if(e != null) {
                 ClassExpressionType pe = e.getClassExpressionType();
                 switch (pe) {
@@ -484,8 +484,8 @@ public class ChronologicalTableau implements Tableau{
     }
 
     @Override
-    public List<OWLClassExpression> getAbox() {
-        return Abox;
+    public List<OWLClassExpression> getConceptList() {
+        return conceptList;
     }
 }
 

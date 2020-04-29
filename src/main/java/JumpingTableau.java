@@ -123,11 +123,11 @@ public class JumpingTableau implements Tableau{
         Tableau Node = new Node(Abox, workingRule);
         Node.SAT();
         int old_dimension = Abox.size();
-        int new_dimension = Node.getAbox().size();
+        int new_dimension = Node.getConceptList().size();
         addDependecy(old_dimension,new_dimension,dependency.get(workingRule));
         nodeList.add(workingNode,Node);
         Abox.removeAll(Collections.unmodifiableList(Abox));
-        Abox.addAll(Node.getAbox());
+        Abox.addAll(Node.getConceptList());
 
 
 
@@ -163,7 +163,7 @@ public class JumpingTableau implements Tableau{
             int old_dimension = Abox.size();
             ArrayList<OWLClassExpression> saveT = new ArrayList<>(Abox);
             Abox.removeAll(Collections.unmodifiableList(Abox));
-            Abox.addAll(Node.getAbox());
+            Abox.addAll(Node.getConceptList());
             int new_dimension = Abox.size();
 
             LoggerManager.writeDebugLog("CHOICE " + OntologyRenderer.render(Abox.get(Abox.size()-1)), JumpingTableau.class);
@@ -234,7 +234,7 @@ public class JumpingTableau implements Tableau{
 
                 direct = nodeList.get(r);
 
-                if (direct.getAbox().contains(filler)) {
+                if (direct.getConceptList().contains(filler)) {
 
                     LoggerManager.writeDebugLog("SOME ALREADY PRESENT", JumpingTableau.class);
                     condition = false;
@@ -261,7 +261,7 @@ public class JumpingTableau implements Tableau{
                 for (Integer i: allRelated) {
 
                     direct = nodeList.get(i);
-                    operands.add(direct.getAbox().get(0));
+                    operands.add(direct.getConceptList().get(0));
 
                     tD = dependency.get(direct.getParent());
 
@@ -348,10 +348,10 @@ public class JumpingTableau implements Tableau{
 
                 Tableau t = nodeList.get(related.get(i));
 
-                if(!t.getAbox().contains(filler)){
+                if(!t.getConceptList().contains(filler)){
 
                     ArrayList<OWLClassExpression> operands = new ArrayList<>();
-                    operands.add(t.getAbox().get(0));
+                    operands.add(t.getConceptList().get(0));
                     operands.add(filler);
                     OWLObjectIntersectionOf concept = new OWLObjectIntersectionOfImpl(operands);
                     JumpingTableau flag = new JumpingTableau(concept.getNNF(),workingRule);
@@ -410,10 +410,10 @@ public class JumpingTableau implements Tableau{
             cleanRelation(allRelation);
 
             Tableau Node = nodeList.get(workingNode);
-            int dim = Node.getAbox().size();
+            int dim = Node.getConceptList().size();
 
             Abox.removeAll(Collections.unmodifiableList(Abox));
-            Abox.addAll(Node.getAbox().subList(0,dim-1));
+            Abox.addAll(Node.getConceptList().subList(0,dim-1));
             workingRule = Node.getParent();
             dependency = dependency.subList(0,Abox.size());
             int i = branchingNode.size() - 1;
@@ -582,7 +582,7 @@ public class JumpingTableau implements Tableau{
     }
 
     @Override
-    public List<OWLClassExpression> getAbox() {
+    public List<OWLClassExpression> getConceptList() {
         return Abox;
     }
 }

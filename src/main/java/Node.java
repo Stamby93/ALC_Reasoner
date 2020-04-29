@@ -60,7 +60,7 @@ public class Node implements Tableau{
     }
 
     @Override
-    public List<OWLClassExpression> getAbox() {
+    public List<OWLClassExpression> getConceptList() {
         return Abox;
     }
 

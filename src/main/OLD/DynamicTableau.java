@@ -231,7 +231,7 @@ public class DynamicTableau implements Tableau{
                 if(!t.checkSome(filler)){
 
                     ArrayList<OWLClassExpression> operands = new ArrayList<>();
-                    operands.add(t.getAbox().get(0));
+                    operands.add(t.getConceptList().get(0));
                     operands.add(filler);
                     OWLObjectIntersectionOf concept = new OWLObjectIntersectionOfImpl(operands);
 

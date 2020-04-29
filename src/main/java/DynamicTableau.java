@@ -121,11 +121,11 @@ public class DynamicTableau implements Tableau{
         Tableau Node = new subNode(Abox, workingRule);
         Node.SAT();
         int old_dimension = Abox.size();
-        int new_dimension = Node.getAbox().size();
+        int new_dimension = Node.getConceptList().size();
         addDependecy(old_dimension,new_dimension,dependency.get(workingRule));
         nodeList.add(workingNode,Node);
         Abox.removeAll(Abox);
-        Abox.addAll(Node.getAbox());
+        Abox.addAll(Node.getConceptList());
         workingRule ++;
         workingNode ++;
     }
@@ -149,7 +149,7 @@ public class DynamicTableau implements Tableau{
             int old_dimension = Abox.size();
             ArrayList<OWLClassExpression> saveT = new ArrayList<>(Abox);
             Abox.removeAll(Abox);
-            Abox.addAll(Node.getAbox());
+            Abox.addAll(Node.getConceptList());
             int new_dimension = Abox.size();
 
             LoggerManager.writeDebugLog("CHOICE " + OntologyRenderer.render(Abox.get(Abox.size()-1)), ChronologicalTableau.class);
@@ -207,7 +207,7 @@ public class DynamicTableau implements Tableau{
 
                 direct = nodeList.get(r);
 
-                if (direct.getAbox().contains(filler)) {
+                if (direct.getConceptList().contains(filler)) {
 
                     LoggerManager.writeDebugLog("SOME ALREADY PRESENT", DynamicTableau.class);
                     condition = false;
@@ -234,7 +234,7 @@ public class DynamicTableau implements Tableau{
                 for (Integer i: allRelated) {
 
                     direct = nodeList.get(i);
-                    operands.add(direct.getAbox().get(0));
+                    operands.add(direct.getConceptList().get(0));
 
                     tD = dependency.get(direct.getParent());
 
@@ -314,10 +314,10 @@ public class DynamicTableau implements Tableau{
 
                 Tableau t = nodeList.get(related.get(i));
 
-                if(!t.getAbox().contains(filler)){
+                if(!t.getConceptList().contains(filler)){
 
                     ArrayList<OWLClassExpression> operands = new ArrayList<>();
-                    operands.add(t.getAbox().get(0));
+                    operands.add(t.getConceptList().get(0));
                     operands.add(filler);
                     OWLObjectIntersectionOf concept = new OWLObjectIntersectionOfImpl(operands);
                     DynamicTableau flag = new DynamicTableau(concept.getNNF(),workingRule);
@@ -444,7 +444,7 @@ public class DynamicTableau implements Tableau{
             Abox.addAll(oldAbox.subList(0,old_choice));
             while(t.hasChoice()){
                 t.SAT();
-                nAbox = t.getAbox();
+                nAbox = t.getConceptList();
                 newrule = nAbox.get(nAbox.size()-1);
 
                 Abox.add(Abox.size(),newrule);
@@ -662,7 +662,7 @@ public class DynamicTableau implements Tableau{
     }
 
     @Override
-    public List<OWLClassExpression> getAbox() {
+    public List<OWLClassExpression> getConceptList() {
         return Abox;
     }
 }
