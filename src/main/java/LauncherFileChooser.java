@@ -14,7 +14,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import javax.swing.*;
 import javax.swing.SwingUtilities;
-import javax.swing.filechooser.*;
 import java.awt.Desktop;
 
 
@@ -45,7 +44,7 @@ public class LauncherFileChooser extends JPanel
         openButton.addActionListener(this);
 
         loadLog = new JButton("Log",
-                createImageIcon(""));
+                createImageIcon("images/Save16.gif"));
         loadLog.setPreferredSize(new Dimension(100, 30));
         loadLog.addActionListener(this);
 
