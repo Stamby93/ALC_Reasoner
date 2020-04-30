@@ -399,15 +399,6 @@ public class ChronologicalTableau implements Tableau{
     @Override
     public Integer getIteration(){return iteration;}
 
-    @Override
-    public int getParent() {
-        return parent;
-    }
-
-    @Override
-    public List<OWLClassExpression> getConceptList() {
-        return conceptList;
-    }
 }
 
 
