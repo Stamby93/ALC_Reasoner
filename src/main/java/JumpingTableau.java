@@ -195,6 +195,8 @@ public class JumpingTableau implements Tableau{
 
                     if(SAT())
                         return true;
+                    else if(!clashList.contains(Integer.valueOf(rule)))
+                        return false;
 
                     LoggerManager.writeDebugLog("BACKTRACK: " + rule, JumpingTableau.class);
 

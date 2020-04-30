@@ -20,7 +20,7 @@ public class TableauFactory {
             case "Jumping":
                 return new JumpingTableau(Concept, -1);
             case "Dynamic":
-                return new DynamicTableau(Concept, -1);
+                return null;//new DynamicTableau(Concept, -1);
             default:
                 return null;
         }
