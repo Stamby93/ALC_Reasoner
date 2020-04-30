@@ -51,14 +51,14 @@ public class TestLauncher {
         assertEquals(expResult, result);
     }
 
-    /*@Test
+    @Test
     public void testOntology_Jumping_1() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/06-06-26.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner_Jumping(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-    }*/
+    }
     @Test
     public void testOntology_Chronological_2() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/06-07-24.owl";
@@ -67,14 +67,14 @@ public class TestLauncher {
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
     }
-    /*@Test
+    @Test
     public void testOntology_Jumping_2() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/06-07-24.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner_Jumping(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-    }*/
+    }
     @Test
     public void testOntology_Chronological_3() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/09-06-01.owl";
@@ -83,14 +83,14 @@ public class TestLauncher {
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
     }
-    /*@Test
+    @Test
     public void testOntology_Jumping_3() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/09-06-01.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner_Jumping(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-    }*/
+    }
     @Test
     public void testOntology_Chronological_4() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/12-06-08.owl";
@@ -99,14 +99,14 @@ public class TestLauncher {
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
     }
-    /*@Test
+    @Test
     public void testOntology_Jumping_4() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/12-06-08.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner_Jumping(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-    }*/
+    }
     @Test
     public void testOntology_Chronological_5() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/17-01-27.owl";
@@ -115,14 +115,14 @@ public class TestLauncher {
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
     }
-    /*@Test
+    @Test
     public void testOntology_Jumping_5() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/17-01-27.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner_Jumping(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-    }*/
+    }
     @Test
     public void testOntology_Chronological_6() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/17-02-23.owl";
@@ -131,14 +131,14 @@ public class TestLauncher {
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
     }
-    /*@Test
+    @Test
     public void testOntology_Jumping_6() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/17-02-23.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner_Jumping(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-    }*/
+    }
     @Test
     public void testOntology_Chronological_7() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/18-02-08_PROVA_2.owl";
@@ -147,14 +147,14 @@ public class TestLauncher {
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
     }
-    /*@Test
+    @Test
     public void testOntology_Jumping_7() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/18-02-08_PROVA_2.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner_Jumping(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-    }*/
+    }
     @Test
     public void testOntology_Chronological_8() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/18-02-08_PROVA_3.owl";
@@ -163,14 +163,14 @@ public class TestLauncher {
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
     }
-    /*@Test
+    @Test
     public void testOntology_Jumping_8() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/18-02-08_PROVA_3.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner_Jumping(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-    }*/
+    }
     @Test
     public void testOntology_Chronological_9() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/18-02-08_PROVA.owl";
@@ -179,14 +179,14 @@ public class TestLauncher {
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
     }
-    /*@Test
+    @Test
     public void testOntology_Jumping_9() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/18-02-08_PROVA.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner_Jumping(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-    }*/
+    }
     @Test
     public void testOntology_Chronological_10() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/18-02-08.owl";
@@ -195,14 +195,14 @@ public class TestLauncher {
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
     }
-    /*@Test
+    @Test
     public void testOntology_Jumping_10() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/18-02-08.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner_Jumping(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-    }*/
+    }
     @Test
     public void testOntology_Chronological_11() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/AnotA.owl";
@@ -211,14 +211,14 @@ public class TestLauncher {
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
     }
-    /*@Test
+    @Test
     public void testOntology_Jumping_11() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/AnotA.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner_Jumping(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-    }*/
+    }
     @Test
     public void testOntology_Chronological_12() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/Bottom.owl";
@@ -227,14 +227,14 @@ public class TestLauncher {
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
     }
-    /*@Test
+    @Test
     public void testOntology_Jumping_12() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/Bottom.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner_Jumping(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-    }*/
+    }
     @Test
     public void testOntology_Chronological_13() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/enzo_Fantasy.owl";
@@ -243,14 +243,14 @@ public class TestLauncher {
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
     }
-    /*@Test
+    @Test
     public void testOntology_Jumping_13() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/enzo_Fantasy.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner_Jumping(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-    }*/
+    }
     @Test
     public void testOntology_Chronological_14() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/PerOgni.owl";
@@ -259,14 +259,14 @@ public class TestLauncher {
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
     }
-    /*@Test
+    @Test
     public void testOntology_Jumping_14() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/PerOgni.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner_Jumping(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-    }*/
+    }
     @Test
     public void testOntology_Chronological_15() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/mostro.owl";
@@ -275,14 +275,14 @@ public class TestLauncher {
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
     }
-    /*@Test
+    @Test
     public void testOntology_Jumping_15() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/mostro.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner_Jumping(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-    }*/
+    }
     @Test
     public void testOntology_Chronological_16() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/mostropiugrosso.owl";
@@ -291,14 +291,14 @@ public class TestLauncher {
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
     }
-    /*@Test
+    @Test
     public void testOntology_Jumping_16() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/mostropiugrosso.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner_Jumping(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-    }*/
+    }
     @Test
     public void testOntology_Chronological_17() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/PROVASCAL1.owl";
@@ -307,14 +307,14 @@ public class TestLauncher {
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
     }
-    /*@Test
+    @Test
     public void testOntology_Jumping_17() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/PROVASCAL1.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner_Jumping(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-    }*/
+    }
     @Test
     public void testOntology_Chronological_18() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/mpp.owl";
@@ -323,14 +323,14 @@ public class TestLauncher {
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
     }
-    /*@Test
+    @Test
     public void testOntology_Jumping_18() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/mpp.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner_Jumping(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-    }*/
+    }
     @Test
     public void testOntology_Chronological_19() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/mpp2.owl";
@@ -339,14 +339,14 @@ public class TestLauncher {
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
     }
-    /*@Test
+    @Test
     public void testOntology_Jumping_19() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/mpp2.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner_Jumping(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-    }*/
+    }
     @Test
     public void testOntology_Chronological_20() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/mpp3.owl";
@@ -355,14 +355,14 @@ public class TestLauncher {
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
     }
-    /*@Test
+    @Test
     public void testOntology_Jumping_20() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/mpp3.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner_Jumping(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-    }*/
+    }
     @Test
     public void testOntology_Chronological_21() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/mgp.owl";
@@ -371,14 +371,14 @@ public class TestLauncher {
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
     }
-    /*@Test
+    @Test
     public void testOntology_Jumping_21() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/mgp.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner_Jumping(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-    }*/
+    }
     @Test
     public void testOntology_Chronological_22() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/Satisfiable.owl";
@@ -387,14 +387,14 @@ public class TestLauncher {
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
     }
-    /*@Test
+    @Test
     public void testOntology_Jumping_22() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/Satisfiable.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner_Jumping(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-    }*/
+    }
     @Test
     public void testOntology_Chronological_23() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/stupido.owl";
@@ -403,14 +403,14 @@ public class TestLauncher {
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
     }
-    /*@Test
+    @Test
     public void testOntology_Jumping_23() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/stupido.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner_Jumping(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-    }*/
+    }
     @Test
     public void testOntology_Chronological_24() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/stupido2.owl";
@@ -419,14 +419,14 @@ public class TestLauncher {
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
     }
-    /*@Test
+    @Test
     public void testOntology_Jumping_24() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/stupido2.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner_Jumping(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-    }*/
+    }
     @Test
     public void testOntology_Chronological_25() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/spaccatuttoVero.owl";
@@ -435,14 +435,14 @@ public class TestLauncher {
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
     }
-    /*@Test
+    @Test
     public void testOntology_Jumping_25() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/spaccatuttoVero.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner_Jumping(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-    }*/
+    }
     @Test
     public void testOntology_Chronological_26() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/spaccatuttoFalso.owl";
@@ -451,14 +451,14 @@ public class TestLauncher {
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
     }
-    /*@Test
+    @Test
     public void testOntology_Jumping_26() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/spaccatuttoFalso.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner_Jumping(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-    }*/
+    }
     @Test
     public void testOntology_Chronological_27() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/PROVASCAL1.owl";
@@ -467,14 +467,14 @@ public class TestLauncher {
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
     }
-    /*@Test
+    @Test
     public void testOntology_Jumping_27() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/PROVASCAL1.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner_Jumping(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-    }*/
+    }
     @Test
     public void testOntology_Chronological_28() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/PROVASCAL2.owl";
@@ -483,14 +483,14 @@ public class TestLauncher {
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
     }
-    /*@Test
+    @Test
     public void testOntology_Jumping_28() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/PROVASCAL2.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner_Jumping(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-    }*/
+    }
 
     @Test
     public void testOntology_Chronological_29() throws OWLOntologyCreationException {
@@ -500,14 +500,14 @@ public class TestLauncher {
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
     }
-    /*@Test
+    @Test
     public void testOntology_Jumping_29() throws OWLOntologyCreationException {
         ontologyFileName = "Ontologie/PROVASCAL3.owl";
         loadOntology(ontologyFileName);
         result = ALC_Reasoner_Jumping(expression);
         expResult = Hermit_Reasoner(expression);
         assertEquals(expResult, result);
-    }*/
+    }
 
     private void loadOntology(String ontologyFileName) throws OWLOntologyCreationException {
         File ontologyFile = new File(ontologyFileName);
@@ -554,11 +554,11 @@ public class TestLauncher {
         if (expression != null) {
             result = chronoReasoner.isSatisfiable(expression);
             LoggerManager.writeInfoLog("The concept is "+result, TestLauncher.class);
-            /*if(result) {
+            if(result) {
                 String model = "Modello trovato: |"+((ALCReasoner)chronoReasoner).getModel();
                 LoggerManager.writeInfoLog(model, TestLauncher.class);
             }
-             */
+
         }
         return result;
     }
@@ -568,12 +568,12 @@ public class TestLauncher {
         if (expression != null) {
             result = jumpReasoner.isSatisfiable(expression);
             LoggerManager.writeInfoLog("The concept is "+result, TestLauncher.class);
-            /*if(result) {
+            if(result) {
                 String model = "Modello trovato: |"+((ALCReasoner)jumpReasoner).getModel();
                 LoggerManager.writeInfoLog(model, TestLauncher.class);
             }
 
-             */
+
         }
         return result;
     }

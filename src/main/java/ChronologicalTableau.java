@@ -16,6 +16,8 @@ public class ChronologicalTableau implements Tableau{
 
     private final int parent;
 
+    private int iteration = 0;
+
     Comparator<? super OWLClassExpression> conceptComparator;
 
     protected ChronologicalTableau(OWLClassExpression concept, int parent) {
@@ -102,6 +104,7 @@ public class ChronologicalTableau implements Tableau{
                 case OWL_CLASS:
                 case OBJECT_COMPLEMENT_OF:
                     LoggerManager.writeDebugLog("Rule: "+ workingRule + " CLASS :" + OntologyRenderer.render(conceptList.get(workingRule)), ChronologicalTableau.class);
+                    iteration++;
                     if (checkClash()) {
                         conceptList.remove(workingRule);
                         workingRule--;
@@ -126,6 +129,7 @@ public class ChronologicalTableau implements Tableau{
             if (!conceptList.contains(owlClassExpression))
                 conceptList.add(conceptList.size(), owlClassExpression);
         }
+        iteration++;
         workingRule ++;
         return SAT();
     }
@@ -144,6 +148,7 @@ public class ChronologicalTableau implements Tableau{
 
         for (int i = 0; i < jointedList.size(); i++) {
 
+            iteration++;
             owlClassExpression = jointedList.get(i);
 
             if (!conceptList.contains(owlClassExpression)) {
@@ -161,9 +166,8 @@ public class ChronologicalTableau implements Tableau{
                     else {
 
                         //NON HO PIÙ SCELTE
-                        if(i == jointedList.size()-1) {
+                        if(i == jointedList.size()-1)
                             return false;
-                        }
 
                         LoggerManager.writeDebugLog("BACKTRACK " + rule, ChronologicalTableau.class);
                         workingRule = rule;
@@ -207,6 +211,7 @@ public class ChronologicalTableau implements Tableau{
                     LoggerManager.writeDebugLog("SOME ALREADY PRESENT", ChronologicalTableau.class);
 
                     workingRule++;
+                    iteration ++;
                     return SAT();
 
                 }
@@ -244,12 +249,13 @@ public class ChronologicalTableau implements Tableau{
             related.add(related.size(),workingRule);
             someRelation.put(oe, related);
             workingRule++;
+            iteration += direct.getIteration();
             return SAT();
 
         }
         else{
             LoggerManager.writeDebugLog("SOME UNSATISFIABLE", ChronologicalTableau.class);
-
+            iteration++;
             return false;
 
         }
@@ -265,16 +271,6 @@ public class ChronologicalTableau implements Tableau{
 
         if (someRelation.get(oe) == null){
             LoggerManager.writeDebugLog("ALL NO CONDITIONS", ChronologicalTableau.class);
-
-            if(allRelation.get(oe) == null)
-                allRelation.put(oe,Collections.singletonList(workingRule));
-            else{
-
-                ArrayList<Integer> l = new ArrayList<>(allRelation.get(oe));
-                l.add(l.size(),workingRule);
-                allRelation.put(oe,l);
-
-            }
 
         }
         else{
@@ -315,12 +311,25 @@ public class ChronologicalTableau implements Tableau{
 
                     if (!Tflag.SAT()) {
                         LoggerManager.writeDebugLog("ALL UNSATISFIABLE", ChronologicalTableau.class);
-
+                        iteration++;
                         return false;
 
                     }
+                    LoggerManager.writeDebugLog("ALL "+workingRule+" SATISFIABLE", ChronologicalTableau.class);
+
+                    iteration+=Tflag.getIteration();
                 }
             }
+
+        }
+
+        if(allRelation.get(oe) == null)
+            allRelation.put(oe,Collections.singletonList(workingRule));
+        else{
+
+            ArrayList<Integer> l = new ArrayList<>(allRelation.get(oe));
+            l.add(l.size(),workingRule);
+            allRelation.put(oe,l);
 
         }
         workingRule++;
@@ -376,7 +385,6 @@ public class ChronologicalTableau implements Tableau{
     }
 
     @Override
-    //public String getModel(){return null;}
     public String getModel(){
         String model = "| ";
         for (OWLClassExpression e: conceptList) {
@@ -403,8 +411,8 @@ public class ChronologicalTableau implements Tableau{
                     for (Integer j : related) {
                         someValue = (OWLObjectSomeValuesFrom) conceptList.get(j);
 
-                        model=model.concat("EXIST " + OntologyRenderer.render((oe)) + ". { ");
-                        model = model.concat(OntologyRenderer.render(someValue.getFiller()));
+                        //model=model.concat("EXIST " + OntologyRenderer.render((oe)) + ". { ");
+                        model = model.concat(OntologyRenderer.render(someValue));
                         if(model.chars().filter(ch -> ch == '}').count() < model.chars().filter(ch -> ch == '{').count()) {
                             model=model.concat("} | ");
                         }
@@ -423,8 +431,8 @@ public class ChronologicalTableau implements Tableau{
                     for (Integer j : related) {
                         allValue = (OWLObjectAllValuesFrom) conceptList.get(j);
 
-                            model=model.concat("ALL " + OntologyRenderer.render((oe)) + ". { ");
-                            model = model.concat(OntologyRenderer.render(allValue.getFiller()));
+                        //model=model.concat("ALL " + OntologyRenderer.render((oe)) + ". { ");
+                        model = model.concat(OntologyRenderer.render(allValue));
                             if(model.chars().filter(ch -> ch == '}').count() < model.chars().filter(ch -> ch == '{').count())
                                 model=model.concat("} | ");
                     }
@@ -437,39 +445,7 @@ public class ChronologicalTableau implements Tableau{
     }
 
     @Override
-    public Integer getIteration(){return null;}
-    /*public Integer getIteration(){
-
-
-        int it=iteration;
-
-        Set<OWLObjectPropertyExpression> listSome = someRelation.keySet();
-
-        for (OWLObjectPropertyExpression oe : listSome) {
-
-            ArrayList<Integer> lt = new ArrayList<>(someRelation.get(oe));
-
-            for (Integer t: lt) {
-                Tableau m = nodeList.get(t);
-                it+=m.getIteration();
-
-            }
-        }
-
-        Set<OWLObjectPropertyExpression> listAll = allRelation.keySet();
-
-        for (OWLObjectPropertyExpression oe : listAll) {
-
-            ArrayList<Integer> lt = new ArrayList<>(allRelation.get(oe));
-
-            for (Integer t: lt) {
-                Tableau m = nodeList.get(t);
-                it+=m.getIteration();
-
-            }
-        }
-        return it;
-    }*/
+    public Integer getIteration(){return iteration;}
 
     @Override
     public int getParent() {

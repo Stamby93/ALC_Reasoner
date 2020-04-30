@@ -2,436 +2,420 @@ import org.semanticweb.owlapi.model.*;
 import uk.ac.manchester.cs.owl.owlapi.OWLObjectIntersectionOfImpl;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class JumpingTableau implements Tableau{
 
-    private final List<OWLClassExpression> Abox;
+    private final List<OWLClassExpression> conceptList;
 
-    private final List<Integer> branchingNode;
+    private List<List<Integer>> dependency;
 
-    private List<Tableau> nodeList;
+    private List<Integer> clashList;
 
-    private int workingRule = 0;
-
-    private int workingNode = 0;
+    private Comparator<? super OWLClassExpression> conceptComparator;
 
     private final Map<OWLObjectPropertyExpression, List<Integer>> someRelation;
 
     private final Map<OWLObjectPropertyExpression, List<Integer>> allRelation;
 
+    private int workingRule = 0;
+
     private final int parent;
 
-    private int iteration=0;
-
-    private List<Integer> clashList;
-
-    private List<List<Integer>> dependency;
-
-
+    private int iteration = 0;
 
     protected JumpingTableau(OWLClassExpression concept, int parent) {
 
-        Abox = new ArrayList<>();
-        Abox.add(0, concept);
-        branchingNode = new ArrayList<>();
-        someRelation = new HashMap<>();
-        allRelation = new HashMap<>();
-        nodeList = new ArrayList<>();
+        conceptList = new ArrayList<>();
+        conceptList.add(0, concept);
         dependency = new ArrayList<>();
         dependency.add(0,Collections.singletonList(-1));
-        clashList = new ArrayList<>();
+        someRelation = new HashMap<>();
+        allRelation = new HashMap<>();
         this.parent = parent;
+        conceptComparator = (Comparator<OWLClassExpression>) (expression, t1) -> {
+
+            ClassExpressionType type = expression.getClassExpressionType();
+            switch (type) {
+                case OBJECT_INTERSECTION_OF:
+                    if (t1.getClassExpressionType() == ClassExpressionType.OBJECT_INTERSECTION_OF) {
+                        return 0;
+                    }
+                    return -1;
+
+                case OBJECT_UNION_OF:
+                    switch (t1.getClassExpressionType()) {
+                        case OBJECT_INTERSECTION_OF:
+                            return 1;
+                        case OBJECT_UNION_OF:
+                            return 0;
+                        default:
+                            return -1;
+                    }
+                case OBJECT_SOME_VALUES_FROM:
+                    switch (t1.getClassExpressionType()) {
+                        case OBJECT_INTERSECTION_OF:
+                        case OBJECT_UNION_OF:
+                            return 1;
+                        case OBJECT_SOME_VALUES_FROM:
+                            return 0;
+                        default:
+                            return -1;
+                    }
+
+                case OBJECT_ALL_VALUES_FROM:
+                    switch (t1.getClassExpressionType()) {
+                        case OBJECT_INTERSECTION_OF:
+                        case OBJECT_UNION_OF:
+                        case OBJECT_SOME_VALUES_FROM:
+                            return 1;
+                        case OBJECT_ALL_VALUES_FROM:
+                            return 0;
+                        default:
+                            return -1;
+                    }
+                case OWL_CLASS:
+                case OBJECT_COMPLEMENT_OF:
+                    switch (t1.getClassExpressionType()) {
+                        case OWL_CLASS:
+                        case OBJECT_COMPLEMENT_OF:
+                            return 0;
+                        default:
+                            return 1;
+                    }
+
+            }
+            return -1;
+        };
+        LoggerManager.writeDebugLog("SAT: "+ parent, JumpingTableau.class);
+
     }
 
     @Override
     public boolean SAT() {
 
-        LoggerManager.writeDebugLog("SAT: "+ parent, JumpingTableau.class);
-
-        while(isWorking()){
-
-            //LoggerManager.writeDebugLog("DEPENDENCY: " + dependency, JumpingTableau.class);
-            //LoggerManager.writeDebugLog("ABOX: "+ printAbox(), JumpingTableau.class);
-
-
-            OWLClassExpression rule = Abox.get(workingRule);
+        if(isWorking()) {
+            OWLClassExpression rule = conceptList.get(workingRule);
             ClassExpressionType type = rule.getClassExpressionType();
             switch (type) {
                 case OBJECT_INTERSECTION_OF:
-                    applyIntersection();
-                    break;
+                    return applyIntersection();
                 case OBJECT_UNION_OF:
-                    applyUnion();
-                    break;
+                    return applyUnion();
                 case OBJECT_SOME_VALUES_FROM:
-                    applySome(rule);
-                    break;
+                    return applySome(rule);
                 case OBJECT_ALL_VALUES_FROM:
-                    applyAll(rule);
-                    break;
+                    return applyAll(rule);
                 case OWL_CLASS:
                 case OBJECT_COMPLEMENT_OF:
-
-                    LoggerManager.writeDebugLog("CLASS :"+ OntologyRenderer.render(Abox.get(workingRule)), JumpingTableau.class);
-                    if(checkClash()){
-                        //workingNode--;
-                        backtrack();
+                    LoggerManager.writeDebugLog("Rule: "+ workingRule + " CLASS :" + OntologyRenderer.render(conceptList.get(workingRule)), JumpingTableau.class);
+                    iteration++;
+                    if (checkClash()) {
+                        conceptList.remove(workingRule);
+                        workingRule--;
+                        return false;
                     }
-                    else
-                        workingRule++;
-                    break;
+                    workingRule++;
+                    return SAT();
             }
-            iteration++;
-        }
-
-        LoggerManager.writeDebugLog("SAT: "+ parent+ " " + ((workingRule >= 0) & (workingNode >= 0)), JumpingTableau.class);
-
-        if (parent==-1 && ((workingRule >= 0) & (workingNode >= 0))){
-            LoggerManager.writeDebugLog("NUMERO ITERAZIONI: " + getIteration(), JumpingTableau.class);
-            LoggerManager.writeDebugLog("MODELLO: " + getModel(), JumpingTableau.class);
 
         }
-
-
-        return ((workingRule >= 0) & (workingNode >= 0));
+        return true;
 
     }
 
-    public void addDependecy(int oldD, int newD, List<Integer> dep){
+    private void addDependency(int start, int end, List<Integer> rule){
 
-        for(int i = oldD; i<newD; i++)
-            dependency.add(i,dep);
+        for(int i = start; i < end; i++)
+            dependency.add(i,new ArrayList<>(rule));
 
     }
 
-    private String printAbox(){
+    private boolean applyIntersection(){
+        LoggerManager.writeDebugLog("Rule: " + workingRule + " INTERSECTION: "+ OntologyRenderer.render(conceptList.get(workingRule)), JumpingTableau.class);
 
-        String a = new String("");
+
+        OWLObjectIntersectionOf intersection = (OWLObjectIntersectionOf) conceptList.get(workingRule);
+        List<OWLClassExpression> operand = intersection.operands().sorted(conceptComparator).collect(Collectors.toList());
         int i = 0;
-        for (OWLClassExpression e:Abox
-             ) {
-            a = a.concat("\n ELEMENT " + i + "):  " + OntologyRenderer.render(e));
-            i++;
+        for (OWLClassExpression owlClassExpression : operand) {
+            if (!conceptList.contains(owlClassExpression)){
+                conceptList.add(conceptList.size(), owlClassExpression);
+                i++;
+            }
         }
-        return a;
-    }
-
-    private void applyIntersection(){
-        LoggerManager.writeDebugLog("Rule: " + workingRule + " INTERSECTION: "+ OntologyRenderer.render(Abox.get(workingRule)), JumpingTableau.class);
-        //LoggerManager.writeDebugLog("Dependency: " + dependency.get(workingRule), JumpingTableau.class);
-
-        Tableau Node = new Node(Abox, workingRule);
-        Node.SAT();
-        int old_dimension = Abox.size();
-        int new_dimension = Node.getConceptList().size();
-        addDependecy(old_dimension,new_dimension,dependency.get(workingRule));
-        nodeList.add(workingNode,Node);
-        Abox.removeAll(Collections.unmodifiableList(Abox));
-        Abox.addAll(Node.getConceptList());
-
-
-
+        if(i!=0)
+            addDependency(conceptList.size() - i,conceptList.size() , dependency.get(workingRule));
+        iteration++;
         workingRule ++;
-        workingNode ++;
+        return SAT();
     }
 
-    private void applyUnion(){
-        LoggerManager.writeDebugLog("Rule: "+ workingRule + " UNION: " + OntologyRenderer.render(Abox.get(workingRule)), JumpingTableau.class);
-        //LoggerManager.writeDebugLog("Dependency: " + dependency.get(workingRule), JumpingTableau.class);
+    private boolean applyUnion(){
+        LoggerManager.writeDebugLog("Rule: "+ workingRule + " UNION: " + OntologyRenderer.render(conceptList.get(workingRule)), JumpingTableau.class);
 
+        int rule = workingRule;
 
-        Node Node;
-        List<Integer> dep = new ArrayList<>();
-        dep.add(Integer.valueOf(workingNode));
+        OWLObjectUnionOf union = (OWLObjectUnionOf) conceptList.get(workingRule);
+        List<OWLClassExpression> jointedList = union.operands().collect(Collectors.toList());
+        ArrayList<OWLClassExpression> saveT = new ArrayList<>(conceptList);
+        ArrayList<List<Integer>> saveTD = new ArrayList<>(dependency);
+        ArrayList<Integer> dep = new ArrayList<>();
+        dep.add(workingRule);
+        OWLClassExpression owlClassExpression;
 
+        jointedList.sort(conceptComparator);
 
-        if(branchingNode.contains(Integer.valueOf(workingNode))){
-            Node = (Node)nodeList.get(workingNode);
+        for (int i = 0; i < jointedList.size(); i++) {
 
-        }
-        else{
-            Node = new Node(Abox, workingRule);
-            branchingNode.add(branchingNode.size(),workingNode);
-            nodeList.add(workingNode,Node);
-        }
+            iteration++;
+            owlClassExpression = jointedList.get(i);
 
-        boolean last = false;
-        while(Node.SAT()){
-            //LoggerManager.writeDebugLog("CLASH LIST " + clashList, JumpingTableau.class);
+            if (!conceptList.contains(owlClassExpression)) {
+                LoggerManager.writeDebugLog("CHOICE " + OntologyRenderer.render(owlClassExpression), JumpingTableau.class);
 
-            last = true;
-            int old_dimension = Abox.size();
-            ArrayList<OWLClassExpression> saveT = new ArrayList<>(Abox);
-            Abox.removeAll(Collections.unmodifiableList(Abox));
-            Abox.addAll(Node.getConceptList());
-            int new_dimension = Abox.size();
+                conceptList.add(conceptList.size(), owlClassExpression);
 
-            LoggerManager.writeDebugLog("CHOICE " + OntologyRenderer.render(Abox.get(Abox.size()-1)), JumpingTableau.class);
-            if(!Node.hasChoice()){
-                branchingNode.remove(Integer.valueOf(workingNode));
-                dep.remove(Integer.valueOf(workingNode));
-                clashList.remove(Integer.valueOf(workingNode));
-                dep.removeAll(dep);
-                if(!clashList.isEmpty())
-                    dep.addAll(clashList);
-                else
-                    dep.addAll(dependency.get(workingRule));
-            }
+                addDependency(conceptList.size() - 1, conceptList.size(), dep);
 
-            addDependecy(old_dimension,new_dimension, dep);
+                if (checkClash()){
 
-            if(checkClash()){
+                    conceptList.remove(conceptList.size() - 1);
+                    dependency.remove(dependency.size()-1);
+                    for (Integer c: clashList ) {
 
-                if(clashList.contains(Integer.valueOf(workingNode))){
-                    Abox.removeAll(Collections.unmodifiableList(Abox));
-                    Abox.addAll(saveT);
-                    dependency = dependency.subList(0,old_dimension);
-                    if(clashList.size()>1)
-                        dep.add(dep.size(),clashList.get(clashList.size()-2));
+                        if(!dep.contains(c))
+                            dep.add(c);
+
+                    }
+
+                    Collections.sort(dep);
 
                 }
-                else{
-                    last = false;
-                    break;
-                }
-            }
-            else{
+                else {
 
-                workingRule++;
-                workingNode++;
-                break;
+                    workingRule++;
+                    if (SAT())
+                        return true;
+                    else {
+
+                        //NON HO PIÙ SCELTE O IL CLASH NON È STATO CAUSATO DA UNO DEI MIEI CONGIUNTI
+                        if(i == jointedList.size()-1 || !clashList.contains(Integer.valueOf(rule)))
+                            return false;
+
+                        LoggerManager.writeDebugLog("BACKTRACK: " + rule, JumpingTableau.class);
+
+                        workingRule = rule;
+                        cleanRelation(someRelation);
+                        cleanRelation(allRelation);
+                        conceptList.removeAll(Collections.unmodifiableList(conceptList));
+                        conceptList.addAll(saveT);
+                        dependency.removeAll(dependency);
+                        dependency.addAll(saveTD);
+
+                    }
+                }
             }
         }
 
-        if(!last)
-            backtrack();
-        
+        clashList.remove(Integer.valueOf(rule));
+
+        return false;
+
     }
 
-    private void applySome(OWLClassExpression rule){
+    private boolean applySome(OWLClassExpression rule){
         LoggerManager.writeDebugLog("Rule: " + workingRule + " SOME: " + OntologyRenderer.render(rule), JumpingTableau.class);
-        //LoggerManager.writeDebugLog("Dependency: " + dependency.get(workingRule), JumpingTableau.class);
-
 
         Tableau direct;
         OWLObjectSomeValuesFrom someValue = (OWLObjectSomeValuesFrom) rule;
         OWLObjectPropertyExpression oe = someValue.getProperty();
         OWLClassExpression filler = someValue.getFiller();
+        clashList = new ArrayList<>();
 
-        List<Integer> related;
+        List<Integer> related = new ArrayList<>();
         //VERIFICO SE INDIVIDUO HA LA RELAZIONE QUESTO
         if(someRelation.get(oe)!=null)
-            related = new ArrayList<>(someRelation.get(oe));
-        else
-            related = new ArrayList<>();
+            related.addAll(someRelation.get(oe));
 
-        boolean condition = true;
-
-        //CASO IN CUI RELAZIONE RICHIESTA ESISTE, VERIFICO SE E' PRESENTE LA REGOLA NEL RULE SET
+        //CASO IN CUI RELAZIONE RICHIESTA ESISTE, VERIFICO SE E' PRESENTE LA REGOLA NELLA CONCEPT LIST
         if (related.size()!=0) {
 
+            OWLObjectSomeValuesFrom flag;
             for (Integer r : related) {
 
-                direct = nodeList.get(r);
+                flag = (OWLObjectSomeValuesFrom) conceptList.get(r);
 
-                if (direct.getConceptList().contains(filler)) {
-
+                if(filler.equals(flag.getFiller())){
                     LoggerManager.writeDebugLog("SOME ALREADY PRESENT", JumpingTableau.class);
-                    condition = false;
-                    workingRule++;
 
-                    break;
+                    workingRule++;
+                    iteration ++;
+                    return SAT();
+
                 }
             }
         }
         //CASO IN CUI INDIVIDUO O NON HA LA RELAZIONE O
-        //NESSUNO DEI INDIVIDUI CON QUESTA RELAZIONE HA LA FORMULA TRA IL SUO RULE SET
+        //NESSUNO DEI INDIVIDUI CON QUESTA RELAZIONE HA LA FORMULA TRA LA SUA CONCEPT LIST
         //QUINDI INSTANZIO NUOVO INDIVIDUO E MI SALVO LA RELAZIONE
-        if (condition) {
 
-            ArrayList<Integer> allRelated = new ArrayList<>();
-            clashList = new ArrayList<>(dependency.get(workingRule));
-            List<Integer> tD;
+        if(allRelation.get(oe)!=null){
 
-            if(allRelation.get(oe)!=null){
+            //CREO INTERSEZIONE DEI CONCETTI CONTENUTI NEGLI ESISTENZIALI DI QUESTO TIPO
 
-                allRelated.addAll(allRelation.get(oe));
-                ArrayList<OWLClassExpression> operands = new ArrayList<>();
+            OWLObjectAllValuesFrom allRule;
 
-                for (Integer i: allRelated) {
+            ArrayList<OWLClassExpression> operands = new ArrayList<>();
 
-                    direct = nodeList.get(i);
-                    operands.add(direct.getConceptList().get(0));
 
-                    tD = dependency.get(direct.getParent());
+            for (Integer i: allRelation.get(oe)) {
 
-                    for(int d = 0; d < tD.size(); d++){
-                        if(!clashList.contains(tD.get(d)))
-                            clashList.add(tD.get(d));
-                    }
+                allRule = (OWLObjectAllValuesFrom)conceptList.get(i);
+                operands.add(allRule.getFiller());
+                for (Integer d: dependency.get(i)) {
+
+                    if(!clashList.contains(d))
+                        clashList.add(d);
 
                 }
-
-                operands.add(filler);
-                filler = new OWLObjectIntersectionOfImpl(operands);
-
             }
 
-            direct = new JumpingTableau(filler, workingRule);
-            nodeList.add(workingNode,direct);
-            if(direct.SAT()) {
+            operands.add(filler);
+            operands.sort(conceptComparator);
+            filler = new OWLObjectIntersectionOfImpl(operands);
 
-                related.add(related.size(),workingNode);
-                someRelation.put(oe, related);
-                workingNode++;
-                workingRule++;
-            }
-            else{
-                LoggerManager.writeDebugLog("SOME UNSATISFIABLE", JumpingTableau.class);
-
-                Collections.sort(clashList);
-                backtrack();
-
-            }
         }
+
+        direct = new JumpingTableau(filler, workingRule);
+        if(direct.SAT()) {
+            LoggerManager.writeDebugLog("SOME "+workingRule+" SATISFIABLE", JumpingTableau.class);
+
+            related.add(related.size(),workingRule);
+            someRelation.put(oe, related);
+            workingRule++;
+            iteration += direct.getIteration();
+            return SAT();
+
+        }
+        else{
+            LoggerManager.writeDebugLog("SOME UNSATISFIABLE", JumpingTableau.class);
+
+            iteration++;
+            for (Integer d: dependency.get(workingRule)) {
+
+                if(!clashList.contains(d))
+                    clashList.add(d);
+
+            }
+            Collections.sort(clashList);
+            return false;
+
+        }
+
     }
 
-    private void applyAll(OWLClassExpression rule){
+    private boolean applyAll(OWLClassExpression rule){
         LoggerManager.writeDebugLog("Rule: " + workingRule + " ALL: "+ OntologyRenderer.render(rule), JumpingTableau.class);
-        //LoggerManager.writeDebugLog("Dependency: " + dependency.get(workingRule), JumpingTableau.class);
-
 
         OWLObjectAllValuesFrom allValue = (OWLObjectAllValuesFrom) rule;
         OWLClassExpression filler = allValue.getFiller();
         OWLObjectPropertyExpression oe = allValue.getProperty();
-        boolean check = true;
 
         if (someRelation.get(oe) == null){
             LoggerManager.writeDebugLog("ALL NO CONDITIONS", JumpingTableau.class);
 
-            Tableau t = new JumpingTableau(filler.getNNF(),workingRule);
-            nodeList.add(workingNode,t);
-
-
-            if(allRelation.get(oe) == null)
-                allRelation.put(oe,Collections.singletonList(workingNode));
-            else{
-
-                ArrayList<Integer> l = new ArrayList<>(allRelation.get(oe));
-                l.add(l.size(),workingNode);
-                allRelation.put(oe,l);
-
-            }
-
-            workingNode++;
-            workingRule++;
-
-
         }
         else{
 
-            ArrayList<Integer> newRelated = new ArrayList<>();
             ArrayList<Integer> related = new ArrayList<>(someRelation.get(oe));
-            clashList = new ArrayList<>(dependency.get(workingRule));
+            ArrayList<OWLClassExpression> allRules = new ArrayList<>();
+            OWLObjectSomeValuesFrom flag;
+            clashList = new ArrayList<>();
 
             if(allRelation.get(oe)!=null){
 
+                OWLObjectAllValuesFrom allRule;
+
                 for (Integer j: allRelation.get(oe)) {
 
-                    if(nodeList.get(j).getIteration()!=0)
-                        related.add(related.size(),j);
+                    allRule = (OWLObjectAllValuesFrom) conceptList.get(j);
+                    allRules.add(allRule.getFiller());
+                    for (Integer d: dependency.get(j)) {
+
+                        if(!clashList.contains(d))
+                            clashList.add(d);
+
+                    }
 
                 }
+
+                allRules.sort(conceptComparator);
+
             }
 
-            for (int i  = 0 ; (i < related.size()) && check; i++){
+            for (Integer integer : related) {
 
-                Tableau t = nodeList.get(related.get(i));
+                flag = (OWLObjectSomeValuesFrom) conceptList.get(integer);
 
-                if(!t.getConceptList().contains(filler)){
+                if (!filler.equals(flag.getFiller())) {
 
                     ArrayList<OWLClassExpression> operands = new ArrayList<>();
-                    operands.add(t.getConceptList().get(0));
+                    operands.add(flag.getFiller());
                     operands.add(filler);
+                    operands.addAll(allRules);
+                    operands.sort(conceptComparator);
+
                     OWLObjectIntersectionOf concept = new OWLObjectIntersectionOfImpl(operands);
-                    JumpingTableau flag = new JumpingTableau(concept.getNNF(),workingRule);
-                    nodeList.add(workingNode,flag);
+                    Tableau Tflag = new JumpingTableau(concept, workingRule);
 
-                    if(!flag.SAT()){
-
+                    if (!Tflag.SAT()) {
                         LoggerManager.writeDebugLog("ALL UNSATISFIABLE", JumpingTableau.class);
-                        for (Integer j: dependency.get(t.getParent())) {
-                            if(!clashList.contains(j))
-                                clashList.add(j);
+
+                        iteration++;
+                        for (Integer d: dependency.get(workingRule)) {
+
+                            if(!clashList.contains(d))
+                                clashList.add(d);
+
                         }
+
+                        for (Integer d: dependency.get(integer)) {
+
+                            if(!clashList.contains(d))
+                                clashList.add(d);
+
+                        }
+
                         Collections.sort(clashList);
-                        backtrack();
-                        check = false;
+
+                        return false;
 
                     }
-                    else{
 
-                        newRelated.add(newRelated.size(),workingNode);
-                        workingNode++;
+                    iteration += Tflag.getIteration();
 
-                    }
                 }
-                i++;
-            }
-
-            if(check){
-
-                if(newRelated.size()!=0){
-
-                    Collections.sort(newRelated);
-
-                    if(allRelation.get(oe)!=null)
-                        newRelated.addAll(allRelation.get(oe));
-
-                    allRelation.put(oe,newRelated);
-                }
-
-                workingRule++;
-
             }
         }
-    }
 
-    private void backtrack() {
+        if(allRelation.get(oe) == null)
+            allRelation.put(oe,Collections.singletonList(workingRule));
+        else{
 
-        iteration++;
+            ArrayList<Integer> l = new ArrayList<>(allRelation.get(oe));
+            l.add(l.size(),workingRule);
+            allRelation.put(oe,l);
 
-
-        if(clashList.size()!=0 && clashList.get(clashList.size()-1)!=-1) {
-
-            workingNode = clashList.remove(clashList.size()-1);
-            nodeList = nodeList.subList(0,workingNode+1);
-            cleanRelation(someRelation);
-            cleanRelation(allRelation);
-
-            Tableau Node = nodeList.get(workingNode);
-            int dim = Node.getConceptList().size();
-
-            Abox.removeAll(Collections.unmodifiableList(Abox));
-            Abox.addAll(Node.getConceptList().subList(0,dim-1));
-            workingRule = Node.getParent();
-            dependency = dependency.subList(0,Abox.size());
-            int i = branchingNode.size() - 1;
-            for (; i >= 0; i--) {
-                if (branchingNode.get(i)>workingNode)
-                    branchingNode.remove(i);
-
-            }
         }
-        else
-            workingNode = -1;
 
-        LoggerManager.writeDebugLog("BACKTRACK :" + workingNode, JumpingTableau.class);
+        workingRule++;
+        return SAT();
 
     }
 
     private boolean isWorking() {
-        return !(((workingRule>=Abox.size()) || (workingRule<0)) || (workingNode<0));
+        return !((workingRule>= conceptList.size()) || (workingRule<0));
 
     }
 
@@ -441,40 +425,41 @@ public class JumpingTableau implements Tableau{
 
             ArrayList<Integer> t = new ArrayList<>(relation.remove(oe));
 
-            if(t.size()!=0){
 
-                for (int i = t.size() - 1; i >=0 ; i--) {
-                    if(t.get(i) > workingNode)
-                        t.remove(i);
-                }
-
-                if(t.size()!=0)
-                    relation.put(oe,t);
+            for (int i = t.size() - 1; i >=0 ; i--) {
+                if(t.get(i) > workingRule)
+                    t.remove(i);
             }
+
+            if(t.size()!=0)
+                relation.put(oe,t);
+
         }
 
     }
 
     private boolean checkClash() {
 
-        for (int i = 0; i < Abox.size(); i++) {
+        clashList = new ArrayList<>();
 
-            OWLClassExpression c = Abox.get(i);
+        for (int i = 0; i < conceptList.size(); i++) {
+
+            OWLClassExpression c = conceptList.get(i);
 
             if(c.isOWLNothing())
                 return true;
 
-            for (int i1 = i+1; i1 < Abox.size(); i1++) {
+            for (int i1 = i+1; i1 < conceptList.size(); i1++) {
 
-                OWLClassExpression c1 = Abox.get(i1);
+                OWLClassExpression c1 = conceptList.get(i1);
 
                 if (c.equals(c1.getComplementNNF())){
                     LoggerManager.writeDebugLog("CLASH "+ OntologyRenderer.render(c) + " " +OntologyRenderer.render(c1), JumpingTableau.class);
-                    clashList = new ArrayList<>(dependency.get(i));
-                    for (Integer j:dependency.get(i1)) {
-                        if(!clashList.contains(j)){
-                            clashList.add(j);
-                        }
+                    clashList.addAll(dependency.get(i));
+                    for (Integer d: dependency.get(i1)) {
+
+                        if(!clashList.contains(d))
+                            clashList.add(d);
 
                     }
                     Collections.sort(clashList);
@@ -489,7 +474,7 @@ public class JumpingTableau implements Tableau{
     @Override
     public String getModel(){
         String model = "| ";
-        for (OWLClassExpression e: Abox) {
+        for (OWLClassExpression e: conceptList) {
             if(e != null) {
                 ClassExpressionType pe = e.getClassExpressionType();
                 switch (pe) {
@@ -504,16 +489,20 @@ public class JumpingTableau implements Tableau{
         }
         if(!someRelation.isEmpty()) {
             Set<OWLObjectPropertyExpression> key = someRelation.keySet();
+            OWLObjectSomeValuesFrom someValue;
+
             for (OWLObjectPropertyExpression oe : key) {
                 if (oe != null) {
                     List<Integer> related = someRelation.get(oe);
 
                     for (Integer j : related) {
-                        Tableau t = nodeList.get(j);
-                        model=model.concat("EXIST " + OntologyRenderer.render((oe)) + ". { ");
-                        model = model.concat(t.getModel());
-                        if(model.chars().filter(ch -> ch == '}').count() < model.chars().filter(ch -> ch == '{').count())
+                        someValue = (OWLObjectSomeValuesFrom) conceptList.get(j);
+
+                        //model=model.concat("EXIST " + OntologyRenderer.render((oe)) + ". { ");
+                        model = model.concat(OntologyRenderer.render(someValue));
+                        if(model.chars().filter(ch -> ch == '}').count() < model.chars().filter(ch -> ch == '{').count()) {
                             model=model.concat("} | ");
+                        }
                     }
                 }
             }
@@ -521,18 +510,18 @@ public class JumpingTableau implements Tableau{
         }
         if(!allRelation.isEmpty()) {
             Set<OWLObjectPropertyExpression> key = allRelation.keySet();
+            OWLObjectAllValuesFrom allValue;
             for (OWLObjectPropertyExpression oe : key) {
                 if (oe != null) {
                     List<Integer> related = allRelation.get(oe);
 
                     for (Integer j : related) {
-                        Tableau t = nodeList.get(j);
-                        if(t.getIteration()!=0) {
-                            model=model.concat("EXIST " + OntologyRenderer.render((oe)) + ". { ");
-                            model = model.concat(t.getModel());
-                            if(model.chars().filter(ch -> ch == '}').count() < model.chars().filter(ch -> ch == '{').count())
-                                model=model.concat("} | ");
-                        }
+                        allValue = (OWLObjectAllValuesFrom) conceptList.get(j);
+
+                        //model=model.concat("ALL " + OntologyRenderer.render((oe)) + ". { ");
+                        model = model.concat(OntologyRenderer.render(allValue));
+                        if(model.chars().filter(ch -> ch == '}').count() < model.chars().filter(ch -> ch == '{').count())
+                            model=model.concat("} | ");
                     }
                 }
             }
@@ -543,38 +532,7 @@ public class JumpingTableau implements Tableau{
     }
 
     @Override
-    public Integer getIteration(){
-
-
-        int it=iteration;
-
-        Set<OWLObjectPropertyExpression> listSome = someRelation.keySet();
-
-        for (OWLObjectPropertyExpression oe : listSome) {
-
-            ArrayList<Integer> lt = new ArrayList<>(someRelation.get(oe));
-
-            for (Integer t: lt) {
-                Tableau m = nodeList.get(t);
-                it+=m.getIteration();
-
-            }
-        }
-
-        Set<OWLObjectPropertyExpression> listAll = allRelation.keySet();
-
-        for (OWLObjectPropertyExpression oe : listAll) {
-
-            ArrayList<Integer> lt = new ArrayList<>(allRelation.get(oe));
-
-            for (Integer t: lt) {
-                Tableau m = nodeList.get(t);
-                it+=m.getIteration();
-
-            }
-        }
-        return it;
-    }
+    public Integer getIteration(){return iteration;}
 
     @Override
     public int getParent() {
@@ -583,7 +541,7 @@ public class JumpingTableau implements Tableau{
 
     @Override
     public List<OWLClassExpression> getConceptList() {
-        return Abox;
+        return conceptList;
     }
 }
 
