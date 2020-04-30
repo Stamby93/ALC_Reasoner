@@ -289,7 +289,6 @@ public class ChronologicalTableau implements Tableau{
 
                     }
                 }
-                i++;
             }
 
             if(check){
