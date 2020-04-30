@@ -60,16 +60,6 @@ public class Node implements Tableau{
     }
 
     @Override
-    public List<OWLClassExpression> getConceptList() {
-        return Abox;
-    }
-
-    @Override
-    public int getParent(){
-        return workingRule;
-    }
-
-    @Override
     public String getModel() {
         return null;
     }

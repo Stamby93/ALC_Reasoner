@@ -3,8 +3,8 @@ import uk.ac.manchester.cs.owl.owlapi.OWLObjectIntersectionOfImpl;
 
 import java.util.*;
 
-public class DynamicTableau implements Tableau{
-
+public class DynamicTableau{
+/*
     private List<OWLClassExpression> Abox;
 
     private List<Integer> branchingNode;
@@ -656,15 +656,8 @@ public class DynamicTableau implements Tableau{
         return it;
     }
 
-    @Override
-    public int getParent() {
-        return parent;
-    }
+ */
 
-    @Override
-    public List<OWLClassExpression> getConceptList() {
-        return Abox;
-    }
 }
 
 
