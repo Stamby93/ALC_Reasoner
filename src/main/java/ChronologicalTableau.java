@@ -90,21 +90,20 @@ public class ChronologicalTableau implements Tableau{
     public boolean SAT() {
 
         if(workingRule <= conceptList.size() -1) {
-
             OWLClassExpression rule = conceptList.get(workingRule);
             ClassExpressionType type = rule.getClassExpressionType();
             switch (type) {
                 case OBJECT_INTERSECTION_OF:
-                    return applyIntersection();
+                    return applyIntersection((OWLObjectIntersectionOf)rule);
                 case OBJECT_UNION_OF:
-                    return applyUnion();
+                    return applyUnion((OWLObjectUnionOf)rule);
                 case OBJECT_SOME_VALUES_FROM:
-                    return applySome(rule);
+                    return applySome((OWLObjectSomeValuesFrom)rule);
                 case OBJECT_ALL_VALUES_FROM:
-                    return applyAll(rule);
+                    return applyAll((OWLObjectAllValuesFrom)rule);
                 case OWL_CLASS:
                 case OBJECT_COMPLEMENT_OF:
-                    LoggerManager.writeDebugLog("Rule: "+ workingRule + " CLASS :" + OntologyRenderer.render(conceptList.get(workingRule)), ChronologicalTableau.class);
+                    LoggerManager.writeDebugLog("Rule: "+ workingRule + " CLASS :" + OntologyRenderer.render(conceptList.get(workingRule)), JumpingTableau.class);
 
                     iteration++;
                     if (checkClash())
@@ -113,33 +112,30 @@ public class ChronologicalTableau implements Tableau{
                     workingRule++;
                     return SAT();
             }
-        }
 
+        }
         return true;
 
     }
 
-    private boolean applyIntersection(){
-        LoggerManager.writeDebugLog("Rule: " + workingRule + " INTERSECTION: "+ OntologyRenderer.render(conceptList.get(workingRule)), ChronologicalTableau.class);
+    private boolean applyIntersection(OWLObjectIntersectionOf intersection){
+        LoggerManager.writeDebugLog("Rule: " + workingRule + " INTERSECTION: "+ OntologyRenderer.render(intersection), ChronologicalTableau.class);
 
-
-        OWLObjectIntersectionOf intersection = (OWLObjectIntersectionOf) conceptList.get(workingRule);
         List<OWLClassExpression> operand = intersection.operands().sorted(conceptComparator).collect(Collectors.toList());
         for (OWLClassExpression owlClassExpression : operand) {
             if (!conceptList.contains(owlClassExpression))
                 conceptList.add(conceptList.size(), owlClassExpression);
         }
+
         iteration++;
         workingRule ++;
         return SAT();
     }
 
-    private boolean applyUnion(){
-        LoggerManager.writeDebugLog("Rule: "+ workingRule + " UNION: " + OntologyRenderer.render(conceptList.get(workingRule)), ChronologicalTableau.class);
+    private boolean applyUnion(OWLObjectUnionOf union){
+        LoggerManager.writeDebugLog("Rule: "+ workingRule + " UNION: " + OntologyRenderer.render(union), ChronologicalTableau.class);
 
         int rule = workingRule;
-
-        OWLObjectUnionOf union = (OWLObjectUnionOf) conceptList.get(workingRule);
         List<OWLClassExpression> jointedList = union.operands().collect(Collectors.toList());
         ArrayList<OWLClassExpression> saveT = new ArrayList<>(conceptList);
         OWLClassExpression owlClassExpression;
@@ -185,11 +181,10 @@ public class ChronologicalTableau implements Tableau{
 
     }
 
-    private boolean applySome(OWLClassExpression rule){
-        LoggerManager.writeDebugLog("Rule: " + workingRule + " SOME: " + OntologyRenderer.render(rule), ChronologicalTableau.class);
+    private boolean applySome(OWLObjectSomeValuesFrom someValue){
+        LoggerManager.writeDebugLog("Rule: " + workingRule + " SOME: " + OntologyRenderer.render(someValue), ChronologicalTableau.class);
 
         Tableau direct;
-        OWLObjectSomeValuesFrom someValue = (OWLObjectSomeValuesFrom) rule;
         OWLObjectPropertyExpression oe = someValue.getProperty();
         OWLClassExpression filler = someValue.getFiller();
 
@@ -261,10 +256,9 @@ public class ChronologicalTableau implements Tableau{
 
     }
 
-    private boolean applyAll(OWLClassExpression rule){
-        LoggerManager.writeDebugLog("Rule: " + workingRule + " ALL: "+ OntologyRenderer.render(rule), ChronologicalTableau.class);
+    private boolean applyAll(OWLObjectAllValuesFrom allValue){
+        LoggerManager.writeDebugLog("Rule: " + workingRule + " ALL: "+ OntologyRenderer.render(allValue), ChronologicalTableau.class);
 
-        OWLObjectAllValuesFrom allValue = (OWLObjectAllValuesFrom) rule;
         OWLClassExpression filler = allValue.getFiller();
         OWLObjectPropertyExpression oe = allValue.getProperty();
 
@@ -276,7 +270,10 @@ public class ChronologicalTableau implements Tableau{
 
             ArrayList<Integer> related = new ArrayList<>(someRelation.get(oe));
             ArrayList<OWLClassExpression> allRules = new ArrayList<>();
+            ArrayList<OWLClassExpression> operands;
             OWLObjectSomeValuesFrom flag;
+
+            allRules.add(filler);
 
             if(allRelation.get(oe)!=null){
 
@@ -299,9 +296,8 @@ public class ChronologicalTableau implements Tableau{
 
                 if (!filler.equals(flag.getFiller())) {
 
-                    ArrayList<OWLClassExpression> operands = new ArrayList<>();
+                    operands = new ArrayList<>();
                     operands.add(flag.getFiller());
-                    operands.add(filler);
                     operands.addAll(allRules);
                     operands.sort(conceptComparator);
 

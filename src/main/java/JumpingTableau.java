@@ -99,13 +99,13 @@ public class JumpingTableau implements Tableau{
             ClassExpressionType type = rule.getClassExpressionType();
             switch (type) {
                 case OBJECT_INTERSECTION_OF:
-                    return applyIntersection();
+                    return applyIntersection((OWLObjectIntersectionOf)rule);
                 case OBJECT_UNION_OF:
-                    return applyUnion();
+                    return applyUnion((OWLObjectUnionOf)rule);
                 case OBJECT_SOME_VALUES_FROM:
-                    return applySome(rule);
+                    return applySome((OWLObjectSomeValuesFrom)rule);
                 case OBJECT_ALL_VALUES_FROM:
-                    return applyAll(rule);
+                    return applyAll((OWLObjectAllValuesFrom)rule);
                 case OWL_CLASS:
                 case OBJECT_COMPLEMENT_OF:
                     LoggerManager.writeDebugLog("Rule: "+ workingRule + " CLASS :" + OntologyRenderer.render(conceptList.get(workingRule)), JumpingTableau.class);
@@ -130,11 +130,9 @@ public class JumpingTableau implements Tableau{
 
     }
 
-    private boolean applyIntersection(){
-        LoggerManager.writeDebugLog("Rule: " + workingRule + " INTERSECTION: "+ OntologyRenderer.render(conceptList.get(workingRule)), JumpingTableau.class);
+    private boolean applyIntersection(OWLObjectIntersectionOf intersection){
+        LoggerManager.writeDebugLog("Rule: " + workingRule + " INTERSECTION: "+ OntologyRenderer.render(intersection), JumpingTableau.class);
 
-
-        OWLObjectIntersectionOf intersection = (OWLObjectIntersectionOf) conceptList.get(workingRule);
         List<OWLClassExpression> operand = intersection.operands().sorted(conceptComparator).collect(Collectors.toList());
         int i = 0;
         for (OWLClassExpression owlClassExpression : operand) {
@@ -150,12 +148,10 @@ public class JumpingTableau implements Tableau{
         return SAT();
     }
 
-    private boolean applyUnion(){
-        LoggerManager.writeDebugLog("Rule: "+ workingRule + " UNION: " + OntologyRenderer.render(conceptList.get(workingRule)), JumpingTableau.class);
+    private boolean applyUnion(OWLObjectUnionOf union){
+        LoggerManager.writeDebugLog("Rule: "+ workingRule + " UNION: " + OntologyRenderer.render(union), JumpingTableau.class);
 
         int rule = workingRule;
-
-        OWLObjectUnionOf union = (OWLObjectUnionOf) conceptList.get(workingRule);
         List<OWLClassExpression> jointedList = union.operands().collect(Collectors.toList());
         ArrayList<OWLClassExpression> saveT = new ArrayList<>(conceptList);
         ArrayList<List<Integer>> saveTD = new ArrayList<>(dependency);
@@ -194,25 +190,22 @@ public class JumpingTableau implements Tableau{
                 else {
 
                     workingRule++;
-                    if (SAT())
+                    if (i == jointedList.size()-1)
+                        return SAT();
+
+                    if(SAT())
                         return true;
-                    else {
 
-                        //NON HO PIÙ SCELTE O IL CLASH NON È STATO CAUSATO DA UNO DEI MIEI CONGIUNTI
-                        if(i == jointedList.size()-1 || !clashList.contains(Integer.valueOf(rule)))
-                            return false;
+                    LoggerManager.writeDebugLog("BACKTRACK: " + rule, JumpingTableau.class);
 
-                        LoggerManager.writeDebugLog("BACKTRACK: " + rule, JumpingTableau.class);
+                    workingRule = rule;
+                    cleanRelation(someRelation);
+                    cleanRelation(allRelation);
+                    conceptList.removeAll(Collections.unmodifiableList(conceptList));
+                    conceptList.addAll(saveT);
+                    dependency.removeAll(dependency);
+                    dependency.addAll(saveTD);
 
-                        workingRule = rule;
-                        cleanRelation(someRelation);
-                        cleanRelation(allRelation);
-                        conceptList.removeAll(Collections.unmodifiableList(conceptList));
-                        conceptList.addAll(saveT);
-                        dependency.removeAll(dependency);
-                        dependency.addAll(saveTD);
-
-                    }
                 }
             }
         }
@@ -223,11 +216,10 @@ public class JumpingTableau implements Tableau{
 
     }
 
-    private boolean applySome(OWLClassExpression rule){
-        LoggerManager.writeDebugLog("Rule: " + workingRule + " SOME: " + OntologyRenderer.render(rule), JumpingTableau.class);
+    private boolean applySome(OWLObjectSomeValuesFrom someValue){
+        LoggerManager.writeDebugLog("Rule: " + workingRule + " SOME: " + OntologyRenderer.render(someValue), JumpingTableau.class);
 
         Tableau direct;
-        OWLObjectSomeValuesFrom someValue = (OWLObjectSomeValuesFrom) rule;
         OWLObjectPropertyExpression oe = someValue.getProperty();
         OWLClassExpression filler = someValue.getFiller();
         clashList = new ArrayList<>();
@@ -314,10 +306,9 @@ public class JumpingTableau implements Tableau{
 
     }
 
-    private boolean applyAll(OWLClassExpression rule){
-        LoggerManager.writeDebugLog("Rule: " + workingRule + " ALL: "+ OntologyRenderer.render(rule), JumpingTableau.class);
+    private boolean applyAll(OWLObjectAllValuesFrom allValue){
+        LoggerManager.writeDebugLog("Rule: " + workingRule + " ALL: "+ OntologyRenderer.render(allValue), JumpingTableau.class);
 
-        OWLObjectAllValuesFrom allValue = (OWLObjectAllValuesFrom) rule;
         OWLClassExpression filler = allValue.getFiller();
         OWLObjectPropertyExpression oe = allValue.getProperty();
 
@@ -331,6 +322,8 @@ public class JumpingTableau implements Tableau{
             ArrayList<OWLClassExpression> allRules = new ArrayList<>();
             OWLObjectSomeValuesFrom flag;
             clashList = new ArrayList<>();
+
+            allRules.add(filler);
 
             if(allRelation.get(oe)!=null){
 
@@ -361,7 +354,6 @@ public class JumpingTableau implements Tableau{
 
                     ArrayList<OWLClassExpression> operands = new ArrayList<>();
                     operands.add(flag.getFiller());
-                    operands.add(filler);
                     operands.addAll(allRules);
                     operands.sort(conceptComparator);
 
@@ -410,11 +402,6 @@ public class JumpingTableau implements Tableau{
 
         workingRule++;
         return SAT();
-
-    }
-
-    private boolean isWorking() {
-        return !((workingRule>= conceptList.size()) || (workingRule<0));
 
     }
 
@@ -491,49 +478,6 @@ public class JumpingTableau implements Tableau{
 
         return model;
     }
-
-    /*
-    if(!someRelation.isEmpty()) {
-            Set<OWLObjectPropertyExpression> key = someRelation.keySet();
-            OWLObjectSomeValuesFrom someValue;
-
-            for (OWLObjectPropertyExpression oe : key) {
-                if (oe != null) {
-                    List<Integer> related = someRelation.get(oe);
-
-                    for (Integer j : related) {
-                        someValue = (OWLObjectSomeValuesFrom) conceptList.get(j);
-
-                        //model=model.concat("EXIST " + OntologyRenderer.render((oe)) + ". { ");
-                        model = model.concat(OntologyRenderer.render(someValue) + " | ");
-                        //if(model.chars().filter(ch -> ch == '}').count() < model.chars().filter(ch -> ch == '{').count())
-                        //model=model.concat("} | ");
-                    }
-                }
-            }
-
-        }
-        if(!allRelation.isEmpty()) {
-            Set<OWLObjectPropertyExpression> key = allRelation.keySet();
-            OWLObjectAllValuesFrom allValue;
-            for (OWLObjectPropertyExpression oe : key) {
-                if (oe != null) {
-                    List<Integer> related = allRelation.get(oe);
-
-                    for (Integer j : related) {
-                        allValue = (OWLObjectAllValuesFrom) conceptList.get(j);
-
-                        //model=model.concat("ALL " + OntologyRenderer.render((oe)) + ". { ");
-                        model = model.concat(OntologyRenderer.render(allValue)+ " | ");
-                        //if(model.chars().filter(ch -> ch == '}').count() < model.chars().filter(ch -> ch == '{').count())
-                        //  model=model.concat("} | ");
-                    }
-                }
-            }
-        }
-
-
-     */
 
     @Override
     public Integer getIteration(){return iteration;}
