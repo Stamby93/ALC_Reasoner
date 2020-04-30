@@ -393,6 +393,8 @@ public class ChronologicalTableau implements Tableau{
                 switch (pe) {
                     case OWL_CLASS:
                     case OBJECT_COMPLEMENT_OF:
+                    case OBJECT_SOME_VALUES_FROM:
+                    case OBJECT_ALL_VALUES_FROM:
 
                         model=model.concat(OntologyRenderer.render((e))+ " | ");
 
@@ -400,46 +402,6 @@ public class ChronologicalTableau implements Tableau{
                 }
             }
         }
-        if(!someRelation.isEmpty()) {
-            Set<OWLObjectPropertyExpression> key = someRelation.keySet();
-            OWLObjectSomeValuesFrom someValue;
-
-            for (OWLObjectPropertyExpression oe : key) {
-                if (oe != null) {
-                    List<Integer> related = someRelation.get(oe);
-
-                    for (Integer j : related) {
-                        someValue = (OWLObjectSomeValuesFrom) conceptList.get(j);
-
-                        //model=model.concat("EXIST " + OntologyRenderer.render((oe)) + ". { ");
-                        model = model.concat(OntologyRenderer.render(someValue));
-                        if(model.chars().filter(ch -> ch == '}').count() < model.chars().filter(ch -> ch == '{').count()) {
-                            model=model.concat("} | ");
-                        }
-                    }
-                }
-            }
-
-        }
-        if(!allRelation.isEmpty()) {
-            Set<OWLObjectPropertyExpression> key = allRelation.keySet();
-            OWLObjectAllValuesFrom allValue;
-            for (OWLObjectPropertyExpression oe : key) {
-                if (oe != null) {
-                    List<Integer> related = allRelation.get(oe);
-
-                    for (Integer j : related) {
-                        allValue = (OWLObjectAllValuesFrom) conceptList.get(j);
-
-                        //model=model.concat("ALL " + OntologyRenderer.render((oe)) + ". { ");
-                        model = model.concat(OntologyRenderer.render(allValue));
-                            if(model.chars().filter(ch -> ch == '}').count() < model.chars().filter(ch -> ch == '{').count())
-                                model=model.concat("} | ");
-                    }
-                }
-            }
-        }
-
 
         return model;
     }

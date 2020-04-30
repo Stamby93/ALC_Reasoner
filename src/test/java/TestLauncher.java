@@ -555,7 +555,7 @@ public class TestLauncher {
             result = chronoReasoner.isSatisfiable(expression);
             LoggerManager.writeInfoLog("The concept is "+result, TestLauncher.class);
             if(result) {
-                String model = "Modello trovato: |"+((ALCReasoner)chronoReasoner).getModel();
+                String model = "Modello trovato: "+((ALCReasoner)chronoReasoner).getModel();
                 LoggerManager.writeInfoLog(model, TestLauncher.class);
             }
 
@@ -569,7 +569,7 @@ public class TestLauncher {
             result = jumpReasoner.isSatisfiable(expression);
             LoggerManager.writeInfoLog("The concept is "+result, TestLauncher.class);
             if(result) {
-                String model = "Modello trovato: |"+((ALCReasoner)jumpReasoner).getModel();
+                String model = "Modello trovato: "+((ALCReasoner)jumpReasoner).getModel();
                 LoggerManager.writeInfoLog(model, TestLauncher.class);
             }
 
