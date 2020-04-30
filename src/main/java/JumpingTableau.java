@@ -94,7 +94,7 @@ public class JumpingTableau implements Tableau{
     @Override
     public boolean SAT() {
 
-        if(isWorking()) {
+        if(workingRule <= conceptList.size() -1) {
             OWLClassExpression rule = conceptList.get(workingRule);
             ClassExpressionType type = rule.getClassExpressionType();
             switch (type) {
@@ -109,12 +109,11 @@ public class JumpingTableau implements Tableau{
                 case OWL_CLASS:
                 case OBJECT_COMPLEMENT_OF:
                     LoggerManager.writeDebugLog("Rule: "+ workingRule + " CLASS :" + OntologyRenderer.render(conceptList.get(workingRule)), JumpingTableau.class);
+
                     iteration++;
-                    if (checkClash()) {
-                        conceptList.remove(workingRule);
-                        workingRule--;
+                    if (checkClash())
                         return false;
-                    }
+
                     workingRule++;
                     return SAT();
             }

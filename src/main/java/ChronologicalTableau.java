@@ -89,7 +89,8 @@ public class ChronologicalTableau implements Tableau{
     @Override
     public boolean SAT() {
 
-        if(isWorking()) {
+        if(workingRule <= conceptList.size() -1) {
+
             OWLClassExpression rule = conceptList.get(workingRule);
             ClassExpressionType type = rule.getClassExpressionType();
             switch (type) {
@@ -104,17 +105,16 @@ public class ChronologicalTableau implements Tableau{
                 case OWL_CLASS:
                 case OBJECT_COMPLEMENT_OF:
                     LoggerManager.writeDebugLog("Rule: "+ workingRule + " CLASS :" + OntologyRenderer.render(conceptList.get(workingRule)), ChronologicalTableau.class);
+
                     iteration++;
-                    if (checkClash()) {
-                        conceptList.remove(workingRule);
-                        workingRule--;
+                    if (checkClash())
                         return false;
-                    }
+
                     workingRule++;
                     return SAT();
             }
-
         }
+
         return true;
 
     }
@@ -161,27 +161,26 @@ public class ChronologicalTableau implements Tableau{
                 else {
 
                     workingRule++;
-                    if (SAT())
+
+                    if (i == jointedList.size()-1)
+                        return SAT();
+
+                    if(SAT())
                         return true;
-                    else {
 
-                        //NON HO PIÙ SCELTE
-                        if(i == jointedList.size()-1)
-                            return false;
+                    LoggerManager.writeDebugLog("BACKTRACK " + rule, ChronologicalTableau.class);
 
-                        LoggerManager.writeDebugLog("BACKTRACK " + rule, ChronologicalTableau.class);
-                        workingRule = rule;
-                        cleanRelation(someRelation);
-                        cleanRelation(allRelation);
-                        conceptList.removeAll(Collections.unmodifiableList(conceptList));
-                        conceptList.addAll(saveT);
+                    workingRule = rule;
+                    cleanRelation(someRelation);
+                    cleanRelation(allRelation);
+                    conceptList.removeAll(Collections.unmodifiableList(conceptList));
+                    conceptList.addAll(saveT);
 
-                    }
                 }
             }
         }
 
-
+        //NON HO PIÙ SCELTE
         return false;
 
     }
@@ -199,7 +198,7 @@ public class ChronologicalTableau implements Tableau{
         if(someRelation.get(oe)!=null)
             related.addAll(someRelation.get(oe));
 
-        //CASO IN CUI RELAZIONE RICHIESTA ESISTE, VERIFICO SE E' PRESENTE LA REGOLA NELla CONCEPT LIST
+        //CASO IN CUI RELAZIONE RICHIESTA ESISTE, VERIFICO SE E' PRESENTE LA REGOLA NELLA CONCEPT LIST
         if (related.size()!=0) {
 
             OWLObjectSomeValuesFrom flag;
@@ -334,11 +333,6 @@ public class ChronologicalTableau implements Tableau{
         }
         workingRule++;
         return SAT();
-
-    }
-
-    private boolean isWorking() {
-        return !((workingRule>= conceptList.size()) || (workingRule<0));
 
     }
 
