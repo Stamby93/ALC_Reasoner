@@ -2,18 +2,13 @@ import org.semanticweb.owlapi.model.*;
 import uk.ac.manchester.cs.owl.owlapi.OWLObjectIntersectionOfImpl;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ChronologicalTableau implements Tableau{
 
     private final List<OWLClassExpression> conceptList;
 
-    private final List<Integer> branchingNode;
-
-    private final List<Tableau> nodeList;
-
     private int workingRule = 0;
-
-    private int workingNode = 0;
 
     private final Map<OWLObjectPropertyExpression, List<Integer>> someRelation;
 
@@ -21,134 +16,169 @@ public class ChronologicalTableau implements Tableau{
 
     private final int parent;
 
-    private int iteration=0;
+    Comparator<? super OWLClassExpression> conceptComparator;
 
     protected ChronologicalTableau(OWLClassExpression concept, int parent) {
 
         conceptList = new ArrayList<>();
         conceptList.add(0, concept);
-        branchingNode = new ArrayList<>();
         someRelation = new HashMap<>();
         allRelation = new HashMap<>();
-        nodeList = new ArrayList<>();
         this.parent = parent;
+        conceptComparator = (Comparator<OWLClassExpression>) (expression, t1) -> {
+
+            ClassExpressionType type = expression.getClassExpressionType();
+            switch (type) {
+                case OBJECT_INTERSECTION_OF:
+                    if (t1.getClassExpressionType() == ClassExpressionType.OBJECT_INTERSECTION_OF) {
+                        return 0;
+                    }
+                    return -1;
+
+                case OBJECT_UNION_OF:
+                    switch (t1.getClassExpressionType()) {
+                        case OBJECT_INTERSECTION_OF:
+                            return 1;
+                        case OBJECT_UNION_OF:
+                            return 0;
+                        default:
+                            return -1;
+                    }
+                case OBJECT_SOME_VALUES_FROM:
+                    switch (t1.getClassExpressionType()) {
+                        case OBJECT_INTERSECTION_OF:
+                        case OBJECT_UNION_OF:
+                            return 1;
+                        case OBJECT_SOME_VALUES_FROM:
+                            return 0;
+                        default:
+                            return -1;
+                    }
+
+                case OBJECT_ALL_VALUES_FROM:
+                    switch (t1.getClassExpressionType()) {
+                        case OBJECT_INTERSECTION_OF:
+                        case OBJECT_UNION_OF:
+                        case OBJECT_SOME_VALUES_FROM:
+                            return 1;
+                        case OBJECT_ALL_VALUES_FROM:
+                            return 0;
+                        default:
+                            return -1;
+                    }
+                case OWL_CLASS:
+                case OBJECT_COMPLEMENT_OF:
+                    switch (t1.getClassExpressionType()) {
+                        case OWL_CLASS:
+                        case OBJECT_COMPLEMENT_OF:
+                            return 0;
+                        default:
+                            return 1;
+                    }
+
+            }
+            return -1;
+        };
+
+        LoggerManager.writeDebugLog("SAT: "+ parent, ChronologicalTableau.class);
+
     }
 
     @Override
     public boolean SAT() {
 
-        LoggerManager.writeDebugLog("SAT: "+ parent, ChronologicalTableau.class);
-
-        while(isWorking()){
-
-
+        if(isWorking()) {
             OWLClassExpression rule = conceptList.get(workingRule);
             ClassExpressionType type = rule.getClassExpressionType();
             switch (type) {
                 case OBJECT_INTERSECTION_OF:
-                    applyIntersection();
-                    break;
+                    return applyIntersection();
                 case OBJECT_UNION_OF:
-                    applyUnion();
-                    break;
+                    return applyUnion();
                 case OBJECT_SOME_VALUES_FROM:
-                    applySome(rule);
-                    break;
+                    return applySome(rule);
                 case OBJECT_ALL_VALUES_FROM:
-                    applyAll(rule);
-                    break;
+                    return applyAll(rule);
                 case OWL_CLASS:
                 case OBJECT_COMPLEMENT_OF:
-
-                    LoggerManager.writeDebugLog("CLASS :"+ OntologyRenderer.render(conceptList.get(workingRule)), ChronologicalTableau.class);
-                    if(checkClash()){
-                        workingNode--;
-                        backtrack();
+                    LoggerManager.writeDebugLog("Rule: "+ workingRule + " CLASS :" + OntologyRenderer.render(conceptList.get(workingRule)), ChronologicalTableau.class);
+                    if (checkClash()) {
+                        conceptList.remove(workingRule);
+                        workingRule--;
+                        return false;
                     }
-                    else
-                        workingRule++;
-                    break;
+                    workingRule++;
+                    return SAT();
             }
-            iteration++;
-        }
-
-        LoggerManager.writeDebugLog("SAT: "+ parent+ " " + ((workingRule >= 0) & (workingNode >= 0)), ChronologicalTableau.class);
-
-        if (parent==-1 && ((workingRule >= 0) & (workingNode >= 0))){
-            LoggerManager.writeDebugLog("NUMERO ITERAZIONI: " + getIteration(), JumpingTableau.class);
-            LoggerManager.writeDebugLog("MODELLO: " + getModel(), JumpingTableau.class);
 
         }
-
-
-        return ((workingRule >= 0) & (workingNode >= 0));
+        return true;
 
     }
 
-    private void applyIntersection(){
+    private boolean applyIntersection(){
         LoggerManager.writeDebugLog("Rule: " + workingRule + " INTERSECTION: "+ OntologyRenderer.render(conceptList.get(workingRule)), ChronologicalTableau.class);
-        Tableau Node = new Node(conceptList, workingRule);
-        Node.SAT();
-        nodeList.add(workingNode,Node);
-        if(conceptList.size() != Node.getConceptList().size()){
-            conceptList.removeAll(Collections.unmodifiableList(conceptList));
-            conceptList.addAll(Node.getConceptList());
+
+
+        OWLObjectIntersectionOf intersection = (OWLObjectIntersectionOf) conceptList.get(workingRule);
+        List<OWLClassExpression> operand = intersection.operands().sorted(conceptComparator).collect(Collectors.toList());
+        for (OWLClassExpression owlClassExpression : operand) {
+            if (!conceptList.contains(owlClassExpression))
+                conceptList.add(conceptList.size(), owlClassExpression);
         }
         workingRule ++;
-        workingNode ++;
+        return SAT();
     }
 
-    private void applyUnion(){
+    private boolean applyUnion(){
         LoggerManager.writeDebugLog("Rule: "+ workingRule + " UNION: " + OntologyRenderer.render(conceptList.get(workingRule)), ChronologicalTableau.class);
 
-        Tableau Node;
+        int rule = workingRule;
 
-        if(branchingNode.contains(workingNode))
-            Node = nodeList.get(workingNode);
-        else{
-            Node = new Node(conceptList, workingRule);
-            branchingNode.add(branchingNode.size(),workingNode);
-            nodeList.add(workingNode,Node);
-        }
+        OWLObjectUnionOf union = (OWLObjectUnionOf) conceptList.get(workingRule);
+        List<OWLClassExpression> jointedList = union.operands().collect(Collectors.toList());
+        ArrayList<OWLClassExpression> saveT = new ArrayList<>(conceptList);
 
-        boolean haveChoice = false;
-        while(Node.SAT()){
+        jointedList.sort(conceptComparator);
 
-            if(conceptList.size() != Node.getConceptList().size()){
-                ArrayList<OWLClassExpression> saveT = new ArrayList<>(conceptList);
-                conceptList.removeAll(Collections.unmodifiableList(conceptList));
-                conceptList.addAll(Node.getConceptList());
+        /*if(!branchingNode.contains(rule))
+            branchingNode.add(branchingNode.size(),rule);*/
 
-                LoggerManager.writeDebugLog("CHOICE " + OntologyRenderer.render(conceptList.get(conceptList.size()-1)), ChronologicalTableau.class);
+        for (OWLClassExpression owlClassExpression : jointedList) {
 
-                if(checkClash()){
-                    conceptList.removeAll(Collections.unmodifiableList(conceptList));
-                    conceptList.addAll(saveT);
-                    iteration++;
-                }
-                else{
+            if (!conceptList.contains(owlClassExpression)) {
+                LoggerManager.writeDebugLog("CHOICE " + OntologyRenderer.render(owlClassExpression), ChronologicalTableau.class);
+
+                conceptList.add(conceptList.size(), owlClassExpression);
+                /*if(i == jointedList.size()-1)
+                    branchingNode.remove(rule);*/
+                if (checkClash())
+                    conceptList.remove(conceptList.size() - 1);
+                else {
+
                     workingRule++;
-                    workingNode++;
-                    haveChoice = true;
-                    break;
+                    if (SAT())
+                        return true;
+                    else {
+                        LoggerManager.writeDebugLog("BACKTRACK " + rule, ChronologicalTableau.class);
+
+                        workingRule = rule;
+                        cleanRelation(someRelation);
+                        cleanRelation(allRelation);
+                        conceptList.removeAll(Collections.unmodifiableList(conceptList));
+                        conceptList.addAll(saveT);
+
+                    }
                 }
-            }
-            else{
-                workingRule++;
-                workingNode++;
-                haveChoice = true;
-                break;
             }
         }
 
-        if(!haveChoice){
-            branchingNode.remove(Integer.valueOf(workingNode));
-            backtrack();
-        }
+
+        return false;
 
     }
 
-    private void applySome(OWLClassExpression rule){
+    private boolean applySome(OWLClassExpression rule){
         LoggerManager.writeDebugLog("Rule: " + workingRule + " SOME: " + OntologyRenderer.render(rule), ChronologicalTableau.class);
 
         Tableau direct;
@@ -156,191 +186,147 @@ public class ChronologicalTableau implements Tableau{
         OWLObjectPropertyExpression oe = someValue.getProperty();
         OWLClassExpression filler = someValue.getFiller();
 
-        List<Integer> related;
+        List<Integer> related = new ArrayList<>();
         //VERIFICO SE INDIVIDUO HA LA RELAZIONE QUESTO
         if(someRelation.get(oe)!=null)
-            related = new ArrayList<>(someRelation.get(oe));
-        else
-            related = new ArrayList<>();
+            related.addAll(someRelation.get(oe));
 
-        boolean condition = true;
-
-        //CASO IN CUI RELAZIONE RICHIESTA ESISTE, VERIFICO SE E' PRESENTE LA REGOLA NEL RULE SET
+        //CASO IN CUI RELAZIONE RICHIESTA ESISTE, VERIFICO SE E' PRESENTE LA REGOLA NELla CONCEPT LIST
         if (related.size()!=0) {
 
+            OWLObjectSomeValuesFrom flag;
             for (Integer r : related) {
 
-                direct = nodeList.get(r);
+                flag = (OWLObjectSomeValuesFrom) conceptList.get(r);
 
-                if (direct.getConceptList().contains(filler)) {
-
+                if(filler.equals(flag.getFiller())){
                     LoggerManager.writeDebugLog("SOME ALREADY PRESENT", ChronologicalTableau.class);
-                    condition = false;
-                    workingRule++;
 
-                    break;
+                    workingRule++;
+                    return SAT();
+
                 }
             }
         }
         //CASO IN CUI INDIVIDUO O NON HA LA RELAZIONE O
-        //NESSUNO DEI INDIVIDUI CON QUESTA RELAZIONE HA LA FORMULA TRA IL SUO RULE SET
+        //NESSUNO DEI INDIVIDUI CON QUESTA RELAZIONE HA LA FORMULA TRA LA SUA CONCEPT LIST
         //QUINDI INSTANZIO NUOVO INDIVIDUO E MI SALVO LA RELAZIONE
-        if (condition) {
 
-            if(allRelation.get(oe)!=null){
+        if(allRelation.get(oe)!=null){
 
-                ArrayList<OWLClassExpression> operands = new ArrayList<>();
+            //CREO INTERSEZIONE DEI CONCETTI CONTENUTI NEGLI ESISTENZIALI DI QUESTO TIPO
 
-                for (Integer i: allRelation.get(oe)) {
+            OWLObjectAllValuesFrom allRule;
 
-                    direct = nodeList.get(i);
-                    operands.add(direct.getConceptList().get(0));
+            ArrayList<OWLClassExpression> operands = new ArrayList<>();
 
-                }
+            for (Integer i: allRelation.get(oe)) {
 
-                operands.add(filler);
-                filler = new OWLObjectIntersectionOfImpl(operands);
+                allRule = (OWLObjectAllValuesFrom)conceptList.get(i);
+                operands.add(allRule.getFiller());
 
             }
 
-            direct = new ChronologicalTableau(filler, workingRule);
-            nodeList.add(workingNode,direct);
-            if(direct.SAT()) {
+            operands.add(filler);
+            operands.sort(conceptComparator);
+            filler = new OWLObjectIntersectionOfImpl(operands);
 
-                related.add(related.size(),workingNode);
-                someRelation.put(oe, related);
-                workingNode++;
-                workingRule++;
-            }
-            else{
-
-                LoggerManager.writeDebugLog("SOME UNSATISFIABLE", ChronologicalTableau.class);
-                backtrack();
-
-            }
         }
+
+        direct = new ChronologicalTableau(filler, workingRule);
+        if(direct.SAT()) {
+            LoggerManager.writeDebugLog("SOME "+workingRule+" SATISFIABLE", ChronologicalTableau.class);
+
+            related.add(related.size(),workingRule);
+            someRelation.put(oe, related);
+            workingRule++;
+            return SAT();
+
+        }
+        else{
+            LoggerManager.writeDebugLog("SOME UNSATISFIABLE", ChronologicalTableau.class);
+
+            return false;
+
+        }
+
     }
 
-    private void applyAll(OWLClassExpression rule){
+    private boolean applyAll(OWLClassExpression rule){
         LoggerManager.writeDebugLog("Rule: " + workingRule + " ALL: "+ OntologyRenderer.render(rule), ChronologicalTableau.class);
 
         OWLObjectAllValuesFrom allValue = (OWLObjectAllValuesFrom) rule;
         OWLClassExpression filler = allValue.getFiller();
         OWLObjectPropertyExpression oe = allValue.getProperty();
-        boolean check = true;
 
         if (someRelation.get(oe) == null){
             LoggerManager.writeDebugLog("ALL NO CONDITIONS", ChronologicalTableau.class);
 
-            Tableau t = new ChronologicalTableau(filler.getNNF(),workingRule);
-            nodeList.add(workingNode,t);
-
             if(allRelation.get(oe) == null)
-                allRelation.put(oe,Collections.singletonList(workingNode));
+                allRelation.put(oe,Collections.singletonList(workingRule));
             else{
 
                 ArrayList<Integer> l = new ArrayList<>(allRelation.get(oe));
-                l.add(l.size(),workingNode);
+                l.add(l.size(),workingRule);
                 allRelation.put(oe,l);
 
             }
 
-            workingNode++;
-            workingRule++;
-
         }
         else{
 
-            ArrayList<Integer> newRelated = new ArrayList<>();
             ArrayList<Integer> related = new ArrayList<>(someRelation.get(oe));
+            ArrayList<OWLClassExpression> allRules = new ArrayList<>();
+            OWLObjectSomeValuesFrom flag;
 
             if(allRelation.get(oe)!=null){
 
+                OWLObjectAllValuesFrom allRule;
+
                 for (Integer j: allRelation.get(oe)) {
-                    if(nodeList.get(j).getIteration()!=0)
-                        related.add(related.size(),j);
+
+                    allRule = (OWLObjectAllValuesFrom) conceptList.get(j);
+                    allRules.add(allRule.getFiller());
+
                 }
+
+                allRules.sort(conceptComparator);
+
             }
 
-            for (int i  = 0 ; (i < related.size()) && check; i++){
+            for (Integer integer : related) {
 
-                Tableau t = nodeList.get(related.get(i));
+                flag = (OWLObjectSomeValuesFrom) conceptList.get(integer);
 
-                if(!t.getConceptList().contains(filler)){
+                if (!filler.equals(flag.getFiller())) {
 
                     ArrayList<OWLClassExpression> operands = new ArrayList<>();
-                    operands.add(t.getConceptList().get(0));
+                    operands.add(flag.getFiller());
                     operands.add(filler);
+                    operands.addAll(allRules);
+                    operands.sort(conceptComparator);
+
                     OWLObjectIntersectionOf concept = new OWLObjectIntersectionOfImpl(operands);
-                    Tableau flag = new ChronologicalTableau(concept.getNNF(),workingRule);
-                    nodeList.add(workingNode,flag);
+                    Tableau Tflag = new ChronologicalTableau(concept.getNNF(), workingRule);
 
-                    if(!flag.SAT()){
-
+                    if (!Tflag.SAT()) {
                         LoggerManager.writeDebugLog("ALL UNSATISFIABLE", ChronologicalTableau.class);
-                        backtrack();
-                        check = false;
 
-                    }
-                    else{
-
-                        newRelated.add(newRelated.size(),workingNode);
-                        workingNode++;
+                        return false;
 
                     }
                 }
             }
 
-            if(check){
-
-                if(newRelated.size()!=0){
-
-                    if(allRelation.get(oe)!=null) {
-                        newRelated.addAll(allRelation.get(oe));
-                        allRelation.remove(oe);
-                    }
-
-                    Collections.sort(newRelated);
-                    allRelation.put(oe,newRelated);
-
-                }
-
-                workingRule++;
-
-            }
         }
+        workingRule++;
+        return SAT();
+
     }
 
-    private void backtrack() {
-        LoggerManager.writeDebugLog("BACKTRACK :" + workingNode, ChronologicalTableau.class);
-
-        iteration++;
-
-        if(isWorking()) {
-
-            if(!branchingNode.contains(workingNode)) {
-
-                nodeList.remove(workingNode);
-                workingNode--;
-                cleanRelation(someRelation);
-                cleanRelation(allRelation);
-                backtrack();
-            }
-            else{
-
-                Tableau Node = nodeList.get(workingNode);
-                int dim = Node.getConceptList().size();
-
-                conceptList.removeAll(Collections.unmodifiableList(conceptList));
-                conceptList.addAll(Node.getConceptList().subList(0,dim-2));
-                workingRule = Node.getParent();
-
-            }
-        }
-    }
 
     private boolean isWorking() {
-        return !(((workingRule>= conceptList.size()) || (workingRule<0)) || (workingNode<0));
+        return !((workingRule>= conceptList.size()) || (workingRule<0));
 
     }
 
@@ -350,16 +336,15 @@ public class ChronologicalTableau implements Tableau{
 
             ArrayList<Integer> t = new ArrayList<>(relation.remove(oe));
 
-            if(t.size()!=0){
 
-                for (int i = t.size() - 1; i >=0 ; i--) {
-                    if(t.get(i) > workingNode)
-                        t.remove(i);
-                }
-
-                if(t.size()!=0)
-                    relation.put(oe,t);
+            for (int i = t.size() - 1; i >=0 ; i--) {
+                if(t.get(i) > workingRule)
+                    t.remove(i);
             }
+
+            if(t.size()!=0)
+                relation.put(oe,t);
+
         }
 
     }
@@ -388,7 +373,8 @@ public class ChronologicalTableau implements Tableau{
     }
 
     @Override
-    public String getModel(){
+    public String getModel(){return null;}
+    /*public String getModel(){
         String model = "| ";
         for (OWLClassExpression e: conceptList) {
             if(e != null) {
@@ -441,10 +427,11 @@ public class ChronologicalTableau implements Tableau{
 
 
         return model;
-    }
+    }*/
 
     @Override
-    public Integer getIteration(){
+    public Integer getIteration(){return null;}
+    /*public Integer getIteration(){
 
 
         int it=iteration;
@@ -475,7 +462,7 @@ public class ChronologicalTableau implements Tableau{
             }
         }
         return it;
-    }
+    }*/
 
     @Override
     public int getParent() {

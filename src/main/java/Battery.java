@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class Battery {
 
     public static void main(String[] args) throws Exception {
-
+        final boolean DEBUG = true;
         File dir = new File("Ontologie");
         File[] directoryListing = dir.listFiles();
         assert directoryListing != null;
@@ -55,36 +55,31 @@ public class Battery {
             if (expression != null) {
 
                 /*ChronologicalTableau*/
-                LoggerManager.setFile(ontologyFile.getName().replace(".owl", "") + "_Chronological", Battery.class);
+                if(DEBUG) {
+                    LoggerManager.setFile(ontologyFile.getName().replace(".owl", "") + "_Chronological", Battery.class);
+                }
                 long chrono_StartTime = System.currentTimeMillis();
                 boolean resultChrono = alc_chrono.isSatisfiable(expression);
                 long chrono_EndTime = System.currentTimeMillis();
                 Integer chronoIteration = ((ALCReasoner) alc_chrono).getIteration();
                 String chrono_model = ((ALCReasoner) alc_chrono).getModel();
 
-                System.out.println("\n\n"+ ontologyFile.getName()+"\nALC(Chronological Tableau): " + resultChrono + " (" + (chrono_EndTime - chrono_StartTime) + " milliseconds - " + chronoIteration + " iterazioni)");
+                System.out.println("\n\n"+ ontologyFile.getName()+"\nALC(Chronological Tableau): " + resultChrono + " (" + (chrono_EndTime - chrono_StartTime) + " milliseconds)");
                 LoggerManager.writeInfoLog("ALC(Chronological Tableau): " + resultChrono, Battery.class);
 
-                if (resultChrono) {
-                    String model = "Modello: " + chrono_model;
-                    LoggerManager.writeInfoLog(model, Battery.class);
-                }
-
                 /*JumpingTableau*/
-                LoggerManager.setFile(ontologyFile.getName().replace(".owl", "") + "_Jumping", Battery.class);
+                if(DEBUG) {
+                    LoggerManager.setFile(ontologyFile.getName().replace(".owl", "") + "_Jumping", Battery.class);
+                }
                 long jump_StartTime = System.currentTimeMillis();
                 boolean resultJump = alc_jump.isSatisfiable(expression);
                 long jump_EndTime = System.currentTimeMillis();
                 String jump_model =((ALCReasoner) alc_jump).getModel();
                 Integer jumpIteration = ((ALCReasoner) alc_jump).getIteration();
-                System.out.println("ALC(Jumping Tableau): " + resultJump + " (" + (jump_EndTime - jump_StartTime) + " milliseconds) - " + jumpIteration + " iterazioni)");
+                System.out.println("ALC(Jumping Tableau): " + resultJump + " (" + (jump_EndTime - jump_StartTime) + " milliseconds)");
 
                 LoggerManager.writeInfoLog("ALC(Jumping Tableau): " + resultJump, Battery.class);
 
-                if (resultJump) {
-                    String model = "Modello: " + jump_model;
-                    LoggerManager.writeInfoLog(model, Battery.class);
-                }
             }
         }
     }

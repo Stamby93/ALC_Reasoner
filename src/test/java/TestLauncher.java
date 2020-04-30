@@ -16,6 +16,9 @@ import java.util.stream.Collectors;
 
 
 public class TestLauncher {
+    private final boolean DEBUG = true;
+
+
     private OWLOntologyManager man;
     private String ontologyFileName;
     private boolean result;
@@ -509,7 +512,9 @@ public class TestLauncher {
     private void loadOntology(String ontologyFileName) throws OWLOntologyCreationException {
         File ontologyFile = new File(ontologyFileName);
         OWLOntology ont = man.loadOntologyFromOntologyDocument(ontologyFile);
-        LoggerManager.setFile(ontologyFile.getName(), TestLauncher.class);
+        if(DEBUG) {
+            LoggerManager.setFile(ontologyFile.getName(), TestLauncher.class);
+        }
         OWLDataFactory df = man.getOWLDataFactory();
         Optional<IRI> optIri = ont.getOntologyID().getOntologyIRI();
         assert optIri.isPresent();
