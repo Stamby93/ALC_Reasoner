@@ -14,7 +14,7 @@ public class Launcher {
 
     public static void main(String[] args) throws Exception {
 
-        final boolean DEBUG = true;
+        final boolean DEBUG = false;
 
         OWLOntologyManager man = OWLManager.createOWLOntologyManager();
         File ontologyFile = new File("Ontologie/18-02-08_PROVA_2.owl");
@@ -80,7 +80,7 @@ public class Launcher {
             long chrono_StartTime = System.currentTimeMillis();
             boolean resultChrono = alc_chrono.isSatisfiable(expression);
             long chrono_EndTime = System.currentTimeMillis();
-            Integer chronoIteration=((ALCReasoner)alc_chrono).getIteration();
+            //Integer chronoIteration=((ALCReasoner)alc_chrono).getIteration();
             System.out.println("\nALC(Chronological Tableau): " + resultChrono + " ("+(chrono_EndTime - chrono_StartTime) + " milliseconds)");
             LoggerManager.writeInfoLog("ALC(Chronological Tableau): " + resultChrono, Launcher.class);
 
@@ -91,7 +91,7 @@ public class Launcher {
             long jump_StartTime = System.currentTimeMillis();
             boolean resultJump = alc_jump.isSatisfiable(expression);
             long jump_EndTime = System.currentTimeMillis();
-            Integer jumpIteration=((ALCReasoner)alc_jump).getIteration();
+            //Integer jumpIteration=((ALCReasoner)alc_jump).getIteration();
             System.out.println("ALC(Jumping Tableau): " + resultJump + " ("+(jump_EndTime - jump_StartTime) + " milliseconds)");
             LoggerManager.writeInfoLog("ALC(Jumping Tableau): " + resultJump, Launcher.class);
 

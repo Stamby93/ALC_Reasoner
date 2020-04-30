@@ -307,7 +307,7 @@ public class ChronologicalTableau implements Tableau{
                     operands.sort(conceptComparator);
 
                     OWLObjectIntersectionOf concept = new OWLObjectIntersectionOfImpl(operands);
-                    Tableau Tflag = new ChronologicalTableau(concept.getNNF(), workingRule);
+                    Tableau Tflag = new ChronologicalTableau(concept, workingRule);
 
                     if (!Tflag.SAT()) {
                         LoggerManager.writeDebugLog("ALL UNSATISFIABLE", ChronologicalTableau.class);
