@@ -38,14 +38,12 @@ public class LauncherFileChooser extends JPanel
         fc = new JFileChooser();
 
 
-        openButton = new JButton("Open and Run",
-                createImageIcon(""));
-        openButton.setPreferredSize(new Dimension(100, 30));
+        openButton = new JButton("Open", new ImageIcon("images/Open16.gif"));
+        openButton.setPreferredSize(new Dimension(200, 30));
         openButton.addActionListener(this);
 
-        loadLog = new JButton("Log",
-                createImageIcon("images/Save16.gif"));
-        loadLog.setPreferredSize(new Dimension(100, 30));
+        loadLog = new JButton("Log", new ImageIcon("images/Log1.png"));
+        loadLog.setPreferredSize(new Dimension(200, 30));
         loadLog.addActionListener(this);
 
 
@@ -162,20 +160,7 @@ public class LauncherFileChooser extends JPanel
             }
         }
     }
-
-
-
-    protected static ImageIcon createImageIcon(String path) {
-        java.net.URL imgURL = LauncherFileChooser.class.getResource(path);
-        if (imgURL != null) {
-            return new ImageIcon(imgURL);
-        } else {
-            System.err.println("Couldn't find file: " + path);
-            return null;
-        }
-    }
-
-
+    
     private static void createAndShowGUI() {
         //Create and set up the window.
         JFrame frame = new JFrame("ALC_REASONER - Manfredi - Santangelo - Scalella");
