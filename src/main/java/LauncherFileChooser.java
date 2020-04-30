@@ -60,7 +60,6 @@ public class LauncherFileChooser extends JPanel
     public void actionPerformed(ActionEvent e) {
 
         OWLOntologyManager man = OWLManager.createOWLOntologyManager();
-        OWLOntology ont = null;
         OWLClassExpression expression = null;
 
         if (e.getSource() == openButton) {
@@ -70,7 +69,7 @@ public class LauncherFileChooser extends JPanel
                 File file = fc.getSelectedFile();
 
                 try {
-                    ont = man.loadOntologyFromOntologyDocument(file);
+                    OWLOntology ont = man.loadOntologyFromOntologyDocument(file);
                     OWLDataFactory df = man.getOWLDataFactory();
                     Optional<IRI> optIri = ont.getOntologyID().getOntologyIRI();
                     assert optIri.isPresent();
@@ -87,7 +86,7 @@ public class LauncherFileChooser extends JPanel
                     OWLReasoner hermit = factoryHermit.createReasoner(ont);
 
                     /*Logger*/
-                    LoggerManager.setFile(file.getName().replace(".owl", ""), Launcher.class);
+                    LoggerManager.setFile(file.getName().replace(".owl", ""), LauncherFileChooser.class);
 
 
                     if (ontologyAxiom.size() > 1) {
@@ -113,13 +112,13 @@ public class LauncherFileChooser extends JPanel
                         log.append("\nManchester Sintax: \n\n" + OntologyRenderer.render(expression) + "." + newline);
                         log.append("\n---------------- CHECK CONCEPT ----------------" + newline);
                         /*ChronologicaTableau*/
-                        LoggerManager.setFile(file.getName().replace(".owl", "") + "_Chronological", Launcher.class);
+                        LoggerManager.setFile(file.getName().replace(".owl", "") + "_Chronological", LauncherFileChooser.class);
                         long chrono_StartTime = System.currentTimeMillis();
                         boolean resultChrono = alc_chrono.isSatisfiable(expression);
                         long chrono_EndTime = System.currentTimeMillis();
                         System.out.println("\nALC (Chronological Tableau): " + resultChrono + " (" + (chrono_EndTime - chrono_StartTime) + " milliseconds )"); //+ chronoIteration + " iterazioni");
                         log.append("\nALC (Chronological Tableau): " + resultChrono + " (" + (chrono_EndTime - chrono_StartTime) + " milliseconds )" + newline);
-                        LoggerManager.writeInfoLog("ALC (Chronological Tableau): " + resultChrono, Launcher.class);
+                        LoggerManager.writeInfoLog("ALC (Chronological Tableau): " + resultChrono, LauncherFileChooser.class);
 
                         /*HermiT*/
                         long hermit_StartTime = System.currentTimeMillis();
@@ -127,7 +126,7 @@ public class LauncherFileChooser extends JPanel
                         long hermit_EndTime = System.currentTimeMillis();
                         System.out.println("HermiT: " + resultHermit + " (" + (hermit_EndTime - hermit_StartTime) + " milliseconds)");
                         log.append("\nHermiT: " + resultHermit + " (" + (hermit_EndTime - hermit_StartTime) + " milliseconds)" + newline);
-                        LoggerManager.writeInfoLog("\nHermiT: " + resultHermit, Launcher.class);
+                        LoggerManager.writeInfoLog("HermiT: " + resultHermit, LauncherFileChooser.class);
 
                     }
                 } catch(Exception ex){
@@ -144,7 +143,7 @@ public class LauncherFileChooser extends JPanel
                 File file = fc.getSelectedFile();
                 String fileLog = file.getName().replace(".owl", "") + "_Chronological.log";
 
-                File Log = new File("LOG/Launcher/" + fileLog);
+                File Log = new File("LOG/LauncherFileChooser/" + fileLog);
 
                 Desktop desktop = Desktop.getDesktop();
                 if (Log.exists()) {
@@ -174,15 +173,13 @@ public class LauncherFileChooser extends JPanel
         frame.setVisible(true);
     }
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) {
         //Schedule a job for the event dispatch thread:
         //creating and showing this application's GUI.
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                //Turn off metal's use of bold fonts
-                UIManager.put("swing.boldMetal", Boolean.FALSE);
-                createAndShowGUI();
-            }
+        SwingUtilities.invokeLater(() -> {
+            //Turn off metal's use of bold fonts
+            UIManager.put("swing.boldMetal", Boolean.FALSE);
+            createAndShowGUI();
         });
     }
 }
