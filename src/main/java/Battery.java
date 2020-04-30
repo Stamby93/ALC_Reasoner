@@ -66,6 +66,10 @@ public class Battery {
 
                 System.out.println("\n\n"+ ontologyFile.getName()+"\nALC(Chronological Tableau): " + resultChrono + " (" + (chrono_EndTime - chrono_StartTime) + " milliseconds)");
                 LoggerManager.writeInfoLog("ALC(Chronological Tableau): " + resultChrono, Battery.class);
+                if(resultChrono){
+                    LoggerManager.writeInfoLog("Model: " + chrono_model, Battery.class);
+
+                }
 
                 /*JumpingTableau*/
                 if(DEBUG) {
@@ -74,7 +78,7 @@ public class Battery {
                 long jump_StartTime = System.currentTimeMillis();
                 boolean resultJump = alc_jump.isSatisfiable(expression);
                 long jump_EndTime = System.currentTimeMillis();
-                String jump_model =((ALCReasoner) alc_jump).getModel();
+                //String jump_model =((ALCReasoner) alc_jump).getModel();
                 Integer jumpIteration = ((ALCReasoner) alc_jump).getIteration();
                 System.out.println("ALC(Jumping Tableau): " + resultJump + " (" + (jump_EndTime - jump_StartTime) + " milliseconds)");
 

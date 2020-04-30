@@ -138,20 +138,19 @@ public class ChronologicalTableau implements Tableau{
         OWLObjectUnionOf union = (OWLObjectUnionOf) conceptList.get(workingRule);
         List<OWLClassExpression> jointedList = union.operands().collect(Collectors.toList());
         ArrayList<OWLClassExpression> saveT = new ArrayList<>(conceptList);
+        OWLClassExpression owlClassExpression;
 
         jointedList.sort(conceptComparator);
 
-        /*if(!branchingNode.contains(rule))
-            branchingNode.add(branchingNode.size(),rule);*/
+        for (int i = 0; i < jointedList.size(); i++) {
 
-        for (OWLClassExpression owlClassExpression : jointedList) {
+            owlClassExpression = jointedList.get(i);
 
             if (!conceptList.contains(owlClassExpression)) {
                 LoggerManager.writeDebugLog("CHOICE " + OntologyRenderer.render(owlClassExpression), ChronologicalTableau.class);
 
                 conceptList.add(conceptList.size(), owlClassExpression);
-                /*if(i == jointedList.size()-1)
-                    branchingNode.remove(rule);*/
+
                 if (checkClash())
                     conceptList.remove(conceptList.size() - 1);
                 else {
@@ -160,8 +159,13 @@ public class ChronologicalTableau implements Tableau{
                     if (SAT())
                         return true;
                     else {
-                        LoggerManager.writeDebugLog("BACKTRACK " + rule, ChronologicalTableau.class);
 
+                        //NON HO PIÙ SCELTE
+                        if(i == jointedList.size()-1) {
+                            return false;
+                        }
+
+                        LoggerManager.writeDebugLog("BACKTRACK " + rule, ChronologicalTableau.class);
                         workingRule = rule;
                         cleanRelation(someRelation);
                         cleanRelation(allRelation);
@@ -324,7 +328,6 @@ public class ChronologicalTableau implements Tableau{
 
     }
 
-
     private boolean isWorking() {
         return !((workingRule>= conceptList.size()) || (workingRule<0));
 
@@ -373,8 +376,8 @@ public class ChronologicalTableau implements Tableau{
     }
 
     @Override
-    public String getModel(){return null;}
-    /*public String getModel(){
+    //public String getModel(){return null;}
+    public String getModel(){
         String model = "| ";
         for (OWLClassExpression e: conceptList) {
             if(e != null) {
@@ -391,16 +394,20 @@ public class ChronologicalTableau implements Tableau{
         }
         if(!someRelation.isEmpty()) {
             Set<OWLObjectPropertyExpression> key = someRelation.keySet();
+            OWLObjectSomeValuesFrom someValue;
+
             for (OWLObjectPropertyExpression oe : key) {
                 if (oe != null) {
                     List<Integer> related = someRelation.get(oe);
 
                     for (Integer j : related) {
-                        Tableau t = nodeList.get(j);
+                        someValue = (OWLObjectSomeValuesFrom) conceptList.get(j);
+
                         model=model.concat("EXIST " + OntologyRenderer.render((oe)) + ". { ");
-                        model = model.concat(t.getModel());
-                        if(model.chars().filter(ch -> ch == '}').count() < model.chars().filter(ch -> ch == '{').count())
+                        model = model.concat(OntologyRenderer.render(someValue.getFiller()));
+                        if(model.chars().filter(ch -> ch == '}').count() < model.chars().filter(ch -> ch == '{').count()) {
                             model=model.concat("} | ");
+                        }
                     }
                 }
             }
@@ -408,18 +415,18 @@ public class ChronologicalTableau implements Tableau{
         }
         if(!allRelation.isEmpty()) {
             Set<OWLObjectPropertyExpression> key = allRelation.keySet();
+            OWLObjectAllValuesFrom allValue;
             for (OWLObjectPropertyExpression oe : key) {
                 if (oe != null) {
                     List<Integer> related = allRelation.get(oe);
 
                     for (Integer j : related) {
-                        Tableau t = nodeList.get(j);
-                        if(t.getIteration()!=0) {
-                            model=model.concat("EXIST " + OntologyRenderer.render((oe)) + ". { ");
-                            model = model.concat(t.getModel());
+                        allValue = (OWLObjectAllValuesFrom) conceptList.get(j);
+
+                            model=model.concat("ALL " + OntologyRenderer.render((oe)) + ". { ");
+                            model = model.concat(OntologyRenderer.render(allValue.getFiller()));
                             if(model.chars().filter(ch -> ch == '}').count() < model.chars().filter(ch -> ch == '{').count())
                                 model=model.concat("} | ");
-                        }
                     }
                 }
             }
@@ -427,7 +434,7 @@ public class ChronologicalTableau implements Tableau{
 
 
         return model;
-    }*/
+    }
 
     @Override
     public Integer getIteration(){return null;}
