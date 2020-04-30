@@ -60,7 +60,6 @@ public class LauncherFileChooser extends JPanel
     public void actionPerformed(ActionEvent e) {
 
         OWLOntologyManager man = OWLManager.createOWLOntologyManager();
-        OWLOntology ont = null;
         OWLClassExpression expression = null;
 
         if (e.getSource() == openButton) {
@@ -70,7 +69,7 @@ public class LauncherFileChooser extends JPanel
                 File file = fc.getSelectedFile();
 
                 try {
-                    ont = man.loadOntologyFromOntologyDocument(file);
+                    OWLOntology ont = man.loadOntologyFromOntologyDocument(file);
                     OWLDataFactory df = man.getOWLDataFactory();
                     Optional<IRI> optIri = ont.getOntologyID().getOntologyIRI();
                     assert optIri.isPresent();
@@ -174,15 +173,13 @@ public class LauncherFileChooser extends JPanel
         frame.setVisible(true);
     }
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) {
         //Schedule a job for the event dispatch thread:
         //creating and showing this application's GUI.
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                //Turn off metal's use of bold fonts
-                UIManager.put("swing.boldMetal", Boolean.FALSE);
-                createAndShowGUI();
-            }
+        SwingUtilities.invokeLater(() -> {
+            //Turn off metal's use of bold fonts
+            UIManager.put("swing.boldMetal", Boolean.FALSE);
+            createAndShowGUI();
         });
     }
 }
