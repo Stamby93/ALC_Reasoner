@@ -22,11 +22,13 @@ public class LauncherGUI extends JPanel implements ActionListener {
     private final JButton openButton;
     private final JButton loadChronologicalLog;
     private final JButton loadJumpingLog;
+    private final JCheckBox checkLog;
     private final JTextArea log;
     private final JFileChooser fc;
     private final OWLOntologyManager man;
     private final OWLReasoner alc_chrono;
     private final OWLReasoner alc_jump;
+    private boolean loggerEnabled = true;
     OWLClassExpression expression = null;
     public LauncherGUI() {
         super(new BorderLayout());
@@ -52,22 +54,29 @@ public class LauncherGUI extends JPanel implements ActionListener {
 
 
         openButton = new JButton("Open", new ImageIcon("images/Open16.gif"));
-        openButton.setPreferredSize(new Dimension(200, 30));
+        openButton.setPreferredSize(new Dimension(180, 30));
         openButton.addActionListener(this);
 
         loadChronologicalLog = new JButton("ChronoLog", new ImageIcon("images/chronoLog.png"));
-        loadChronologicalLog.setPreferredSize(new Dimension(200, 30));
+        loadChronologicalLog.setPreferredSize(new Dimension(180, 30));
         loadChronologicalLog.addActionListener(this);
 
         loadJumpingLog = new JButton("JumpLog", new ImageIcon("images/jumpLog.png"));
-        loadJumpingLog.setPreferredSize(new Dimension(200, 30));
+        loadJumpingLog.setPreferredSize(new Dimension(180, 30));
         loadJumpingLog.addActionListener(this);
+
+        checkLog = new JCheckBox("Log");
+        checkLog.setSelected(true);
+        checkLog.addActionListener(this);
+
 
 
         JPanel buttonPanel = new JPanel();
+        buttonPanel.add(checkLog);
         buttonPanel.add(openButton);
         buttonPanel.add(loadChronologicalLog);
         buttonPanel.add(loadJumpingLog);
+
 
 
         add(buttonPanel, BorderLayout.PAGE_START);
@@ -106,7 +115,8 @@ public class LauncherGUI extends JPanel implements ActionListener {
                     OWLReasoner hermit = factoryHermit.createReasoner(ont);
 
                     /*Logger*/
-                    LoggerManager.setFile(file.getName().replace(".owl", ""), LauncherGUI.class);
+                    if(loggerEnabled)
+                        LoggerManager.setFile(file.getName().replace(".owl", ""), LauncherGUI.class);
 
 
                     if (ontologyAxiom.size() > 1) {
@@ -216,6 +226,20 @@ public class LauncherGUI extends JPanel implements ActionListener {
                 System.out.println("NO FILE SELECTED");
                 log.append("\nNO FILE SELECTED"+newline);
             }
+        }
+        else if(e.getSource() == checkLog){
+
+            if(checkLog.isSelected()){
+                loadJumpingLog.setEnabled(true);
+                loadChronologicalLog.setEnabled(true);
+                loggerEnabled = true;
+            }
+            else{
+                loadJumpingLog.setEnabled(false);
+                loadChronologicalLog.setEnabled(false);
+                loggerEnabled = false;
+            }
+
         }
     }
 
