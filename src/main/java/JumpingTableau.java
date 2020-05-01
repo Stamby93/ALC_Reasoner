@@ -174,14 +174,6 @@ public class JumpingTableau implements Tableau{
 
                     conceptList.remove(conceptList.size() - 1);
                     dependency.remove(dependency.size()-1);
-                    for (Integer c: clashList ) {
-
-                        if(!dep.contains(c))
-                            dep.add(c);
-
-                    }
-
-                    Collections.sort(dep);
 
                 }
                 else {
@@ -206,6 +198,15 @@ public class JumpingTableau implements Tableau{
                     dependency.addAll(saveTD);
 
                 }
+                //AGGIORNO DIPENDENZE PER IL PROSSIMO CONGIUNTO
+                for (Integer c: clashList ) {
+
+                    if(!dep.contains(c))
+                        dep.add(c);
+
+                }
+
+                Collections.sort(dep);
             }
         }
 
@@ -444,7 +445,7 @@ public class JumpingTableau implements Tableau{
                 OWLClassExpression c1 = conceptList.get(i1);
 
                 if (c.equals(c1.getComplementNNF())){
-                    LoggerManager.writeDebugLog("CLASH "+ OntologyRenderer.render(c) + " " +OntologyRenderer.render(c1), JumpingTableau.class);
+                    LoggerManager.writeDebugLog("CLASH "+ OntologyRenderer.render(c) + " | " +OntologyRenderer.render(c1), JumpingTableau.class);
                     clashList.addAll(dependency.get(i));
                     for (Integer d: dependency.get(i1)) {
 
