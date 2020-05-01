@@ -8,19 +8,17 @@ public class JumpingTableau implements Tableau{
 
     private final List<OWLClassExpression> conceptList;
 
-    private List<List<Integer>> dependency;
+    private final List<List<Integer>> dependency;
 
     private List<Integer> clashList;
 
-    private Comparator<? super OWLClassExpression> conceptComparator;
+    private final Comparator<? super OWLClassExpression> conceptComparator;
 
     private final Map<OWLObjectPropertyExpression, List<Integer>> someRelation;
 
     private final Map<OWLObjectPropertyExpression, List<Integer>> allRelation;
 
     private int workingRule = 0;
-
-    private final int parent;
 
     private int iteration = 0;
 
@@ -32,7 +30,6 @@ public class JumpingTableau implements Tableau{
         dependency.add(0,Collections.singletonList(-1));
         someRelation = new HashMap<>();
         allRelation = new HashMap<>();
-        this.parent = parent;
         conceptComparator = (Comparator<OWLClassExpression>) (expression, t1) -> {
 
             ClassExpressionType type = expression.getClassExpressionType();
@@ -195,7 +192,7 @@ public class JumpingTableau implements Tableau{
 
                     if(SAT())
                         return true;
-                    else if(!clashList.contains(Integer.valueOf(rule)))
+                    else if(!clashList.contains(rule))
                         return false;
 
                     LoggerManager.writeDebugLog("BACKTRACK: " + rule, JumpingTableau.class);
@@ -205,7 +202,7 @@ public class JumpingTableau implements Tableau{
                     cleanRelation(allRelation);
                     conceptList.removeAll(Collections.unmodifiableList(conceptList));
                     conceptList.addAll(saveT);
-                    dependency.removeAll(dependency);
+                    dependency.removeAll(Collections.unmodifiableList(dependency));
                     dependency.addAll(saveTD);
 
                 }

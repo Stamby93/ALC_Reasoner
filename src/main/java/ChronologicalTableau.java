@@ -14,8 +14,6 @@ public class ChronologicalTableau implements Tableau{
 
     private final Map<OWLObjectPropertyExpression, List<Integer>> allRelation;
 
-    private final int parent;
-
     private int iteration = 0;
 
     Comparator<? super OWLClassExpression> conceptComparator;
@@ -26,7 +24,6 @@ public class ChronologicalTableau implements Tableau{
         conceptList.add(0, concept);
         someRelation = new HashMap<>();
         allRelation = new HashMap<>();
-        this.parent = parent;
         conceptComparator = (Comparator<OWLClassExpression>) (expression, t1) -> {
 
             ClassExpressionType type = expression.getClassExpressionType();
