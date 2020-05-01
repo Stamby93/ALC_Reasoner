@@ -158,6 +158,8 @@ public class LauncherGUI extends JPanel implements ActionListener {
                         if(resultChrono) {
                             String model = "Modello trovato: "+((ALCReasoner)alc_chrono).getModel();
                             LoggerManager.writeInfoLog(model, LauncherGUI.class);
+                            if(loggerEnabled)
+                                log.append(model);
                         }
                         /*JumpingTableau*/
                         LoggerManager.setFile(file.getName().replace(".owl", "") + "_Jumping", LauncherGUI.class);
@@ -171,6 +173,8 @@ public class LauncherGUI extends JPanel implements ActionListener {
                         if(resultJump) {
                             String model = "Modello trovato: "+((ALCReasoner)alc_jump).getModel();
                             LoggerManager.writeInfoLog(model, LauncherGUI.class);
+                            if(loggerEnabled)
+                                log.append(model);
                         }
 
                         /*HermiT*/
