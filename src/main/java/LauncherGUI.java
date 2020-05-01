@@ -20,29 +20,26 @@ import java.awt.Desktop;
 public class LauncherGUI extends JPanel
         implements ActionListener {
     static private final String newline = "\n";
-    JButton openButton;
-    JButton loadChronologicalLog;
-    JButton loadJumpingLog;
-    JTextArea log;
-    JFileChooser fc;
-    OWLOntologyManager man;
-    OWLClassExpression expression;
-    OWLReasonerFactory factoryALC_chrono;
-    OWLReasonerFactory factoryALC_jump;
-    OWLReasoner alc_chrono;
-    OWLReasoner alc_jump;
+    private final JButton openButton;
+    private final JButton loadChronologicalLog;
+    private final JButton loadJumpingLog;
+    private final JTextArea log;
+    private final JFileChooser fc;
+    private final OWLOntologyManager man;
+    private final OWLReasoner alc_chrono;
+    private final OWLReasoner alc_jump;
     public LauncherGUI() {
         super(new BorderLayout());
 
         man = OWLManager.createOWLOntologyManager();
 
         /*TABLEAU Chronological*/
-        factoryALC_chrono = new ALCReasonerFactory();
+        OWLReasonerFactory factoryALC_chrono = new ALCReasonerFactory();
         alc_chrono = factoryALC_chrono.createReasoner(null);
 
         /*TABLEAU Jumping*/
-        factoryALC_jump = new ALCReasonerFactory("Jumping");
-        alc_jump = factoryALC_chrono.createReasoner(null);
+        OWLReasonerFactory factoryALC_jump = new ALCReasonerFactory("Jumping");
+        alc_jump = factoryALC_jump.createReasoner(null);
 
         log = new JTextArea(5,20);
         log.setMargin(new Insets(5,5,5,5));
@@ -112,6 +109,7 @@ public class LauncherGUI extends JPanel
                     OWLEquivalentClassesAxiomImpl axiom = (OWLEquivalentClassesAxiomImpl) ontologyAxiom.iterator().next();
 
                     Set<OWLClassExpression> expressions = axiom.classExpressions().collect(Collectors.toSet());
+                    OWLClassExpression expression = null;
                     for (OWLClassExpression E : expressions) {
                         if (!E.isOWLClass()) {
                             expression = E;
