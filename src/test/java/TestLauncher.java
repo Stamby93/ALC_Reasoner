@@ -511,6 +511,7 @@ public class TestLauncher {
 
     private void loadOntology(String ontologyFileName) throws OWLOntologyCreationException {
         File ontologyFile = new File(ontologyFileName);
+        man.clearOntologies();
         OWLOntology ont = man.loadOntologyFromOntologyDocument(ontologyFile);
         if(DEBUG) {
             LoggerManager.setFile(ontologyFile.getName(), TestLauncher.class);
