@@ -16,9 +16,10 @@ public class Battery {
         File dir = new File("Ontologie");
         File[] directoryListing = dir.listFiles();
         assert directoryListing != null;
+        OWLOntologyManager man = OWLManager.createOWLOntologyManager();
         for (File ontologyFile : directoryListing) {
 
-            OWLOntologyManager man = OWLManager.createOWLOntologyManager();
+            man.clearOntologies();
             OWLOntology ont = man.loadOntologyFromOntologyDocument(ontologyFile);
             OWLDataFactory df = man.getOWLDataFactory();
             Optional<IRI> optIri = ont.getOntologyID().getOntologyIRI();
