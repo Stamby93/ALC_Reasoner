@@ -174,7 +174,7 @@ public class LauncherGUI extends JPanel
                 File file = fc.getSelectedFile();
                 String fileLog = file.getName().replace(".owl", "") + "_Chronological.log";
 
-                File Log = new File("LOG/LauncherFileChooser/" + fileLog);
+                File Log = new File("LOG/LauncherGUI/" + fileLog);
 
                 Desktop desktop = Desktop.getDesktop();
                 if (Log.exists()) {
@@ -193,7 +193,7 @@ public class LauncherGUI extends JPanel
                 File file = fc.getSelectedFile();
                 String fileLog = file.getName().replace(".owl", "") + "_Jumping.log";
 
-                File Log = new File("LOG/LauncherFileChooser/" + fileLog);
+                File Log = new File("LOG/LauncherGUI/" + fileLog);
 
                 Desktop desktop = Desktop.getDesktop();
                 if (Log.exists()) {
