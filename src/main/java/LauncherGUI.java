@@ -167,7 +167,7 @@ public class LauncherGUI extends JPanel implements ActionListener {
                         boolean resultJump = alc_jump.isSatisfiable(expression);
                         long jump_EndTime = System.currentTimeMillis();
                         Integer jumpIteration=((ALCReasoner)alc_jump).getIteration();
-                        System.out.println("ALC(Jumping Tableau): " + resultJump + " ("+(jump_EndTime - jump_StartTime) + " milliseconds) - ("+jumpIteration + " iterations)");
+                        System.out.println("\nALC(Jumping Tableau): " + resultJump + " ("+(jump_EndTime - jump_StartTime) + " milliseconds) - ("+jumpIteration + " iterations)");
                         log.append("\nALC (Jumping Tableau): " + resultJump + " (" + (jump_EndTime - jump_StartTime) + " milliseconds) - ("+ jumpIteration + " iterations)" + newline);
                         LoggerManager.writeInfoLog("ALC(Jumping Tableau): " + resultJump, LauncherGUI.class);
                         if(resultJump) {
@@ -181,7 +181,7 @@ public class LauncherGUI extends JPanel implements ActionListener {
                         long hermit_StartTime = System.currentTimeMillis();
                         boolean resultHermit = hermit.isSatisfiable(expression);
                         long hermit_EndTime = System.currentTimeMillis();
-                        System.out.println("HermiT: " + resultHermit + " (" + (hermit_EndTime - hermit_StartTime) + " milliseconds)");
+                        System.out.println("\nHermiT: " + resultHermit + " (" + (hermit_EndTime - hermit_StartTime) + " milliseconds)");
                         log.append("\nHermiT: " + resultHermit + " (" + (hermit_EndTime - hermit_StartTime) + " milliseconds)" + newline);
                         LoggerManager.writeInfoLog("HermiT: " + resultHermit, LauncherGUI.class);
 
