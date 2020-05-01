@@ -127,7 +127,11 @@ public class LauncherGUI extends JPanel implements ActionListener {
                     if (expression != null) {
                         log.setText("");
                         log.append("\n\nOpening: " + file.getName() + "." + newline);
-                        log.append("\nConcetto in input:: " + expression.toString() + "." + newline);
+                        String eS = expressions.toString();
+                        String toDelete = eS.substring(eS.indexOf("http"), eS.indexOf("#")+1);
+                        eS = eS.replaceAll(toDelete,"");
+                        eS = eS.replace(", <assioma>","");
+                        log.append("\nConcetto in input: " + eS + "." + newline);
                         log.append("\nManchester Sintax: \n\n" + OntologyRenderer.render(expression) + "." + newline);
                         log.append("\n---------------- CHECK CONCEPT ----------------" + newline);
 
