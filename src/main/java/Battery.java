@@ -59,14 +59,14 @@ public class Battery {
                 if (DEBUG) {
                     LoggerManager.setFile(ontologyFile.getName().replace(".owl", "") + "_Chronological", Battery.class);
                 }
-                System.out.println(ontologyFile);
+                System.out.println("\n"+ontologyFile);
                 long chrono_StartTime = System.currentTimeMillis();
                 boolean resultChrono = alc_chrono.isSatisfiable(expression);
                 long chrono_EndTime = System.currentTimeMillis();
                 Integer chronoIteration = ((ALCReasoner) alc_chrono).getIteration();
                 String chrono_model = ((ALCReasoner) alc_chrono).getModel();
 
-                System.out.println("\nALC(Chronological Tableau): " + resultChrono + " ("+(chrono_EndTime - chrono_StartTime) + " milliseconds) - ("+chronoIteration+" iterations)");
+                System.out.println("ALC(Chronological Tableau): " + resultChrono + " ("+(chrono_EndTime - chrono_StartTime) + " milliseconds) - ("+chronoIteration+" iterations)");
 
                 LoggerManager.writeInfoLog("ALC(Chronological Tableau): " + resultChrono, Battery.class);
                 LoggerManager.writeInfoLog("Iterazioni: " + chronoIteration, Battery.class);
