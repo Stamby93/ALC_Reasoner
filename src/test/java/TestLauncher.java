@@ -544,6 +544,39 @@ public class TestLauncher {
         assertEquals(expResult, result);
     }
 
+    @Test
+    public void testOntology_Chronological_32() throws OWLOntologyCreationException {
+        ontologyFileName = "Ontologie/myProva3.owl";
+        loadOntology(ontologyFileName);
+        result = ALC_Reasoner_Chronological(expression);
+        expResult = Hermit_Reasoner(expression);
+        assertEquals(expResult, result);
+    }
+    @Test
+    public void testOntology_Jumping_32() throws OWLOntologyCreationException {
+        ontologyFileName = "Ontologie/myProva3.owl";
+        loadOntology(ontologyFileName);
+        result = ALC_Reasoner_Jumping(expression);
+        expResult = Hermit_Reasoner(expression);
+        assertEquals(expResult, result);
+    }
+
+    @Test
+    public void testOntology_Chronological_33() throws OWLOntologyCreationException {
+        ontologyFileName = "Ontologie/myProva4.owl";
+        loadOntology(ontologyFileName);
+        result = ALC_Reasoner_Chronological(expression);
+        expResult = Hermit_Reasoner(expression);
+        assertEquals(expResult, result);
+    }
+    @Test
+    public void testOntology_Jumping_33() throws OWLOntologyCreationException {
+        ontologyFileName = "Ontologie/myProva4.owl";
+        loadOntology(ontologyFileName);
+        result = ALC_Reasoner_Jumping(expression);
+        expResult = Hermit_Reasoner(expression);
+        assertEquals(expResult, result);
+    }
     private void loadOntology(String ontologyFileName) throws OWLOntologyCreationException {
         File ontologyFile = new File(ontologyFileName);
         man.clearOntologies();
