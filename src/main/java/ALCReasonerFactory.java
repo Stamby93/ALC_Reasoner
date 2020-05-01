@@ -8,7 +8,7 @@ import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
  */
 public class ALCReasonerFactory implements OWLReasonerFactory {
 
-    private String type = null; //"Chronological";
+    private String type = "Chronological";
     /**
      * Default constructor
      */
