@@ -90,7 +90,7 @@ public class LauncherGUI extends JPanel implements ActionListener {
 
 
 
-                } catch(Exception ex){
+                } catch(OWLOntologyCreationException ex){
                     System.out.println("INVALID FILE...");
                     log.append("\nINVALID FILE"+newline);
                 }
