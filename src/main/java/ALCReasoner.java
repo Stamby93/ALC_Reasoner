@@ -23,6 +23,7 @@ public class ALCReasoner implements OWLReasoner {
     }
 
     public ALCReasoner(String type){
+
         this.type = type;
         TableauFactory = new TableauFactory();
     }

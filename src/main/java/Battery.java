@@ -59,6 +59,7 @@ public class Battery {
                 if (DEBUG) {
                     LoggerManager.setFile(ontologyFile.getName().replace(".owl", "") + "_Chronological", Battery.class);
                 }
+                System.out.println(ontologyFile);
                 long chrono_StartTime = System.currentTimeMillis();
                 boolean resultChrono = alc_chrono.isSatisfiable(expression);
                 long chrono_EndTime = System.currentTimeMillis();
