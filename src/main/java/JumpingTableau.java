@@ -294,7 +294,7 @@ public class JumpingTableau implements Tableau{
         else{
             LoggerManager.writeDebugLog("SOME UNSATISFIABLE", JumpingTableau.class);
 
-            iteration++;
+            iteration += direct.getIteration();
             for (Integer d: dependency.get(workingRule)) {
 
                 if(!clashList.contains(d))
@@ -316,6 +316,8 @@ public class JumpingTableau implements Tableau{
 
         if (someRelation.get(oe) == null){
             LoggerManager.writeDebugLog("ALL NO CONDITIONS", JumpingTableau.class);
+
+            iteration++;
 
         }
         else{
@@ -365,7 +367,8 @@ public class JumpingTableau implements Tableau{
                     if (!Tflag.SAT()) {
                         LoggerManager.writeDebugLog("ALL UNSATISFIABLE", JumpingTableau.class);
 
-                        iteration++;
+                        iteration += Tflag.getIteration();
+
                         for (Integer d: dependency.get(workingRule)) {
 
                             if(!clashList.contains(d))
@@ -385,6 +388,8 @@ public class JumpingTableau implements Tableau{
                         return false;
 
                     }
+                    LoggerManager.writeDebugLog("ALL "+workingRule+" SATISFIABLE", ChronologicalTableau.class);
+
 
                     iteration += Tflag.getIteration();
 

@@ -249,7 +249,8 @@ public class ChronologicalTableau implements Tableau{
         }
         else{
             LoggerManager.writeDebugLog("SOME UNSATISFIABLE", ChronologicalTableau.class);
-            iteration++;
+
+            iteration += direct.getIteration();
             return false;
 
         }
@@ -264,6 +265,8 @@ public class ChronologicalTableau implements Tableau{
 
         if (someRelation.get(oe) == null){
             LoggerManager.writeDebugLog("ALL NO CONDITIONS", ChronologicalTableau.class);
+
+            iteration++;
 
         }
         else{
@@ -306,7 +309,8 @@ public class ChronologicalTableau implements Tableau{
 
                     if (!Tflag.SAT()) {
                         LoggerManager.writeDebugLog("ALL UNSATISFIABLE", ChronologicalTableau.class);
-                        iteration++;
+
+                        iteration+=Tflag.getIteration();
                         return false;
 
                     }
