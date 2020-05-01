@@ -17,8 +17,7 @@ import javax.swing.SwingUtilities;
 import java.awt.Desktop;
 
 
-public class LauncherGUI extends JPanel
-        implements ActionListener {
+public class LauncherGUI extends JPanel implements ActionListener {
     static private final String newline = "\n";
     private final JButton openButton;
     private final JButton loadChronologicalLog;
@@ -28,6 +27,7 @@ public class LauncherGUI extends JPanel
     private final OWLOntologyManager man;
     private final OWLReasoner alc_chrono;
     private final OWLReasoner alc_jump;
+    OWLClassExpression expression = null;
     public LauncherGUI() {
         super(new BorderLayout());
 
@@ -36,6 +36,7 @@ public class LauncherGUI extends JPanel
         /*TABLEAU Chronological*/
         OWLReasonerFactory factoryALC_chrono = new ALCReasonerFactory();
         alc_chrono = factoryALC_chrono.createReasoner(null);
+
 
         /*TABLEAU Jumping*/
         OWLReasonerFactory factoryALC_jump = new ALCReasonerFactory("Jumping");
@@ -82,17 +83,24 @@ public class LauncherGUI extends JPanel
 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = fc.getSelectedFile();
-
+                OWLOntology ont=null;
                 try {
                     man.clearOntologies();
-                    OWLOntology ont = man.loadOntologyFromOntologyDocument(file);
-                    OWLDataFactory df = man.getOWLDataFactory();
-                    Optional<IRI> optIri = ont.getOntologyID().getOntologyIRI();
-                    assert optIri.isPresent();
-                    IRI iri = optIri.get();
-                    OWLClass flag = df.getOWLClass(iri + "#assioma");
-                    Set<OWLAxiom> ontologyAxiom = ont.axioms(flag).collect(Collectors.toSet());
+                    ont = man.loadOntologyFromOntologyDocument(file);
 
+
+
+                } catch(Exception ex){
+                    System.out.println("INVALID FILE...");
+                    log.append("\nINVALID FILE"+newline);
+                }
+                OWLDataFactory df = man.getOWLDataFactory();
+                Optional<IRI> optIri = ont.getOntologyID().getOntologyIRI();
+                assert optIri.isPresent();
+                IRI iri = optIri.get();
+                OWLClass flag = df.getOWLClass(iri + "#assioma");
+
+                Set<OWLAxiom> ontologyAxiom = ont.axioms(flag).collect(Collectors.toSet());
                     /*HERMIT*/
                     ReasonerFactory factoryHermit = new ReasonerFactory();
                     OWLReasoner hermit = factoryHermit.createReasoner(ont);
@@ -109,7 +117,6 @@ public class LauncherGUI extends JPanel
                     OWLEquivalentClassesAxiomImpl axiom = (OWLEquivalentClassesAxiomImpl) ontologyAxiom.iterator().next();
 
                     Set<OWLClassExpression> expressions = axiom.classExpressions().collect(Collectors.toSet());
-                    OWLClassExpression expression = null;
                     for (OWLClassExpression E : expressions) {
                         if (!E.isOWLClass()) {
                             expression = E;
@@ -120,7 +127,7 @@ public class LauncherGUI extends JPanel
                     if (expression != null) {
                         log.setText("");
                         log.append("\n\nOpening: " + file.getName() + "." + newline);
-                        log.append("Concetto in input:: " + expression.toString() + "." + newline);
+                        log.append("\nConcetto in input:: " + expression.toString() + "." + newline);
                         log.append("\nManchester Sintax: \n\n" + OntologyRenderer.render(expression) + "." + newline);
                         log.append("\n---------------- CHECK CONCEPT ----------------" + newline);
 
@@ -134,7 +141,10 @@ public class LauncherGUI extends JPanel
                         System.out.println("\nALC (Chronological Tableau): " + resultChrono + " (" + (chrono_EndTime - chrono_StartTime) + " milliseconds) - ("+ chronoIteration + " iterations)");
                         log.append("\nALC (Chronological Tableau): " + resultChrono + " (" + (chrono_EndTime - chrono_StartTime) + " milliseconds) - ("+ chronoIteration + " iterations)" + newline);
                         LoggerManager.writeInfoLog("ALC (Chronological Tableau): " + resultChrono, LauncherGUI.class);
-
+                        if(resultChrono) {
+                            String model = "Modello trovato: "+((ALCReasoner)alc_chrono).getModel();
+                            LoggerManager.writeInfoLog(model, LauncherGUI.class);
+                        }
                         /*JumpingTableau*/
                         LoggerManager.setFile(file.getName().replace(".owl", "") + "_Jumping", LauncherGUI.class);
                         long jump_StartTime = System.currentTimeMillis();
@@ -146,7 +156,7 @@ public class LauncherGUI extends JPanel
                         LoggerManager.writeInfoLog("ALC(Jumping Tableau): " + resultJump, LauncherGUI.class);
                         if(resultJump) {
                             String model = "Modello trovato: "+((ALCReasoner)alc_jump).getModel();
-                            LoggerManager.writeInfoLog(model, Launcher.class);
+                            LoggerManager.writeInfoLog(model, LauncherGUI.class);
                         }
 
                         /*HermiT*/
@@ -158,10 +168,7 @@ public class LauncherGUI extends JPanel
                         LoggerManager.writeInfoLog("HermiT: " + resultHermit, LauncherGUI.class);
 
                     }
-                } catch(Exception ex){
-                    System.out.println("INVALID FILE...");
-                    log.append("\nINVALID FILE"+newline);
-                }
+
             } else {
                 log.append("Command cancelled by user." + newline);
             }
