@@ -83,7 +83,10 @@ public class Launcher {
             //Integer chronoIteration=((ALCReasoner)alc_chrono).getIteration();
             System.out.println("\nALC(Chronological Tableau): " + resultChrono + " ("+(chrono_EndTime - chrono_StartTime) + " milliseconds)");
             LoggerManager.writeInfoLog("ALC(Chronological Tableau): " + resultChrono, Launcher.class);
-
+            if(resultChrono) {
+                String model = "Modello trovato: "+((ALCReasoner)alc_chrono).getModel();
+                LoggerManager.writeInfoLog(model, Launcher.class);
+            }
             /*JumpingTableau*/
             if(DEBUG) {
                 LoggerManager.setFile(ontologyFile.getName().replace(".owl", "") + "_Jumping", Launcher.class);
@@ -94,8 +97,12 @@ public class Launcher {
             //Integer jumpIteration=((ALCReasoner)alc_jump).getIteration();
             System.out.println("ALC(Jumping Tableau): " + resultJump + " ("+(jump_EndTime - jump_StartTime) + " milliseconds)");
             LoggerManager.writeInfoLog("ALC(Jumping Tableau): " + resultJump, Launcher.class);
+            if(resultJump) {
+                String model = "Modello trovato: "+((ALCReasoner)alc_jump).getModel();
+                LoggerManager.writeInfoLog(model, Launcher.class);
+            }
 
-            /*DynamicTableay*/
+            /*DynamicTableau*/
         }
     }
 

@@ -21,13 +21,28 @@ public class LauncherFileChooser extends JPanel
         implements ActionListener {
     static private final String newline = "\n";
     JButton openButton;
-    JButton loadLog;
+    JButton loadChronologicalLog;
+    JButton loadJumpingLog;
     JTextArea log;
     JFileChooser fc;
-
+    OWLOntologyManager man;
+    OWLClassExpression expression;
+    OWLReasonerFactory factoryALC_chrono;
+    OWLReasonerFactory factoryALC_jump;
+    OWLReasoner alc_chrono;
+    OWLReasoner alc_jump;
     public LauncherFileChooser() {
         super(new BorderLayout());
 
+        man = OWLManager.createOWLOntologyManager();
+
+        /*TABLEAU Chronological*/
+        factoryALC_chrono = new ALCReasonerFactory();
+        alc_chrono = factoryALC_chrono.createReasoner(null);
+
+        /*TABLEAU Jumping*/
+        factoryALC_jump = new ALCReasonerFactory("Jumping");
+        alc_jump = factoryALC_chrono.createReasoner(null);
 
         log = new JTextArea(5,20);
         log.setMargin(new Insets(5,5,5,5));
@@ -42,14 +57,19 @@ public class LauncherFileChooser extends JPanel
         openButton.setPreferredSize(new Dimension(200, 30));
         openButton.addActionListener(this);
 
-        loadLog = new JButton("Log", new ImageIcon("images/Log1.png"));
-        loadLog.setPreferredSize(new Dimension(200, 30));
-        loadLog.addActionListener(this);
+        loadChronologicalLog = new JButton("ChronoLog", new ImageIcon("images/chronoLog.png"));
+        loadChronologicalLog.setPreferredSize(new Dimension(200, 30));
+        loadChronologicalLog.addActionListener(this);
+
+        loadJumpingLog = new JButton("JumpLog", new ImageIcon("images/jumpLog.png"));
+        loadJumpingLog.setPreferredSize(new Dimension(200, 30));
+        loadJumpingLog.addActionListener(this);
 
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(openButton);
-        buttonPanel.add(loadLog);
+        buttonPanel.add(loadChronologicalLog);
+        buttonPanel.add(loadJumpingLog);
 
 
         add(buttonPanel, BorderLayout.PAGE_START);
@@ -59,8 +79,6 @@ public class LauncherFileChooser extends JPanel
 
     public void actionPerformed(ActionEvent e) {
 
-        OWLOntologyManager man = OWLManager.createOWLOntologyManager();
-        OWLClassExpression expression = null;
 
         if (e.getSource() == openButton) {
             int returnVal = fc.showOpenDialog(LauncherFileChooser.this);
@@ -76,10 +94,6 @@ public class LauncherFileChooser extends JPanel
                     IRI iri = optIri.get();
                     OWLClass flag = df.getOWLClass(iri + "#assioma");
                     Set<OWLAxiom> ontologyAxiom = ont.axioms(flag).collect(Collectors.toSet());
-
-                    /*TABLEAU Chronological*/
-                    OWLReasonerFactory factoryALC_chrono = new ALCReasonerFactory();
-                    OWLReasoner alc_chrono = factoryALC_chrono.createReasoner(null);
 
                     /*HERMIT*/
                     ReasonerFactory factoryHermit = new ReasonerFactory();
@@ -111,6 +125,7 @@ public class LauncherFileChooser extends JPanel
                         //log.append("Concetto in input:: " + expression.toString() + "." + newline);
                         log.append("\nManchester Sintax: \n\n" + OntologyRenderer.render(expression) + "." + newline);
                         log.append("\n---------------- CHECK CONCEPT ----------------" + newline);
+
                         /*ChronologicaTableau*/
                         LoggerManager.setFile(file.getName().replace(".owl", "") + "_Chronological", LauncherFileChooser.class);
                         long chrono_StartTime = System.currentTimeMillis();
@@ -119,6 +134,20 @@ public class LauncherFileChooser extends JPanel
                         System.out.println("\nALC (Chronological Tableau): " + resultChrono + " (" + (chrono_EndTime - chrono_StartTime) + " milliseconds )"); //+ chronoIteration + " iterazioni");
                         log.append("\nALC (Chronological Tableau): " + resultChrono + " (" + (chrono_EndTime - chrono_StartTime) + " milliseconds )" + newline);
                         LoggerManager.writeInfoLog("ALC (Chronological Tableau): " + resultChrono, LauncherFileChooser.class);
+
+                        /*JumpingTableau*/
+                        LoggerManager.setFile(file.getName().replace(".owl", "") + "_Jumping", LauncherFileChooser.class);
+                        long jump_StartTime = System.currentTimeMillis();
+                        boolean resultJump = alc_jump.isSatisfiable(expression);
+                        long jump_EndTime = System.currentTimeMillis();
+                        //Integer jumpIteration=((ALCReasoner)alc_jump).getIteration();
+                        System.out.println("ALC(Jumping Tableau): " + resultJump + " ("+(jump_EndTime - jump_StartTime) + " milliseconds)");
+                        log.append("\nALC (Jumping Tableau): " + resultJump + " (" + (jump_EndTime - jump_StartTime) + " milliseconds )" + newline);
+                        LoggerManager.writeInfoLog("ALC(Jumping Tableau): " + resultJump, LauncherFileChooser.class);
+                        if(resultJump) {
+                            String model = "Modello trovato: "+((ALCReasoner)alc_jump).getModel();
+                            LoggerManager.writeInfoLog(model, Launcher.class);
+                        }
 
                         /*HermiT*/
                         long hermit_StartTime = System.currentTimeMillis();
@@ -138,10 +167,29 @@ public class LauncherFileChooser extends JPanel
             }
             log.setCaretPosition(log.getDocument().getLength());
 
-        } else if (e.getSource() == loadLog) {
+        } else if (e.getSource() == loadChronologicalLog) {
             try {
                 File file = fc.getSelectedFile();
                 String fileLog = file.getName().replace(".owl", "") + "_Chronological.log";
+
+                File Log = new File("LOG/LauncherFileChooser/" + fileLog);
+
+                Desktop desktop = Desktop.getDesktop();
+                if (Log.exists()) {
+                    try {
+                        desktop.open(Log);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                }
+            } catch (Exception ex) {
+                System.out.println("NO FILE SELECTED");
+                log.append("\nNO FILE SELECTED"+newline);
+            }
+        } else if (e.getSource() == loadJumpingLog) {
+            try {
+                File file = fc.getSelectedFile();
+                String fileLog = file.getName().replace(".owl", "") + "_Jumping.log";
 
                 File Log = new File("LOG/LauncherFileChooser/" + fileLog);
 
