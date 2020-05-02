@@ -7,7 +7,6 @@ import java.nio.file.Files;
 
 /**
  * The Logger manager.
- * {@see Apache Log4j}
  */
 public class LoggerManager {
 
@@ -19,7 +18,7 @@ public class LoggerManager {
      * Write info log.
      *
      * @param msg String The text to write on the log.
-     * @param c   Class<?> The class that call the method.
+     * @param c   Class&lt;?&gt; The class that call the method.
      */
     public static void writeInfoLog(String msg, Class<?> c){
         if(enable) {
@@ -33,7 +32,7 @@ public class LoggerManager {
      * Write error log.
      *
      * @param msg String The text to write on the log.
-     * @param c   Class<?> The class that call the method.
+     * @param c   Class&lt;?&gt; The class that call the method.
      */
     public static void writeErrorLog(String msg, Class<?> c){
         if(enable) {
@@ -47,7 +46,7 @@ public class LoggerManager {
      * Write debug log.
      *
      * @param msg String The text to write on the log.
-     * @param c   Class<?> The class that call the method.
+     * @param c   Class&lt;?&gt; The class that call the method.
      */
     public static void writeDebugLog(String msg, Class<?> c) {
         if(enable) {
@@ -61,7 +60,7 @@ public class LoggerManager {
      * Sets file.
      *
      * @param name String The name of the new .log file.
-     * @param c    Class<?> The class that call the method.
+     * @param c    Class&lt;?&gt; The class that call the method.
      */
     public static void setFile(String name, Class<?> c) {
         File file = new File ("LOG/"+c.getName()+"/"+name+".log");

@@ -413,7 +413,7 @@ public class ChronologicalTableau implements Tableau{
 
     /**
      * This method is used to restore relationship maps to the state of the {@link #workingRule}.
-     * @param relation Map<OWLObjectPropertyExpression, List<Integer>>
+     * @param relation Map&lt;OWLObjectPropertyExpression, List&lt;Integer&gt;&lt;
      */
 
     private void cleanRelation(@Nonnull Map<OWLObjectPropertyExpression, List<Integer>> relation){
