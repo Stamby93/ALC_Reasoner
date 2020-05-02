@@ -7,7 +7,7 @@ import java.nio.file.Files;
 
 /**
  * The Logger manager.
- *      * {@link <a href="https://logging.apache.org/log4j/2.x/log4j-api/apidocs/index.html"> Apache Log4j</a> }
+ * * {@link <a href="https://logging.apache.org/log4j/2.x/log4j-api/apidocs/index.html"> Apache Log4j</a> }
  * {@see Apache Log4j}
  */
 public class LoggerManager {
@@ -62,7 +62,7 @@ public class LoggerManager {
      * Sets file.
      *
      * @param name String The name of the new .log file.
-     * @param c   Class<?> The class that call the method.
+     * @param c    Class<?> The class that call the method.
      */
     public static void setFile(String name, Class<?> c) {
         File file = new File ("LOG/"+c.getName()+"/"+name+".log");

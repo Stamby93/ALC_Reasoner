@@ -26,6 +26,7 @@ public interface Tableau {
     /**
      * Gets iteration.
      * The number of iterations needed for reasoning
+     *
      * @return the iteration
      */
     Integer getIteration();
