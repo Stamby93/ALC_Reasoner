@@ -61,7 +61,7 @@ public class ChronologicalTableau implements Tableau{
      * OBJECT_INTERSECTION_OF < OBJECT_UNION_OF < OBJECT_SOME_VALUES_FROM < OBJECT_ALL_VALUES_FROM < OBJECT_COMPLEMENT_OF <= OWL_CLASS
      * {@link <a href="http://owlcs.github.io/owlapi/apidocs_5/index.html"> OWLClassExpression</a> }
      */
-    private Comparator<? super OWLClassExpression> conceptComparator;
+    private final Comparator<? super OWLClassExpression> conceptComparator;
 
     /**
      * Instantiates a new Chronological tableau.
@@ -171,7 +171,7 @@ public class ChronologicalTableau implements Tableau{
      * @param intersection OWLObjectIntersectionOf The intersection to be solved.
      * @return True if after the application of the intersection a recursive call to {@link #SAT()} return true,
      * false otherwise.
-     * {@link <a href="http://owlcs.github.io/owlapi/apidocs_5/org/semanticweb/owlapi/model/OWLObjectIntersectionOf.html"> OWLObjectIntersectionOf</a> }
+     * {@link <a href="http://owlcs.github.io/owlapi/apidocs_5/org/semanticweb/owlapi/model/OWLObjectIntersectionOf.html"> OWLObjectIntersectionOf</a>}
      */
 
     private boolean applyIntersection(@Nonnull OWLObjectIntersectionOf intersection){
