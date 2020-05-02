@@ -9,23 +9,40 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
+/**
+ * The type Old node.
+ */
 public class oldNode {
 
     private final int workingRule;
 
     private int currentChoice = 0;
 
+    /**
+     * The Abox.
+     */
     protected final List<OWLClassExpression> Abox;
 
     private List<OWLClassExpression> jointedList;
 
 
+    /**
+     * Instantiates a new Old node.
+     *
+     * @param operand     the operand
+     * @param workingRule the working rule
+     */
     public oldNode(List<OWLClassExpression> operand, int workingRule) {
         this.Abox = new ArrayList<>(operand);
         this.workingRule = workingRule;
 
     }
 
+    /**
+     * Apply rule list.
+     *
+     * @return the list
+     */
     public List<OWLClassExpression> applyRule() {
         ClassExpressionType type = Abox.get(workingRule).getClassExpressionType();
         switch (type) {
@@ -57,10 +74,20 @@ public class oldNode {
     }
 
 
+    /**
+     * Gets abox.
+     *
+     * @return the abox
+     */
     public List<OWLClassExpression> getAbox() {
         return Abox;
     }
 
+    /**
+     * Has choice boolean.
+     *
+     * @return the boolean
+     */
     public boolean hasChoice() {
         return currentChoice < jointedList.size();
     }

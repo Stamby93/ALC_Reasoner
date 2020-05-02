@@ -1,24 +1,76 @@
 import org.semanticweb.owlapi.model.*;
 import uk.ac.manchester.cs.owl.owlapi.OWLObjectIntersectionOfImpl;
 
+import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Chronological Tableau is a class that implements the Tableau interface.
+ * The reasoning technique is the basic one, in particular during the backtrack
+ * phase we always return to the last concept that generated a branch.
+ */
 public class ChronologicalTableau implements Tableau{
 
+    /**
+     * The Concept list.
+     * Is a list of OWLClassExpression that will contain the expansions
+     * of the various rules. It is initialized with the input concept.
+     * {@link <a href="http://owlcs.github.io/owlapi/apidocs_5/index.html">OWLClassExpression</a> }
+     */
     private final List<OWLClassExpression> conceptList;
+
+    /**
+     * The Working rule.
+     * An int variable that tracks the current rule during reasoning.
+     */
 
     private int workingRule = 0;
 
+    /**
+     * The Some relation.
+     * A map that keeps track of existential quantifiers encountered during reasoning.
+     * The keySet is of type OWLObjectPropertyExpression, the valueSet is a list of integers.
+     * So passing the relationship type this object return a list of pointers to the {@link #conceptList}.
+     * {@link <a href="http://owlcs.github.io/owlapi/apidocs_5/org/semanticweb/owlapi/model/OWLObjectPropertyExpression.html">OWLObjectPropertyExpression</a> }
+     */
+
     private final Map<OWLObjectPropertyExpression, List<Integer>> someRelation;
+
+    /**
+     * The All relation.
+     * A map that keeps track of universal quantifiers encountered during reasoning.
+     * The keySet is of type OWLObjectPropertyExpression, the valueSet is a list of integers.
+     * So passing the relationship type this object return a list of pointers to the {@link #conceptList}.
+     * {@link <a href="http://owlcs.github.io/owlapi/apidocs_5/org/semanticweb/owlapi/model/OWLObjectPropertyExpression.html">OWLObjectPropertyExpression</a> }
+     */
 
     private final Map<OWLObjectPropertyExpression, List<Integer>> allRelation;
 
+    /**
+     * The Iterations.
+     * An int variable that acts as a counter for the number of iterations needed to complete the reasoning.
+     */
+
     private int iteration = 0;
 
-    Comparator<? super OWLClassExpression> conceptComparator;
+    /**
+     * The Concept comparator.
+     * It is an object used to reorder objects of type OWLClassExpression.
+     * The order relation is as follows:
+     * OBJECT_INTERSECTION_OF < OBJECT_UNION_OF < OBJECT_SOME_VALUES_FROM < OBJECT_ALL_VALUES_FROM < OBJECT_COMPLEMENT_OF <= OWL_CLASS
+     * {@link <a href="http://owlcs.github.io/owlapi/apidocs_5/index.html">OWLClassExpression</a> }
+     */
+    private Comparator<? super OWLClassExpression> conceptComparator;
 
-    protected ChronologicalTableau(OWLClassExpression concept, int parent) {
+    /**
+     * Instantiates a new Chronological tableau.
+     *
+     * @param concept OWLClassExpression The input concept.
+     * @param parent  int A int value used to keep track during the reasoning of existential quantifiers.
+     * {@link <a href="http://owlcs.github.io/owlapi/apidocs_5/index.html">OWLClassExpression</a> }
+     */
+    protected ChronologicalTableau(@Nonnull OWLClassExpression concept, int parent) {
 
         conceptList = new ArrayList<>();
         conceptList.add(0, concept);
@@ -115,7 +167,15 @@ public class ChronologicalTableau implements Tableau{
 
     }
 
-    private boolean applyIntersection(OWLObjectIntersectionOf intersection){
+    /**
+     *This method performs the operation of exhaustively applying the intersection rule.
+     * @param intersection OWLObjectIntersectionOf The intersection to be solved.
+     * @return True if after the application of the intersection a recursive call to {@link #SAT()} return true,
+     * false otherwise.
+     * {@link <a href="http://owlcs.github.io/owlapi/apidocs_5/org/semanticweb/owlapi/model/OWLObjectIntersectionOf.html">OWLObjectIntersectionOf</a> }
+     */
+
+    private boolean applyIntersection(@Nonnull OWLObjectIntersectionOf intersection){
         LoggerManager.writeDebugLog("Rule: " + workingRule + " INTERSECTION: "+ OntologyRenderer.render(intersection), ChronologicalTableau.class);
 
         List<OWLClassExpression> operand = intersection.operands().sorted(conceptComparator).collect(Collectors.toList());
@@ -129,7 +189,15 @@ public class ChronologicalTableau implements Tableau{
         return SAT();
     }
 
-    private boolean applyUnion(OWLObjectUnionOf union){
+    /**
+     * This method performs the operation of exhaustively applying the union rule.
+     * @param union OWLObjectUnionOf The union to be solved.
+     * @return True if after the application of the union a recursive call to {@link #SAT()} return true,
+     * false otherwise.
+     * {@link <a href="http://owlcs.github.io/owlapi/apidocs_5/org/semanticweb/owlapi/model/OWLObjectUnionOf.html">OWLObjectUnionOf</a> }
+     */
+
+    private boolean applyUnion(@Nonnull OWLObjectUnionOf union){
         LoggerManager.writeDebugLog("Rule: "+ workingRule + " UNION: " + OntologyRenderer.render(union), ChronologicalTableau.class);
 
         int rule = workingRule;
@@ -178,7 +246,17 @@ public class ChronologicalTableau implements Tableau{
 
     }
 
-    private boolean applySome(OWLObjectSomeValuesFrom someValue){
+    /**
+     * This method performs the operation of applying the existential rule.
+     * If there are no conditions for the application of the rule, it does not apply it, and
+     * the method return the value of a recursive call to {@link #SAT()}.
+     * @param someValue OWLObjectSomeValuesFrom The existential quantifier to apply.
+     * @return True if after the application of the quantifier a recursive call to {@link #SAT()} return true,
+     * false otherwise.
+     * {@link <a href="http://owlcs.github.io/owlapi/apidocs_5/org/semanticweb/owlapi/model/OWLObjectSomeValuesFrom.html">OWLObjectSomeValuesFrom</a> }
+     */
+
+    private boolean applySome(@Nonnull OWLObjectSomeValuesFrom someValue){
         LoggerManager.writeDebugLog("Rule: " + workingRule + " SOME: " + OntologyRenderer.render(someValue), ChronologicalTableau.class);
 
         Tableau direct;
@@ -254,7 +332,17 @@ public class ChronologicalTableau implements Tableau{
 
     }
 
-    private boolean applyAll(OWLObjectAllValuesFrom allValue){
+    /**
+     * This method performs the operation of applying the universal rule.
+     * If there are no conditions for the application of the rule, it does not apply it, and
+     * the method return the value of a recursive call to {@link #SAT()}.
+     * @param allValue OWLObjectAllValuesFrom The universal quantifier to apply.
+     * @return True if after the application of the quantifier a recursive call to {@link #SAT()} return true,
+     * false otherwise.
+     * {@link <a href="http://owlcs.github.io/owlapi/apidocs_5/org/semanticweb/owlapi/model/OWLObjectAllValuesFrom.html">OWLObjectAllValuesFrom</a> }
+     */
+
+    private boolean applyAll(@Nonnull OWLObjectAllValuesFrom allValue){
         LoggerManager.writeDebugLog("Rule: " + workingRule + " ALL: "+ OntologyRenderer.render(allValue), ChronologicalTableau.class);
 
         OWLClassExpression filler = allValue.getFiller();
@@ -333,7 +421,13 @@ public class ChronologicalTableau implements Tableau{
 
     }
 
-    private void cleanRelation(Map<OWLObjectPropertyExpression, List<Integer>> relation){
+    /**
+     * This method is used to restore relationship maps to the state of the {@link #workingRule}.
+     * @param relation Map<OWLObjectPropertyExpression, List<Integer>>
+     * {@link <a href="http://owlcs.github.io/owlapi/apidocs_5/org/semanticweb/owlapi/model/OWLObjectPropertyExpression.html">OWLObjectPropertyExpression</a> }
+     */
+
+    private void cleanRelation(@Nonnull Map<OWLObjectPropertyExpression, List<Integer>> relation){
         Set<OWLObjectPropertyExpression> list = relation.keySet();
         for (OWLObjectPropertyExpression oe : list) {
 
@@ -351,6 +445,11 @@ public class ChronologicalTableau implements Tableau{
         }
 
     }
+
+    /**
+     * Scroll the {@link #conceptList} until it finds a clash or the list is finish.
+     * @return boolean True if {@link #conceptList} contain a contradiction, false otherwise.
+     */
 
     private boolean checkClash() {
 

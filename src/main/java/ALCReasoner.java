@@ -7,21 +7,32 @@ import org.semanticweb.owlapi.util.Version;
 import java.util.*;
 
 /**
- * 
+ * The ALC reasoner.
  */
 public class ALCReasoner implements OWLReasoner {
 
+    /**
+     * The Tableau factory.
+     */
     public TableauFactory TableauFactory;
+    /**
+     * The Tableau.
+     */
     public Tableau Tableau = null;
     private String type = "Chronological";
 
     /**
-     * Default constructor
+     * Default constructor.
      */
     public ALCReasoner() {
         TableauFactory = new TableauFactory();
     }
 
+    /**
+     * Instantiates a new Alc reasoner.
+     *
+     * @param type String Represents the reasoning strategy to be used.
+     */
     public ALCReasoner(String type){
 
         this.type = type;
@@ -280,10 +291,20 @@ public class ALCReasoner implements OWLReasoner {
         return Tableau.SAT();
     }
 
+    /**
+     * Get model string.
+     *
+     * @return the string
+     */
     public String getModel(){
         return Tableau.getModel();
     }
 
+    /**
+     * Get iteration integer.
+     *
+     * @return the integer
+     */
     public Integer getIteration(){
         return Tableau.getIteration();
     }

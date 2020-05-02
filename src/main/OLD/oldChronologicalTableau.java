@@ -3,6 +3,9 @@ import uk.ac.manchester.cs.owl.owlapi.OWLObjectIntersectionOfImpl;
 
 import java.util.*;
 
+/**
+ * The type Old chronological tableau.
+ */
 public class oldChronologicalTableau implements Tableau{
 
     private final List<OWLClassExpression> Abox;
@@ -21,6 +24,12 @@ public class oldChronologicalTableau implements Tableau{
 
     private int iteration=0;
 
+    /**
+     * Instantiates a new Old chronological tableau.
+     *
+     * @param concept the concept
+     * @param parent  the parent
+     */
     protected oldChronologicalTableau(OWLClassExpression concept, int parent) {
 
         Abox = new ArrayList<>();
@@ -34,9 +43,12 @@ public class oldChronologicalTableau implements Tableau{
     }
 
 
-
-
-
+    /**
+     * Check some boolean.
+     *
+     * @param expression the expression
+     * @return the boolean
+     */
     public boolean checkSome(OWLClassExpression expression) {
 
         return Abox.contains(expression);
@@ -44,6 +56,11 @@ public class oldChronologicalTableau implements Tableau{
     }
 
 
+    /**
+     * Sat boolean.
+     *
+     * @return the boolean
+     */
     @Override
     public boolean SAT() {
 
@@ -248,10 +265,20 @@ public class oldChronologicalTableau implements Tableau{
 
     }
 
+    /**
+     * Gets parent.
+     *
+     * @return the parent
+     */
     public int getParent() {
         return parent;
     }
 
+    /**
+     * Gets abox.
+     *
+     * @return the abox
+     */
     public List<OWLClassExpression> getAbox() {
         return Abox;
     }
@@ -337,6 +364,11 @@ public class oldChronologicalTableau implements Tableau{
 
     }
 
+    /**
+     * Get model string.
+     *
+     * @return the string
+     */
     public String getModel(){
         String model = "";
         for (OWLClassExpression e: Abox) {
@@ -374,6 +406,11 @@ public class oldChronologicalTableau implements Tableau{
         return model;
     }
 
+    /**
+     * Get iteration integer.
+     *
+     * @return the integer
+     */
     public Integer getIteration(){
 
         int it=iteration;

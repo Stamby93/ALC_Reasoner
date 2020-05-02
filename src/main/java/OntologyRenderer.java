@@ -4,6 +4,9 @@ import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 
+/**
+ * The type Ontology renderer.
+ */
 public class OntologyRenderer {
     private static OWLObjectRenderer renderer;
     private static boolean initialized = false;
@@ -15,6 +18,12 @@ public class OntologyRenderer {
         initialized = true;
     }
 
+    /**
+     * Render string.
+     *
+     * @param object the object
+     * @return the string
+     */
     public static String render(OWLObject object){
         if(!initialized)
             initRendered();

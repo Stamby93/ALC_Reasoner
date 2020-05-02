@@ -4,6 +4,9 @@ import uk.ac.manchester.cs.owl.owlapi.OWLObjectIntersectionOfImpl;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * The type Jumping tableau.
+ */
 public class JumpingTableau implements Tableau{
 
     private final List<OWLClassExpression> conceptList;
@@ -22,6 +25,12 @@ public class JumpingTableau implements Tableau{
 
     private int iteration = 0;
 
+    /**
+     * Instantiates a new Jumping tableau.
+     *
+     * @param concept the concept
+     * @param parent  the parent
+     */
     protected JumpingTableau(OWLClassExpression concept, int parent) {
 
         conceptList = new ArrayList<>();

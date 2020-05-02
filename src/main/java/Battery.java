@@ -9,8 +9,17 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * The type Battery.
+ */
 public class Battery {
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     * @throws Exception the exception
+     */
     public static void main(String[] args) throws Exception {
         final boolean DEBUG = true;
         File dir = new File("Ontologie");

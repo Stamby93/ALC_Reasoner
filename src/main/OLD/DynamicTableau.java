@@ -3,6 +3,9 @@ import uk.ac.manchester.cs.owl.owlapi.OWLObjectIntersectionOfImpl;
 
 import java.util.*;
 
+/**
+ * The type Dynamic tableau.
+ */
 public class DynamicTableau implements Tableau{
 
     private List<OWLClassExpression> Abox;
@@ -24,6 +27,12 @@ public class DynamicTableau implements Tableau{
     private int iteration = 0;
     private int temporanyRule;
 
+    /**
+     * Instantiates a new Dynamic tableau.
+     *
+     * @param concept the concept
+     * @param parent  the parent
+     */
     protected DynamicTableau(OWLClassExpression concept, int parent) {
 
         Abox = new ArrayList<>();
@@ -37,9 +46,12 @@ public class DynamicTableau implements Tableau{
     }
 
 
-
-
-
+    /**
+     * Check some boolean.
+     *
+     * @param expression the expression
+     * @return the boolean
+     */
     public boolean checkSome(OWLClassExpression expression) {
 
         return Abox.contains(expression);
@@ -47,6 +59,11 @@ public class DynamicTableau implements Tableau{
     }
 
 
+    /**
+     * Sat boolean.
+     *
+     * @return the boolean
+     */
     @Override
     public boolean SAT() {
         LoggerManager.writeDebugLog("SAT: "+ parent, DynamicTableau.class);
@@ -272,10 +289,20 @@ public class DynamicTableau implements Tableau{
 
     }
 
+    /**
+     * Gets parent.
+     *
+     * @return the parent
+     */
     public int getParent() {
         return parent;
     }
 
+    /**
+     * Gets abox.
+     *
+     * @return the abox
+     */
     public List<OWLClassExpression> getAbox() {
         return Abox;
     }
@@ -437,6 +464,11 @@ System.out.println("CLASHHHHHH");
 
     }
 
+    /**
+     * Get model string.
+     *
+     * @return the string
+     */
     public String getModel(){
         String model = "";
         for (OWLClassExpression e: Abox) {
@@ -474,6 +506,11 @@ System.out.println("CLASHHHHHH");
         return model;
     }
 
+    /**
+     * Get iteration integer.
+     *
+     * @return the integer
+     */
     public Integer getIteration(){
 
         int it=iteration;

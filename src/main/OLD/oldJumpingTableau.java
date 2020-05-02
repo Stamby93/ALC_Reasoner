@@ -3,6 +3,9 @@ import uk.ac.manchester.cs.owl.owlapi.OWLObjectIntersectionOfImpl;
 
 import java.util.*;
 
+/**
+ * The type Old jumping tableau.
+ */
 public class oldJumpingTableau implements Tableau{
 
     private final List<OWLClassExpression> Abox;
@@ -23,6 +26,12 @@ public class oldJumpingTableau implements Tableau{
 
     private int iteration = 0;
 
+    /**
+     * Instantiates a new Old jumping tableau.
+     *
+     * @param concept the concept
+     * @param parent  the parent
+     */
     protected oldJumpingTableau(OWLClassExpression concept, int parent) {
 
         Abox = new ArrayList<>();
@@ -36,9 +45,12 @@ public class oldJumpingTableau implements Tableau{
     }
 
 
-
-
-
+    /**
+     * Check some boolean.
+     *
+     * @param expression the expression
+     * @return the boolean
+     */
     public boolean checkSome(OWLClassExpression expression) {
 
         return Abox.contains(expression);
@@ -46,6 +58,11 @@ public class oldJumpingTableau implements Tableau{
     }
 
 
+    /**
+     * Sat boolean.
+     *
+     * @return the boolean
+     */
     @Override
     public boolean SAT() {
         LoggerManager.writeDebug("SAT: "+ parent, oldJumpingTableau.class);
@@ -268,10 +285,20 @@ public class oldJumpingTableau implements Tableau{
 
     }
 
+    /**
+     * Gets parent.
+     *
+     * @return the parent
+     */
     public int getParent() {
         return parent;
     }
 
+    /**
+     * Gets abox.
+     *
+     * @return the abox
+     */
     public List<OWLClassExpression> getAbox() {
         return Abox;
     }
@@ -384,6 +411,11 @@ public class oldJumpingTableau implements Tableau{
 
     }
 
+    /**
+     * Get model string.
+     *
+     * @return the string
+     */
     public String getModel(){
         String model = "";
         for (OWLClassExpression e: Abox) {
@@ -421,6 +453,11 @@ public class oldJumpingTableau implements Tableau{
         return model;
     }
 
+    /**
+     * Get iteration integer.
+     *
+     * @return the integer
+     */
     public Integer getIteration(){
 
         int it=iteration;

@@ -17,6 +17,9 @@ import javax.swing.SwingUtilities;
 import java.awt.Desktop;
 
 
+/**
+ * The type Launcher gui.
+ */
 public class LauncherGUI extends JPanel implements ActionListener {
     static private final String newline = "\n";
     private final JButton openButton;
@@ -29,7 +32,14 @@ public class LauncherGUI extends JPanel implements ActionListener {
     private final OWLReasoner alc_chrono;
     private final OWLReasoner alc_jump;
     private boolean loggerEnabled = true;
+    /**
+     * The Expression.
+     */
     OWLClassExpression expression = null;
+
+    /**
+     * Instantiates a new Launcher gui.
+     */
     public LauncherGUI() {
         super(new BorderLayout());
 
@@ -260,6 +270,11 @@ public class LauncherGUI extends JPanel implements ActionListener {
         frame.setVisible(true);
     }
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main(String[] args) {
         //Schedule a job for the event dispatch thread:
         //creating and showing this application's GUI.

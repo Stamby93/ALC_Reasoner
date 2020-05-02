@@ -3,6 +3,9 @@ import uk.ac.manchester.cs.owl.owlapi.OWLObjectIntersectionOfImpl;
 
 import java.util.*;
 
+/**
+ * The type Chronological tableau.
+ */
 public class ChronologicalTableau implements Tableau{
 
     private final List<OWLClassExpression> conceptList;
@@ -23,6 +26,12 @@ public class ChronologicalTableau implements Tableau{
 
     private int iteration=0;
 
+    /**
+     * Instantiates a new Chronological tableau.
+     *
+     * @param concept the concept
+     * @param parent  the parent
+     */
     protected ChronologicalTableau(OWLClassExpression concept, int parent) {
 
         conceptList = new ArrayList<>();
@@ -34,6 +43,11 @@ public class ChronologicalTableau implements Tableau{
         this.parent = parent;
     }
 
+    /**
+     * Sat boolean.
+     *
+     * @return the boolean
+     */
     @Override
     public boolean SAT() {
 
@@ -387,6 +401,11 @@ public class ChronologicalTableau implements Tableau{
 
     }
 
+    /**
+     * Get model string.
+     *
+     * @return the string
+     */
     @Override
     public String getModel(){
         String model = "| ";
@@ -443,6 +462,11 @@ public class ChronologicalTableau implements Tableau{
         return model;
     }
 
+    /**
+     * Get iteration integer.
+     *
+     * @return the integer
+     */
     @Override
     public Integer getIteration(){
 
@@ -477,11 +501,21 @@ public class ChronologicalTableau implements Tableau{
         return it;
     }
 
+    /**
+     * Gets parent.
+     *
+     * @return the parent
+     */
     @Override
     public int getParent() {
         return parent;
     }
 
+    /**
+     * Gets concept list.
+     *
+     * @return the concept list
+     */
     @Override
     public List<OWLClassExpression> getConceptList() {
         return conceptList;

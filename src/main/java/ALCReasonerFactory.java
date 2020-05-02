@@ -4,30 +4,38 @@ import org.semanticweb.owlapi.reasoner.OWLReasonerConfiguration;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 
 /**
- * 
+ * The type Alc reasoner factory.
  */
 public class ALCReasonerFactory implements OWLReasonerFactory {
 
     private String type = "Chronological";
+
     /**
      * Default constructor
      */
     public ALCReasonerFactory() {
     }
 
+    /**
+     * Instantiates a new Alc reasoner factory.
+     *
+     * @param type String Represents the reasoning strategy to be used.
+     */
     public ALCReasonerFactory(String type){
         this.type = type;
     }
 
     /**
-     * @return OWLReasoner
+     * Create reasoner.
+     *
+     * @return OWLReasoner Reasoner for ALC
      */
     public OWLReasoner createReasoner() {
         return new ALCReasoner(type);
     }
 
     /**
-     * @return OWLReasoner
+     * @return OWLReasoner Reasoner for ALC
      */
     public OWLReasoner createReasoner(OWLOntology ontology) {
         if(ontology == null)

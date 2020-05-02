@@ -8,16 +8,31 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
+/**
+ * The type Node.
+ */
 public class Node implements Tableau{
 
+    /**
+     * The Working rule.
+     */
     protected int workingRule;
 
     private int currentChoice = 0;
 
     private List<OWLClassExpression> Abox;
 
+    /**
+     * The Old abox.
+     */
     protected final List<OWLClassExpression> oldAbox;
 
+    /**
+     * Instantiates a new Node.
+     *
+     * @param operand     the operand
+     * @param workingRule the working rule
+     */
     protected Node(List<OWLClassExpression> operand, int workingRule) {
         this.oldAbox = new ArrayList<>(operand);
         this.workingRule = workingRule;
@@ -69,6 +84,11 @@ public class Node implements Tableau{
         return null;
     }
 
+    /**
+     * Has choice boolean.
+     *
+     * @return the boolean
+     */
     public boolean hasChoice(){
         OWLObjectUnionOf union = (OWLObjectUnionOf) Abox.get(workingRule);
         List<OWLClassExpression> jointedList = union.operands().collect(Collectors.toList());
