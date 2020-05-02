@@ -9,13 +9,56 @@
     <version>1.0</version>
 
     <build>
+
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9</version>
+                <configuration>
+                    <tags>
+                        <tag>
+                            <name>summary</name>
+                            <placement>a</placement>
+                            <head>Miredot summary (resource title)</head>
+                        </tag>
+                        <tag>
+                            <name>title</name>
+                            <placement>a</placement>
+                            <head>Miredot summary (resource title)</head>
+                        </tag>
+                        <tag>
+                            <name>servicetag</name>
+                            <placement>a</placement>
+                            <head>Miredot resource tag (label)</head>
+                        </tag>
+                        <tag>
+                            <name>statuscode</name>
+                            <placement>a</placement>
+                            <head>Miredot resource status code(s)</head>
+                        </tag>
+                        <tag>
+                            <name>responseheader</name>
+                            <placement>a</placement>
+                            <head>Miredot response header</head>
+                        </tag>
+                    </tags>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>14</source>
+                    <target>14</target>
                 </configuration>
             </plugin>
         </plugins>
@@ -55,26 +98,6 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>RELEASE</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>net.sourceforge.owlapi</groupId>
-            <artifactId>org.semanticweb.hermit</artifactId>
-            <version>1.4.5.519</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.sourceforge.owlapi</groupId>
-            <artifactId>org.semanticweb.hermit</artifactId>
-            <version>1.4.5.519</version>
-            <scope>compile</scope>
         </dependency>
 
         <dependency>

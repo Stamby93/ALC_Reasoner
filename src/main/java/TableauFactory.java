@@ -23,14 +23,11 @@ public class TableauFactory {
      * @return the tableau
      */
     public Tableau getTableau(String type, OWLClassExpression Concept) {
-        switch (type){
-            case "Chronological":
-                return new ChronologicalTableau(Concept, -1);
-            case "Jumping":
-                return new JumpingTableau(Concept, -1);
-            default:
-                return null;
-        }
+        return switch (type) {
+            case "Chronological" -> new ChronologicalTableau(Concept, -1);
+            case "Jumping" -> new JumpingTableau(Concept, -1);
+            default -> null;
+        };
     }
 
 }

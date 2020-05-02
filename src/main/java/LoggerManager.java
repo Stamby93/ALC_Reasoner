@@ -7,7 +7,6 @@ import java.nio.file.Files;
 
 /**
  * The Logger manager.
- * * {@link <a href="https://logging.apache.org/log4j/2.x/log4j-api/apidocs/index.html"> Apache Log4j</a> }
  * {@see Apache Log4j}
  */
 public class LoggerManager {
