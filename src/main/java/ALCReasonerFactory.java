@@ -4,7 +4,7 @@ import org.semanticweb.owlapi.reasoner.OWLReasonerConfiguration;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 
 /**
- * The type Alc reasoner factory.
+ * The type ALC reasoner factory.
  */
 public class ALCReasonerFactory implements OWLReasonerFactory {
 

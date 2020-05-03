@@ -1,9 +1,9 @@
 import org.semanticweb.owlapi.model.*;
 import uk.ac.manchester.cs.owl.owlapi.OWLObjectIntersectionOfImpl;
 
-import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.stream.Collectors;
+import javax.annotation.Nonnull;
 
 /**
  * Chronological Tableau is a class that implements the Tableau interface.
