@@ -1,3 +1,5 @@
+package ALC_Reasoner;
+
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import java.io.File;

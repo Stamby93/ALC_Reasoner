@@ -1,4 +1,9 @@
+package Launcher;
 
+import ALC_Reasoner.ALCReasoner;
+import ALC_Reasoner.ALCReasonerFactory;
+import ALC_Reasoner.LoggerManager;
+import ALC_Reasoner.OntologyRenderer;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.HermiT.ReasonerFactory;
 import org.semanticweb.owlapi.model.*;
@@ -18,7 +23,7 @@ import java.awt.Desktop;
 
 
 /**
- * The type Launcher gui.
+ * The type Launcher.Launcher gui.
  */
 public class LauncherGUI extends JPanel implements ActionListener {
     static private final String newline = "\n";
@@ -38,7 +43,7 @@ public class LauncherGUI extends JPanel implements ActionListener {
     OWLClassExpression expression = null;
 
     /**
-     * Instantiates a new Launcher gui.
+     * Instantiates a new Launcher.Launcher gui.
      */
     public LauncherGUI() {
         super(new BorderLayout());
@@ -162,24 +167,24 @@ public class LauncherGUI extends JPanel implements ActionListener {
                         long chrono_EndTime = System.currentTimeMillis();
                         Integer chronoIteration=((ALCReasoner)alc_chrono).getIteration();
 
-                        System.out.println("\nALC (Chronological Tableau): " + resultChrono + " (" + (chrono_EndTime - chrono_StartTime) + " milliseconds) - ("+ chronoIteration + " iterations)");
-                        log.append("\nALC (Chronological Tableau): " + resultChrono + " (" + (chrono_EndTime - chrono_StartTime) + " milliseconds) - ("+ chronoIteration + " iterations)" + newline);
-                        LoggerManager.writeInfoLog("ALC (Chronological Tableau): " + resultChrono, LauncherGUI.class);
+                        System.out.println("\nALC (Chronological ALC_Reasoner.Tableau): " + resultChrono + " (" + (chrono_EndTime - chrono_StartTime) + " milliseconds) - ("+ chronoIteration + " iterations)");
+                        log.append("\nALC (Chronological ALC_Reasoner.Tableau): " + resultChrono + " (" + (chrono_EndTime - chrono_StartTime) + " milliseconds) - ("+ chronoIteration + " iterations)" + newline);
+                        LoggerManager.writeInfoLog("ALC (Chronological ALC_Reasoner.Tableau): " + resultChrono, LauncherGUI.class);
                         if(resultChrono) {
                             String model = "Modello trovato: "+((ALCReasoner)alc_chrono).getModel();
                             LoggerManager.writeInfoLog(model, LauncherGUI.class);
                             if(loggerEnabled)
                                 log.append(model);
                         }
-                        /*JumpingTableau*/
+                        /*ALC_Reasoner.JumpingTableau*/
                         LoggerManager.setFile(file.getName().replace(".owl", "") + "_Jumping", LauncherGUI.class);
                         long jump_StartTime = System.currentTimeMillis();
                         boolean resultJump = alc_jump.isSatisfiable(expression);
                         long jump_EndTime = System.currentTimeMillis();
                         Integer jumpIteration=((ALCReasoner)alc_jump).getIteration();
-                        System.out.println("\nALC(Jumping Tableau): " + resultJump + " ("+(jump_EndTime - jump_StartTime) + " milliseconds) - ("+jumpIteration + " iterations)");
-                        log.append("\nALC (Jumping Tableau): " + resultJump + " (" + (jump_EndTime - jump_StartTime) + " milliseconds) - ("+ jumpIteration + " iterations)" + newline);
-                        LoggerManager.writeInfoLog("ALC(Jumping Tableau): " + resultJump, LauncherGUI.class);
+                        System.out.println("\nALC(Jumping ALC_Reasoner.Tableau): " + resultJump + " ("+(jump_EndTime - jump_StartTime) + " milliseconds) - ("+jumpIteration + " iterations)");
+                        log.append("\nALC (Jumping ALC_Reasoner.Tableau): " + resultJump + " (" + (jump_EndTime - jump_StartTime) + " milliseconds) - ("+ jumpIteration + " iterations)" + newline);
+                        LoggerManager.writeInfoLog("ALC(Jumping ALC_Reasoner.Tableau): " + resultJump, LauncherGUI.class);
                         if(resultJump) {
                             String model = "Modello trovato: "+((ALCReasoner)alc_jump).getModel();
                             LoggerManager.writeInfoLog(model, LauncherGUI.class);
@@ -207,7 +212,7 @@ public class LauncherGUI extends JPanel implements ActionListener {
                 File file = fc.getSelectedFile();
                 String fileLog = file.getName().replace(".owl", "") + "_Chronological.log";
 
-                File Log = new File("LOG/LauncherGUI/" + fileLog);
+                File Log = new File("LOG/Launcher.LauncherGUI/" + fileLog);
 
                 Desktop desktop = Desktop.getDesktop();
                 if (Log.exists()) {
@@ -226,7 +231,7 @@ public class LauncherGUI extends JPanel implements ActionListener {
                 File file = fc.getSelectedFile();
                 String fileLog = file.getName().replace(".owl", "") + "_Jumping.log";
 
-                File Log = new File("LOG/LauncherGUI/" + fileLog);
+                File Log = new File("LOG/Launcher.LauncherGUI/" + fileLog);
 
                 Desktop desktop = Desktop.getDesktop();
                 if (Log.exists()) {

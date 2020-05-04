@@ -265,7 +265,7 @@
 											"top": 166,
 											"width": 122.47802734375,
 											"height": 13,
-											"text": "Tableau"
+											"text": "ALC_Reasoner.Tableau"
 										},
 										{
 											"_type": "LabelView",
@@ -497,7 +497,7 @@
 											"top": 63,
 											"width": 387.67041015625,
 											"height": 13,
-											"text": "TableauFactory"
+											"text": "ALC_Reasoner.TableauFactory"
 										},
 										{
 											"_type": "LabelView",
@@ -584,7 +584,7 @@
 											"top": 96,
 											"width": 387.67041015625,
 											"height": 13,
-											"text": "+getTableau(type: String, Concept: OWLClassExpression): Tableau",
+											"text": "+getTableau(type: String, Concept: OWLClassExpression): ALC_Reasoner.Tableau",
 											"horizontalAlignment": 0
 										}
 									],
@@ -862,7 +862,7 @@
 										"$ref": "AAAAAAFxeJBE+mOx2Kk="
 									},
 									"edgePosition": 1,
-									"text": "+TableauFactory"
+									"text": "+ALC_Reasoner.TableauFactory"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -1135,7 +1135,7 @@
 										"$ref": "AAAAAAFxeJaSBW1E+6s="
 									},
 									"edgePosition": 1,
-									"text": "+Tableau"
+									"text": "+ALC_Reasoner.Tableau"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -1421,7 +1421,7 @@
 											"top": 55,
 											"width": 252.54150390625,
 											"height": 13,
-											"text": "ALCReasoner"
+											"text": "ALC_Reasoner.ALCReasoner"
 										},
 										{
 											"_type": "LabelView",
@@ -1546,7 +1546,7 @@
 											"top": 72,
 											"width": 186.7861328125,
 											"height": 13,
-											"text": "+ALCReasoner(): ALCReasoner",
+											"text": "+ALC_Reasoner.ALCReasoner(): ALC_Reasoner.ALCReasoner",
 											"horizontalAlignment": 0
 										},
 										{
@@ -1563,7 +1563,7 @@
 											"top": 105,
 											"width": 252.54150390625,
 											"height": 13,
-											"text": "+ALCReasoner(type: String): ALCReasoner",
+											"text": "+ALC_Reasoner.ALCReasoner(type: String): ALC_Reasoner.ALCReasoner",
 											"horizontalAlignment": 0
 										},
 										{
@@ -2016,7 +2016,7 @@
 											"top": 223,
 											"width": 271,
 											"height": 13,
-											"text": "ALCReasonerFactory"
+											"text": "ALC_Reasoner.ALCReasonerFactory"
 										},
 										{
 											"_type": "LabelView",
@@ -2123,7 +2123,7 @@
 											"top": 248,
 											"width": 273.4697265625,
 											"height": 13,
-											"text": "+ALCReasonerFactory(): ALCReasonerFactory",
+											"text": "+ALC_Reasoner.ALCReasonerFactory(): ALC_Reasoner.ALCReasonerFactory",
 											"horizontalAlignment": 0
 										},
 										{
@@ -2140,7 +2140,7 @@
 											"top": 271,
 											"width": 271,
 											"height": 13,
-											"text": "+createReasoner(): ALCReasoner",
+											"text": "+createReasoner(): ALC_Reasoner.ALCReasoner",
 											"horizontalAlignment": 0
 										},
 										{
@@ -2157,7 +2157,7 @@
 											"top": 286,
 											"width": 271,
 											"height": 13,
-											"text": "+createReasoner(type: String): ALCReasoner",
+											"text": "+createReasoner(type: String): ALC_Reasoner.ALCReasoner",
 											"horizontalAlignment": 0
 										}
 									],
@@ -2451,7 +2451,7 @@
 											"top": 287,
 											"width": 517.39111328125,
 											"height": 13,
-											"text": "ChronologicalTableau"
+											"text": "ALC_Reasoner.ChronologicalTableau"
 										},
 										{
 											"_type": "LabelView",
@@ -2681,7 +2681,7 @@
 											"top": 365,
 											"width": 517.39111328125,
 											"height": 13,
-											"text": "#ChronologicalTableau(concept: OWLClassExpression, parent: int): ChronologicalTableau",
+											"text": "#ALC_Reasoner.ChronologicalTableau(concept: OWLClassExpression, parent: int): ALC_Reasoner.ChronologicalTableau",
 											"horizontalAlignment": 0
 										},
 										{
@@ -3373,7 +3373,7 @@
 											"top": 647,
 											"width": 271,
 											"height": 13,
-											"text": "LoggerManager"
+											"text": "ALC_Reasoner.LoggerManager"
 										},
 										{
 											"_type": "LabelView",
@@ -3479,7 +3479,7 @@
 											"top": 693,
 											"width": 271,
 											"height": 13,
-											"text": "-LoggerManager(): LoggerManager",
+											"text": "-ALC_Reasoner.LoggerManager(): ALC_Reasoner.LoggerManager",
 											"horizontalAlignment": 0
 										},
 										{
@@ -3752,7 +3752,7 @@
 											"top": 407,
 											"width": 212.06982421875,
 											"height": 13,
-											"text": "OntologyRenderer"
+											"text": "ALC_Reasoner.OntologyRenderer"
 										},
 										{
 											"_type": "LabelView",
@@ -4811,7 +4811,7 @@
 											"top": 607,
 											"width": 266.626953125,
 											"height": 13,
-											"text": "TestLauncher"
+											"text": "Test.TestLauncher"
 										},
 										{
 											"_type": "LabelView",
@@ -6929,7 +6929,7 @@
 										"$ref": "AAAAAAFxtin24lpuzqI="
 									},
 									"edgePosition": 1,
-									"text": "use for creating ALCReasoner"
+									"text": "use for creating ALC_Reasoner.ALCReasoner"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -7657,7 +7657,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFxeGT5G0/Q9ys="
 									},
-									"name": "TableauFactory",
+									"name": "ALC_Reasoner.TableauFactory",
 									"end1": {
 										"_type": "UMLAssociationEnd",
 										"_id": "AAAAAAFxeJBE+GOuRXA=",
@@ -7686,7 +7686,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFxeGT5G0/Q9ys="
 									},
-									"name": "Tableau",
+									"name": "ALC_Reasoner.Tableau",
 									"end1": {
 										"_type": "UMLAssociationEnd",
 										"_id": "AAAAAAFxeJaSBG1B/lo=",
@@ -7860,7 +7860,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Tableau",
+					"name": "ALC_Reasoner.Tableau",
 					"operations": [
 						{
 							"_type": "UMLOperation",
@@ -7927,7 +7927,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "TableauFactory",
+					"name": "ALC_Reasoner.TableauFactory",
 					"ownedElements": [
 						{
 							"_type": "UMLDependency",
@@ -7994,7 +7994,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "ALCReasoner",
+					"name": "ALC_Reasoner.ALCReasoner",
 					"ownedElements": [
 						{
 							"_type": "UMLInterfaceRealization",
@@ -8038,7 +8038,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFxeJfSwnHp70k="
 							},
-							"name": "ALCReasoner",
+							"name": "ALC_Reasoner.ALCReasoner",
 							"parameters": [
 								{
 									"_type": "UMLParameter",
@@ -8059,7 +8059,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFxeJfSwnHp70k="
 							},
-							"name": "ALCReasoner",
+							"name": "ALC_Reasoner.ALCReasoner",
 							"parameters": [
 								{
 									"_type": "UMLParameter",
@@ -8129,7 +8129,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "ALCReasonerFactory",
+					"name": "ALC_Reasoner.ALCReasonerFactory",
 					"ownedElements": [
 						{
 							"_type": "UMLInterfaceRealization",
@@ -8178,7 +8178,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFxeOpFhqtVLpk="
 							},
-							"name": "ALCReasonerFactory",
+							"name": "ALC_Reasoner.ALCReasonerFactory",
 							"parameters": [
 								{
 									"_type": "UMLParameter",
@@ -8524,7 +8524,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "ChronologicalTableau",
+					"name": "ALC_Reasoner.ChronologicalTableau",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -8793,7 +8793,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFxiNp8deDFElU="
 							},
-							"name": "ChronologicalTableau",
+							"name": "ALC_Reasoner.ChronologicalTableau",
 							"visibility": "protected",
 							"parameters": [
 								{
@@ -9021,7 +9021,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "LoggerManager",
+					"name": "ALC_Reasoner.LoggerManager",
 					"ownedElements": [
 						{
 							"_type": "UMLDependency",
@@ -9057,7 +9057,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFxochLoR+ote4="
 							},
-							"name": "LoggerManager",
+							"name": "ALC_Reasoner.LoggerManager",
 							"visibility": "private",
 							"parameters": [
 								{
@@ -9235,7 +9235,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "OntologyRenderer",
+					"name": "ALC_Reasoner.OntologyRenderer",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -9372,7 +9372,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "TestLauncher",
+					"name": "Test.TestLauncher",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -9573,7 +9573,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFxq9j6cXssZ5A="
 							},
-							"name": "use for creating ALCReasoner",
+							"name": "use for creating ALC_Reasoner.ALCReasoner",
 							"source": {
 								"$ref": "AAAAAAFxq9j6cXssZ5A="
 							},

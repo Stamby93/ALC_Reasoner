@@ -1,10 +1,10 @@
 LOG/Battery/*
 LOG/Launcher/*
 LOG/LauncherGUI/*
-LOG/TestLauncher/*
+LOG/Test.TestLauncher/*
 
 !LOG/.gitkeep
 !LOG/Launcher/.gitkeep
-!LOG/TestLauncher/.gitkeep
+!LOG/Test.TestLauncher/.gitkeep
 !LOG/Battery/.gitkeep
 !LOG/LauncherGUI/.gitkeep

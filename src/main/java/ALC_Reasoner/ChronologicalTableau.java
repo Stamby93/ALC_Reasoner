@@ -1,42 +1,76 @@
+package ALC_Reasoner;
+
 import org.semanticweb.owlapi.model.*;
 import uk.ac.manchester.cs.owl.owlapi.OWLObjectIntersectionOfImpl;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import javax.annotation.Nonnull;
 
 /**
- * The type Jumping tableau.
+ * Chronological ALC_Reasoner.Tableau is a class that implements the ALC_Reasoner.Tableau interface.
+ * The reasoning technique is the basic one, in particular during the backtrack
+ * phase we always return to the last concept that generated a branch.
  */
-public class JumpingTableau implements Tableau{
+public class ChronologicalTableau implements Tableau{
 
+    /**
+     * The Concept list.
+     * Is a list of OWLClassExpression that will contain the expansions
+     * of the various rules. It is initialized with the input concept.* @link <a href="http://owlcs.github.io/owlapi/apidocs_5/index.html">OWLClassExpression</a>
+     */
     private final List<OWLClassExpression> conceptList;
 
-    private final List<List<Integer>> dependency;
+    /**
+     * The Working rule.
+     * An int variable that tracks the current rule during reasoning.
+     */
 
-    private List<Integer> clashList;
+    private int workingRule = 0;
 
-    private final Comparator<? super OWLClassExpression> conceptComparator;
+    /**
+     * The Some relation.
+     * A map that keeps track of existential quantifiers encountered during reasoning.
+     * The keySet is of type OWLObjectPropertyExpression, the valueSet is a list of integers.
+     * So passing the relationship type this object return a list of pointers to the {@link #conceptList}.
+     */
 
     private final Map<OWLObjectPropertyExpression, List<Integer>> someRelation;
 
+    /**
+     * The All relation.
+     * A map that keeps track of universal quantifiers encountered during reasoning.
+     * The keySet is of type OWLObjectPropertyExpression, the valueSet is a list of integers.
+     * So passing the relationship type this object return a list of pointers to the {@link #conceptList}.
+     */
+
     private final Map<OWLObjectPropertyExpression, List<Integer>> allRelation;
 
-    private int workingRule = 0;
+    /**
+     * The Iterations.
+     * An int variable that acts as a counter for the number of iterations needed to complete the reasoning.
+     */
 
     private int iteration = 0;
 
     /**
-     * Instantiates a new Jumping tableau.
-     *
-     * @param concept the concept
-     * @param parent  the parent
+     * The Concept comparator.
+     * It is an object used to reorder objects of type OWLClassExpression.
+     * The order relation is as follows:
+     * "OBJECT_INTERSECTION_OF {@literal <} OBJECT_UNION_OF {@literal <} OBJECT_SOME_VALUES_FROM {@literal <} OBJECT_ALL_VALUES_FROM {@literal <} OBJECT_COMPLEMENT_OF {@literal <=} OWL_CLASS"
      */
-    protected JumpingTableau(OWLClassExpression concept, int parent) {
+    private final Comparator<? super OWLClassExpression> conceptComparator;
+
+    /**
+     * Instantiates a new Chronological tableau.
+     *
+     * @param concept OWLClassExpression The input concept.
+     * @param parent  int A int value used to keep track during the reasoning of existential quantifiers.
+     */
+    protected ChronologicalTableau(@Nonnull OWLClassExpression concept, int parent) {
 
         conceptList = new ArrayList<>();
         conceptList.add(0, concept);
-        dependency = new ArrayList<>();
-        dependency.add(0,Collections.singletonList(-1));
         someRelation = new HashMap<>();
         allRelation = new HashMap<>();
         conceptComparator = (Comparator<OWLClassExpression>) (expression, t1) -> {
@@ -93,7 +127,8 @@ public class JumpingTableau implements Tableau{
             }
             return -1;
         };
-        LoggerManager.writeDebugLog("SAT: "+ parent, JumpingTableau.class);
+
+        LoggerManager.writeDebugLog("SAT: "+ parent, ChronologicalTableau.class);
 
     }
 
@@ -129,40 +164,39 @@ public class JumpingTableau implements Tableau{
 
     }
 
-    private void addDependency(int start, int end, List<Integer> rule){
+    /**
+     *This method performs the operation of exhaustively applying the intersection rule.
+     * @param intersection OWLObjectIntersectionOf The intersection to be solved.
+     * @return True if after the application of the intersection a recursive call to {@link #SAT()} return true,
+     * false otherwise.
+     */
 
-        for(int i = start; i < end; i++)
-            dependency.add(i,new ArrayList<>(rule));
-
-    }
-
-    private boolean applyIntersection(OWLObjectIntersectionOf intersection){
-        LoggerManager.writeDebugLog("Rule: " + workingRule + " INTERSECTION: "+ OntologyRenderer.render(intersection), JumpingTableau.class);
+    private boolean applyIntersection(@Nonnull OWLObjectIntersectionOf intersection){
+        LoggerManager.writeDebugLog("Rule: " + workingRule + " INTERSECTION: "+ OntologyRenderer.render(intersection), ChronologicalTableau.class);
 
         List<OWLClassExpression> operand = intersection.operands().sorted(conceptComparator).collect(Collectors.toList());
-        int i = 0;
         for (OWLClassExpression owlClassExpression : operand) {
-            if (!conceptList.contains(owlClassExpression)){
+            if (!conceptList.contains(owlClassExpression))
                 conceptList.add(conceptList.size(), owlClassExpression);
-                i++;
-            }
         }
-        if(i!=0)
-            addDependency(conceptList.size() - i,conceptList.size() , dependency.get(workingRule));
+
         iteration++;
         workingRule ++;
         return SAT();
     }
 
-    private boolean applyUnion(OWLObjectUnionOf union){
-        LoggerManager.writeDebugLog("Rule: "+ workingRule + " UNION: " + OntologyRenderer.render(union), JumpingTableau.class);
+    /**
+     * This method performs the operation of exhaustively applying the union rule.
+     * @param union OWLObjectUnionOf The union to be solved.
+     * @return True if after the application of the union a recursive call to {@link #SAT()} return true,
+     * false otherwise.*/
+
+    private boolean applyUnion(@Nonnull OWLObjectUnionOf union){
+        LoggerManager.writeDebugLog("Rule: "+ workingRule + " UNION: " + OntologyRenderer.render(union), ChronologicalTableau.class);
 
         int rule = workingRule;
         List<OWLClassExpression> jointedList = union.operands().collect(Collectors.toList());
         ArrayList<OWLClassExpression> saveT = new ArrayList<>(conceptList);
-        ArrayList<List<Integer>> saveTD = new ArrayList<>(dependency);
-        ArrayList<Integer> dep = new ArrayList<>();
-        dep.add(workingRule);
         OWLClassExpression owlClassExpression;
 
         jointedList.sort(conceptComparator);
@@ -173,65 +207,54 @@ public class JumpingTableau implements Tableau{
             owlClassExpression = jointedList.get(i);
 
             if (!conceptList.contains(owlClassExpression)) {
-                LoggerManager.writeDebugLog("CHOICE " + OntologyRenderer.render(owlClassExpression), JumpingTableau.class);
+                LoggerManager.writeDebugLog("CHOICE " + OntologyRenderer.render(owlClassExpression), ChronologicalTableau.class);
 
                 conceptList.add(conceptList.size(), owlClassExpression);
 
-                addDependency(conceptList.size() - 1, conceptList.size(), dep);
-
-                if (checkClash()){
-
+                if (checkClash())
                     conceptList.remove(conceptList.size() - 1);
-                    dependency.remove(dependency.size()-1);
-
-                }
                 else {
 
                     workingRule++;
+
                     if (i == jointedList.size()-1)
                         return SAT();
 
                     if(SAT())
                         return true;
-                    else if(!clashList.contains(rule))
-                        return false;
 
-                    LoggerManager.writeDebugLog("BACKTRACK: " + rule, JumpingTableau.class);
+                    LoggerManager.writeDebugLog("BACKTRACK " + rule, ChronologicalTableau.class);
 
                     workingRule = rule;
                     cleanRelation(someRelation);
                     cleanRelation(allRelation);
                     conceptList.removeAll(Collections.unmodifiableList(conceptList));
                     conceptList.addAll(saveT);
-                    dependency.removeAll(Collections.unmodifiableList(dependency));
-                    dependency.addAll(saveTD);
 
                 }
-                //AGGIORNO DIPENDENZE PER IL PROSSIMO CONGIUNTO
-                for (Integer c: clashList ) {
-
-                    if(!dep.contains(c))
-                        dep.add(c);
-
-                }
-
-                Collections.sort(dep);
             }
         }
 
-        clashList.remove(Integer.valueOf(rule));
-
+        //NON HO PIÙ SCELTE
         return false;
 
     }
 
-    private boolean applySome(OWLObjectSomeValuesFrom someValue){
-        LoggerManager.writeDebugLog("Rule: " + workingRule + " SOME: " + OntologyRenderer.render(someValue), JumpingTableau.class);
+    /**
+     * This method performs the operation of applying the existential rule.
+     * If there are no conditions for the application of the rule, it does not apply it, and
+     * the method return the value of a recursive call to {@link #SAT()}.
+     * @param someValue OWLObjectSomeValuesFrom The existential quantifier to apply.
+     * @return True if after the application of the quantifier a recursive call to {@link #SAT()} return true,
+     * false otherwise.
+     */
+
+    private boolean applySome(@Nonnull OWLObjectSomeValuesFrom someValue){
+        LoggerManager.writeDebugLog("Rule: " + workingRule + " SOME: " + OntologyRenderer.render(someValue), ChronologicalTableau.class);
 
         Tableau direct;
         OWLObjectPropertyExpression oe = someValue.getProperty();
         OWLClassExpression filler = someValue.getFiller();
-        clashList = new ArrayList<>();
 
         List<Integer> related = new ArrayList<>();
         //VERIFICO SE INDIVIDUO HA LA RELAZIONE QUESTO
@@ -247,7 +270,7 @@ public class JumpingTableau implements Tableau{
                 flag = (OWLObjectSomeValuesFrom) conceptList.get(r);
 
                 if(filler.equals(flag.getFiller())){
-                    LoggerManager.writeDebugLog("SOME ALREADY PRESENT", JumpingTableau.class);
+                    LoggerManager.writeDebugLog("SOME ALREADY PRESENT", ChronologicalTableau.class);
 
                     workingRule++;
                     iteration ++;
@@ -268,17 +291,11 @@ public class JumpingTableau implements Tableau{
 
             ArrayList<OWLClassExpression> operands = new ArrayList<>();
 
-
             for (Integer i: allRelation.get(oe)) {
 
                 allRule = (OWLObjectAllValuesFrom)conceptList.get(i);
                 operands.add(allRule.getFiller());
-                for (Integer d: dependency.get(i)) {
 
-                    if(!clashList.contains(d))
-                        clashList.add(d);
-
-                }
             }
 
             operands.add(filler);
@@ -287,9 +304,9 @@ public class JumpingTableau implements Tableau{
 
         }
 
-        direct = new JumpingTableau(filler, workingRule);
+        direct = new ChronologicalTableau(filler, workingRule);
         if(direct.SAT()) {
-            LoggerManager.writeDebugLog("SOME "+workingRule+" SATISFIABLE", JumpingTableau.class);
+            LoggerManager.writeDebugLog("SOME "+workingRule+" SATISFIABLE", ChronologicalTableau.class);
 
             related.add(related.size(),workingRule);
             someRelation.put(oe, related);
@@ -299,30 +316,32 @@ public class JumpingTableau implements Tableau{
 
         }
         else{
-            LoggerManager.writeDebugLog("SOME UNSATISFIABLE", JumpingTableau.class);
+            LoggerManager.writeDebugLog("SOME UNSATISFIABLE", ChronologicalTableau.class);
 
             iteration += direct.getIteration();
-            for (Integer d: dependency.get(workingRule)) {
-
-                if(!clashList.contains(d))
-                    clashList.add(d);
-
-            }
-            Collections.sort(clashList);
             return false;
 
         }
 
     }
 
-    private boolean applyAll(OWLObjectAllValuesFrom allValue){
-        LoggerManager.writeDebugLog("Rule: " + workingRule + " ALL: "+ OntologyRenderer.render(allValue), JumpingTableau.class);
+    /**
+     * This method performs the operation of applying the universal rule.
+     * If there are no conditions for the application of the rule, it does not apply it, and
+     * the method return the value of a recursive call to {@link #SAT()}.
+     * @param allValue OWLObjectAllValuesFrom The universal quantifier to apply.
+     * @return True if after the application of the quantifier a recursive call to {@link #SAT()} return true,
+     * false otherwise.
+     */
+
+    private boolean applyAll(@Nonnull OWLObjectAllValuesFrom allValue){
+        LoggerManager.writeDebugLog("Rule: " + workingRule + " ALL: "+ OntologyRenderer.render(allValue), ChronologicalTableau.class);
 
         OWLClassExpression filler = allValue.getFiller();
         OWLObjectPropertyExpression oe = allValue.getProperty();
 
         if (someRelation.get(oe) == null){
-            LoggerManager.writeDebugLog("ALL NO CONDITIONS", JumpingTableau.class);
+            LoggerManager.writeDebugLog("ALL NO CONDITIONS", ChronologicalTableau.class);
 
             iteration++;
 
@@ -331,8 +350,8 @@ public class JumpingTableau implements Tableau{
 
             ArrayList<Integer> related = new ArrayList<>(someRelation.get(oe));
             ArrayList<OWLClassExpression> allRules = new ArrayList<>();
+            ArrayList<OWLClassExpression> operands;
             OWLObjectSomeValuesFrom flag;
-            clashList = new ArrayList<>();
 
             allRules.add(filler);
 
@@ -344,12 +363,6 @@ public class JumpingTableau implements Tableau{
 
                     allRule = (OWLObjectAllValuesFrom) conceptList.get(j);
                     allRules.add(allRule.getFiller());
-                    for (Integer d: dependency.get(j)) {
-
-                        if(!clashList.contains(d))
-                            clashList.add(d);
-
-                    }
 
                 }
 
@@ -363,45 +376,27 @@ public class JumpingTableau implements Tableau{
 
                 if (!filler.equals(flag.getFiller())) {
 
-                    ArrayList<OWLClassExpression> operands = new ArrayList<>();
+                    operands = new ArrayList<>();
                     operands.add(flag.getFiller());
                     operands.addAll(allRules);
                     operands.sort(conceptComparator);
 
                     OWLObjectIntersectionOf concept = new OWLObjectIntersectionOfImpl(operands);
-                    Tableau Tflag = new JumpingTableau(concept, workingRule);
+                    Tableau Tflag = new ChronologicalTableau(concept, workingRule);
 
                     if (!Tflag.SAT()) {
-                        LoggerManager.writeDebugLog("ALL UNSATISFIABLE", JumpingTableau.class);
+                        LoggerManager.writeDebugLog("ALL UNSATISFIABLE", ChronologicalTableau.class);
 
-                        iteration += Tflag.getIteration();
-
-                        for (Integer d: dependency.get(workingRule)) {
-
-                            if(!clashList.contains(d))
-                                clashList.add(d);
-
-                        }
-
-                        for (Integer d: dependency.get(integer)) {
-
-                            if(!clashList.contains(d))
-                                clashList.add(d);
-
-                        }
-
-                        Collections.sort(clashList);
-
+                        iteration+=Tflag.getIteration();
                         return false;
 
                     }
                     LoggerManager.writeDebugLog("ALL "+workingRule+" SATISFIABLE", ChronologicalTableau.class);
 
-
-                    iteration += Tflag.getIteration();
-
+                    iteration+=Tflag.getIteration();
                 }
             }
+
         }
 
         if(allRelation.get(oe) == null)
@@ -413,13 +408,17 @@ public class JumpingTableau implements Tableau{
             allRelation.put(oe,l);
 
         }
-
         workingRule++;
         return SAT();
 
     }
 
-    private void cleanRelation(Map<OWLObjectPropertyExpression, List<Integer>> relation){
+    /**
+     * This method is used to restore relationship maps to the state of the {@link #workingRule}.
+     * @param relation Map&lt;OWLObjectPropertyExpression, List&lt;Integer&gt;&lt;
+     */
+
+    private void cleanRelation(@Nonnull Map<OWLObjectPropertyExpression, List<Integer>> relation){
         Set<OWLObjectPropertyExpression> list = relation.keySet();
         for (OWLObjectPropertyExpression oe : list) {
 
@@ -438,9 +437,12 @@ public class JumpingTableau implements Tableau{
 
     }
 
-    private boolean checkClash() {
+    /**
+     * Scroll the {@link #conceptList} until it finds a clash or the list is finish.
+     * @return boolean True if {@link #conceptList} contain a contradiction, false otherwise.
+     */
 
-        clashList = new ArrayList<>();
+    private boolean checkClash() {
 
         for (int i = 0; i < conceptList.size(); i++) {
 
@@ -454,15 +456,7 @@ public class JumpingTableau implements Tableau{
                 OWLClassExpression c1 = conceptList.get(i1);
 
                 if (c.equals(c1.getComplementNNF())){
-                    LoggerManager.writeDebugLog("CLASH "+ OntologyRenderer.render(c) + " | " +OntologyRenderer.render(c1), JumpingTableau.class);
-                    clashList.addAll(dependency.get(i));
-                    for (Integer d: dependency.get(i1)) {
-
-                        if(!clashList.contains(d))
-                            clashList.add(d);
-
-                    }
-                    Collections.sort(clashList);
+                    LoggerManager.writeDebugLog("CLASH "+ OntologyRenderer.render(c) + " | " +OntologyRenderer.render(c1), ChronologicalTableau.class);
                     return true;
                 }
             }

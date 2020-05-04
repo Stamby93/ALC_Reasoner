@@ -1,4 +1,9 @@
+package Launcher;
 
+import ALC_Reasoner.ALCReasoner;
+import ALC_Reasoner.ALCReasonerFactory;
+import ALC_Reasoner.LoggerManager;
+import ALC_Reasoner.OntologyRenderer;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.HermiT.ReasonerFactory;
 import org.semanticweb.owlapi.model.*;
@@ -12,7 +17,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * The type Launcher.
+ * The type Launcher.Launcher.
  */
 public class Launcher {
 
@@ -91,13 +96,13 @@ public class Launcher {
             boolean resultChrono = alc_chrono.isSatisfiable(expression);
             long chrono_EndTime = System.currentTimeMillis();
             Integer chronoIteration = ((ALCReasoner) alc_chrono).getIteration();
-            System.out.println("\nALC(Chronological Tableau): " + resultChrono + " ("+(chrono_EndTime - chrono_StartTime) + " milliseconds) - ("+chronoIteration+" iterations)");
-            LoggerManager.writeInfoLog("ALC(Chronological Tableau): " + resultChrono, Launcher.class);
+            System.out.println("\nALC(Chronological ALC_Reasoner.Tableau): " + resultChrono + " ("+(chrono_EndTime - chrono_StartTime) + " milliseconds) - ("+chronoIteration+" iterations)");
+            LoggerManager.writeInfoLog("ALC(Chronological ALC_Reasoner.Tableau): " + resultChrono, Launcher.class);
             if(resultChrono) {
                 String model = "Modello trovato: "+((ALCReasoner)alc_chrono).getModel();
                 LoggerManager.writeInfoLog(model, Launcher.class);
             }
-            /*JumpingTableau*/
+            /*ALC_Reasoner.JumpingTableau*/
             if(DEBUG) {
                 LoggerManager.setFile(ontologyFile.getName().replace(".owl", "") + "_Jumping", Launcher.class);
             }
@@ -105,8 +110,8 @@ public class Launcher {
             boolean resultJump = alc_jump.isSatisfiable(expression);
             long jump_EndTime = System.currentTimeMillis();
             Integer jumpIteration = ((ALCReasoner) alc_jump).getIteration();
-            System.out.println("ALC(Jumping Tableau): " + resultJump + " ("+(jump_EndTime - jump_StartTime) + " milliseconds) - ("+jumpIteration+" iterations)");
-            LoggerManager.writeInfoLog("ALC(Jumping Tableau): " + resultJump, Launcher.class);
+            System.out.println("ALC(Jumping ALC_Reasoner.Tableau): " + resultJump + " ("+(jump_EndTime - jump_StartTime) + " milliseconds) - ("+jumpIteration+" iterations)");
+            LoggerManager.writeInfoLog("ALC(Jumping ALC_Reasoner.Tableau): " + resultJump, Launcher.class);
             if(resultJump) {
                 String model = "Modello trovato: "+((ALCReasoner)alc_jump).getModel();
                 LoggerManager.writeInfoLog(model, Launcher.class);

@@ -1,9 +1,11 @@
+package ALC_Reasoner;
+
 import org.semanticweb.owlapi.model.OWLClassExpression;
 
 import java.util.List;
 
 /**
- * Tableau is the interface that provides the basic functionalities for the
+ * ALC_Reasoner.Tableau is the interface that provides the basic functionalities for the
  * development of reasoning techniques based precisely on the tableau,
  * for the ALC logic.
  */

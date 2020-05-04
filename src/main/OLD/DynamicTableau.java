@@ -444,7 +444,7 @@ System.out.println("CLASHHHHHH");
                 OWLClassExpression c1 = Abox.get(i1);
 
                 if (c.equals(c1.getComplementNNF())){
-                    //LoggerManager.writeDebugLog("CLASH "+ OntologyRenderer.render(c) + " "+ OntologyRenderer.render(c1), DynamicTableau.class);
+                    //ALC_Reasoner.LoggerManager.writeDebugLog("CLASH "+ ALC_Reasoner.OntologyRenderer.render(c) + " "+ ALC_Reasoner.OntologyRenderer.render(c1), DynamicTableau.class);
                     clashList = new ArrayList<>(dependency.get(i));
                     for (Integer j:dependency.get(i1)) {
                         if(!clashList.contains(j)){

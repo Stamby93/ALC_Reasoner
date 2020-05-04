@@ -1,3 +1,4 @@
+package ALC_Reasoner;
 
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.reasoner.*;
@@ -12,11 +13,11 @@ import java.util.*;
 public class ALCReasoner implements OWLReasoner {
 
     /**
-     * The Tableau factory.
+     * The ALC_Reasoner.Tableau factory.
      */
     public TableauFactory TableauFactory;
     /**
-     * The Tableau.
+     * The ALC_Reasoner.Tableau.
      */
     public Tableau Tableau = null;
     private String type = "Chronological";
