@@ -34,8 +34,12 @@ public class LauncherGUI extends JPanel implements ActionListener {
     private final JTextArea log;
     private final JFileChooser fc;
     private final OWLOntologyManager man;
-    private final OWLReasoner alc_chrono;
-    private final OWLReasoner alc_jump;
+    private OWLReasoner alc_chrono;
+    private OWLReasoner alc_jump;
+    private final OWLReasoner LOGalc_chrono;
+    private final OWLReasoner LOGalc_jump;
+    private final OWLReasoner NoLOGalc_chrono;
+    private final OWLReasoner NoLOGalc_jump;
     private boolean loggerEnabled = true;
     /**
      * The Expression.
@@ -54,10 +58,26 @@ public class LauncherGUI extends JPanel implements ActionListener {
         OWLReasonerFactory factoryALC_chrono = new ALCReasonerFactory();
         alc_chrono = factoryALC_chrono.createReasoner(null);
 
+        NoLOGalc_chrono = alc_chrono;
 
         /*TABLEAU Jumping*/
         OWLReasonerFactory factoryALC_jump = new ALCReasonerFactory("Jumping");
         alc_jump = factoryALC_jump.createReasoner(null);
+
+        NoLOGalc_jump = alc_jump;
+
+        /*TABLEAU LOGChronological*/
+        OWLReasonerFactory LOGfactoryALC_chrono = new ALCReasonerFactory("LOGChronological");
+        LOGalc_chrono = LOGfactoryALC_chrono.createReasoner(null);
+
+
+        /*TABLEAU LOGJumping*/
+        OWLReasonerFactory LOGfactoryALC_jump = new ALCReasonerFactory("LOGJumping");
+        LOGalc_jump = LOGfactoryALC_jump.createReasoner(null);
+
+        alc_chrono = LOGalc_chrono;
+        alc_jump = LOGalc_jump;
+
 
         log = new JTextArea(5,20);
         log.setMargin(new Insets(5,5,5,5));
@@ -115,7 +135,6 @@ public class LauncherGUI extends JPanel implements ActionListener {
 
 
                 } catch(OWLOntologyCreationException ex){
-                    System.out.println("INVALID FILE...");
                     log.append("\nINVALID FILE"+newline);
                 }
                 OWLDataFactory df = man.getOWLDataFactory();
@@ -167,14 +186,12 @@ public class LauncherGUI extends JPanel implements ActionListener {
                         long chrono_EndTime = System.currentTimeMillis();
                         Integer chronoIteration=((ALCReasoner)alc_chrono).getIteration();
 
-                        System.out.println("\nALC (Chronological ALC_Reasoner.Tableau): " + resultChrono + " (" + (chrono_EndTime - chrono_StartTime) + " milliseconds) - ("+ chronoIteration + " iterations)");
-                        log.append("\nALC (Chronological ALC_Reasoner.Tableau): " + resultChrono + " (" + (chrono_EndTime - chrono_StartTime) + " milliseconds) - ("+ chronoIteration + " iterations)" + newline);
-                        LoggerManager.writeInfoLog("ALC (Chronological ALC_Reasoner.Tableau): " + resultChrono, LauncherGUI.class);
+                        log.append("\nALC (Chronological ALC_Reasoner): " + resultChrono + " (" + (chrono_EndTime - chrono_StartTime) + " milliseconds) - ("+ chronoIteration + " iterations)" + newline);
+                        LoggerManager.writeInfoLog("ALC (Chronological ALC_Reasoner): " + resultChrono, LauncherGUI.class);
                         if(resultChrono) {
-                            String model = "Modello trovato: "+((ALCReasoner)alc_chrono).getModel();
+                            String model = "Modello trovato: "+((ALCReasoner)alc_chrono).getModel()+ newline;
                             LoggerManager.writeInfoLog(model, LauncherGUI.class);
-                            if(loggerEnabled)
-                                log.append(model);
+                            log.append(model);
                         }
                         /*ALC_Reasoner.JumpingTableau*/
                         LoggerManager.setFile(file.getName().replace(".owl", "") + "_Jumping", LauncherGUI.class);
@@ -182,21 +199,18 @@ public class LauncherGUI extends JPanel implements ActionListener {
                         boolean resultJump = alc_jump.isSatisfiable(expression);
                         long jump_EndTime = System.currentTimeMillis();
                         Integer jumpIteration=((ALCReasoner)alc_jump).getIteration();
-                        System.out.println("\nALC(Jumping ALC_Reasoner.Tableau): " + resultJump + " ("+(jump_EndTime - jump_StartTime) + " milliseconds) - ("+jumpIteration + " iterations)");
-                        log.append("\nALC (Jumping ALC_Reasoner.Tableau): " + resultJump + " (" + (jump_EndTime - jump_StartTime) + " milliseconds) - ("+ jumpIteration + " iterations)" + newline);
-                        LoggerManager.writeInfoLog("ALC(Jumping ALC_Reasoner.Tableau): " + resultJump, LauncherGUI.class);
+                        log.append("\nALC (Jumping ALC_Reasoner): " + resultJump + " (" + (jump_EndTime - jump_StartTime) + " milliseconds) - ("+ jumpIteration + " iterations)" + newline);
+                        LoggerManager.writeInfoLog("ALC(Jumping ALC_Reasoner): " + resultJump, LauncherGUI.class);
                         if(resultJump) {
-                            String model = "Modello trovato: "+((ALCReasoner)alc_jump).getModel();
+                            String model = "Modello trovato: "+((ALCReasoner)alc_jump).getModel()+ newline;
                             LoggerManager.writeInfoLog(model, LauncherGUI.class);
-                            if(loggerEnabled)
-                                log.append(model);
+                            log.append(model);
                         }
 
                         /*HermiT*/
                         long hermit_StartTime = System.currentTimeMillis();
                         boolean resultHermit = hermit.isSatisfiable(expression);
                         long hermit_EndTime = System.currentTimeMillis();
-                        System.out.println("\nHermiT: " + resultHermit + " (" + (hermit_EndTime - hermit_StartTime) + " milliseconds)");
                         log.append("\nHermiT: " + resultHermit + " (" + (hermit_EndTime - hermit_StartTime) + " milliseconds)" + newline);
                         LoggerManager.writeInfoLog("HermiT: " + resultHermit, LauncherGUI.class);
 
@@ -223,7 +237,6 @@ public class LauncherGUI extends JPanel implements ActionListener {
                     }
                 }
             } catch (Exception ex) {
-                System.out.println("NO FILE SELECTED");
                 log.append("\nNO FILE SELECTED"+newline);
             }
         } else if (e.getSource() == loadJumpingLog) {
@@ -242,7 +255,6 @@ public class LauncherGUI extends JPanel implements ActionListener {
                     }
                 }
             } catch (Exception ex) {
-                System.out.println("NO FILE SELECTED");
                 log.append("\nNO FILE SELECTED"+newline);
             }
         }
@@ -252,11 +264,15 @@ public class LauncherGUI extends JPanel implements ActionListener {
                 loadJumpingLog.setEnabled(true);
                 loadChronologicalLog.setEnabled(true);
                 loggerEnabled = true;
+                alc_chrono = LOGalc_chrono;
+                alc_jump = LOGalc_jump;
             }
             else{
                 loadJumpingLog.setEnabled(false);
                 loadChronologicalLog.setEnabled(false);
                 loggerEnabled = false;
+                alc_chrono = NoLOGalc_chrono;
+                alc_jump = NoLOGalc_jump;
             }
 
         }

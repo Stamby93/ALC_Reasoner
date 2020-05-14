@@ -6,57 +6,25 @@ import uk.ac.manchester.cs.owl.owlapi.OWLObjectIntersectionOfImpl;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * The type Jumping tableau.
- */
-public class JumpingTableau extends ChronologicalTableau{
+public class LOGJumpingTableau extends JumpingTableau{
 
-    protected final List<List<Integer>> dependency;
-
-    protected List<Integer> clashList;
-
-
-    /**
-     * Instantiates a new Jumping tableau.
-     *
-     * @param concept the concept
-     * @param parent  the parent
-     */
-    protected JumpingTableau(OWLClassExpression concept, int parent) {
+    protected LOGJumpingTableau(OWLClassExpression concept, int parent) {
 
         super(concept,parent);
-        dependency = new ArrayList<>();
-        dependency.add(0,Collections.singletonList(-1));
-
-    }
-
-    protected void addDependency(int start, int end, List<Integer> rule){
-
-        for(int i = start; i < end; i++)
-            dependency.add(i,new ArrayList<>(rule));
+        LoggerManager.writeDebugLog("SAT: "+ parent, LOGJumpingTableau.class);
 
     }
 
     @Override
     protected boolean applyIntersection(OWLObjectIntersectionOf intersection){
+        LoggerManager.writeDebugLog("Rule: " + workingRule + " INTERSECTION: "+ OntologyRenderer.render(intersection), LOGJumpingTableau.class);
 
-        List<OWLClassExpression> operand = intersection.operands().sorted(conceptComparator).collect(Collectors.toList());
-        int i = 0;
-        for (OWLClassExpression owlClassExpression : operand) {
-            if (!conceptList.contains(owlClassExpression)){
-                conceptList.add(conceptList.size(), owlClassExpression);
-                i++;
-            }
-        }
-        if(i!=0)
-            addDependency(conceptList.size() - i,conceptList.size() , dependency.get(workingRule));
-        iteration++;
-        workingRule ++;
-        return SAT();
+        return super.applyIntersection(intersection);
     }
 
     @Override
     protected boolean applyUnion(OWLObjectUnionOf union){
+        LoggerManager.writeDebugLog("Rule: "+ workingRule + " UNION: " + OntologyRenderer.render(union), LOGJumpingTableau.class);
 
         int rule = workingRule;
         List<OWLClassExpression> jointedList = union.operands().collect(Collectors.toList());
@@ -74,6 +42,7 @@ public class JumpingTableau extends ChronologicalTableau{
             owlClassExpression = jointedList.get(i);
 
             if (!conceptList.contains(owlClassExpression)) {
+                LoggerManager.writeDebugLog("CHOICE " + OntologyRenderer.render(owlClassExpression), LOGJumpingTableau.class);
 
                 conceptList.add(conceptList.size(), owlClassExpression);
 
@@ -96,6 +65,7 @@ public class JumpingTableau extends ChronologicalTableau{
                     else if(!clashList.contains(rule))
                         return false;
 
+                    LoggerManager.writeDebugLog("BACKTRACK: " + rule, LOGJumpingTableau.class);
 
                     workingRule = rule;
                     cleanRelation(someRelation);
@@ -126,6 +96,7 @@ public class JumpingTableau extends ChronologicalTableau{
 
     @Override
     protected boolean applySome(OWLObjectSomeValuesFrom someValue){
+        LoggerManager.writeDebugLog("Rule: " + workingRule + " SOME: " + OntologyRenderer.render(someValue), LOGJumpingTableau.class);
 
         Tableau direct;
         OWLObjectPropertyExpression oe = someValue.getProperty();
@@ -146,6 +117,7 @@ public class JumpingTableau extends ChronologicalTableau{
                 flag = (OWLObjectSomeValuesFrom) conceptList.get(r);
 
                 if(filler.equals(flag.getFiller())){
+                    LoggerManager.writeDebugLog("SOME ALREADY PRESENT", LOGJumpingTableau.class);
 
                     workingRule++;
                     iteration ++;
@@ -185,8 +157,9 @@ public class JumpingTableau extends ChronologicalTableau{
 
         }
 
-        direct = new JumpingTableau(filler, workingRule);
+        direct = new LOGJumpingTableau(filler, workingRule);
         if(direct.SAT()) {
+            LoggerManager.writeDebugLog("SOME "+workingRule+" SATISFIABLE", LOGJumpingTableau.class);
 
             related.add(related.size(),workingRule);
             someRelation.put(oe, related);
@@ -196,6 +169,7 @@ public class JumpingTableau extends ChronologicalTableau{
 
         }
         else{
+            LoggerManager.writeDebugLog("SOME UNSATISFIABLE", LOGJumpingTableau.class);
 
             iteration += direct.getIteration();
             for (Integer d: dependency.get(workingRule)) {
@@ -213,12 +187,17 @@ public class JumpingTableau extends ChronologicalTableau{
 
     @Override
     protected boolean applyAll(OWLObjectAllValuesFrom allValue){
+        LoggerManager.writeDebugLog("Rule: " + workingRule + " ALL: "+ OntologyRenderer.render(allValue), LOGJumpingTableau.class);
 
         OWLClassExpression filler = allValue.getFiller();
         OWLObjectPropertyExpression oe = allValue.getProperty();
 
-        if (someRelation.get(oe) == null)
+        if (someRelation.get(oe) == null){
+            LoggerManager.writeDebugLog("ALL NO CONDITIONS", LOGJumpingTableau.class);
+
             iteration++;
+
+        }
         else{
 
             ArrayList<Integer> related = new ArrayList<>(someRelation.get(oe));
@@ -261,9 +240,10 @@ public class JumpingTableau extends ChronologicalTableau{
                     operands.sort(conceptComparator);
 
                     OWLObjectIntersectionOf concept = new OWLObjectIntersectionOfImpl(operands);
-                    Tableau Tflag = new JumpingTableau(concept, workingRule);
+                    Tableau Tflag = new LOGJumpingTableau(concept, workingRule);
 
                     if (!Tflag.SAT()) {
+                        LoggerManager.writeDebugLog("ALL UNSATISFIABLE", LOGJumpingTableau.class);
 
                         iteration += Tflag.getIteration();
 
@@ -286,6 +266,8 @@ public class JumpingTableau extends ChronologicalTableau{
                         return false;
 
                     }
+                    LoggerManager.writeDebugLog("ALL "+workingRule+" SATISFIABLE", ChronologicalTableau.class);
+
 
                     iteration += Tflag.getIteration();
 
@@ -325,6 +307,7 @@ public class JumpingTableau extends ChronologicalTableau{
                 OWLClassExpression c1 = conceptList.get(i1);
 
                 if (c.equals(c1.getComplementNNF())){
+                    LoggerManager.writeDebugLog("CLASH "+ OntologyRenderer.render(c) + " | " +OntologyRenderer.render(c1), LOGJumpingTableau.class);
                     clashList.addAll(dependency.get(i));
                     for (Integer d: dependency.get(i1)) {
 

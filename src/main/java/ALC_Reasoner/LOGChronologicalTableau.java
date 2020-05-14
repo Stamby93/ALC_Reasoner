@@ -1,69 +1,67 @@
 package ALC_Reasoner;
 
+
 import org.semanticweb.owlapi.model.*;
 import uk.ac.manchester.cs.owl.owlapi.OWLObjectIntersectionOfImpl;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
-/**
- * The type Jumping tableau.
- */
-public class JumpingTableau extends ChronologicalTableau{
-
-    protected final List<List<Integer>> dependency;
-
-    protected List<Integer> clashList;
+import javax.annotation.Nonnull;
 
 
-    /**
-     * Instantiates a new Jumping tableau.
-     *
-     * @param concept the concept
-     * @param parent  the parent
-     */
-    protected JumpingTableau(OWLClassExpression concept, int parent) {
+public class LOGChronologicalTableau extends ChronologicalTableau{
+
+    protected LOGChronologicalTableau(@Nonnull OWLClassExpression concept, int parent) {
 
         super(concept,parent);
-        dependency = new ArrayList<>();
-        dependency.add(0,Collections.singletonList(-1));
-
-    }
-
-    protected void addDependency(int start, int end, List<Integer> rule){
-
-        for(int i = start; i < end; i++)
-            dependency.add(i,new ArrayList<>(rule));
+        LoggerManager.writeDebugLog("SAT: "+ parent, LOGChronologicalTableau.class);
 
     }
 
     @Override
-    protected boolean applyIntersection(OWLObjectIntersectionOf intersection){
+    public boolean SAT() {
 
-        List<OWLClassExpression> operand = intersection.operands().sorted(conceptComparator).collect(Collectors.toList());
-        int i = 0;
-        for (OWLClassExpression owlClassExpression : operand) {
-            if (!conceptList.contains(owlClassExpression)){
-                conceptList.add(conceptList.size(), owlClassExpression);
-                i++;
+        if(workingRule <= conceptList.size() -1) {
+            OWLClassExpression rule = conceptList.get(workingRule);
+            ClassExpressionType type = rule.getClassExpressionType();
+            switch (type) {
+                case OBJECT_INTERSECTION_OF:
+                    return applyIntersection((OWLObjectIntersectionOf)rule);
+                case OBJECT_UNION_OF:
+                    return applyUnion((OWLObjectUnionOf)rule);
+                case OBJECT_SOME_VALUES_FROM:
+                    return applySome((OWLObjectSomeValuesFrom)rule);
+                case OBJECT_ALL_VALUES_FROM:
+                    return applyAll((OWLObjectAllValuesFrom)rule);
+                case OWL_CLASS:
+                case OBJECT_COMPLEMENT_OF:
+                    LoggerManager.writeDebugLog("Rule: "+ workingRule + " CLASS :" + OntologyRenderer.render(conceptList.get(workingRule)), JumpingTableau.class);
+
+                    iteration++;
+                    if (checkClash())
+                        return false;
+
+                    workingRule++;
+                    return SAT();
             }
+
         }
-        if(i!=0)
-            addDependency(conceptList.size() - i,conceptList.size() , dependency.get(workingRule));
-        iteration++;
-        workingRule ++;
-        return SAT();
+        return true;
+
     }
 
-    @Override
-    protected boolean applyUnion(OWLObjectUnionOf union){
+    protected boolean applyIntersection(@Nonnull OWLObjectIntersectionOf intersection){
+        LoggerManager.writeDebugLog("Rule: " + workingRule + " INTERSECTION: "+ OntologyRenderer.render(intersection), LOGChronologicalTableau.class);
+
+        return super.applyIntersection(intersection);
+    }
+
+    protected boolean applyUnion(@Nonnull OWLObjectUnionOf union){
+        LoggerManager.writeDebugLog("Rule: "+ workingRule + " UNION: " + OntologyRenderer.render(union), LOGChronologicalTableau.class);
 
         int rule = workingRule;
         List<OWLClassExpression> jointedList = union.operands().collect(Collectors.toList());
         ArrayList<OWLClassExpression> saveT = new ArrayList<>(conceptList);
-        ArrayList<List<Integer>> saveTD = new ArrayList<>(dependency);
-        ArrayList<Integer> dep = new ArrayList<>();
-        dep.add(workingRule);
         OWLClassExpression owlClassExpression;
 
         jointedList.sort(conceptComparator);
@@ -74,63 +72,45 @@ public class JumpingTableau extends ChronologicalTableau{
             owlClassExpression = jointedList.get(i);
 
             if (!conceptList.contains(owlClassExpression)) {
+                LoggerManager.writeDebugLog("CHOICE " + OntologyRenderer.render(owlClassExpression), LOGChronologicalTableau.class);
 
                 conceptList.add(conceptList.size(), owlClassExpression);
 
-                addDependency(conceptList.size() - 1, conceptList.size(), dep);
-
-                if (checkClash()){
-
+                if (checkClash())
                     conceptList.remove(conceptList.size() - 1);
-                    dependency.remove(dependency.size()-1);
-
-                }
                 else {
 
                     workingRule++;
+
                     if (i == jointedList.size()-1)
                         return SAT();
 
                     if(SAT())
                         return true;
-                    else if(!clashList.contains(rule))
-                        return false;
 
+                    LoggerManager.writeDebugLog("BACKTRACK " + rule, LOGChronologicalTableau.class);
 
                     workingRule = rule;
                     cleanRelation(someRelation);
                     cleanRelation(allRelation);
                     conceptList.removeAll(Collections.unmodifiableList(conceptList));
                     conceptList.addAll(saveT);
-                    dependency.removeAll(Collections.unmodifiableList(dependency));
-                    dependency.addAll(saveTD);
 
                 }
-                //AGGIORNO DIPENDENZE PER IL PROSSIMO CONGIUNTO
-                for (Integer c: clashList ) {
-
-                    if(!dep.contains(c))
-                        dep.add(c);
-
-                }
-
-                Collections.sort(dep);
             }
         }
 
-        clashList.remove(Integer.valueOf(rule));
-
+        //NON HO PIÙ SCELTE
         return false;
 
     }
 
-    @Override
-    protected boolean applySome(OWLObjectSomeValuesFrom someValue){
+    protected boolean applySome(@Nonnull OWLObjectSomeValuesFrom someValue){
+        LoggerManager.writeDebugLog("Rule: " + workingRule + " SOME: " + OntologyRenderer.render(someValue), LOGChronologicalTableau.class);
 
         Tableau direct;
         OWLObjectPropertyExpression oe = someValue.getProperty();
         OWLClassExpression filler = someValue.getFiller();
-        clashList = new ArrayList<>();
 
         List<Integer> related = new ArrayList<>();
         //VERIFICO SE INDIVIDUO HA LA RELAZIONE QUESTO
@@ -146,6 +126,7 @@ public class JumpingTableau extends ChronologicalTableau{
                 flag = (OWLObjectSomeValuesFrom) conceptList.get(r);
 
                 if(filler.equals(flag.getFiller())){
+                    LoggerManager.writeDebugLog("SOME ALREADY PRESENT", LOGChronologicalTableau.class);
 
                     workingRule++;
                     iteration ++;
@@ -166,17 +147,11 @@ public class JumpingTableau extends ChronologicalTableau{
 
             ArrayList<OWLClassExpression> operands = new ArrayList<>();
 
-
             for (Integer i: allRelation.get(oe)) {
 
                 allRule = (OWLObjectAllValuesFrom)conceptList.get(i);
                 operands.add(allRule.getFiller());
-                for (Integer d: dependency.get(i)) {
 
-                    if(!clashList.contains(d))
-                        clashList.add(d);
-
-                }
             }
 
             operands.add(filler);
@@ -185,8 +160,9 @@ public class JumpingTableau extends ChronologicalTableau{
 
         }
 
-        direct = new JumpingTableau(filler, workingRule);
+        direct = new LOGChronologicalTableau(filler, workingRule);
         if(direct.SAT()) {
+            LoggerManager.writeDebugLog("SOME "+workingRule+" SATISFIABLE", LOGChronologicalTableau.class);
 
             related.add(related.size(),workingRule);
             someRelation.put(oe, related);
@@ -196,35 +172,33 @@ public class JumpingTableau extends ChronologicalTableau{
 
         }
         else{
+            LoggerManager.writeDebugLog("SOME UNSATISFIABLE", LOGChronologicalTableau.class);
 
             iteration += direct.getIteration();
-            for (Integer d: dependency.get(workingRule)) {
-
-                if(!clashList.contains(d))
-                    clashList.add(d);
-
-            }
-            Collections.sort(clashList);
             return false;
 
         }
 
     }
 
-    @Override
-    protected boolean applyAll(OWLObjectAllValuesFrom allValue){
+    protected boolean applyAll(@Nonnull OWLObjectAllValuesFrom allValue){
+        LoggerManager.writeDebugLog("Rule: " + workingRule + " ALL: "+ OntologyRenderer.render(allValue), LOGChronologicalTableau.class);
 
         OWLClassExpression filler = allValue.getFiller();
         OWLObjectPropertyExpression oe = allValue.getProperty();
 
-        if (someRelation.get(oe) == null)
+        if (someRelation.get(oe) == null){
+            LoggerManager.writeDebugLog("ALL NO CONDITIONS", LOGChronologicalTableau.class);
+
             iteration++;
+
+        }
         else{
 
             ArrayList<Integer> related = new ArrayList<>(someRelation.get(oe));
             ArrayList<OWLClassExpression> allRules = new ArrayList<>();
+            ArrayList<OWLClassExpression> operands;
             OWLObjectSomeValuesFrom flag;
-            clashList = new ArrayList<>();
 
             allRules.add(filler);
 
@@ -236,12 +210,6 @@ public class JumpingTableau extends ChronologicalTableau{
 
                     allRule = (OWLObjectAllValuesFrom) conceptList.get(j);
                     allRules.add(allRule.getFiller());
-                    for (Integer d: dependency.get(j)) {
-
-                        if(!clashList.contains(d))
-                            clashList.add(d);
-
-                    }
 
                 }
 
@@ -255,42 +223,27 @@ public class JumpingTableau extends ChronologicalTableau{
 
                 if (!filler.equals(flag.getFiller())) {
 
-                    ArrayList<OWLClassExpression> operands = new ArrayList<>();
+                    operands = new ArrayList<>();
                     operands.add(flag.getFiller());
                     operands.addAll(allRules);
                     operands.sort(conceptComparator);
 
                     OWLObjectIntersectionOf concept = new OWLObjectIntersectionOfImpl(operands);
-                    Tableau Tflag = new JumpingTableau(concept, workingRule);
+                    Tableau Tflag = new LOGChronologicalTableau(concept, workingRule);
 
                     if (!Tflag.SAT()) {
+                        LoggerManager.writeDebugLog("ALL UNSATISFIABLE", LOGChronologicalTableau.class);
 
-                        iteration += Tflag.getIteration();
-
-                        for (Integer d: dependency.get(workingRule)) {
-
-                            if(!clashList.contains(d))
-                                clashList.add(d);
-
-                        }
-
-                        for (Integer d: dependency.get(integer)) {
-
-                            if(!clashList.contains(d))
-                                clashList.add(d);
-
-                        }
-
-                        Collections.sort(clashList);
-
+                        iteration+=Tflag.getIteration();
                         return false;
 
                     }
+                    LoggerManager.writeDebugLog("ALL "+workingRule+" SATISFIABLE", LOGChronologicalTableau.class);
 
-                    iteration += Tflag.getIteration();
-
+                    iteration+=Tflag.getIteration();
                 }
             }
+
         }
 
         if(allRelation.get(oe) == null)
@@ -302,16 +255,12 @@ public class JumpingTableau extends ChronologicalTableau{
             allRelation.put(oe,l);
 
         }
-
         workingRule++;
         return SAT();
 
     }
 
-    @Override
     protected boolean checkClash() {
-
-        clashList = new ArrayList<>();
 
         for (int i = 0; i < conceptList.size(); i++) {
 
@@ -325,14 +274,7 @@ public class JumpingTableau extends ChronologicalTableau{
                 OWLClassExpression c1 = conceptList.get(i1);
 
                 if (c.equals(c1.getComplementNNF())){
-                    clashList.addAll(dependency.get(i));
-                    for (Integer d: dependency.get(i1)) {
-
-                        if(!clashList.contains(d))
-                            clashList.add(d);
-
-                    }
-                    Collections.sort(clashList);
+                    LoggerManager.writeDebugLog("CLASH "+ OntologyRenderer.render(c) + " | " +OntologyRenderer.render(c1), LOGChronologicalTableau.class);
                     return true;
                 }
             }

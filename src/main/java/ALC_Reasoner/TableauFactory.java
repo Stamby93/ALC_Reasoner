@@ -29,6 +29,11 @@ public class TableauFactory {
                 return new ChronologicalTableau(Concept, -1);
             case "Jumping":
                 return new JumpingTableau(Concept, -1);
+            case "LOGChronological":
+                return new LOGChronologicalTableau(Concept, -1);
+            case "LOGJumping":
+                return new LOGJumpingTableau(Concept, -1);
+
             default:
                 return null;
         }
