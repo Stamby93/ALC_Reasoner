@@ -8,10 +8,23 @@ import java.util.stream.Collectors;
 
 /**
  * The type Jumping tableau.
+ * as suggested by the name this is the implementation of the tableau which makes use of the Jumpig (or BackJumping) Backtrack
+ * as described in Efficient and generic reasoning for modal logics Z.Li - 2008
+ * @link <a href="http://staff.cs.manchester.ac.uk/~schmidt/mltp/Thesis.pdf">Efficient and generic reasoning for modal logics Z.Li - 2008</a>
+ *
  */
 public class JumpingTableau extends ChronologicalTableau{
 
+    /**
+     * The dependency.
+     * This list contains, for each element of the {@link #conceptList}., a list of integers corresponding to the dependencies of that concept.
+     */
     protected final List<List<Integer>> dependency;
+
+    /**
+     * The clashList.
+     * The list created after a clash occurs.
+     */
 
     protected List<Integer> clashList;
 
@@ -29,6 +42,13 @@ public class JumpingTableau extends ChronologicalTableau{
         dependency.add(0,Collections.singletonList(-1));
 
     }
+
+    /**
+     * This method update the {@link #dependency}, whith the rule, for the elements from start to end
+     * @param start first element to update
+     * @param end last element to update
+     * @param rule the new dependecies for the elements
+     */
 
     protected void addDependency(int start, int end, List<Integer> rule){
 

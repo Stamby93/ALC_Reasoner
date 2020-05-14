@@ -17,7 +17,8 @@ public class ChronologicalTableau implements Tableau{
     /**
      * The Concept list.
      * Is a list of OWLClassExpression that will contain the expansions
-     * of the various rules. It is initialized with the input concept.* @link <a href="http://owlcs.github.io/owlapi/apidocs_5/index.html">OWLClassExpression</a>
+     * of the various rules. It is initialized with the input concept.
+     * @link <a href="http://owlcs.github.io/owlapi/apidocs_5/index.html">OWLClassExpression</a>
      */
     protected final List<OWLClassExpression> conceptList;
 
