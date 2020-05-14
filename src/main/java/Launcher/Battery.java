@@ -26,7 +26,6 @@ public class Battery {
      * @throws Exception the exception
      */
     public static void main(String[] args) throws Exception {
-        final boolean DEBUG = true;
         File dir = new File("Ontologie");
         File[] directoryListing = dir.listFiles();
         assert directoryListing != null;

@@ -25,8 +25,6 @@ import java.util.stream.Collectors;
  * The Test launcher.
  */
 public class TestLauncher {
-    private final boolean DEBUG = true;
-
 
     private OWLOntologyManager man;
     private String ontologyFileName;

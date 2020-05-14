@@ -12,7 +12,6 @@ import java.nio.file.Files;
  */
 public class LoggerManager {
 
-    private static boolean enable = false;
     private LoggerManager() {
     }
 
@@ -23,11 +22,11 @@ public class LoggerManager {
      * @param c   Class&lt;?&gt; The class that call the method.
      */
     public static void writeInfoLog(String msg, Class<?> c){
-        if(enable) {
-            Logger log = Logger.getLogger(c.getName());
-            PropertyConfigurator.configure("log4j.properties");
-            log.info(msg + "\n");
-        }
+
+        Logger log = Logger.getLogger(c.getName());
+        PropertyConfigurator.configure("log4j.properties");
+        log.info(msg + "\n");
+
     }
 
     /**
@@ -37,11 +36,11 @@ public class LoggerManager {
      * @param c   Class&lt;?&gt; The class that call the method.
      */
     public static void writeErrorLog(String msg, Class<?> c){
-        if(enable) {
-            Logger log = Logger.getLogger(c.getName());
-            PropertyConfigurator.configure("log4j.properties");
-            log.error(msg + "\n");
-        }
+
+        Logger log = Logger.getLogger(c.getName());
+        PropertyConfigurator.configure("log4j.properties");
+        log.error(msg + "\n");
+
     }
 
     /**
@@ -51,11 +50,9 @@ public class LoggerManager {
      * @param c   Class&lt;?&gt; The class that call the method.
      */
     public static void writeDebugLog(String msg, Class<?> c) {
-        if(enable) {
-            Logger log = Logger.getLogger(c.getName());
-            PropertyConfigurator.configure("log4j.properties");
-            log.debug(msg + "\n");
-        }
+        Logger log = Logger.getLogger(c.getName());
+        PropertyConfigurator.configure("log4j.properties");
+        log.debug(msg + "\n");
     }
 
     /**
@@ -74,7 +71,6 @@ public class LoggerManager {
             }
         }
         System.setProperty("logfile.name","LOG/"+c.getName()+"/"+name+".log");
-        enable = true;
     }
 
 
