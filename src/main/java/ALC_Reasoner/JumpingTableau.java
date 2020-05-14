@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 /**
  * The type Jumping tableau.
  * as suggested by the name this is the implementation of the tableau which makes use of the Jumpig (or BackJumping) Backtrack
- * as described in Efficient and generic reasoning for modal logics, Z.Li - 2008
+ * as described in the chapther 3.5 of the  "Efficient and generic reasoning for modal logics", Z.Li, 2008.
  * @see <a href="http://staff.cs.manchester.ac.uk/~schmidt/mltp/Thesis.pdf">Efficient and generic reasoning for modal logics</a>
  *
  */
