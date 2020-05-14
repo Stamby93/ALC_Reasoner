@@ -24,7 +24,7 @@ public class LoggerManager {
     public static void writeInfoLog(String msg, Class<?> c){
 
         Logger log = Logger.getLogger(c.getName());
-        PropertyConfigurator.configure("log4j.properties");
+        PropertyConfigurator.configure("src/main/resources/log4j.properties");
         log.info(msg + "\n");
 
     }
@@ -38,7 +38,7 @@ public class LoggerManager {
     public static void writeErrorLog(String msg, Class<?> c){
 
         Logger log = Logger.getLogger(c.getName());
-        PropertyConfigurator.configure("log4j.properties");
+        PropertyConfigurator.configure("src/main/resources/log4j.properties");
         log.error(msg + "\n");
 
     }
@@ -51,7 +51,7 @@ public class LoggerManager {
      */
     public static void writeDebugLog(String msg, Class<?> c) {
         Logger log = Logger.getLogger(c.getName());
-        PropertyConfigurator.configure("log4j.properties");
+        PropertyConfigurator.configure("src/main/resources/log4j.properties");
         log.debug(msg + "\n");
     }
 
