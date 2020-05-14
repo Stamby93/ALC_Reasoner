@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
 
 /**
  * The type Launcher.Battery.
+ * This class was implemented with the aim of making a direct comparison
+ * between the performances of the Chronological and those of the Jumping Tableau
  */
 public class Battery {
 
