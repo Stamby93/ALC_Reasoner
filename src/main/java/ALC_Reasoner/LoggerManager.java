@@ -64,12 +64,14 @@ public class LoggerManager {
      * @param name String The name of the new .log file.
      * @param c    Class&lt;?&gt; The class that call the method.
      */
-    public static void setFile(String name, Class<?> c) {
+    public static void setFile(String name, Class<?> c, boolean overW) {
         File file = new File ("LOG/"+c.getName()+"/"+name+".log");
-        try {
-            Files.deleteIfExists(file.toPath());
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(overW){
+            try {
+                Files.deleteIfExists(file.toPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         System.setProperty("logfile.name","LOG/"+c.getName()+"/"+name+".log");
         enable = true;

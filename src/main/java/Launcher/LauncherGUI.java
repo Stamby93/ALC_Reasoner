@@ -150,7 +150,7 @@ public class LauncherGUI extends JPanel implements ActionListener {
 
                     /*Logger*/
                     if(loggerEnabled)
-                        LoggerManager.setFile(file.getName().replace(".owl", ""), LauncherGUI.class);
+                        LoggerManager.setFile(file.getName().replace(".owl", ""), LauncherGUI.class, true);
 
 
                     if (ontologyAxiom.size() > 1) {
@@ -180,7 +180,7 @@ public class LauncherGUI extends JPanel implements ActionListener {
                         log.append("\n---------------- CHECK CONCEPT ----------------" + newline);
 
                         /*ChronologicaTableau*/
-                        LoggerManager.setFile(file.getName().replace(".owl", "") + "_Chronological", LauncherGUI.class);
+                        LoggerManager.setFile(file.getName().replace(".owl", "") + "_Chronological", LauncherGUI.class, true);
                         long chrono_StartTime = System.currentTimeMillis();
                         boolean resultChrono = alc_chrono.isSatisfiable(expression);
                         long chrono_EndTime = System.currentTimeMillis();
@@ -194,7 +194,7 @@ public class LauncherGUI extends JPanel implements ActionListener {
                             log.append(model);
                         }
                         /*ALC_Reasoner.JumpingTableau*/
-                        LoggerManager.setFile(file.getName().replace(".owl", "") + "_Jumping", LauncherGUI.class);
+                        LoggerManager.setFile(file.getName().replace(".owl", "") + "_Jumping", LauncherGUI.class, true);
                         long jump_StartTime = System.currentTimeMillis();
                         boolean resultJump = alc_jump.isSatisfiable(expression);
                         long jump_EndTime = System.currentTimeMillis();
@@ -212,7 +212,6 @@ public class LauncherGUI extends JPanel implements ActionListener {
                         boolean resultHermit = hermit.isSatisfiable(expression);
                         long hermit_EndTime = System.currentTimeMillis();
                         log.append("\nHermiT: " + resultHermit + " (" + (hermit_EndTime - hermit_StartTime) + " milliseconds)" + newline);
-                        LoggerManager.writeInfoLog("HermiT: " + resultHermit, LauncherGUI.class);
 
                     }
 
@@ -221,7 +220,8 @@ public class LauncherGUI extends JPanel implements ActionListener {
             }
             log.setCaretPosition(log.getDocument().getLength());
 
-        } else if (e.getSource() == loadChronologicalLog) {
+        }
+        else if (e.getSource() == loadChronologicalLog) {
             try {
                 File file = fc.getSelectedFile();
                 String fileLog = file.getName().replace(".owl", "") + "_Chronological.log";
@@ -239,7 +239,8 @@ public class LauncherGUI extends JPanel implements ActionListener {
             } catch (Exception ex) {
                 log.append("\nNO FILE SELECTED"+newline);
             }
-        } else if (e.getSource() == loadJumpingLog) {
+        }
+        else if (e.getSource() == loadJumpingLog) {
             try {
                 File file = fc.getSelectedFile();
                 String fileLog = file.getName().replace(".owl", "") + "_Jumping.log";

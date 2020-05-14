@@ -1,0 +1,49 @@
+2020-05-14   17:42:40   DEBUG   - SAT: -1
+
+2020-05-14   17:42:40   DEBUG   - Rule: 0 INTERSECTION: (A or B)
+ and (A2 or B2)
+ and ((not (B)) or (R only (S only A)))
+ and (R some (S some (not (A))))
+
+2020-05-14   17:42:40   DEBUG   - Rule: 1 UNION: A or B
+
+2020-05-14   17:42:40   DEBUG   - CHOICE A
+
+2020-05-14   17:42:40   DEBUG   - Rule: 2 UNION: A2 or B2
+
+2020-05-14   17:42:40   DEBUG   - CHOICE A2
+
+2020-05-14   17:42:40   DEBUG   - Rule: 3 UNION: (not (B)) or (R only (S only A))
+
+2020-05-14   17:42:40   DEBUG   - CHOICE R only (S only A)
+
+2020-05-14   17:42:40   DEBUG   - CLASH R some (S some (not (A))) | R only (S only A)
+
+2020-05-14   17:42:40   DEBUG   - CHOICE not (B)
+
+2020-05-14   17:42:40   DEBUG   - Rule: 4 SOME: R some (S some (not (A)))
+
+2020-05-14   17:42:40   DEBUG   - SAT: 4
+
+2020-05-14   17:42:40   DEBUG   - Rule: 0 SOME: S some (not (A))
+
+2020-05-14   17:42:40   DEBUG   - SAT: 0
+
+2020-05-14   17:42:40   DEBUG   - Rule: 0 CLASS :not (A)
+
+2020-05-14   17:42:40   DEBUG   - SOME 0 SATISFIABLE
+
+2020-05-14   17:42:40   DEBUG   - SOME 4 SATISFIABLE
+
+2020-05-14   17:42:40   DEBUG   - Rule: 5 CLASS :A
+
+2020-05-14   17:42:40   DEBUG   - Rule: 6 CLASS :A2
+
+2020-05-14   17:42:40   DEBUG   - Rule: 7 CLASS :not (B)
+
+2020-05-14   17:42:40   INFO    - ALC(ChronologicalTableau): true
+
+2020-05-14   17:42:40   INFO    - Iterazioni: 9
+
+2020-05-14   17:42:40   INFO    - Model: | R some (S some (not (A))) | A | A2 | not (B) | 
+

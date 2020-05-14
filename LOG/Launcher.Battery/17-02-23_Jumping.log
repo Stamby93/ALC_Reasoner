@@ -1,0 +1,54 @@
+2020-05-14   17:42:38   DEBUG   - SAT: -1
+
+2020-05-14   17:42:38   DEBUG   - Rule: 0 INTERSECTION: (A or B)
+ and ((not (A)) or (S only (R some A)))
+ and ((not (B)) or (R some A))
+ and ((S some B) or (S some (R only (not (A)))))
+
+2020-05-14   17:42:38   DEBUG   - Rule: 1 UNION: A or B
+
+2020-05-14   17:42:38   DEBUG   - CHOICE A
+
+2020-05-14   17:42:38   DEBUG   - Rule: 2 UNION: (not (A)) or (S only (R some A))
+
+2020-05-14   17:42:38   DEBUG   - CHOICE S only (R some A)
+
+2020-05-14   17:42:38   DEBUG   - Rule: 3 UNION: (not (B)) or (R some A)
+
+2020-05-14   17:42:38   DEBUG   - CHOICE R some A
+
+2020-05-14   17:42:38   DEBUG   - Rule: 4 UNION: (S some B) or (S some (R only (not (A))))
+
+2020-05-14   17:42:38   DEBUG   - CHOICE S some B
+
+2020-05-14   17:42:38   DEBUG   - Rule: 6 ALL: S only (R some A)
+
+2020-05-14   17:42:38   DEBUG   - ALL NO CONDITIONS
+
+2020-05-14   17:42:38   DEBUG   - Rule: 7 SOME: R some A
+
+2020-05-14   17:42:38   DEBUG   - SAT: 7
+
+2020-05-14   17:42:38   DEBUG   - SOME 7 SATISFIABLE
+
+2020-05-14   17:42:38   DEBUG   - Rule: 8 SOME: S some B
+
+2020-05-14   17:42:38   DEBUG   - SAT: 8
+
+2020-05-14   17:42:38   DEBUG   - Rule: 0 INTERSECTION: B
+ and (R some A)
+
+2020-05-14   17:42:38   DEBUG   - Rule: 1 SOME: R some A
+
+2020-05-14   17:42:38   DEBUG   - SAT: 1
+
+2020-05-14   17:42:38   DEBUG   - SOME 1 SATISFIABLE
+
+2020-05-14   17:42:38   DEBUG   - SOME 8 SATISFIABLE
+
+2020-05-14   17:42:38   INFO    - ALC(JumpingTableau): true
+
+2020-05-14   17:42:38   INFO    - Iterazioni: 11
+
+2020-05-14   17:42:38   INFO    - Model: | A | S only (R some A) | R some A | S some B | 
+

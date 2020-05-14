@@ -1,0 +1,15 @@
+2020-05-14   17:42:39   DEBUG   - SAT: -1
+
+2020-05-14   17:42:39   DEBUG   - Rule: 0 INTERSECTION: Nothing
+ and (B or A)
+
+2020-05-14   17:42:39   DEBUG   - Rule: 1 UNION: B or A
+
+2020-05-14   17:42:39   DEBUG   - CHOICE B
+
+2020-05-14   17:42:39   DEBUG   - CHOICE A
+
+2020-05-14   17:42:39   INFO    - ALC(JumpingTableau): false
+
+2020-05-14   17:42:39   INFO    - Iterazioni: 3
+

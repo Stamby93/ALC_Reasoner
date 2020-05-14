@@ -1,0 +1,43 @@
+2020-05-14   17:42:37   DEBUG   - SAT: -1
+
+2020-05-14   17:42:37   DEBUG   - Rule: 0 INTERSECTION: D
+ and ((S some (not (A))) or (S some (R only A)))
+ and ((S only (not (C))) or (S only (R some (not (A)))))
+
+2020-05-14   17:42:37   DEBUG   - Rule: 1 UNION: (S some (not (A))) or (S some (R only A))
+
+2020-05-14   17:42:37   DEBUG   - CHOICE S some (not (A))
+
+2020-05-14   17:42:37   DEBUG   - Rule: 2 UNION: (S only (not (C))) or (S only (R some (not (A))))
+
+2020-05-14   17:42:37   DEBUG   - CHOICE S only (not (C))
+
+2020-05-14   17:42:37   DEBUG   - Rule: 3 CLASS :D
+
+2020-05-14   17:42:37   DEBUG   - Rule: 4 SOME: S some (not (A))
+
+2020-05-14   17:42:37   DEBUG   - SAT: 4
+
+2020-05-14   17:42:37   DEBUG   - Rule: 0 CLASS :not (A)
+
+2020-05-14   17:42:37   DEBUG   - SOME 4 SATISFIABLE
+
+2020-05-14   17:42:37   DEBUG   - Rule: 5 ALL: S only (not (C))
+
+2020-05-14   17:42:37   DEBUG   - SAT: 5
+
+2020-05-14   17:42:37   DEBUG   - Rule: 0 INTERSECTION: (not (A))
+ and (not (C))
+
+2020-05-14   17:42:37   DEBUG   - Rule: 1 CLASS :not (A)
+
+2020-05-14   17:42:37   DEBUG   - Rule: 2 CLASS :not (C)
+
+2020-05-14   17:42:37   DEBUG   - ALL 5 SATISFIABLE
+
+2020-05-14   17:42:37   INFO    - ALC(ChronologicalTableau): true
+
+2020-05-14   17:42:37   INFO    - Iterazioni: 8
+
+2020-05-14   17:42:37   INFO    - Model: | D | S some (not (A)) | S only (not (C)) | 
+

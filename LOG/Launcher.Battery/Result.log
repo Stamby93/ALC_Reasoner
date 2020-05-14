@@ -1,0 +1,246 @@
+2020-05-14   17:42:29   INFO    - 18-02-08_(1).owl
+
+2020-05-14   17:42:29   INFO    - ALC(ChronologicalTableau): true (974 milliseconds) - (17 iterations)
+
+2020-05-14   17:42:29   INFO    - ALC(JumpingTableau): true (349 milliseconds) - (17 iterations)
+
+2020-05-14   17:42:30   INFO    - False2.owl
+
+2020-05-14   17:42:30   INFO    - ALC(ChronologicalTableau): false (175 milliseconds) - (15 iterations)
+
+2020-05-14   17:42:30   INFO    - ALC(JumpingTableau): false (161 milliseconds) - (15 iterations)
+
+2020-05-14   17:42:31   INFO    - False4.owl
+
+2020-05-14   17:42:31   INFO    - ALC(ChronologicalTableau): false (670 milliseconds) - (33 iterations)
+
+2020-05-14   17:42:31   INFO    - ALC(JumpingTableau): false (343 milliseconds) - (33 iterations)
+
+2020-05-14   17:42:31   INFO    - False1.owl
+
+2020-05-14   17:42:31   INFO    - ALC(ChronologicalTableau): false (38 milliseconds) - (9 iterations)
+
+2020-05-14   17:42:31   INFO    - ALC(JumpingTableau): false (34 milliseconds) - (6 iterations)
+
+2020-05-14   17:42:32   INFO    - False8.owl
+
+2020-05-14   17:42:32   INFO    - ALC(ChronologicalTableau): false (17 milliseconds) - (3 iterations)
+
+2020-05-14   17:42:32   INFO    - ALC(JumpingTableau): false (32 milliseconds) - (3 iterations)
+
+2020-05-14   17:42:32   INFO    - True16.owl
+
+2020-05-14   17:42:32   INFO    - ALC(ChronologicalTableau): true (267 milliseconds) - (32 iterations)
+
+2020-05-14   17:42:32   INFO    - ALC(JumpingTableau): true (222 milliseconds) - (32 iterations)
+
+2020-05-14   17:42:32   INFO    - False12.owl
+
+2020-05-14   17:42:32   INFO    - ALC(ChronologicalTableau): false (25 milliseconds) - (4 iterations)
+
+2020-05-14   17:42:32   INFO    - ALC(JumpingTableau): false (12 milliseconds) - (4 iterations)
+
+2020-05-14   17:42:33   INFO    - True15.owl
+
+2020-05-14   17:42:33   INFO    - ALC(ChronologicalTableau): true (28 milliseconds) - (7 iterations)
+
+2020-05-14   17:42:33   INFO    - ALC(JumpingTableau): true (18 milliseconds) - (7 iterations)
+
+2020-05-14   17:42:33   INFO    - 18-02-08_(3).owl
+
+2020-05-14   17:42:33   INFO    - ALC(ChronologicalTableau): true (221 milliseconds) - (30 iterations)
+
+2020-05-14   17:42:33   INFO    - ALC(JumpingTableau): true (91 milliseconds) - (21 iterations)
+
+2020-05-14   17:42:33   INFO    - 18-02-08.owl
+
+2020-05-14   17:42:33   INFO    - ALC(ChronologicalTableau): true (76 milliseconds) - (18 iterations)
+
+2020-05-14   17:42:33   INFO    - ALC(JumpingTableau): true (64 milliseconds) - (15 iterations)
+
+2020-05-14   17:42:33   INFO    - False11.owl
+
+2020-05-14   17:42:33   INFO    - ALC(ChronologicalTableau): false (24 milliseconds) - (4 iterations)
+
+2020-05-14   17:42:33   INFO    - ALC(JumpingTableau): false (20 milliseconds) - (4 iterations)
+
+2020-05-14   17:42:33   INFO    - False5.owl
+
+2020-05-14   17:42:33   INFO    - ALC(ChronologicalTableau): false (12 milliseconds) - (3 iterations)
+
+2020-05-14   17:42:33   INFO    - ALC(JumpingTableau): false (16 milliseconds) - (3 iterations)
+
+2020-05-14   17:42:36   INFO    - True11.owl
+
+2020-05-14   17:42:36   INFO    - ALC(ChronologicalTableau): true (1933 milliseconds) - (316 iterations)
+
+2020-05-14   17:42:36   INFO    - ALC(JumpingTableau): true (376 milliseconds) - (94 iterations)
+
+2020-05-14   17:42:36   INFO    - 18-02-08_(2).owl
+
+2020-05-14   17:42:36   INFO    - ALC(ChronologicalTableau): true (42 milliseconds) - (17 iterations)
+
+2020-05-14   17:42:36   INFO    - ALC(JumpingTableau): true (39 milliseconds) - (17 iterations)
+
+2020-05-14   17:42:37   INFO    - True1.owl
+
+2020-05-14   17:42:37   INFO    - ALC(ChronologicalTableau): true (16 milliseconds) - (8 iterations)
+
+2020-05-14   17:42:37   INFO    - ALC(JumpingTableau): true (14 milliseconds) - (8 iterations)
+
+2020-05-14   17:42:37   INFO    - True12.owl
+
+2020-05-14   17:42:37   INFO    - ALC(ChronologicalTableau): true (23 milliseconds) - (7 iterations)
+
+2020-05-14   17:42:37   INFO    - ALC(JumpingTableau): true (14 milliseconds) - (7 iterations)
+
+2020-05-14   17:42:37   INFO    - True13.owl
+
+2020-05-14   17:42:37   INFO    - ALC(ChronologicalTableau): true (14 milliseconds) - (8 iterations)
+
+2020-05-14   17:42:37   INFO    - ALC(JumpingTableau): true (13 milliseconds) - (8 iterations)
+
+2020-05-14   17:42:37   INFO    - 06-07-24.owl
+
+2020-05-14   17:42:37   INFO    - ALC(ChronologicalTableau): true (28 milliseconds) - (10 iterations)
+
+2020-05-14   17:42:37   INFO    - ALC(JumpingTableau): true (17 milliseconds) - (10 iterations)
+
+2020-05-14   17:42:37   INFO    - 09-06-01.owl
+
+2020-05-14   17:42:37   INFO    - ALC(ChronologicalTableau): true (119 milliseconds) - (59 iterations)
+
+2020-05-14   17:42:37   INFO    - ALC(JumpingTableau): true (115 milliseconds) - (42 iterations)
+
+2020-05-14   17:42:37   INFO    - AnotA.owl
+
+2020-05-14   17:42:37   INFO    - ALC(ChronologicalTableau): false (6 milliseconds) - (2 iterations)
+
+2020-05-14   17:42:37   INFO    - ALC(JumpingTableau): false (4 milliseconds) - (2 iterations)
+
+2020-05-14   17:42:37   INFO    - True14.owl
+
+2020-05-14   17:42:37   INFO    - ALC(ChronologicalTableau): true (17 milliseconds) - (9 iterations)
+
+2020-05-14   17:42:37   INFO    - ALC(JumpingTableau): true (16 milliseconds) - (9 iterations)
+
+2020-05-14   17:42:38   INFO    - True8.owl
+
+2020-05-14   17:42:38   INFO    - ALC(ChronologicalTableau): true (76 milliseconds) - (24 iterations)
+
+2020-05-14   17:42:38   INFO    - ALC(JumpingTableau): true (60 milliseconds) - (24 iterations)
+
+2020-05-14   17:42:38   INFO    - 12-06-08.owl
+
+2020-05-14   17:42:38   INFO    - ALC(ChronologicalTableau): true (80 milliseconds) - (18 iterations)
+
+2020-05-14   17:42:38   INFO    - ALC(JumpingTableau): true (62 milliseconds) - (15 iterations)
+
+2020-05-14   17:42:38   INFO    - 17-02-23.owl
+
+2020-05-14   17:42:38   INFO    - ALC(ChronologicalTableau): true (45 milliseconds) - (11 iterations)
+
+2020-05-14   17:42:38   INFO    - ALC(JumpingTableau): true (24 milliseconds) - (11 iterations)
+
+2020-05-14   17:42:38   INFO    - True4.owl
+
+2020-05-14   17:42:38   INFO    - ALC(ChronologicalTableau): true (10 milliseconds) - (2 iterations)
+
+2020-05-14   17:42:38   INFO    - ALC(JumpingTableau): true (9 milliseconds) - (2 iterations)
+
+2020-05-14   17:42:38   INFO    - False10.owl
+
+2020-05-14   17:42:38   INFO    - ALC(ChronologicalTableau): false (9 milliseconds) - (4 iterations)
+
+2020-05-14   17:42:38   INFO    - ALC(JumpingTableau): false (9 milliseconds) - (4 iterations)
+
+2020-05-14   17:42:39   INFO    - False3.owl
+
+2020-05-14   17:42:39   INFO    - ALC(ChronologicalTableau): false (458 milliseconds) - (127 iterations)
+
+2020-05-14   17:42:39   INFO    - ALC(JumpingTableau): false (23 milliseconds) - (11 iterations)
+
+2020-05-14   17:42:39   INFO    - True7.owl
+
+2020-05-14   17:42:39   INFO    - ALC(ChronologicalTableau): true (66 milliseconds) - (24 iterations)
+
+2020-05-14   17:42:39   INFO    - ALC(JumpingTableau): true (48 milliseconds) - (24 iterations)
+
+2020-05-14   17:42:39   INFO    - True6.owl
+
+2020-05-14   17:42:39   INFO    - ALC(ChronologicalTableau): true (58 milliseconds) - (24 iterations)
+
+2020-05-14   17:42:39   INFO    - ALC(JumpingTableau): true (52 milliseconds) - (24 iterations)
+
+2020-05-14   17:42:39   INFO    - Bottom.owl
+
+2020-05-14   17:42:39   INFO    - ALC(ChronologicalTableau): false (3 milliseconds) - (3 iterations)
+
+2020-05-14   17:42:39   INFO    - ALC(JumpingTableau): false (4 milliseconds) - (3 iterations)
+
+2020-05-14   17:42:39   INFO    - True10.owl
+
+2020-05-14   17:42:39   INFO    - ALC(ChronologicalTableau): true (162 milliseconds) - (69 iterations)
+
+2020-05-14   17:42:39   INFO    - ALC(JumpingTableau): true (74 milliseconds) - (35 iterations)
+
+2020-05-14   17:42:39   INFO    - False9.owl
+
+2020-05-14   17:42:39   INFO    - ALC(ChronologicalTableau): false (5 milliseconds) - (5 iterations)
+
+2020-05-14   17:42:39   INFO    - ALC(JumpingTableau): false (5 milliseconds) - (5 iterations)
+
+2020-05-14   17:42:39   INFO    - 17-01-27.owl
+
+2020-05-14   17:42:39   INFO    - ALC(ChronologicalTableau): true (20 milliseconds) - (11 iterations)
+
+2020-05-14   17:42:39   INFO    - ALC(JumpingTableau): true (18 milliseconds) - (11 iterations)
+
+2020-05-14   17:42:39   INFO    - False6.owl
+
+2020-05-14   17:42:39   INFO    - ALC(ChronologicalTableau): false (99 milliseconds) - (41 iterations)
+
+2020-05-14   17:42:39   INFO    - ALC(JumpingTableau): false (29 milliseconds) - (22 iterations)
+
+2020-05-14   17:42:40   INFO    - True9.owl
+
+2020-05-14   17:42:40   INFO    - ALC(ChronologicalTableau): true (63 milliseconds) - (35 iterations)
+
+2020-05-14   17:42:40   INFO    - ALC(JumpingTableau): true (38 milliseconds) - (25 iterations)
+
+2020-05-14   17:42:40   INFO    - 06-06-26.owl
+
+2020-05-14   17:42:40   INFO    - ALC(ChronologicalTableau): true (14 milliseconds) - (9 iterations)
+
+2020-05-14   17:42:40   INFO    - ALC(JumpingTableau): true (13 milliseconds) - (9 iterations)
+
+2020-05-14   17:42:40   INFO    - True3.owl
+
+2020-05-14   17:42:40   INFO    - ALC(ChronologicalTableau): true (59 milliseconds) - (25 iterations)
+
+2020-05-14   17:42:40   INFO    - ALC(JumpingTableau): true (64 milliseconds) - (25 iterations)
+
+2020-05-14   17:42:40   INFO    - True2.owl
+
+2020-05-14   17:42:40   INFO    - ALC(ChronologicalTableau): true (10 milliseconds) - (6 iterations)
+
+2020-05-14   17:42:40   INFO    - ALC(JumpingTableau): true (8 milliseconds) - (6 iterations)
+
+2020-05-14   17:42:40   INFO    - False7.owl
+
+2020-05-14   17:42:40   INFO    - ALC(ChronologicalTableau): false (6 milliseconds) - (3 iterations)
+
+2020-05-14   17:42:40   INFO    - ALC(JumpingTableau): false (8 milliseconds) - (3 iterations)
+
+2020-05-14   17:42:40   INFO    - True5.owl
+
+2020-05-14   17:42:40   INFO    - ALC(ChronologicalTableau): true (19 milliseconds) - (8 iterations)
+
+2020-05-14   17:42:40   INFO    - ALC(JumpingTableau): true (20 milliseconds) - (8 iterations)
+
+2020-05-14   17:42:40   INFO    - False13.owl
+
+2020-05-14   17:42:40   INFO    - ALC(ChronologicalTableau): false (15 milliseconds) - (9 iterations)
+
+2020-05-14   17:42:40   INFO    - ALC(JumpingTableau): false (11 milliseconds) - (9 iterations)
+

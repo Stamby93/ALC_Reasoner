@@ -1,0 +1,39 @@
+2020-05-14   17:42:38   DEBUG   - SAT: -1
+
+2020-05-14   17:42:38   DEBUG   - Rule: 0 UNION: (not (A)) or (S some (R only (Z some (S only (R some (Z only 
+    ((A or D or (not (C)) or (not (D)))
+     and (C or D or (not (A)) or (not (B)))))))))) or (Z some 
+    ((R some 
+        ((S some 
+            (B or D or (A
+             and (not (C))) or (Z only (not (C))))) or (R only (Z some 
+            (B
+             and D))))) or (S only (R only (Z only 
+        (A or B or C or D))))))
+
+2020-05-14   17:42:38   DEBUG   - CHOICE S some (R only (Z some (S only (R some (Z only 
+    ((A or D or (not (C)) or (not (D)))
+     and (C or D or (not (A)) or (not (B)))))))))
+
+2020-05-14   17:42:38   DEBUG   - Rule: 1 SOME: S some (R only (Z some (S only (R some (Z only 
+    ((A or D or (not (C)) or (not (D)))
+     and (C or D or (not (A)) or (not (B)))))))))
+
+2020-05-14   17:42:38   DEBUG   - SAT: 1
+
+2020-05-14   17:42:38   DEBUG   - Rule: 0 ALL: R only (Z some (S only (R some (Z only 
+    ((A or D or (not (C)) or (not (D)))
+     and (C or D or (not (A)) or (not (B))))))))
+
+2020-05-14   17:42:38   DEBUG   - ALL NO CONDITIONS
+
+2020-05-14   17:42:38   DEBUG   - SOME 1 SATISFIABLE
+
+2020-05-14   17:42:38   INFO    - ALC(JumpingTableau): true
+
+2020-05-14   17:42:38   INFO    - Iterazioni: 2
+
+2020-05-14   17:42:38   INFO    - Model: | S some (R only (Z some (S only (R some (Z only 
+    ((A or D or (not (C)) or (not (D)))
+     and (C or D or (not (A)) or (not (B))))))))) | 
+

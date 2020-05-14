@@ -1,0 +1,47 @@
+2020-05-14   17:42:40   DEBUG   - SAT: -1
+
+2020-05-14   17:42:40   DEBUG   - Rule: 0 INTERSECTION: ((S some (not (D)))
+ and (S only (not (C))))
+ and (S some 
+    (C
+     and D))
+
+2020-05-14   17:42:40   DEBUG   - Rule: 1 INTERSECTION: (S some (not (D)))
+ and (S only (not (C)))
+
+2020-05-14   17:42:40   DEBUG   - Rule: 2 SOME: S some 
+    (C
+     and D)
+
+2020-05-14   17:42:40   DEBUG   - SAT: 2
+
+2020-05-14   17:42:40   DEBUG   - Rule: 0 INTERSECTION: C
+ and D
+
+2020-05-14   17:42:40   DEBUG   - SOME 2 SATISFIABLE
+
+2020-05-14   17:42:40   DEBUG   - Rule: 3 SOME: S some (not (D))
+
+2020-05-14   17:42:40   DEBUG   - SAT: 3
+
+2020-05-14   17:42:40   DEBUG   - SOME 3 SATISFIABLE
+
+2020-05-14   17:42:40   DEBUG   - Rule: 4 ALL: S only (not (C))
+
+2020-05-14   17:42:40   DEBUG   - SAT: 4
+
+2020-05-14   17:42:40   DEBUG   - Rule: 0 INTERSECTION: (C
+ and D)
+ and (not (C))
+
+2020-05-14   17:42:40   DEBUG   - Rule: 1 INTERSECTION: C
+ and D
+
+2020-05-14   17:42:40   DEBUG   - CLASH not (C) | C
+
+2020-05-14   17:42:40   DEBUG   - ALL UNSATISFIABLE
+
+2020-05-14   17:42:40   INFO    - ALC(JumpingTableau): false
+
+2020-05-14   17:42:40   INFO    - Iterazioni: 9
+

@@ -1,0 +1,28 @@
+2020-05-14   17:42:32   DEBUG   - SAT: -1
+
+2020-05-14   17:42:32   DEBUG   - Rule: 0 INTERSECTION: ((not (D))
+ and (S only (not (C))))
+ and (B or (S some (R only A)))
+ and (D or (S some C))
+ and ((not (B)) or (not (D)))
+ and ((S only (not (C))) or (S only (R some (not (A)))))
+
+2020-05-14   17:42:32   DEBUG   - Rule: 1 INTERSECTION: (not (D))
+ and (S only (not (C)))
+
+2020-05-14   17:42:32   DEBUG   - Rule: 2 UNION: B or (S some (R only A))
+
+2020-05-14   17:42:32   DEBUG   - CHOICE S some (R only A)
+
+2020-05-14   17:42:32   DEBUG   - CLASH (not (D))
+ and (S only (not (C))) | D or (S some C)
+
+2020-05-14   17:42:32   DEBUG   - CHOICE B
+
+2020-05-14   17:42:32   DEBUG   - CLASH (not (D))
+ and (S only (not (C))) | D or (S some C)
+
+2020-05-14   17:42:32   INFO    - ALC(ChronologicalTableau): false
+
+2020-05-14   17:42:32   INFO    - Iterazioni: 4
+

@@ -45,8 +45,8 @@ public class TestLauncher {
     @Before
     public void setUp() {
         man = OWLManager.createOWLOntologyManager();
-        OWLReasonerFactory chronoFactory = new ALCReasonerFactory("Chronological");
-        OWLReasonerFactory jumpFactory = new ALCReasonerFactory("Jumping");
+        OWLReasonerFactory chronoFactory = new ALCReasonerFactory("LOGChronological");
+        OWLReasonerFactory jumpFactory = new ALCReasonerFactory("LOGJumping");
 
         chronoReasoner = chronoFactory.createReasoner(null);
         jumpReasoner = jumpFactory.createReasoner(null);
@@ -1208,9 +1208,9 @@ public class TestLauncher {
         File ontologyFile = new File(ontologyFileName);
         man.clearOntologies();
         OWLOntology ont = man.loadOntologyFromOntologyDocument(ontologyFile);
-        if(DEBUG) {
-            LoggerManager.setFile(ontologyFile.getName(), TestLauncher.class);
-        }
+
+        LoggerManager.setFile(ontologyFile.getName(), TestLauncher.class, true);
+
         OWLDataFactory df = man.getOWLDataFactory();
         Optional<IRI> optIri = ont.getOntologyID().getOntologyIRI();
         assert optIri.isPresent();
@@ -1221,7 +1221,7 @@ public class TestLauncher {
 
 
         if (ontologyAxiom.size() > 1) {
-            LoggerManager.writeErrorLog("Invalid input concept", Launcher.class);
+            LoggerManager.writeErrorLog("Invalid input concept", TestLauncher.class);
             throw new IllegalArgumentException("Invalid input concept");
         }
 
