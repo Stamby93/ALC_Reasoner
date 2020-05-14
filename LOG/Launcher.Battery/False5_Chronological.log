@@ -1,16 +1,16 @@
-2020-05-14   17:42:33   DEBUG   - SAT: -1
+2020-05-15   00:23:06   DEBUG   - SAT: -1
 
-2020-05-14   17:42:33   DEBUG   - Rule: 0 INTERSECTION: Nothing
+2020-05-15   00:23:06   DEBUG   - Rule: 0 INTERSECTION: Nothing
  and (B or A)
  and (R some A)
 
-2020-05-14   17:42:33   DEBUG   - Rule: 1 UNION: B or A
+2020-05-15   00:23:06   DEBUG   - Rule: 1 UNION: B or A
 
-2020-05-14   17:42:33   DEBUG   - CHOICE B
+2020-05-15   00:23:06   DEBUG   - CHOICE B
 
-2020-05-14   17:42:33   DEBUG   - CHOICE A
+2020-05-15   00:23:06   DEBUG   - CHOICE A
 
-2020-05-14   17:42:33   INFO    - ALC(ChronologicalTableau): false
+2020-05-15   00:23:06   INFO    - ALC(ChronologicalTableau): false
 
-2020-05-14   17:42:33   INFO    - Iterazioni: 3
+2020-05-15   00:23:06   INFO    - Iterations: 3
 

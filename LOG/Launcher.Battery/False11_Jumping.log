@@ -1,6 +1,6 @@
-2020-05-14   17:42:33   DEBUG   - SAT: -1
+2020-05-15   00:23:06   DEBUG   - SAT: -1
 
-2020-05-14   17:42:33   DEBUG   - Rule: 0 INTERSECTION: A
+2020-05-15   00:23:06   DEBUG   - Rule: 0 INTERSECTION: A
  and (((B or (S some (R only A)))
  and (D or (S some C))
  and ((not (B)) or (not (D)))
@@ -38,7 +38,7 @@
  and (R some B)
  and (R only C)
 
-2020-05-14   17:42:33   DEBUG   - Rule: 1 UNION: ((B or (S some (R only A)))
+2020-05-15   00:23:06   DEBUG   - Rule: 1 UNION: ((B or (S some (R only A)))
  and (D or (S some C))
  and ((not (B)) or (not (D)))
  and ((S only (not (C))) or (S only (R some (R only (S only (S some 
@@ -72,16 +72,16 @@
  and (S only (R some (not (A))))) or ((not (D))
  and (S only (not (C)))) or (B or (S some (R only A))))
 
-2020-05-14   17:42:33   DEBUG   - CHOICE (B or (S some (R only A)))
+2020-05-15   00:23:06   DEBUG   - CHOICE (B or (S some (R only A)))
  and (D or (S some C))
  and ((not (B)) or (not (D)))
  and ((S only (not (C))) or (S only (R some (R only (S only (S some 
     ((B or D)
      and (not (C)))))))))
 
-2020-05-14   17:42:33   DEBUG   - CLASH A | not (A)
+2020-05-15   00:23:06   DEBUG   - CLASH A | not (A)
 
-2020-05-14   17:42:33   DEBUG   - CHOICE ((Z some 
+2020-05-15   00:23:06   DEBUG   - CHOICE ((Z some 
     (((S some (R some 
         (A or B or C or (not (D))))) or (R only (S only 
         (((C
@@ -107,16 +107,16 @@
          and D
          and (Nothing or (not (C)))) or (not (A)) or (not (C))))))))))
 
-2020-05-14   17:42:33   DEBUG   - CLASH A | not (A)
+2020-05-15   00:23:06   DEBUG   - CLASH A | not (A)
 
-2020-05-14   17:42:33   DEBUG   - CHOICE ((D or (S some C))
+2020-05-15   00:23:06   DEBUG   - CHOICE ((D or (S some C))
  and (not (B))
  and (S only (R some (not (A))))) or ((not (D))
  and (S only (not (C)))) or (B or (S some (R only A)))
 
-2020-05-14   17:42:33   DEBUG   - CLASH A | not (A)
+2020-05-15   00:23:06   DEBUG   - CLASH A | not (A)
 
-2020-05-14   17:42:33   INFO    - ALC(JumpingTableau): false
+2020-05-15   00:23:06   INFO    - ALC(JumpingTableau): false
 
-2020-05-14   17:42:33   INFO    - Iterazioni: 4
+2020-05-15   00:23:06   INFO    - Iterations: 4
 

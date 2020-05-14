@@ -1,6 +1,6 @@
-2020-05-14   17:42:37   DEBUG   - SAT: -1
+2020-05-15   00:23:11   DEBUG   - SAT: -1
 
-2020-05-14   17:42:37   DEBUG   - Rule: 0 INTERSECTION: A
+2020-05-15   00:23:11   DEBUG   - Rule: 0 INTERSECTION: A
  and (((B or (S some (R only A)))
  and (D or (S some C))
  and ((not (B)) or (not (D)))
@@ -37,7 +37,7 @@
  and (R some B)
  and (R only C)
 
-2020-05-14   17:42:37   DEBUG   - Rule: 1 UNION: ((B or (S some (R only A)))
+2020-05-15   00:23:11   DEBUG   - Rule: 1 UNION: ((B or (S some (R only A)))
  and (D or (S some C))
  and ((not (B)) or (not (D)))
  and ((S only (not (C))) or (S only (R some (R only (S only (S some 
@@ -71,147 +71,147 @@
          and C
          and (not (D))) or (not (B)))))))
 
-2020-05-14   17:42:37   DEBUG   - CHOICE (B or (S some (R only A)))
+2020-05-15   00:23:11   DEBUG   - CHOICE (B or (S some (R only A)))
  and (D or (S some C))
  and ((not (B)) or (not (D)))
  and ((S only (not (C))) or (S only (R some (R only (S only (S some 
     ((B or D)
      and (not (C)))))))))
 
-2020-05-14   17:42:37   DEBUG   - Rule: 2 SOME: R some B
+2020-05-15   00:23:11   DEBUG   - Rule: 2 SOME: R some B
 
-2020-05-14   17:42:37   DEBUG   - SAT: 2
+2020-05-15   00:23:11   DEBUG   - SAT: 2
 
-2020-05-14   17:42:37   DEBUG   - SOME 2 SATISFIABLE
+2020-05-15   00:23:11   DEBUG   - SOME 2 SATISFIABLE
 
-2020-05-14   17:42:37   DEBUG   - Rule: 3 ALL: R only C
+2020-05-15   00:23:11   DEBUG   - Rule: 3 ALL: R only C
 
-2020-05-14   17:42:37   DEBUG   - SAT: 3
+2020-05-15   00:23:11   DEBUG   - SAT: 3
 
-2020-05-14   17:42:37   DEBUG   - Rule: 0 INTERSECTION: B
+2020-05-15   00:23:11   DEBUG   - Rule: 0 INTERSECTION: B
  and C
 
-2020-05-14   17:42:37   DEBUG   - ALL 3 SATISFIABLE
+2020-05-15   00:23:11   DEBUG   - ALL 3 SATISFIABLE
 
-2020-05-14   17:42:37   DEBUG   - Rule: 5 INTERSECTION: (B or (S some (R only A)))
+2020-05-15   00:23:11   DEBUG   - Rule: 5 INTERSECTION: (B or (S some (R only A)))
  and (D or (S some C))
  and ((not (B)) or (not (D)))
  and ((S only (not (C))) or (S only (R some (R only (S only (S some 
     ((B or D)
      and (not (C)))))))))
 
-2020-05-14   17:42:37   DEBUG   - Rule: 6 UNION: B or (S some (R only A))
+2020-05-15   00:23:11   DEBUG   - Rule: 6 UNION: B or (S some (R only A))
 
-2020-05-14   17:42:37   DEBUG   - CHOICE S some (R only A)
+2020-05-15   00:23:11   DEBUG   - CHOICE S some (R only A)
 
-2020-05-14   17:42:37   DEBUG   - Rule: 7 UNION: D or (S some C)
+2020-05-15   00:23:11   DEBUG   - Rule: 7 UNION: D or (S some C)
 
-2020-05-14   17:42:37   DEBUG   - CHOICE S some C
+2020-05-15   00:23:11   DEBUG   - CHOICE S some C
 
-2020-05-14   17:42:37   DEBUG   - Rule: 8 UNION: (not (B)) or (not (D))
+2020-05-15   00:23:11   DEBUG   - Rule: 8 UNION: (not (B)) or (not (D))
 
-2020-05-14   17:42:37   DEBUG   - CHOICE not (B)
+2020-05-15   00:23:11   DEBUG   - CHOICE not (B)
 
-2020-05-14   17:42:37   DEBUG   - Rule: 9 UNION: (S only (not (C))) or (S only (R some (R only (S only (S some 
+2020-05-15   00:23:11   DEBUG   - Rule: 9 UNION: (S only (not (C))) or (S only (R some (R only (S only (S some 
     ((B or D)
      and (not (C))))))))
 
-2020-05-14   17:42:37   DEBUG   - CHOICE S only (not (C))
+2020-05-15   00:23:11   DEBUG   - CHOICE S only (not (C))
 
-2020-05-14   17:42:37   DEBUG   - CLASH S some C | S only (not (C))
+2020-05-15   00:23:11   DEBUG   - CLASH S some C | S only (not (C))
 
-2020-05-14   17:42:37   DEBUG   - CHOICE S only (R some (R only (S only (S some 
+2020-05-15   00:23:11   DEBUG   - CHOICE S only (R some (R only (S only (S some 
     ((B or D)
      and (not (C)))))))
 
-2020-05-14   17:42:37   DEBUG   - Rule: 10 SOME: S some (R only A)
+2020-05-15   00:23:11   DEBUG   - Rule: 10 SOME: S some (R only A)
 
-2020-05-14   17:42:37   DEBUG   - SAT: 10
+2020-05-15   00:23:11   DEBUG   - SAT: 10
 
-2020-05-14   17:42:37   DEBUG   - Rule: 0 ALL: R only A
+2020-05-15   00:23:11   DEBUG   - Rule: 0 ALL: R only A
 
-2020-05-14   17:42:37   DEBUG   - ALL NO CONDITIONS
+2020-05-15   00:23:11   DEBUG   - ALL NO CONDITIONS
 
-2020-05-14   17:42:37   DEBUG   - SOME 10 SATISFIABLE
+2020-05-15   00:23:11   DEBUG   - SOME 10 SATISFIABLE
 
-2020-05-14   17:42:37   DEBUG   - Rule: 11 SOME: S some C
+2020-05-15   00:23:11   DEBUG   - Rule: 11 SOME: S some C
 
-2020-05-14   17:42:37   DEBUG   - SAT: 11
+2020-05-15   00:23:11   DEBUG   - SAT: 11
 
-2020-05-14   17:42:37   DEBUG   - SOME 11 SATISFIABLE
+2020-05-15   00:23:11   DEBUG   - SOME 11 SATISFIABLE
 
-2020-05-14   17:42:37   DEBUG   - Rule: 13 ALL: S only (R some (R only (S only (S some 
+2020-05-15   00:23:11   DEBUG   - Rule: 13 ALL: S only (R some (R only (S only (S some 
     ((B or D)
      and (not (C)))))))
 
-2020-05-14   17:42:37   DEBUG   - SAT: 13
+2020-05-15   00:23:11   DEBUG   - SAT: 13
 
-2020-05-14   17:42:37   DEBUG   - Rule: 0 INTERSECTION: (R some (R only (S only (S some 
+2020-05-15   00:23:11   DEBUG   - Rule: 0 INTERSECTION: (R some (R only (S only (S some 
     ((B or D)
      and (not (C)))))))
  and (R only A)
 
-2020-05-14   17:42:37   DEBUG   - Rule: 1 SOME: R some (R only (S only (S some 
+2020-05-15   00:23:11   DEBUG   - Rule: 1 SOME: R some (R only (S only (S some 
     ((B or D)
      and (not (C))))))
 
-2020-05-14   17:42:37   DEBUG   - SAT: 1
+2020-05-15   00:23:11   DEBUG   - SAT: 1
 
-2020-05-14   17:42:37   DEBUG   - Rule: 0 ALL: R only (S only (S some 
+2020-05-15   00:23:11   DEBUG   - Rule: 0 ALL: R only (S only (S some 
     ((B or D)
      and (not (C)))))
 
-2020-05-14   17:42:37   DEBUG   - ALL NO CONDITIONS
+2020-05-15   00:23:11   DEBUG   - ALL NO CONDITIONS
 
-2020-05-14   17:42:37   DEBUG   - SOME 1 SATISFIABLE
+2020-05-15   00:23:11   DEBUG   - SOME 1 SATISFIABLE
 
-2020-05-14   17:42:37   DEBUG   - Rule: 2 ALL: R only A
+2020-05-15   00:23:11   DEBUG   - Rule: 2 ALL: R only A
 
-2020-05-14   17:42:38   DEBUG   - SAT: 2
+2020-05-15   00:23:11   DEBUG   - SAT: 2
 
-2020-05-14   17:42:38   DEBUG   - Rule: 0 INTERSECTION: A
+2020-05-15   00:23:11   DEBUG   - Rule: 0 INTERSECTION: A
  and (R only (S only (S some 
     ((B or D)
      and (not (C))))))
 
-2020-05-14   17:42:38   DEBUG   - Rule: 1 ALL: R only (S only (S some 
+2020-05-15   00:23:11   DEBUG   - Rule: 1 ALL: R only (S only (S some 
     ((B or D)
      and (not (C)))))
 
-2020-05-14   17:42:38   DEBUG   - ALL NO CONDITIONS
+2020-05-15   00:23:11   DEBUG   - ALL NO CONDITIONS
 
-2020-05-14   17:42:38   DEBUG   - ALL 2 SATISFIABLE
+2020-05-15   00:23:11   DEBUG   - ALL 2 SATISFIABLE
 
-2020-05-14   17:42:38   DEBUG   - ALL 13 SATISFIABLE
+2020-05-15   00:23:11   DEBUG   - ALL 13 SATISFIABLE
 
-2020-05-14   17:42:38   DEBUG   - SAT: 13
+2020-05-15   00:23:11   DEBUG   - SAT: 13
 
-2020-05-14   17:42:38   DEBUG   - Rule: 0 INTERSECTION: C
+2020-05-15   00:23:11   DEBUG   - Rule: 0 INTERSECTION: C
  and (R some (R only (S only (S some 
     ((B or D)
      and (not (C)))))))
 
-2020-05-14   17:42:38   DEBUG   - Rule: 1 SOME: R some (R only (S only (S some 
+2020-05-15   00:23:11   DEBUG   - Rule: 1 SOME: R some (R only (S only (S some 
     ((B or D)
      and (not (C))))))
 
-2020-05-14   17:42:38   DEBUG   - SAT: 1
+2020-05-15   00:23:11   DEBUG   - SAT: 1
 
-2020-05-14   17:42:38   DEBUG   - Rule: 0 ALL: R only (S only (S some 
+2020-05-15   00:23:11   DEBUG   - Rule: 0 ALL: R only (S only (S some 
     ((B or D)
      and (not (C)))))
 
-2020-05-14   17:42:38   DEBUG   - ALL NO CONDITIONS
+2020-05-15   00:23:11   DEBUG   - ALL NO CONDITIONS
 
-2020-05-14   17:42:38   DEBUG   - SOME 1 SATISFIABLE
+2020-05-15   00:23:11   DEBUG   - SOME 1 SATISFIABLE
 
-2020-05-14   17:42:38   DEBUG   - ALL 13 SATISFIABLE
+2020-05-15   00:23:11   DEBUG   - ALL 13 SATISFIABLE
 
-2020-05-14   17:42:38   INFO    - ALC(JumpingTableau): true
+2020-05-15   00:23:11   INFO    - ALC(JumpingTableau): true
 
-2020-05-14   17:42:38   INFO    - Iterazioni: 24
+2020-05-15   00:23:11   INFO    - Iterations: 24
 
-2020-05-14   17:42:38   INFO    - Model: | R some B | R only C | A | S some (R only A) | S some C | not (B) | S only (R some (R only (S only (S some 
+2020-05-15   00:23:11   INFO    - Model: | R some B | R only C | A | S some (R only A) | S some C | not (B) | S only (R some (R only (S only (S some 
     ((B or D)
      and (not (C))))))) | 
 

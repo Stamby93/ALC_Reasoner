@@ -1,50 +1,50 @@
-2020-05-14   17:42:36   DEBUG   - SAT: -1
+2020-05-15   00:23:10   DEBUG   - SAT: -1
 
-2020-05-14   17:42:36   DEBUG   - Rule: 0 UNION: ((D or (S some C))
+2020-05-15   00:23:10   DEBUG   - Rule: 0 UNION: ((D or (S some C))
  and (not (B))
  and (S only (R some (not (A))))) or ((not (D))
  and (S only (not (C)))) or (B or (S some (R only A)))
 
-2020-05-14   17:42:36   DEBUG   - CHOICE (D or (S some C))
+2020-05-15   00:23:10   DEBUG   - CHOICE (D or (S some C))
  and (not (B))
  and (S only (R some (not (A))))
 
-2020-05-14   17:42:36   DEBUG   - Rule: 1 INTERSECTION: (D or (S some C))
+2020-05-15   00:23:10   DEBUG   - Rule: 1 INTERSECTION: (D or (S some C))
  and (not (B))
  and (S only (R some (not (A))))
 
-2020-05-14   17:42:37   DEBUG   - Rule: 2 UNION: D or (S some C)
+2020-05-15   00:23:10   DEBUG   - Rule: 2 UNION: D or (S some C)
 
-2020-05-14   17:42:37   DEBUG   - CHOICE S some C
+2020-05-15   00:23:10   DEBUG   - CHOICE S some C
 
-2020-05-14   17:42:37   DEBUG   - Rule: 3 ALL: S only (R some (not (A)))
+2020-05-15   00:23:10   DEBUG   - Rule: 3 ALL: S only (R some (not (A)))
 
-2020-05-14   17:42:37   DEBUG   - ALL NO CONDITIONS
+2020-05-15   00:23:10   DEBUG   - ALL NO CONDITIONS
 
-2020-05-14   17:42:37   DEBUG   - Rule: 4 CLASS :not (B)
+2020-05-15   00:23:10   DEBUG   - Rule: 4 CLASS :not (B)
 
-2020-05-14   17:42:37   DEBUG   - Rule: 5 SOME: S some C
+2020-05-15   00:23:10   DEBUG   - Rule: 5 SOME: S some C
 
-2020-05-14   17:42:37   DEBUG   - SAT: 5
+2020-05-15   00:23:10   DEBUG   - SAT: 5
 
-2020-05-14   17:42:37   DEBUG   - Rule: 0 INTERSECTION: C
+2020-05-15   00:23:10   DEBUG   - Rule: 0 INTERSECTION: C
  and (R some (not (A)))
 
-2020-05-14   17:42:37   DEBUG   - Rule: 1 SOME: R some (not (A))
+2020-05-15   00:23:10   DEBUG   - Rule: 1 SOME: R some (not (A))
 
-2020-05-14   17:42:37   DEBUG   - SAT: 1
+2020-05-15   00:23:10   DEBUG   - SAT: 1
 
-2020-05-14   17:42:37   DEBUG   - Rule: 0 CLASS :not (A)
+2020-05-15   00:23:10   DEBUG   - Rule: 0 CLASS :not (A)
 
-2020-05-14   17:42:37   DEBUG   - SOME 1 SATISFIABLE
+2020-05-15   00:23:10   DEBUG   - SOME 1 SATISFIABLE
 
-2020-05-14   17:42:37   DEBUG   - Rule: 2 CLASS :C
+2020-05-15   00:23:10   DEBUG   - Rule: 2 CLASS :C
 
-2020-05-14   17:42:37   DEBUG   - SOME 5 SATISFIABLE
+2020-05-15   00:23:10   DEBUG   - SOME 5 SATISFIABLE
 
-2020-05-14   17:42:37   INFO    - ALC(ChronologicalTableau): true
+2020-05-15   00:23:10   INFO    - ALC(ChronologicalTableau): true
 
-2020-05-14   17:42:37   INFO    - Iterazioni: 8
+2020-05-15   00:23:10   INFO    - Iterations: 8
 
-2020-05-14   17:42:37   INFO    - Model: | S only (R some (not (A))) | not (B) | S some C | 
+2020-05-15   00:23:10   INFO    - Model: | S only (R some (not (A))) | not (B) | S some C | 
 

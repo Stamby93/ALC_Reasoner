@@ -1,37 +1,37 @@
-2020-05-14   17:42:32   DEBUG   - SAT: -1
+2020-05-15   00:23:05   DEBUG   - SAT: -1
 
-2020-05-14   17:42:32   DEBUG   - Rule: 0 INTERSECTION: (R some (not (A)))
+2020-05-15   00:23:05   DEBUG   - Rule: 0 INTERSECTION: (R some (not (A)))
  and (R only 
     (A or B))
 
-2020-05-14   17:42:32   DEBUG   - Rule: 1 SOME: R some (not (A))
+2020-05-15   00:23:05   DEBUG   - Rule: 1 SOME: R some (not (A))
 
-2020-05-14   17:42:32   DEBUG   - SAT: 1
+2020-05-15   00:23:05   DEBUG   - SAT: 1
 
-2020-05-14   17:42:32   DEBUG   - SOME 1 SATISFIABLE
+2020-05-15   00:23:05   DEBUG   - SOME 1 SATISFIABLE
 
-2020-05-14   17:42:32   DEBUG   - Rule: 2 ALL: R only 
+2020-05-15   00:23:05   DEBUG   - Rule: 2 ALL: R only 
     (A or B)
 
-2020-05-14   17:42:33   DEBUG   - SAT: 2
+2020-05-15   00:23:05   DEBUG   - SAT: 2
 
-2020-05-14   17:42:33   DEBUG   - Rule: 0 INTERSECTION: (A or B)
+2020-05-15   00:23:05   DEBUG   - Rule: 0 INTERSECTION: (A or B)
  and (not (A))
 
-2020-05-14   17:42:33   DEBUG   - Rule: 1 UNION: A or B
+2020-05-15   00:23:05   DEBUG   - Rule: 1 UNION: A or B
 
-2020-05-14   17:42:33   DEBUG   - CHOICE A
+2020-05-15   00:23:05   DEBUG   - CHOICE A
 
-2020-05-14   17:42:33   DEBUG   - CLASH not (A) | A
+2020-05-15   00:23:05   DEBUG   - CLASH not (A) | A
 
-2020-05-14   17:42:33   DEBUG   - CHOICE B
+2020-05-15   00:23:05   DEBUG   - CHOICE B
 
-2020-05-14   17:42:33   DEBUG   - ALL 2 SATISFIABLE
+2020-05-15   00:23:05   DEBUG   - ALL 2 SATISFIABLE
 
-2020-05-14   17:42:33   INFO    - ALC(JumpingTableau): true
+2020-05-15   00:23:05   INFO    - ALC(JumpingTableau): true
 
-2020-05-14   17:42:33   INFO    - Iterazioni: 7
+2020-05-15   00:23:05   INFO    - Iterations: 7
 
-2020-05-14   17:42:33   INFO    - Model: | R some (not (A)) | R only 
+2020-05-15   00:23:05   INFO    - Model: | R some (not (A)) | R only 
     (A or B) | 
 

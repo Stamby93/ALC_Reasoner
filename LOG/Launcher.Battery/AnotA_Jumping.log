@@ -1,11 +1,11 @@
-2020-05-14   17:42:37   DEBUG   - SAT: -1
+2020-05-15   00:23:11   DEBUG   - SAT: -1
 
-2020-05-14   17:42:37   DEBUG   - Rule: 0 INTERSECTION: A1
+2020-05-15   00:23:11   DEBUG   - Rule: 0 INTERSECTION: A1
  and (not (A1))
 
-2020-05-14   17:42:37   DEBUG   - CLASH A1 | not (A1)
+2020-05-15   00:23:11   DEBUG   - CLASH A1 | not (A1)
 
-2020-05-14   17:42:37   INFO    - ALC(JumpingTableau): false
+2020-05-15   00:23:11   INFO    - ALC(JumpingTableau): false
 
-2020-05-14   17:42:37   INFO    - Iterazioni: 2
+2020-05-15   00:23:11   INFO    - Iterations: 2
 

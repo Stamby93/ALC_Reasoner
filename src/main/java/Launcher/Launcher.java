@@ -55,7 +55,7 @@ public class Launcher {
 
          /*Logger*/
         if(DEBUG) {
-            LoggerManager.setFile(ontologyFile.getName().replace(".owl", ""), Launcher.class);
+            LoggerManager.setFile(ontologyFile.getName().replace(".owl", ""), Launcher.class,true);
         }
 
         if (ontologyAxiom.size() > 1) {
@@ -90,7 +90,7 @@ public class Launcher {
 
             /*ChronologicaTableau*/
             if(DEBUG) {
-                LoggerManager.setFile(ontologyFile.getName().replace(".owl", "") + "_Chronological", Launcher.class);
+                LoggerManager.setFile(ontologyFile.getName().replace(".owl", "") + "_Chronological", Launcher.class,true);
             }
             long chrono_StartTime = System.currentTimeMillis();
             boolean resultChrono = alc_chrono.isSatisfiable(expression);
@@ -104,7 +104,7 @@ public class Launcher {
             }
             /*ALC_Reasoner.JumpingTableau*/
             if(DEBUG) {
-                LoggerManager.setFile(ontologyFile.getName().replace(".owl", "") + "_Jumping", Launcher.class);
+                LoggerManager.setFile(ontologyFile.getName().replace(".owl", "") + "_Jumping", Launcher.class,true);
             }
             long jump_StartTime = System.currentTimeMillis();
             boolean resultJump = alc_jump.isSatisfiable(expression);

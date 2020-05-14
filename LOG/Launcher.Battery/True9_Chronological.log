@@ -1,155 +1,155 @@
-2020-05-14   17:42:40   DEBUG   - SAT: -1
+2020-05-15   00:23:14   DEBUG   - SAT: -1
 
-2020-05-14   17:42:40   DEBUG   - Rule: 0 INTERSECTION: (B or (R some A))
+2020-05-15   00:23:14   DEBUG   - Rule: 0 INTERSECTION: (B or (R some A))
  and (C or D)
  and (E or F)
  and (G or (not (A)))
  and ((not (C)) or (R only (not (A))))
  and ((not (E)) or (not (G)))
 
-2020-05-14   17:42:40   DEBUG   - Rule: 1 UNION: B or (R some A)
+2020-05-15   00:23:14   DEBUG   - Rule: 1 UNION: B or (R some A)
 
-2020-05-14   17:42:40   DEBUG   - CHOICE R some A
+2020-05-15   00:23:14   DEBUG   - CHOICE R some A
 
-2020-05-14   17:42:40   DEBUG   - Rule: 2 UNION: C or D
+2020-05-15   00:23:14   DEBUG   - Rule: 2 UNION: C or D
 
-2020-05-14   17:42:40   DEBUG   - CHOICE C
+2020-05-15   00:23:14   DEBUG   - CHOICE C
 
-2020-05-14   17:42:40   DEBUG   - Rule: 3 UNION: E or F
+2020-05-15   00:23:14   DEBUG   - Rule: 3 UNION: E or F
 
-2020-05-14   17:42:40   DEBUG   - CHOICE E
+2020-05-15   00:23:14   DEBUG   - CHOICE E
 
-2020-05-14   17:42:40   DEBUG   - Rule: 4 UNION: G or (not (A))
+2020-05-15   00:23:14   DEBUG   - Rule: 4 UNION: G or (not (A))
 
-2020-05-14   17:42:40   DEBUG   - CHOICE G
+2020-05-15   00:23:14   DEBUG   - CHOICE G
 
-2020-05-14   17:42:40   DEBUG   - Rule: 5 UNION: (not (C)) or (R only (not (A)))
+2020-05-15   00:23:14   DEBUG   - Rule: 5 UNION: (not (C)) or (R only (not (A)))
 
-2020-05-14   17:42:40   DEBUG   - CHOICE R only (not (A))
+2020-05-15   00:23:14   DEBUG   - CHOICE R only (not (A))
 
-2020-05-14   17:42:40   DEBUG   - CLASH R some A | R only (not (A))
+2020-05-15   00:23:14   DEBUG   - CLASH R some A | R only (not (A))
 
-2020-05-14   17:42:40   DEBUG   - CHOICE not (C)
+2020-05-15   00:23:14   DEBUG   - CHOICE not (C)
 
-2020-05-14   17:42:40   DEBUG   - CLASH C | not (C)
+2020-05-15   00:23:14   DEBUG   - CLASH C | not (C)
 
-2020-05-14   17:42:40   DEBUG   - BACKTRACK 4
+2020-05-15   00:23:14   DEBUG   - BACKTRACK 4
 
-2020-05-14   17:42:40   DEBUG   - CHOICE not (A)
+2020-05-15   00:23:14   DEBUG   - CHOICE not (A)
 
-2020-05-14   17:42:40   DEBUG   - Rule: 5 UNION: (not (C)) or (R only (not (A)))
+2020-05-15   00:23:14   DEBUG   - Rule: 5 UNION: (not (C)) or (R only (not (A)))
 
-2020-05-14   17:42:40   DEBUG   - CHOICE R only (not (A))
+2020-05-15   00:23:14   DEBUG   - CHOICE R only (not (A))
 
-2020-05-14   17:42:40   DEBUG   - CLASH R some A | R only (not (A))
+2020-05-15   00:23:14   DEBUG   - CLASH R some A | R only (not (A))
 
-2020-05-14   17:42:40   DEBUG   - CHOICE not (C)
+2020-05-15   00:23:14   DEBUG   - CHOICE not (C)
 
-2020-05-14   17:42:40   DEBUG   - CLASH C | not (C)
+2020-05-15   00:23:14   DEBUG   - CLASH C | not (C)
 
-2020-05-14   17:42:40   DEBUG   - BACKTRACK 3
+2020-05-15   00:23:14   DEBUG   - BACKTRACK 3
 
-2020-05-14   17:42:40   DEBUG   - CHOICE F
+2020-05-15   00:23:14   DEBUG   - CHOICE F
 
-2020-05-14   17:42:40   DEBUG   - Rule: 4 UNION: G or (not (A))
+2020-05-15   00:23:14   DEBUG   - Rule: 4 UNION: G or (not (A))
 
-2020-05-14   17:42:40   DEBUG   - CHOICE G
+2020-05-15   00:23:14   DEBUG   - CHOICE G
 
-2020-05-14   17:42:40   DEBUG   - Rule: 5 UNION: (not (C)) or (R only (not (A)))
+2020-05-15   00:23:14   DEBUG   - Rule: 5 UNION: (not (C)) or (R only (not (A)))
 
-2020-05-14   17:42:40   DEBUG   - CHOICE R only (not (A))
+2020-05-15   00:23:14   DEBUG   - CHOICE R only (not (A))
 
-2020-05-14   17:42:40   DEBUG   - CLASH R some A | R only (not (A))
+2020-05-15   00:23:14   DEBUG   - CLASH R some A | R only (not (A))
 
-2020-05-14   17:42:40   DEBUG   - CHOICE not (C)
+2020-05-15   00:23:14   DEBUG   - CHOICE not (C)
 
-2020-05-14   17:42:40   DEBUG   - CLASH C | not (C)
+2020-05-15   00:23:14   DEBUG   - CLASH C | not (C)
 
-2020-05-14   17:42:40   DEBUG   - BACKTRACK 4
+2020-05-15   00:23:14   DEBUG   - BACKTRACK 4
 
-2020-05-14   17:42:40   DEBUG   - CHOICE not (A)
+2020-05-15   00:23:14   DEBUG   - CHOICE not (A)
 
-2020-05-14   17:42:40   DEBUG   - Rule: 5 UNION: (not (C)) or (R only (not (A)))
+2020-05-15   00:23:14   DEBUG   - Rule: 5 UNION: (not (C)) or (R only (not (A)))
 
-2020-05-14   17:42:40   DEBUG   - CHOICE R only (not (A))
+2020-05-15   00:23:14   DEBUG   - CHOICE R only (not (A))
 
-2020-05-14   17:42:40   DEBUG   - CLASH R some A | R only (not (A))
+2020-05-15   00:23:14   DEBUG   - CLASH R some A | R only (not (A))
 
-2020-05-14   17:42:40   DEBUG   - CHOICE not (C)
+2020-05-15   00:23:14   DEBUG   - CHOICE not (C)
 
-2020-05-14   17:42:40   DEBUG   - CLASH C | not (C)
+2020-05-15   00:23:14   DEBUG   - CLASH C | not (C)
 
-2020-05-14   17:42:40   DEBUG   - BACKTRACK 2
+2020-05-15   00:23:14   DEBUG   - BACKTRACK 2
 
-2020-05-14   17:42:40   DEBUG   - CHOICE D
+2020-05-15   00:23:14   DEBUG   - CHOICE D
 
-2020-05-14   17:42:40   DEBUG   - Rule: 3 UNION: E or F
+2020-05-15   00:23:14   DEBUG   - Rule: 3 UNION: E or F
 
-2020-05-14   17:42:40   DEBUG   - CHOICE E
+2020-05-15   00:23:14   DEBUG   - CHOICE E
 
-2020-05-14   17:42:40   DEBUG   - Rule: 4 UNION: G or (not (A))
+2020-05-15   00:23:14   DEBUG   - Rule: 4 UNION: G or (not (A))
 
-2020-05-14   17:42:40   DEBUG   - CHOICE G
+2020-05-15   00:23:14   DEBUG   - CHOICE G
 
-2020-05-14   17:42:40   DEBUG   - Rule: 5 UNION: (not (C)) or (R only (not (A)))
+2020-05-15   00:23:14   DEBUG   - Rule: 5 UNION: (not (C)) or (R only (not (A)))
 
-2020-05-14   17:42:40   DEBUG   - CHOICE R only (not (A))
+2020-05-15   00:23:14   DEBUG   - CHOICE R only (not (A))
 
-2020-05-14   17:42:40   DEBUG   - CLASH R some A | R only (not (A))
+2020-05-15   00:23:14   DEBUG   - CLASH R some A | R only (not (A))
 
-2020-05-14   17:42:40   DEBUG   - CHOICE not (C)
+2020-05-15   00:23:14   DEBUG   - CHOICE not (C)
 
-2020-05-14   17:42:40   DEBUG   - Rule: 6 UNION: (not (E)) or (not (G))
+2020-05-15   00:23:14   DEBUG   - Rule: 6 UNION: (not (E)) or (not (G))
 
-2020-05-14   17:42:40   DEBUG   - CHOICE not (E)
+2020-05-15   00:23:14   DEBUG   - CHOICE not (E)
 
-2020-05-14   17:42:40   DEBUG   - CLASH E | not (E)
+2020-05-15   00:23:14   DEBUG   - CLASH E | not (E)
 
-2020-05-14   17:42:40   DEBUG   - CHOICE not (G)
+2020-05-15   00:23:14   DEBUG   - CHOICE not (G)
 
-2020-05-14   17:42:40   DEBUG   - CLASH G | not (G)
+2020-05-15   00:23:14   DEBUG   - CLASH G | not (G)
 
-2020-05-14   17:42:40   DEBUG   - BACKTRACK 4
+2020-05-15   00:23:14   DEBUG   - BACKTRACK 4
 
-2020-05-14   17:42:40   DEBUG   - CHOICE not (A)
+2020-05-15   00:23:14   DEBUG   - CHOICE not (A)
 
-2020-05-14   17:42:40   DEBUG   - Rule: 5 UNION: (not (C)) or (R only (not (A)))
+2020-05-15   00:23:14   DEBUG   - Rule: 5 UNION: (not (C)) or (R only (not (A)))
 
-2020-05-14   17:42:40   DEBUG   - CHOICE R only (not (A))
+2020-05-15   00:23:14   DEBUG   - CHOICE R only (not (A))
 
-2020-05-14   17:42:40   DEBUG   - CLASH R some A | R only (not (A))
+2020-05-15   00:23:14   DEBUG   - CLASH R some A | R only (not (A))
 
-2020-05-14   17:42:40   DEBUG   - CHOICE not (C)
+2020-05-15   00:23:14   DEBUG   - CHOICE not (C)
 
-2020-05-14   17:42:40   DEBUG   - Rule: 6 UNION: (not (E)) or (not (G))
+2020-05-15   00:23:14   DEBUG   - Rule: 6 UNION: (not (E)) or (not (G))
 
-2020-05-14   17:42:40   DEBUG   - CHOICE not (E)
+2020-05-15   00:23:14   DEBUG   - CHOICE not (E)
 
-2020-05-14   17:42:40   DEBUG   - CLASH E | not (E)
+2020-05-15   00:23:14   DEBUG   - CLASH E | not (E)
 
-2020-05-14   17:42:40   DEBUG   - CHOICE not (G)
+2020-05-15   00:23:14   DEBUG   - CHOICE not (G)
 
-2020-05-14   17:42:40   DEBUG   - Rule: 7 SOME: R some A
+2020-05-15   00:23:14   DEBUG   - Rule: 7 SOME: R some A
 
-2020-05-14   17:42:40   DEBUG   - SAT: 7
+2020-05-15   00:23:14   DEBUG   - SAT: 7
 
-2020-05-14   17:42:40   DEBUG   - Rule: 0 CLASS :A
+2020-05-15   00:23:14   DEBUG   - Rule: 0 CLASS :A
 
-2020-05-14   17:42:40   DEBUG   - SOME 7 SATISFIABLE
+2020-05-15   00:23:14   DEBUG   - SOME 7 SATISFIABLE
 
-2020-05-14   17:42:40   DEBUG   - Rule: 8 CLASS :D
+2020-05-15   00:23:14   DEBUG   - Rule: 8 CLASS :D
 
-2020-05-14   17:42:40   DEBUG   - Rule: 9 CLASS :E
+2020-05-15   00:23:14   DEBUG   - Rule: 9 CLASS :E
 
-2020-05-14   17:42:40   DEBUG   - Rule: 10 CLASS :not (A)
+2020-05-15   00:23:14   DEBUG   - Rule: 10 CLASS :not (A)
 
-2020-05-14   17:42:40   DEBUG   - Rule: 11 CLASS :not (C)
+2020-05-15   00:23:14   DEBUG   - Rule: 11 CLASS :not (C)
 
-2020-05-14   17:42:40   DEBUG   - Rule: 12 CLASS :not (G)
+2020-05-15   00:23:14   DEBUG   - Rule: 12 CLASS :not (G)
 
-2020-05-14   17:42:40   INFO    - ALC(ChronologicalTableau): true
+2020-05-15   00:23:14   INFO    - ALC(ChronologicalTableau): true
 
-2020-05-14   17:42:40   INFO    - Iterazioni: 35
+2020-05-15   00:23:14   INFO    - Iterations: 35
 
-2020-05-14   17:42:40   INFO    - Model: | R some A | D | E | not (A) | not (C) | not (G) | 
+2020-05-15   00:23:14   INFO    - Model: | R some A | D | E | not (A) | not (C) | not (G) | 
 

@@ -1,56 +1,56 @@
-2020-05-14   17:42:37   DEBUG   - SAT: -1
+2020-05-15   00:23:11   DEBUG   - SAT: -1
 
-2020-05-14   17:42:37   DEBUG   - Rule: 0 INTERSECTION: ((S some (not (D))) or (S only (not (C))))
+2020-05-15   00:23:11   DEBUG   - Rule: 0 INTERSECTION: ((S some (not (D))) or (S only (not (C))))
  and (S only 
     (C
      and D))
 
-2020-05-14   17:42:37   DEBUG   - Rule: 1 UNION: (S some (not (D))) or (S only (not (C)))
+2020-05-15   00:23:11   DEBUG   - Rule: 1 UNION: (S some (not (D))) or (S only (not (C)))
 
-2020-05-14   17:42:37   DEBUG   - CHOICE S some (not (D))
+2020-05-15   00:23:11   DEBUG   - CHOICE S some (not (D))
 
-2020-05-14   17:42:37   DEBUG   - Rule: 2 ALL: S only 
+2020-05-15   00:23:11   DEBUG   - Rule: 2 ALL: S only 
     (C
      and D)
 
-2020-05-14   17:42:37   DEBUG   - ALL NO CONDITIONS
+2020-05-15   00:23:11   DEBUG   - ALL NO CONDITIONS
 
-2020-05-14   17:42:37   DEBUG   - Rule: 3 SOME: S some (not (D))
+2020-05-15   00:23:11   DEBUG   - Rule: 3 SOME: S some (not (D))
 
-2020-05-14   17:42:37   DEBUG   - SAT: 3
+2020-05-15   00:23:11   DEBUG   - SAT: 3
 
-2020-05-14   17:42:37   DEBUG   - Rule: 0 INTERSECTION: (C
+2020-05-15   00:23:11   DEBUG   - Rule: 0 INTERSECTION: (C
  and D)
  and (not (D))
 
-2020-05-14   17:42:37   DEBUG   - Rule: 1 INTERSECTION: C
+2020-05-15   00:23:11   DEBUG   - Rule: 1 INTERSECTION: C
  and D
 
-2020-05-14   17:42:37   DEBUG   - Rule: 2 CLASS :not (D)
+2020-05-15   00:23:11   DEBUG   - Rule: 2 CLASS :not (D)
 
-2020-05-14   17:42:37   DEBUG   - CLASH not (D) | D
+2020-05-15   00:23:11   DEBUG   - CLASH not (D) | D
 
-2020-05-14   17:42:37   DEBUG   - SOME UNSATISFIABLE
+2020-05-15   00:23:11   DEBUG   - SOME UNSATISFIABLE
 
-2020-05-14   17:42:37   DEBUG   - BACKTRACK 1
+2020-05-15   00:23:11   DEBUG   - BACKTRACK 1
 
-2020-05-14   17:42:37   DEBUG   - CHOICE S only (not (C))
+2020-05-15   00:23:11   DEBUG   - CHOICE S only (not (C))
 
-2020-05-14   17:42:37   DEBUG   - Rule: 2 ALL: S only 
+2020-05-15   00:23:11   DEBUG   - Rule: 2 ALL: S only 
     (C
      and D)
 
-2020-05-14   17:42:37   DEBUG   - ALL NO CONDITIONS
+2020-05-15   00:23:11   DEBUG   - ALL NO CONDITIONS
 
-2020-05-14   17:42:37   DEBUG   - Rule: 3 ALL: S only (not (C))
+2020-05-15   00:23:11   DEBUG   - Rule: 3 ALL: S only (not (C))
 
-2020-05-14   17:42:37   DEBUG   - ALL NO CONDITIONS
+2020-05-15   00:23:11   DEBUG   - ALL NO CONDITIONS
 
-2020-05-14   17:42:37   INFO    - ALC(ChronologicalTableau): true
+2020-05-15   00:23:11   INFO    - ALC(ChronologicalTableau): true
 
-2020-05-14   17:42:37   INFO    - Iterazioni: 9
+2020-05-15   00:23:11   INFO    - Iterations: 9
 
-2020-05-14   17:42:37   INFO    - Model: | S only 
+2020-05-15   00:23:11   INFO    - Model: | S only 
     (C
      and D) | S only (not (C)) | 
 

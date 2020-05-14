@@ -1,167 +1,167 @@
-2020-05-14   17:42:37   DEBUG   - SAT: -1
+2020-05-15   00:23:11   DEBUG   - SAT: -1
 
-2020-05-14   17:42:37   DEBUG   - Rule: 0 INTERSECTION: (A1 or A2)
+2020-05-15   00:23:11   DEBUG   - Rule: 0 INTERSECTION: (A1 or A2)
  and (B1 or B2)
  and ((not (A1)) or (R only 
     (A1
      and A2)))
  and ((R some (not (A1))) or (R some (not (A2))))
 
-2020-05-14   17:42:37   DEBUG   - Rule: 1 UNION: A1 or A2
+2020-05-15   00:23:11   DEBUG   - Rule: 1 UNION: A1 or A2
 
-2020-05-14   17:42:37   DEBUG   - CHOICE A1
+2020-05-15   00:23:11   DEBUG   - CHOICE A1
 
-2020-05-14   17:42:37   DEBUG   - Rule: 2 UNION: B1 or B2
+2020-05-15   00:23:11   DEBUG   - Rule: 2 UNION: B1 or B2
 
-2020-05-14   17:42:37   DEBUG   - CHOICE B1
+2020-05-15   00:23:11   DEBUG   - CHOICE B1
 
-2020-05-14   17:42:37   DEBUG   - Rule: 3 UNION: (not (A1)) or (R only 
+2020-05-15   00:23:11   DEBUG   - Rule: 3 UNION: (not (A1)) or (R only 
     (A1
      and A2))
 
-2020-05-14   17:42:37   DEBUG   - CHOICE R only 
+2020-05-15   00:23:11   DEBUG   - CHOICE R only 
     (A1
      and A2)
 
-2020-05-14   17:42:37   DEBUG   - Rule: 4 UNION: (R some (not (A1))) or (R some (not (A2)))
+2020-05-15   00:23:11   DEBUG   - Rule: 4 UNION: (R some (not (A1))) or (R some (not (A2)))
 
-2020-05-14   17:42:37   DEBUG   - CHOICE R some (not (A1))
+2020-05-15   00:23:11   DEBUG   - CHOICE R some (not (A1))
 
-2020-05-14   17:42:37   DEBUG   - Rule: 7 ALL: R only 
+2020-05-15   00:23:11   DEBUG   - Rule: 7 ALL: R only 
     (A1
      and A2)
 
-2020-05-14   17:42:37   DEBUG   - ALL NO CONDITIONS
+2020-05-15   00:23:11   DEBUG   - ALL NO CONDITIONS
 
-2020-05-14   17:42:37   DEBUG   - Rule: 8 SOME: R some (not (A1))
+2020-05-15   00:23:11   DEBUG   - Rule: 8 SOME: R some (not (A1))
 
-2020-05-14   17:42:37   DEBUG   - SAT: 8
+2020-05-15   00:23:11   DEBUG   - SAT: 8
 
-2020-05-14   17:42:37   DEBUG   - Rule: 0 INTERSECTION: (A1
+2020-05-15   00:23:11   DEBUG   - Rule: 0 INTERSECTION: (A1
  and A2)
  and (not (A1))
 
-2020-05-14   17:42:37   DEBUG   - Rule: 1 INTERSECTION: A1
+2020-05-15   00:23:11   DEBUG   - Rule: 1 INTERSECTION: A1
  and A2
 
-2020-05-14   17:42:37   DEBUG   - CLASH not (A1) | A1
+2020-05-15   00:23:11   DEBUG   - CLASH not (A1) | A1
 
-2020-05-14   17:42:37   DEBUG   - SOME UNSATISFIABLE
+2020-05-15   00:23:11   DEBUG   - SOME UNSATISFIABLE
 
-2020-05-14   17:42:37   DEBUG   - BACKTRACK: 4
+2020-05-15   00:23:11   DEBUG   - BACKTRACK: 4
 
-2020-05-14   17:42:37   DEBUG   - CHOICE R some (not (A2))
+2020-05-15   00:23:11   DEBUG   - CHOICE R some (not (A2))
 
-2020-05-14   17:42:37   DEBUG   - Rule: 7 ALL: R only 
+2020-05-15   00:23:11   DEBUG   - Rule: 7 ALL: R only 
     (A1
      and A2)
 
-2020-05-14   17:42:37   DEBUG   - ALL NO CONDITIONS
+2020-05-15   00:23:11   DEBUG   - ALL NO CONDITIONS
 
-2020-05-14   17:42:37   DEBUG   - Rule: 8 SOME: R some (not (A2))
+2020-05-15   00:23:11   DEBUG   - Rule: 8 SOME: R some (not (A2))
 
-2020-05-14   17:42:37   DEBUG   - SAT: 8
+2020-05-15   00:23:11   DEBUG   - SAT: 8
 
-2020-05-14   17:42:37   DEBUG   - Rule: 0 INTERSECTION: (A1
+2020-05-15   00:23:11   DEBUG   - Rule: 0 INTERSECTION: (A1
  and A2)
  and (not (A2))
 
-2020-05-14   17:42:37   DEBUG   - Rule: 1 INTERSECTION: A1
+2020-05-15   00:23:11   DEBUG   - Rule: 1 INTERSECTION: A1
  and A2
 
-2020-05-14   17:42:37   DEBUG   - CLASH not (A2) | A2
+2020-05-15   00:23:11   DEBUG   - CLASH not (A2) | A2
 
-2020-05-14   17:42:37   DEBUG   - SOME UNSATISFIABLE
+2020-05-15   00:23:11   DEBUG   - SOME UNSATISFIABLE
 
-2020-05-14   17:42:37   DEBUG   - BACKTRACK: 3
+2020-05-15   00:23:11   DEBUG   - BACKTRACK: 3
 
-2020-05-14   17:42:37   DEBUG   - CHOICE not (A1)
+2020-05-15   00:23:11   DEBUG   - CHOICE not (A1)
 
-2020-05-14   17:42:37   DEBUG   - CLASH A1 | not (A1)
+2020-05-15   00:23:11   DEBUG   - CLASH A1 | not (A1)
 
-2020-05-14   17:42:37   DEBUG   - BACKTRACK: 1
+2020-05-15   00:23:11   DEBUG   - BACKTRACK: 1
 
-2020-05-14   17:42:37   DEBUG   - CHOICE A2
+2020-05-15   00:23:11   DEBUG   - CHOICE A2
 
-2020-05-14   17:42:37   DEBUG   - Rule: 2 UNION: B1 or B2
+2020-05-15   00:23:11   DEBUG   - Rule: 2 UNION: B1 or B2
 
-2020-05-14   17:42:37   DEBUG   - CHOICE B1
+2020-05-15   00:23:11   DEBUG   - CHOICE B1
 
-2020-05-14   17:42:37   DEBUG   - Rule: 3 UNION: (not (A1)) or (R only 
+2020-05-15   00:23:11   DEBUG   - Rule: 3 UNION: (not (A1)) or (R only 
     (A1
      and A2))
 
-2020-05-14   17:42:37   DEBUG   - CHOICE R only 
+2020-05-15   00:23:11   DEBUG   - CHOICE R only 
     (A1
      and A2)
 
-2020-05-14   17:42:37   DEBUG   - Rule: 4 UNION: (R some (not (A1))) or (R some (not (A2)))
+2020-05-15   00:23:11   DEBUG   - Rule: 4 UNION: (R some (not (A1))) or (R some (not (A2)))
 
-2020-05-14   17:42:37   DEBUG   - CHOICE R some (not (A1))
+2020-05-15   00:23:11   DEBUG   - CHOICE R some (not (A1))
 
-2020-05-14   17:42:37   DEBUG   - Rule: 7 ALL: R only 
+2020-05-15   00:23:11   DEBUG   - Rule: 7 ALL: R only 
     (A1
      and A2)
 
-2020-05-14   17:42:37   DEBUG   - ALL NO CONDITIONS
+2020-05-15   00:23:11   DEBUG   - ALL NO CONDITIONS
 
-2020-05-14   17:42:37   DEBUG   - Rule: 8 SOME: R some (not (A1))
+2020-05-15   00:23:11   DEBUG   - Rule: 8 SOME: R some (not (A1))
 
-2020-05-14   17:42:37   DEBUG   - SAT: 8
+2020-05-15   00:23:11   DEBUG   - SAT: 8
 
-2020-05-14   17:42:37   DEBUG   - Rule: 0 INTERSECTION: (A1
+2020-05-15   00:23:11   DEBUG   - Rule: 0 INTERSECTION: (A1
  and A2)
  and (not (A1))
 
-2020-05-14   17:42:37   DEBUG   - Rule: 1 INTERSECTION: A1
+2020-05-15   00:23:11   DEBUG   - Rule: 1 INTERSECTION: A1
  and A2
 
-2020-05-14   17:42:37   DEBUG   - CLASH not (A1) | A1
+2020-05-15   00:23:11   DEBUG   - CLASH not (A1) | A1
 
-2020-05-14   17:42:37   DEBUG   - SOME UNSATISFIABLE
+2020-05-15   00:23:11   DEBUG   - SOME UNSATISFIABLE
 
-2020-05-14   17:42:37   DEBUG   - BACKTRACK: 4
+2020-05-15   00:23:11   DEBUG   - BACKTRACK: 4
 
-2020-05-14   17:42:37   DEBUG   - CHOICE R some (not (A2))
+2020-05-15   00:23:11   DEBUG   - CHOICE R some (not (A2))
 
-2020-05-14   17:42:37   DEBUG   - Rule: 7 ALL: R only 
+2020-05-15   00:23:11   DEBUG   - Rule: 7 ALL: R only 
     (A1
      and A2)
 
-2020-05-14   17:42:37   DEBUG   - ALL NO CONDITIONS
+2020-05-15   00:23:11   DEBUG   - ALL NO CONDITIONS
 
-2020-05-14   17:42:37   DEBUG   - Rule: 8 SOME: R some (not (A2))
+2020-05-15   00:23:11   DEBUG   - Rule: 8 SOME: R some (not (A2))
 
-2020-05-14   17:42:37   DEBUG   - SAT: 8
+2020-05-15   00:23:11   DEBUG   - SAT: 8
 
-2020-05-14   17:42:37   DEBUG   - Rule: 0 INTERSECTION: (A1
+2020-05-15   00:23:11   DEBUG   - Rule: 0 INTERSECTION: (A1
  and A2)
  and (not (A2))
 
-2020-05-14   17:42:37   DEBUG   - Rule: 1 INTERSECTION: A1
+2020-05-15   00:23:11   DEBUG   - Rule: 1 INTERSECTION: A1
  and A2
 
-2020-05-14   17:42:37   DEBUG   - CLASH not (A2) | A2
+2020-05-15   00:23:11   DEBUG   - CLASH not (A2) | A2
 
-2020-05-14   17:42:37   DEBUG   - SOME UNSATISFIABLE
+2020-05-15   00:23:11   DEBUG   - SOME UNSATISFIABLE
 
-2020-05-14   17:42:37   DEBUG   - BACKTRACK: 3
+2020-05-15   00:23:11   DEBUG   - BACKTRACK: 3
 
-2020-05-14   17:42:37   DEBUG   - CHOICE not (A1)
+2020-05-15   00:23:11   DEBUG   - CHOICE not (A1)
 
-2020-05-14   17:42:37   DEBUG   - Rule: 4 UNION: (R some (not (A1))) or (R some (not (A2)))
+2020-05-15   00:23:11   DEBUG   - Rule: 4 UNION: (R some (not (A1))) or (R some (not (A2)))
 
-2020-05-14   17:42:37   DEBUG   - CHOICE R some (not (A1))
+2020-05-15   00:23:11   DEBUG   - CHOICE R some (not (A1))
 
-2020-05-14   17:42:37   DEBUG   - Rule: 8 SOME: R some (not (A1))
+2020-05-15   00:23:11   DEBUG   - Rule: 8 SOME: R some (not (A1))
 
-2020-05-14   17:42:37   DEBUG   - SAT: 8
+2020-05-15   00:23:11   DEBUG   - SAT: 8
 
-2020-05-14   17:42:37   DEBUG   - SOME 8 SATISFIABLE
+2020-05-15   00:23:11   DEBUG   - SOME 8 SATISFIABLE
 
-2020-05-14   17:42:37   INFO    - ALC(JumpingTableau): true
+2020-05-15   00:23:11   INFO    - ALC(JumpingTableau): true
 
-2020-05-14   17:42:37   INFO    - Iterazioni: 42
+2020-05-15   00:23:11   INFO    - Iterations: 42
 
-2020-05-14   17:42:37   INFO    - Model: | A2 | B1 | not (A1) | R some (not (A1)) | 
+2020-05-15   00:23:11   INFO    - Model: | A2 | B1 | not (A1) | R some (not (A1)) | 
 

@@ -1,246 +1,622 @@
-2020-05-14   17:42:29   INFO    - 18-02-08_(1).owl
+2020-05-15   00:23:02   INFO    - 18-02-08_(1).owl
+
+2020-05-15   00:23:02   INFO    - ALC(ChronologicalTableau): true (995 milliseconds) - (17 iterations)
+
+2020-05-15   00:23:02   INFO    - Model: | S some (R only A) | S some C | not (B) | S only (R some (R only (S only (S some (not (C)))))) | 
+
+2020-05-15   00:23:02   INFO    - ALC(JumpingTableau): true (279 milliseconds) - (17 iterations)
+
+2020-05-15   00:23:02   INFO    - Model: | S some (R only A) | S some C | not (B) | S only (R some (R only (S only (S some (not (C)))))) | 
+
+2020-05-15   00:23:03   INFO    - False2.owl
+
+2020-05-15   00:23:03   INFO    - ALC(ChronologicalTableau): false (167 milliseconds) - (15 iterations)
+
+2020-05-15   00:23:03   INFO    - ALC(JumpingTableau): false (158 milliseconds) - (15 iterations)
+
+2020-05-15   00:23:04   INFO    - False4.owl
+
+2020-05-15   00:23:04   INFO    - ALC(ChronologicalTableau): false (376 milliseconds) - (33 iterations)
+
+2020-05-15   00:23:04   INFO    - ALC(JumpingTableau): false (182 milliseconds) - (33 iterations)
+
+2020-05-15   00:23:04   INFO    - False1.owl
+
+2020-05-15   00:23:04   INFO    - ALC(ChronologicalTableau): false (114 milliseconds) - (9 iterations)
+
+2020-05-15   00:23:04   INFO    - ALC(JumpingTableau): false (48 milliseconds) - (6 iterations)
+
+2020-05-15   00:23:04   INFO    - False8.owl
+
+2020-05-15   00:23:04   INFO    - ALC(ChronologicalTableau): false (15 milliseconds) - (3 iterations)
+
+2020-05-15   00:23:04   INFO    - ALC(JumpingTableau): false (21 milliseconds) - (3 iterations)
+
+2020-05-15   00:23:05   INFO    - True16.owl
+
+2020-05-15   00:23:05   INFO    - ALC(ChronologicalTableau): true (203 milliseconds) - (32 iterations)
+
+2020-05-15   00:23:05   INFO    - Model: | R some 
+    (((E or F or (A or B or C))
+     and ((Z some E) or (R only (not (A))) or (S only (not (C)))))
+     and ((not (E)) or (not (F)))) | R some 
+    ((A
+     and (((B or (S some (R only A)))
+     and (D or (S some C))
+     and ((not (B)) or (not (D)))
+     and ((S only (not (C))) or (S only (R some (R only (S only (S some 
+        ((B or D)
+         and (not (C)))))))))) or ((((S some 
+        (A or C))
+     and (Z some (Z only (S only 
+        (A
+         and B
+         and D
+         and (not (C))
+         and (R only (S some (R some 
+            ((A
+             and B
+             and D) or (A
+             and C
+             and D
+             and (Nothing or (not (C)))) or (not (A)) or (not (C))))))))))) or (Z some 
+        (((S some (R some 
+            (A or B or C or (not (D))))) or (R only (S only 
+            (((C
+             and D
+             and (not (A)))
+             and (A or B)) or (not (A)) or (not (B)))))) or (R only 
+            ((A
+             and C) or ((B
+             and C
+             and (Z some (not (D)))) or ((not (B))
+             and (S some Nothing))))))))
+     and (R some B)
+     and (R only C)) or (((D or (S some C))
+     and (not (B))
+     and (S only (R some (not (A))))) or ((not (D))
+     and (S only (not (C)))) or (B or (S some (R only A)))))) or (D
+     and ((S some (not (A))) or (S some (R only A)))
+     and ((S only (not (C))) or (S only (R some (not (A)))))) or ((R only A) or (R only 
+        (A or B)))) | Z only 
+    (((((not (C)) or (not (D)))
+     and (not (A))) or (not (A)) or (not (B)) or (not (C)) or (not (D))) or (S some 
+        (B or (C or D or (E
+         and (S some 
+            ((Nothing
+             and (A or (not (A))))
+             and (Z some 
+                (Nothing or Thing))))
+         and (R only (S only (Z some 
+            (F or (B
+             and (B or (not (A))))))))))))) | 
+
+2020-05-15   00:23:05   INFO    - ALC(JumpingTableau): true (252 milliseconds) - (32 iterations)
+
+2020-05-15   00:23:05   INFO    - Model: | R some 
+    (((E or F or (A or B or C))
+     and ((Z some E) or (R only (not (A))) or (S only (not (C)))))
+     and ((not (E)) or (not (F)))) | R some 
+    ((A
+     and (((B or (S some (R only A)))
+     and (D or (S some C))
+     and ((not (B)) or (not (D)))
+     and ((S only (not (C))) or (S only (R some (R only (S only (S some 
+        ((B or D)
+         and (not (C)))))))))) or ((((S some 
+        (A or C))
+     and (Z some (Z only (S only 
+        (A
+         and B
+         and D
+         and (not (C))
+         and (R only (S some (R some 
+            ((A
+             and B
+             and D) or (A
+             and C
+             and D
+             and (Nothing or (not (C)))) or (not (A)) or (not (C))))))))))) or (Z some 
+        (((S some (R some 
+            (A or B or C or (not (D))))) or (R only (S only 
+            (((C
+             and D
+             and (not (A)))
+             and (A or B)) or (not (A)) or (not (B)))))) or (R only 
+            ((A
+             and C) or ((B
+             and C
+             and (Z some (not (D)))) or ((not (B))
+             and (S some Nothing))))))))
+     and (R some B)
+     and (R only C)) or (((D or (S some C))
+     and (not (B))
+     and (S only (R some (not (A))))) or ((not (D))
+     and (S only (not (C)))) or (B or (S some (R only A)))))) or (D
+     and ((S some (not (A))) or (S some (R only A)))
+     and ((S only (not (C))) or (S only (R some (not (A)))))) or ((R only A) or (R only 
+        (A or B)))) | Z only 
+    (((((not (C)) or (not (D)))
+     and (not (A))) or (not (A)) or (not (B)) or (not (C)) or (not (D))) or (S some 
+        (B or (C or D or (E
+         and (S some 
+            ((Nothing
+             and (A or (not (A))))
+             and (Z some 
+                (Nothing or Thing))))
+         and (R only (S only (Z some 
+            (F or (B
+             and (B or (not (A))))))))))))) | 
 
-2020-05-14   17:42:29   INFO    - ALC(ChronologicalTableau): true (974 milliseconds) - (17 iterations)
+2020-05-15   00:23:05   INFO    - False12.owl
 
-2020-05-14   17:42:29   INFO    - ALC(JumpingTableau): true (349 milliseconds) - (17 iterations)
+2020-05-15   00:23:05   INFO    - ALC(ChronologicalTableau): false (27 milliseconds) - (4 iterations)
 
-2020-05-14   17:42:30   INFO    - False2.owl
+2020-05-15   00:23:05   INFO    - ALC(JumpingTableau): false (32 milliseconds) - (4 iterations)
 
-2020-05-14   17:42:30   INFO    - ALC(ChronologicalTableau): false (175 milliseconds) - (15 iterations)
+2020-05-15   00:23:05   INFO    - True15.owl
 
-2020-05-14   17:42:30   INFO    - ALC(JumpingTableau): false (161 milliseconds) - (15 iterations)
+2020-05-15   00:23:05   INFO    - ALC(ChronologicalTableau): true (46 milliseconds) - (7 iterations)
 
-2020-05-14   17:42:31   INFO    - False4.owl
+2020-05-15   00:23:05   INFO    - Model: | R some (not (A)) | R only 
+    (A or B) | 
 
-2020-05-14   17:42:31   INFO    - ALC(ChronologicalTableau): false (670 milliseconds) - (33 iterations)
+2020-05-15   00:23:05   INFO    - ALC(JumpingTableau): true (19 milliseconds) - (7 iterations)
 
-2020-05-14   17:42:31   INFO    - ALC(JumpingTableau): false (343 milliseconds) - (33 iterations)
+2020-05-15   00:23:05   INFO    - Model: | R some (not (A)) | R only 
+    (A or B) | 
 
-2020-05-14   17:42:31   INFO    - False1.owl
+2020-05-15   00:23:06   INFO    - 18-02-08_(3).owl
 
-2020-05-14   17:42:31   INFO    - ALC(ChronologicalTableau): false (38 milliseconds) - (9 iterations)
+2020-05-15   00:23:06   INFO    - ALC(ChronologicalTableau): true (218 milliseconds) - (30 iterations)
 
-2020-05-14   17:42:31   INFO    - ALC(JumpingTableau): false (34 milliseconds) - (6 iterations)
+2020-05-15   00:23:06   INFO    - Model: | S some (R only A) | D | not (B) | S only (not (C)) | 
 
-2020-05-14   17:42:32   INFO    - False8.owl
+2020-05-15   00:23:06   INFO    - ALC(JumpingTableau): true (66 milliseconds) - (21 iterations)
 
-2020-05-14   17:42:32   INFO    - ALC(ChronologicalTableau): false (17 milliseconds) - (3 iterations)
+2020-05-15   00:23:06   INFO    - Model: | S some (R only A) | D | not (B) | S only (not (C)) | 
 
-2020-05-14   17:42:32   INFO    - ALC(JumpingTableau): false (32 milliseconds) - (3 iterations)
+2020-05-15   00:23:06   INFO    - 18-02-08.owl
 
-2020-05-14   17:42:32   INFO    - True16.owl
+2020-05-15   00:23:06   INFO    - ALC(ChronologicalTableau): true (61 milliseconds) - (18 iterations)
 
-2020-05-14   17:42:32   INFO    - ALC(ChronologicalTableau): true (267 milliseconds) - (32 iterations)
+2020-05-15   00:23:06   INFO    - Model: | S some (R only A) | D | not (B) | S only (not (C)) | 
 
-2020-05-14   17:42:32   INFO    - ALC(JumpingTableau): true (222 milliseconds) - (32 iterations)
+2020-05-15   00:23:06   INFO    - ALC(JumpingTableau): true (102 milliseconds) - (15 iterations)
 
-2020-05-14   17:42:32   INFO    - False12.owl
+2020-05-15   00:23:06   INFO    - Model: | S some (R only A) | D | not (B) | S only (not (C)) | 
 
-2020-05-14   17:42:32   INFO    - ALC(ChronologicalTableau): false (25 milliseconds) - (4 iterations)
+2020-05-15   00:23:06   INFO    - False11.owl
 
-2020-05-14   17:42:32   INFO    - ALC(JumpingTableau): false (12 milliseconds) - (4 iterations)
+2020-05-15   00:23:06   INFO    - ALC(ChronologicalTableau): false (43 milliseconds) - (4 iterations)
 
-2020-05-14   17:42:33   INFO    - True15.owl
+2020-05-15   00:23:06   INFO    - ALC(JumpingTableau): false (33 milliseconds) - (4 iterations)
 
-2020-05-14   17:42:33   INFO    - ALC(ChronologicalTableau): true (28 milliseconds) - (7 iterations)
+2020-05-15   00:23:06   INFO    - False5.owl
 
-2020-05-14   17:42:33   INFO    - ALC(JumpingTableau): true (18 milliseconds) - (7 iterations)
+2020-05-15   00:23:06   INFO    - ALC(ChronologicalTableau): false (16 milliseconds) - (3 iterations)
 
-2020-05-14   17:42:33   INFO    - 18-02-08_(3).owl
+2020-05-15   00:23:06   INFO    - ALC(JumpingTableau): false (19 milliseconds) - (3 iterations)
 
-2020-05-14   17:42:33   INFO    - ALC(ChronologicalTableau): true (221 milliseconds) - (30 iterations)
+2020-05-15   00:23:10   INFO    - True11.owl
 
-2020-05-14   17:42:33   INFO    - ALC(JumpingTableau): true (91 milliseconds) - (21 iterations)
+2020-05-15   00:23:10   INFO    - ALC(ChronologicalTableau): true (1986 milliseconds) - (316 iterations)
 
-2020-05-14   17:42:33   INFO    - 18-02-08.owl
+2020-05-15   00:23:10   INFO    - Model: | R some A | D | E | not (A) | R some 
+    ((B or (R some A))
+     and (C or D)
+     and (E or F)
+     and (G or (not (A)))
+     and ((not (C)) or (R only (not (A))))) | R only 
+    ((C or (not (D)))
+     and (E or F)) | not (C) | not (G) | 
 
-2020-05-14   17:42:33   INFO    - ALC(ChronologicalTableau): true (76 milliseconds) - (18 iterations)
+2020-05-15   00:23:10   INFO    - ALC(JumpingTableau): true (584 milliseconds) - (94 iterations)
 
-2020-05-14   17:42:33   INFO    - ALC(JumpingTableau): true (64 milliseconds) - (15 iterations)
+2020-05-15   00:23:10   INFO    - Model: | R some A | D | E | not (A) | R some 
+    ((B or (R some A))
+     and (C or D)
+     and (E or F)
+     and (G or (not (A)))
+     and ((not (C)) or (R only (not (A))))) | R only 
+    ((C or (not (D)))
+     and (E or F)) | not (C) | not (G) | 
 
-2020-05-14   17:42:33   INFO    - False11.owl
+2020-05-15   00:23:10   INFO    - 18-02-08_(2).owl
 
-2020-05-14   17:42:33   INFO    - ALC(ChronologicalTableau): false (24 milliseconds) - (4 iterations)
+2020-05-15   00:23:10   INFO    - ALC(ChronologicalTableau): true (45 milliseconds) - (17 iterations)
 
-2020-05-14   17:42:33   INFO    - ALC(JumpingTableau): false (20 milliseconds) - (4 iterations)
+2020-05-15   00:23:10   INFO    - Model: | S some (R only A) | S some C | not (B) | S only (R some (R only (S only (S some 
+    ((B or D)
+     and (not (C))))))) | 
 
-2020-05-14   17:42:33   INFO    - False5.owl
+2020-05-15   00:23:10   INFO    - ALC(JumpingTableau): true (46 milliseconds) - (17 iterations)
 
-2020-05-14   17:42:33   INFO    - ALC(ChronologicalTableau): false (12 milliseconds) - (3 iterations)
+2020-05-15   00:23:10   INFO    - Model: | S some (R only A) | S some C | not (B) | S only (R some (R only (S only (S some 
+    ((B or D)
+     and (not (C))))))) | 
 
-2020-05-14   17:42:33   INFO    - ALC(JumpingTableau): false (16 milliseconds) - (3 iterations)
+2020-05-15   00:23:10   INFO    - True1.owl
 
-2020-05-14   17:42:36   INFO    - True11.owl
+2020-05-15   00:23:10   INFO    - ALC(ChronologicalTableau): true (36 milliseconds) - (8 iterations)
 
-2020-05-14   17:42:36   INFO    - ALC(ChronologicalTableau): true (1933 milliseconds) - (316 iterations)
+2020-05-15   00:23:10   INFO    - Model: | S only (R some (not (A))) | not (B) | S some C | 
 
-2020-05-14   17:42:36   INFO    - ALC(JumpingTableau): true (376 milliseconds) - (94 iterations)
+2020-05-15   00:23:10   INFO    - ALC(JumpingTableau): true (30 milliseconds) - (8 iterations)
 
-2020-05-14   17:42:36   INFO    - 18-02-08_(2).owl
+2020-05-15   00:23:10   INFO    - Model: | S only (R some (not (A))) | not (B) | S some C | 
 
-2020-05-14   17:42:36   INFO    - ALC(ChronologicalTableau): true (42 milliseconds) - (17 iterations)
+2020-05-15   00:23:10   INFO    - True12.owl
 
-2020-05-14   17:42:36   INFO    - ALC(JumpingTableau): true (39 milliseconds) - (17 iterations)
+2020-05-15   00:23:10   INFO    - ALC(ChronologicalTableau): true (11 milliseconds) - (7 iterations)
 
-2020-05-14   17:42:37   INFO    - True1.owl
+2020-05-15   00:23:10   INFO    - Model: | R some A | R only 
+    (A or B) | 
 
-2020-05-14   17:42:37   INFO    - ALC(ChronologicalTableau): true (16 milliseconds) - (8 iterations)
+2020-05-15   00:23:10   INFO    - ALC(JumpingTableau): true (11 milliseconds) - (7 iterations)
 
-2020-05-14   17:42:37   INFO    - ALC(JumpingTableau): true (14 milliseconds) - (8 iterations)
+2020-05-15   00:23:10   INFO    - Model: | R some A | R only 
+    (A or B) | 
 
-2020-05-14   17:42:37   INFO    - True12.owl
+2020-05-15   00:23:10   INFO    - True13.owl
 
-2020-05-14   17:42:37   INFO    - ALC(ChronologicalTableau): true (23 milliseconds) - (7 iterations)
+2020-05-15   00:23:10   INFO    - ALC(ChronologicalTableau): true (51 milliseconds) - (8 iterations)
 
-2020-05-14   17:42:37   INFO    - ALC(JumpingTableau): true (14 milliseconds) - (7 iterations)
+2020-05-15   00:23:10   INFO    - Model: | D | S some (not (A)) | S only (not (C)) | 
 
-2020-05-14   17:42:37   INFO    - True13.owl
+2020-05-15   00:23:10   INFO    - ALC(JumpingTableau): true (25 milliseconds) - (8 iterations)
 
-2020-05-14   17:42:37   INFO    - ALC(ChronologicalTableau): true (14 milliseconds) - (8 iterations)
+2020-05-15   00:23:10   INFO    - Model: | D | S some (not (A)) | S only (not (C)) | 
 
-2020-05-14   17:42:37   INFO    - ALC(JumpingTableau): true (13 milliseconds) - (8 iterations)
+2020-05-15   00:23:10   INFO    - 06-07-24.owl
 
-2020-05-14   17:42:37   INFO    - 06-07-24.owl
+2020-05-15   00:23:10   INFO    - ALC(ChronologicalTableau): true (53 milliseconds) - (10 iterations)
 
-2020-05-14   17:42:37   INFO    - ALC(ChronologicalTableau): true (28 milliseconds) - (10 iterations)
+2020-05-15   00:23:10   INFO    - Model: | R some (not (A)) | A | R only (S only A) | R only (not (A)) | 
 
-2020-05-14   17:42:37   INFO    - ALC(JumpingTableau): true (17 milliseconds) - (10 iterations)
+2020-05-15   00:23:10   INFO    - ALC(JumpingTableau): true (65 milliseconds) - (10 iterations)
 
-2020-05-14   17:42:37   INFO    - 09-06-01.owl
+2020-05-15   00:23:10   INFO    - Model: | R some (not (A)) | A | R only (S only A) | R only (not (A)) | 
 
-2020-05-14   17:42:37   INFO    - ALC(ChronologicalTableau): true (119 milliseconds) - (59 iterations)
+2020-05-15   00:23:11   INFO    - 09-06-01.owl
 
-2020-05-14   17:42:37   INFO    - ALC(JumpingTableau): true (115 milliseconds) - (42 iterations)
+2020-05-15   00:23:11   INFO    - ALC(ChronologicalTableau): true (189 milliseconds) - (59 iterations)
 
-2020-05-14   17:42:37   INFO    - AnotA.owl
+2020-05-15   00:23:11   INFO    - Model: | A2 | B1 | not (A1) | R some (not (A1)) | 
 
-2020-05-14   17:42:37   INFO    - ALC(ChronologicalTableau): false (6 milliseconds) - (2 iterations)
+2020-05-15   00:23:11   INFO    - ALC(JumpingTableau): true (56 milliseconds) - (42 iterations)
 
-2020-05-14   17:42:37   INFO    - ALC(JumpingTableau): false (4 milliseconds) - (2 iterations)
+2020-05-15   00:23:11   INFO    - Model: | A2 | B1 | not (A1) | R some (not (A1)) | 
 
-2020-05-14   17:42:37   INFO    - True14.owl
+2020-05-15   00:23:11   INFO    - AnotA.owl
 
-2020-05-14   17:42:37   INFO    - ALC(ChronologicalTableau): true (17 milliseconds) - (9 iterations)
+2020-05-15   00:23:11   INFO    - ALC(ChronologicalTableau): false (3 milliseconds) - (2 iterations)
 
-2020-05-14   17:42:37   INFO    - ALC(JumpingTableau): true (16 milliseconds) - (9 iterations)
+2020-05-15   00:23:11   INFO    - ALC(JumpingTableau): false (2 milliseconds) - (2 iterations)
 
-2020-05-14   17:42:38   INFO    - True8.owl
+2020-05-15   00:23:11   INFO    - True14.owl
 
-2020-05-14   17:42:38   INFO    - ALC(ChronologicalTableau): true (76 milliseconds) - (24 iterations)
+2020-05-15   00:23:11   INFO    - ALC(ChronologicalTableau): true (15 milliseconds) - (9 iterations)
 
-2020-05-14   17:42:38   INFO    - ALC(JumpingTableau): true (60 milliseconds) - (24 iterations)
+2020-05-15   00:23:11   INFO    - Model: | S only 
+    (C
+     and D) | S only (not (C)) | 
 
-2020-05-14   17:42:38   INFO    - 12-06-08.owl
+2020-05-15   00:23:11   INFO    - ALC(JumpingTableau): true (15 milliseconds) - (9 iterations)
 
-2020-05-14   17:42:38   INFO    - ALC(ChronologicalTableau): true (80 milliseconds) - (18 iterations)
+2020-05-15   00:23:11   INFO    - Model: | S only 
+    (C
+     and D) | S only (not (C)) | 
 
-2020-05-14   17:42:38   INFO    - ALC(JumpingTableau): true (62 milliseconds) - (15 iterations)
+2020-05-15   00:23:11   INFO    - True8.owl
 
-2020-05-14   17:42:38   INFO    - 17-02-23.owl
+2020-05-15   00:23:11   INFO    - ALC(ChronologicalTableau): true (209 milliseconds) - (24 iterations)
 
-2020-05-14   17:42:38   INFO    - ALC(ChronologicalTableau): true (45 milliseconds) - (11 iterations)
+2020-05-15   00:23:11   INFO    - Model: | R some B | R only C | A | S some (R only A) | S some C | not (B) | S only (R some (R only (S only (S some 
+    ((B or D)
+     and (not (C))))))) | 
 
-2020-05-14   17:42:38   INFO    - ALC(JumpingTableau): true (24 milliseconds) - (11 iterations)
+2020-05-15   00:23:11   INFO    - ALC(JumpingTableau): true (214 milliseconds) - (24 iterations)
 
-2020-05-14   17:42:38   INFO    - True4.owl
+2020-05-15   00:23:11   INFO    - Model: | R some B | R only C | A | S some (R only A) | S some C | not (B) | S only (R some (R only (S only (S some 
+    ((B or D)
+     and (not (C))))))) | 
 
-2020-05-14   17:42:38   INFO    - ALC(ChronologicalTableau): true (10 milliseconds) - (2 iterations)
+2020-05-15   00:23:12   INFO    - 12-06-08.owl
 
-2020-05-14   17:42:38   INFO    - ALC(JumpingTableau): true (9 milliseconds) - (2 iterations)
+2020-05-15   00:23:12   INFO    - ALC(ChronologicalTableau): true (35 milliseconds) - (18 iterations)
 
-2020-05-14   17:42:38   INFO    - False10.owl
+2020-05-15   00:23:12   INFO    - Model: | S some (R only A) | D | not (B) | S only (not (C)) | 
 
-2020-05-14   17:42:38   INFO    - ALC(ChronologicalTableau): false (9 milliseconds) - (4 iterations)
+2020-05-15   00:23:12   INFO    - ALC(JumpingTableau): true (29 milliseconds) - (15 iterations)
 
-2020-05-14   17:42:38   INFO    - ALC(JumpingTableau): false (9 milliseconds) - (4 iterations)
+2020-05-15   00:23:12   INFO    - Model: | S some (R only A) | D | not (B) | S only (not (C)) | 
 
-2020-05-14   17:42:39   INFO    - False3.owl
+2020-05-15   00:23:12   INFO    - 17-02-23.owl
 
-2020-05-14   17:42:39   INFO    - ALC(ChronologicalTableau): false (458 milliseconds) - (127 iterations)
+2020-05-15   00:23:12   INFO    - ALC(ChronologicalTableau): true (63 milliseconds) - (11 iterations)
 
-2020-05-14   17:42:39   INFO    - ALC(JumpingTableau): false (23 milliseconds) - (11 iterations)
+2020-05-15   00:23:12   INFO    - Model: | A | S only (R some A) | R some A | S some B | 
 
-2020-05-14   17:42:39   INFO    - True7.owl
+2020-05-15   00:23:12   INFO    - ALC(JumpingTableau): true (45 milliseconds) - (11 iterations)
 
-2020-05-14   17:42:39   INFO    - ALC(ChronologicalTableau): true (66 milliseconds) - (24 iterations)
+2020-05-15   00:23:12   INFO    - Model: | A | S only (R some A) | R some A | S some B | 
 
-2020-05-14   17:42:39   INFO    - ALC(JumpingTableau): true (48 milliseconds) - (24 iterations)
+2020-05-15   00:23:12   INFO    - True4.owl
 
-2020-05-14   17:42:39   INFO    - True6.owl
+2020-05-15   00:23:12   INFO    - ALC(ChronologicalTableau): true (13 milliseconds) - (2 iterations)
 
-2020-05-14   17:42:39   INFO    - ALC(ChronologicalTableau): true (58 milliseconds) - (24 iterations)
+2020-05-15   00:23:12   INFO    - Model: | S some (R only (Z some (S only (R some (Z only 
+    ((A or D or (not (C)) or (not (D)))
+     and (C or D or (not (A)) or (not (B))))))))) | 
 
-2020-05-14   17:42:39   INFO    - ALC(JumpingTableau): true (52 milliseconds) - (24 iterations)
+2020-05-15   00:23:12   INFO    - ALC(JumpingTableau): true (7 milliseconds) - (2 iterations)
 
-2020-05-14   17:42:39   INFO    - Bottom.owl
+2020-05-15   00:23:12   INFO    - Model: | S some (R only (Z some (S only (R some (Z only 
+    ((A or D or (not (C)) or (not (D)))
+     and (C or D or (not (A)) or (not (B))))))))) | 
 
-2020-05-14   17:42:39   INFO    - ALC(ChronologicalTableau): false (3 milliseconds) - (3 iterations)
+2020-05-15   00:23:12   INFO    - False10.owl
 
-2020-05-14   17:42:39   INFO    - ALC(JumpingTableau): false (4 milliseconds) - (3 iterations)
+2020-05-15   00:23:12   INFO    - ALC(ChronologicalTableau): false (7 milliseconds) - (4 iterations)
 
-2020-05-14   17:42:39   INFO    - True10.owl
+2020-05-15   00:23:12   INFO    - ALC(JumpingTableau): false (8 milliseconds) - (4 iterations)
 
-2020-05-14   17:42:39   INFO    - ALC(ChronologicalTableau): true (162 milliseconds) - (69 iterations)
+2020-05-15   00:23:13   INFO    - False3.owl
 
-2020-05-14   17:42:39   INFO    - ALC(JumpingTableau): true (74 milliseconds) - (35 iterations)
+2020-05-15   00:23:13   INFO    - ALC(ChronologicalTableau): false (454 milliseconds) - (127 iterations)
 
-2020-05-14   17:42:39   INFO    - False9.owl
+2020-05-15   00:23:13   INFO    - ALC(JumpingTableau): false (31 milliseconds) - (11 iterations)
 
-2020-05-14   17:42:39   INFO    - ALC(ChronologicalTableau): false (5 milliseconds) - (5 iterations)
+2020-05-15   00:23:13   INFO    - True7.owl
 
-2020-05-14   17:42:39   INFO    - ALC(JumpingTableau): false (5 milliseconds) - (5 iterations)
+2020-05-15   00:23:13   INFO    - ALC(ChronologicalTableau): true (43 milliseconds) - (24 iterations)
 
-2020-05-14   17:42:39   INFO    - 17-01-27.owl
+2020-05-15   00:23:13   INFO    - Model: | R some B | R only C | A | S some (R only A) | S some C | not (B) | S only (R some (R only (S only (S some 
+    ((B or D)
+     and (not (C))))))) | 
 
-2020-05-14   17:42:39   INFO    - ALC(ChronologicalTableau): true (20 milliseconds) - (11 iterations)
+2020-05-15   00:23:13   INFO    - ALC(JumpingTableau): true (39 milliseconds) - (24 iterations)
 
-2020-05-14   17:42:39   INFO    - ALC(JumpingTableau): true (18 milliseconds) - (11 iterations)
+2020-05-15   00:23:13   INFO    - Model: | R some B | R only C | A | S some (R only A) | S some C | not (B) | S only (R some (R only (S only (S some 
+    ((B or D)
+     and (not (C))))))) | 
 
-2020-05-14   17:42:39   INFO    - False6.owl
+2020-05-15   00:23:13   INFO    - True6.owl
 
-2020-05-14   17:42:39   INFO    - ALC(ChronologicalTableau): false (99 milliseconds) - (41 iterations)
+2020-05-15   00:23:13   INFO    - ALC(ChronologicalTableau): true (104 milliseconds) - (24 iterations)
 
-2020-05-14   17:42:39   INFO    - ALC(JumpingTableau): false (29 milliseconds) - (22 iterations)
+2020-05-15   00:23:13   INFO    - Model: | R some B | R only C | A | S some (R only A) | S some C | not (B) | S only (R some (R only (S only (S some 
+    ((B or D)
+     and (not (C))))))) | 
 
-2020-05-14   17:42:40   INFO    - True9.owl
+2020-05-15   00:23:13   INFO    - ALC(JumpingTableau): true (76 milliseconds) - (24 iterations)
 
-2020-05-14   17:42:40   INFO    - ALC(ChronologicalTableau): true (63 milliseconds) - (35 iterations)
+2020-05-15   00:23:13   INFO    - Model: | R some B | R only C | A | S some (R only A) | S some C | not (B) | S only (R some (R only (S only (S some 
+    ((B or D)
+     and (not (C))))))) | 
 
-2020-05-14   17:42:40   INFO    - ALC(JumpingTableau): true (38 milliseconds) - (25 iterations)
+2020-05-15   00:23:13   INFO    - Bottom.owl
 
-2020-05-14   17:42:40   INFO    - 06-06-26.owl
+2020-05-15   00:23:13   INFO    - ALC(ChronologicalTableau): false (4 milliseconds) - (3 iterations)
 
-2020-05-14   17:42:40   INFO    - ALC(ChronologicalTableau): true (14 milliseconds) - (9 iterations)
+2020-05-15   00:23:13   INFO    - ALC(JumpingTableau): false (3 milliseconds) - (3 iterations)
 
-2020-05-14   17:42:40   INFO    - ALC(JumpingTableau): true (13 milliseconds) - (9 iterations)
+2020-05-15   00:23:13   INFO    - True10.owl
 
-2020-05-14   17:42:40   INFO    - True3.owl
+2020-05-15   00:23:13   INFO    - ALC(ChronologicalTableau): true (130 milliseconds) - (69 iterations)
 
-2020-05-14   17:42:40   INFO    - ALC(ChronologicalTableau): true (59 milliseconds) - (25 iterations)
+2020-05-15   00:23:13   INFO    - Model: | R some A | D | E | not (A) | not (C) | not (G) | 
 
-2020-05-14   17:42:40   INFO    - ALC(JumpingTableau): true (64 milliseconds) - (25 iterations)
+2020-05-15   00:23:13   INFO    - ALC(JumpingTableau): true (139 milliseconds) - (35 iterations)
 
-2020-05-14   17:42:40   INFO    - True2.owl
+2020-05-15   00:23:13   INFO    - Model: | R some A | D | E | not (A) | not (C) | not (G) | 
 
-2020-05-14   17:42:40   INFO    - ALC(ChronologicalTableau): true (10 milliseconds) - (6 iterations)
+2020-05-15   00:23:13   INFO    - False9.owl
 
-2020-05-14   17:42:40   INFO    - ALC(JumpingTableau): true (8 milliseconds) - (6 iterations)
+2020-05-15   00:23:13   INFO    - ALC(ChronologicalTableau): false (4 milliseconds) - (5 iterations)
 
-2020-05-14   17:42:40   INFO    - False7.owl
+2020-05-15   00:23:13   INFO    - ALC(JumpingTableau): false (5 milliseconds) - (5 iterations)
 
-2020-05-14   17:42:40   INFO    - ALC(ChronologicalTableau): false (6 milliseconds) - (3 iterations)
+2020-05-15   00:23:14   INFO    - 17-01-27.owl
 
-2020-05-14   17:42:40   INFO    - ALC(JumpingTableau): false (8 milliseconds) - (3 iterations)
+2020-05-15   00:23:14   INFO    - ALC(ChronologicalTableau): true (36 milliseconds) - (11 iterations)
 
-2020-05-14   17:42:40   INFO    - True5.owl
+2020-05-15   00:23:14   INFO    - Model: | A | S only (R some A) | R some A | S some B | 
 
-2020-05-14   17:42:40   INFO    - ALC(ChronologicalTableau): true (19 milliseconds) - (8 iterations)
+2020-05-15   00:23:14   INFO    - ALC(JumpingTableau): true (19 milliseconds) - (11 iterations)
 
-2020-05-14   17:42:40   INFO    - ALC(JumpingTableau): true (20 milliseconds) - (8 iterations)
+2020-05-15   00:23:14   INFO    - Model: | A | S only (R some A) | R some A | S some B | 
 
-2020-05-14   17:42:40   INFO    - False13.owl
+2020-05-15   00:23:14   INFO    - False6.owl
 
-2020-05-14   17:42:40   INFO    - ALC(ChronologicalTableau): false (15 milliseconds) - (9 iterations)
+2020-05-15   00:23:14   INFO    - ALC(ChronologicalTableau): false (100 milliseconds) - (41 iterations)
 
-2020-05-14   17:42:40   INFO    - ALC(JumpingTableau): false (11 milliseconds) - (9 iterations)
+2020-05-15   00:23:14   INFO    - ALC(JumpingTableau): false (58 milliseconds) - (22 iterations)
+
+2020-05-15   00:23:14   INFO    - True9.owl
+
+2020-05-15   00:23:14   INFO    - ALC(ChronologicalTableau): true (95 milliseconds) - (35 iterations)
+
+2020-05-15   00:23:14   INFO    - Model: | R some A | D | E | not (A) | not (C) | not (G) | 
+
+2020-05-15   00:23:14   INFO    - ALC(JumpingTableau): true (67 milliseconds) - (25 iterations)
+
+2020-05-15   00:23:14   INFO    - Model: | R some A | D | E | not (A) | not (C) | not (G) | 
+
+2020-05-15   00:23:14   INFO    - 06-06-26.owl
+
+2020-05-15   00:23:14   INFO    - ALC(ChronologicalTableau): true (36 milliseconds) - (9 iterations)
+
+2020-05-15   00:23:14   INFO    - Model: | R some (S some (not (A))) | A | A2 | not (B) | 
+
+2020-05-15   00:23:14   INFO    - ALC(JumpingTableau): true (27 milliseconds) - (9 iterations)
+
+2020-05-15   00:23:14   INFO    - Model: | R some (S some (not (A))) | A | A2 | not (B) | 
+
+2020-05-15   00:23:15   INFO    - True3.owl
+
+2020-05-15   00:23:15   INFO    - ALC(ChronologicalTableau): true (98 milliseconds) - (25 iterations)
+
+2020-05-15   00:23:15   INFO    - Model: | R some 
+    ((A
+     and (((B or (S some (R only A)))
+     and (D or (S some C))
+     and ((not (B)) or (not (D)))
+     and ((S only (not (C))) or (S only (R some (R only (S only (S some 
+        ((B or D)
+         and (not (C)))))))))) or (((D or (S some C))
+     and (not (B))
+     and (S only (R some (not (A))))) or ((not (D))
+     and (S only (not (C)))) or (B or (S some (R only A)))) or (((Z some (Z only (S only 
+        (A
+         and B
+         and D
+         and (not (C))
+         and (R only (S some (R some 
+            ((A
+             and B
+             and D) or (A
+             and C
+             and D
+             and (Nothing or (not (C)))) or (not (A)) or (not (C))))))))))
+     and (S only 
+        ((not (A))
+         and (not (C))))) or (Z some 
+        (((S some (R some 
+            (A or B or C or (not (D))))) or (R only (S only 
+            (((C
+             and D
+             and (not (A)))
+             and (A or B)) or (not (A)) or (not (B)))))) or (R only 
+            ((A
+             and C) or (B
+             and C
+             and (not (D))) or (not (B))))))))
+     and (R some B)
+     and (R only C)) or (D
+     and ((S some (not (A))) or (S some (R only A)))
+     and ((S only (not (C))) or (S only (R some (not (A)))))) or ((R only A) or (R only 
+        (A or B)))) | 
+
+2020-05-15   00:23:15   INFO    - ALC(JumpingTableau): true (103 milliseconds) - (25 iterations)
+
+2020-05-15   00:23:15   INFO    - Model: | R some 
+    ((A
+     and (((B or (S some (R only A)))
+     and (D or (S some C))
+     and ((not (B)) or (not (D)))
+     and ((S only (not (C))) or (S only (R some (R only (S only (S some 
+        ((B or D)
+         and (not (C)))))))))) or (((D or (S some C))
+     and (not (B))
+     and (S only (R some (not (A))))) or ((not (D))
+     and (S only (not (C)))) or (B or (S some (R only A)))) or (((Z some (Z only (S only 
+        (A
+         and B
+         and D
+         and (not (C))
+         and (R only (S some (R some 
+            ((A
+             and B
+             and D) or (A
+             and C
+             and D
+             and (Nothing or (not (C)))) or (not (A)) or (not (C))))))))))
+     and (S only 
+        ((not (A))
+         and (not (C))))) or (Z some 
+        (((S some (R some 
+            (A or B or C or (not (D))))) or (R only (S only 
+            (((C
+             and D
+             and (not (A)))
+             and (A or B)) or (not (A)) or (not (B)))))) or (R only 
+            ((A
+             and C) or (B
+             and C
+             and (not (D))) or (not (B))))))))
+     and (R some B)
+     and (R only C)) or (D
+     and ((S some (not (A))) or (S some (R only A)))
+     and ((S only (not (C))) or (S only (R some (not (A)))))) or ((R only A) or (R only 
+        (A or B)))) | 
+
+2020-05-15   00:23:15   INFO    - True2.owl
+
+2020-05-15   00:23:15   INFO    - ALC(ChronologicalTableau): true (14 milliseconds) - (6 iterations)
+
+2020-05-15   00:23:15   INFO    - Model: | S some 
+    (C
+     and D) | S some (not (D)) | 
+
+2020-05-15   00:23:15   INFO    - ALC(JumpingTableau): true (6 milliseconds) - (6 iterations)
+
+2020-05-15   00:23:15   INFO    - Model: | S some 
+    (C
+     and D) | S some (not (D)) | 
+
+2020-05-15   00:23:15   INFO    - False7.owl
+
+2020-05-15   00:23:15   INFO    - ALC(ChronologicalTableau): false (5 milliseconds) - (3 iterations)
+
+2020-05-15   00:23:15   INFO    - ALC(JumpingTableau): false (16 milliseconds) - (3 iterations)
+
+2020-05-15   00:23:15   INFO    - True5.owl
+
+2020-05-15   00:23:15   INFO    - ALC(ChronologicalTableau): true (44 milliseconds) - (8 iterations)
+
+2020-05-15   00:23:15   INFO    - Model: | Z some (Z only (S only 
+    (A
+     and B
+     and D
+     and (not (C))
+     and (R only (S some (R some 
+        ((A
+         and B
+         and D) or (A
+         and C
+         and D
+         and (Nothing or (not (C)))) or (not (A)) or (not (C))))))))) | A | Z some 
+    (((S some (R some 
+        (A or B or C or (not (D))))) or (R only (S only 
+        (((C
+         and D
+         and (not (A)))
+         and (A or B)) or (not (A)) or (not (B)))))) or (R only 
+        ((A
+         and C) or (B
+         and C
+         and (not (D))) or (not (B))))) | 
+
+2020-05-15   00:23:15   INFO    - ALC(JumpingTableau): true (31 milliseconds) - (8 iterations)
+
+2020-05-15   00:23:15   INFO    - Model: | Z some (Z only (S only 
+    (A
+     and B
+     and D
+     and (not (C))
+     and (R only (S some (R some 
+        ((A
+         and B
+         and D) or (A
+         and C
+         and D
+         and (Nothing or (not (C)))) or (not (A)) or (not (C))))))))) | A | Z some 
+    (((S some (R some 
+        (A or B or C or (not (D))))) or (R only (S only 
+        (((C
+         and D
+         and (not (A)))
+         and (A or B)) or (not (A)) or (not (B)))))) or (R only 
+        ((A
+         and C) or (B
+         and C
+         and (not (D))) or (not (B))))) | 
+
+2020-05-15   00:23:15   INFO    - False13.owl
+
+2020-05-15   00:23:15   INFO    - ALC(ChronologicalTableau): false (20 milliseconds) - (9 iterations)
+
+2020-05-15   00:23:15   INFO    - ALC(JumpingTableau): false (18 milliseconds) - (9 iterations)
 

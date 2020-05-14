@@ -1,50 +1,50 @@
-2020-05-14   17:42:37   DEBUG   - SAT: -1
+2020-05-15   00:23:10   DEBUG   - SAT: -1
 
-2020-05-14   17:42:37   DEBUG   - Rule: 0 INTERSECTION: (A or B)
+2020-05-15   00:23:10   DEBUG   - Rule: 0 INTERSECTION: (A or B)
  and ((not (B)) or (R only (S only A)))
  and ((R only A) or (R only (not (A))))
  and (R some (not (A)))
 
-2020-05-14   17:42:37   DEBUG   - Rule: 1 UNION: A or B
+2020-05-15   00:23:10   DEBUG   - Rule: 1 UNION: A or B
 
-2020-05-14   17:42:37   DEBUG   - CHOICE A
+2020-05-15   00:23:10   DEBUG   - CHOICE A
 
-2020-05-14   17:42:37   DEBUG   - Rule: 2 UNION: (not (B)) or (R only (S only A))
+2020-05-15   00:23:10   DEBUG   - Rule: 2 UNION: (not (B)) or (R only (S only A))
 
-2020-05-14   17:42:37   DEBUG   - CHOICE R only (S only A)
+2020-05-15   00:23:10   DEBUG   - CHOICE R only (S only A)
 
-2020-05-14   17:42:37   DEBUG   - Rule: 3 UNION: (R only A) or (R only (not (A)))
+2020-05-15   00:23:10   DEBUG   - Rule: 3 UNION: (R only A) or (R only (not (A)))
 
-2020-05-14   17:42:37   DEBUG   - CHOICE R only A
+2020-05-15   00:23:10   DEBUG   - CHOICE R only A
 
-2020-05-14   17:42:37   DEBUG   - CLASH R some (not (A)) | R only A
+2020-05-15   00:23:10   DEBUG   - CLASH R some (not (A)) | R only A
 
-2020-05-14   17:42:37   DEBUG   - CHOICE R only (not (A))
+2020-05-15   00:23:10   DEBUG   - CHOICE R only (not (A))
 
-2020-05-14   17:42:37   DEBUG   - Rule: 4 SOME: R some (not (A))
+2020-05-15   00:23:10   DEBUG   - Rule: 4 SOME: R some (not (A))
 
-2020-05-14   17:42:37   DEBUG   - SAT: 4
+2020-05-15   00:23:10   DEBUG   - SAT: 4
 
-2020-05-14   17:42:37   DEBUG   - SOME 4 SATISFIABLE
+2020-05-15   00:23:10   DEBUG   - SOME 4 SATISFIABLE
 
-2020-05-14   17:42:37   DEBUG   - Rule: 6 ALL: R only (S only A)
+2020-05-15   00:23:10   DEBUG   - Rule: 6 ALL: R only (S only A)
 
-2020-05-14   17:42:37   DEBUG   - SAT: 6
+2020-05-15   00:23:10   DEBUG   - SAT: 6
 
-2020-05-14   17:42:37   DEBUG   - Rule: 0 INTERSECTION: (not (A))
+2020-05-15   00:23:10   DEBUG   - Rule: 0 INTERSECTION: (not (A))
  and (S only A)
 
-2020-05-14   17:42:37   DEBUG   - Rule: 1 ALL: S only A
+2020-05-15   00:23:10   DEBUG   - Rule: 1 ALL: S only A
 
-2020-05-14   17:42:37   DEBUG   - ALL NO CONDITIONS
+2020-05-15   00:23:10   DEBUG   - ALL NO CONDITIONS
 
-2020-05-14   17:42:37   DEBUG   - ALL 6 SATISFIABLE
+2020-05-15   00:23:10   DEBUG   - ALL 6 SATISFIABLE
 
-2020-05-14   17:42:37   DEBUG   - Rule: 7 ALL: R only (not (A))
+2020-05-15   00:23:10   DEBUG   - Rule: 7 ALL: R only (not (A))
 
-2020-05-14   17:42:37   INFO    - ALC(JumpingTableau): true
+2020-05-15   00:23:10   INFO    - ALC(JumpingTableau): true
 
-2020-05-14   17:42:37   INFO    - Iterazioni: 10
+2020-05-15   00:23:10   INFO    - Iterations: 10
 
-2020-05-14   17:42:37   INFO    - Model: | R some (not (A)) | A | R only (S only A) | R only (not (A)) | 
+2020-05-15   00:23:10   INFO    - Model: | R some (not (A)) | A | R only (S only A) | R only (not (A)) | 
 
