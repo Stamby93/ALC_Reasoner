@@ -21,15 +21,13 @@ import java.util.stream.Collectors;
  * between the performances of the Chronological and those of the Jumping Tableau
  */
 public class Battery {
-    private OWLReasoner oracle;
-    private ReasonerFactory factoryHermit;
-    private File dir;
-    private File[] directoryListing;
-    private OWLOntologyManager man;
+    private final ReasonerFactory factoryHermit;
+    private final File[] directoryListing;
+    private final OWLOntologyManager man;
 
 
     public Battery(){
-        dir = new File("Ontologie");
+        File dir = new File("Ontologie");
         directoryListing = dir.listFiles();
         man = OWLManager.createOWLOntologyManager();
         factoryHermit = new ReasonerFactory();
@@ -42,7 +40,7 @@ public class Battery {
      */
     public String start(boolean log) throws Exception {
 
-        String output = new String("************************************************************************************");
+        String output = "************************************************************************************";
         assert directoryListing != null;
 
         if(log)
@@ -164,7 +162,7 @@ public class Battery {
                         LoggerManager.writeInfoLog("Model: " + jump_model, Battery.class);
                 }
 
-                oracle = factoryHermit.createReasoner(ont);
+                OWLReasoner oracle = factoryHermit.createReasoner(ont);
                 /*HermiT*/
                 long hermit_StartTime = System.currentTimeMillis();
                 boolean resultHermit = oracle.isSatisfiable(expression);
