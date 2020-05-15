@@ -47,6 +47,7 @@ public class LauncherGUI extends JPanel implements ActionListener {
     private final OWLReasoner NoLOGalc_jump;
     private final Battery battery;
     private boolean loggerEnabled = true;
+    private boolean test = false;
     /**
      * The Expression.
      */
@@ -141,6 +142,7 @@ public class LauncherGUI extends JPanel implements ActionListener {
 
 
         if (e.getSource() == openButton) {
+            test = false;
             int returnVal = fc.showOpenDialog(LauncherGUI.this);
 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -250,44 +252,53 @@ public class LauncherGUI extends JPanel implements ActionListener {
 
         }
         else if (e.getSource() == loadChronologicalLog) {
-            try {
-                File file = fc.getSelectedFile();
-                String fileLog = file.getName().replace(".owl", "") + "_Chronological.log";
+            if(!test) {
+                try {
+                    File file = fc.getSelectedFile();
+                    String fileLog = file.getName().replace(".owl", "") + "_Chronological.log";
 
-                File Log = new File("LOG/Launcher.LauncherGUI/" + fileLog);
+                    File Log = new File("LOG/Launcher.LauncherGUI/" + fileLog);
 
-                Desktop desktop = Desktop.getDesktop();
-                if (Log.exists()) {
-                    try {
-                        desktop.open(Log);
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
+                    Desktop desktop = Desktop.getDesktop();
+                    if (Log.exists()) {
+                        try {
+                            desktop.open(Log);
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
                     }
+                } catch (Exception ex) {
+                    log.append("\nNO FILE SELECTED" + newline);
                 }
-            } catch (Exception ex) {
-                log.append("\nNO FILE SELECTED"+newline);
             }
+            else
+                JOptionPane.showMessageDialog(this, "After test there are too many files, please open manually.", "Warning ", JOptionPane.WARNING_MESSAGE);
         }
         else if (e.getSource() == loadJumpingLog) {
-            try {
-                File file = fc.getSelectedFile();
-                String fileLog = file.getName().replace(".owl", "") + "_Jumping.log";
+            if(!test) {
+                try {
+                    File file = fc.getSelectedFile();
+                    String fileLog = file.getName().replace(".owl", "") + "_Jumping.log";
 
-                File Log = new File("LOG/Launcher.LauncherGUI/" + fileLog);
+                    File Log = new File("LOG/Launcher.LauncherGUI/" + fileLog);
 
-                Desktop desktop = Desktop.getDesktop();
-                if (Log.exists()) {
-                    try {
-                        desktop.open(Log);
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
+                    Desktop desktop = Desktop.getDesktop();
+                    if (Log.exists()) {
+                        try {
+                            desktop.open(Log);
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
                     }
+                } catch (Exception ex) {
+                    log.append("\nNO FILE SELECTED" + newline);
                 }
-            } catch (Exception ex) {
-                log.append("\nNO FILE SELECTED"+newline);
             }
+            else
+                JOptionPane.showMessageDialog(this, "After test there are too many files, please open manually.", "Warning ", JOptionPane.WARNING_MESSAGE);
         }
         else if (e.getSource() == startBattery){
+            test = true;
             log.setText("STARTING TESTS...\n");
             try {
                 String result = battery.start(loggerEnabled);
