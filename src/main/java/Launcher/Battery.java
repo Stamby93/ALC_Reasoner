@@ -3,6 +3,7 @@ package Launcher;
 import ALC_Reasoner.ALCReasoner;
 import ALC_Reasoner.ALCReasonerFactory;
 import ALC_Reasoner.LoggerManager;
+import org.semanticweb.HermiT.ReasonerFactory;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
@@ -20,20 +21,33 @@ import java.util.stream.Collectors;
  * between the performances of the Chronological and those of the Jumping Tableau
  */
 public class Battery {
+    private OWLReasoner oracle;
+    private ReasonerFactory factoryHermit;
+    private File dir;
+    private File[] directoryListing;
+    private OWLOntologyManager man;
+
+
+    public Battery(){
+        dir = new File("Ontologie");
+        directoryListing = dir.listFiles();
+        man = OWLManager.createOWLOntologyManager();
+        factoryHermit = new ReasonerFactory();
+    }
 
     /**
-     * The entry point of application.
      *
-     * @param args the input arguments
-     * @throws Exception the exception
+     * @param log Boolean value to set LOG modality
+     * @throws Exception
      */
-    public static void main(String[] args) throws Exception {
-        File dir = new File("Ontologie");
-        File[] directoryListing = dir.listFiles();
-        assert directoryListing != null;
-        OWLOntologyManager man = OWLManager.createOWLOntologyManager();
+    public String start(boolean log) throws Exception {
 
-        LoggerManager.setFile("Result", Battery.class, true);
+        String output = new String("************************************************************************************");
+        assert directoryListing != null;
+
+        if(log)
+            LoggerManager.setFile("Result", Battery.class, true);
+
         for (File ontologyFile : directoryListing) {
 
             man.clearOntologies();
@@ -46,16 +60,30 @@ public class Battery {
             Set<OWLAxiom> ontologyAxiom = ont.axioms(flag).collect(Collectors.toSet());
 
             /*TABLEAU Chronological*/
-            OWLReasonerFactory factoryALC_chrono = new ALCReasonerFactory("LOGChronological");
+            OWLReasonerFactory factoryALC_chrono;
+            if(log)
+                factoryALC_chrono = new ALCReasonerFactory("LOGChronological");
+            else
+                factoryALC_chrono = new ALCReasonerFactory("Chronological");
             OWLReasoner alc_chrono = factoryALC_chrono.createReasoner(null);
 
             /*TABLEAU Jumping*/
-            OWLReasonerFactory factoryALC_jump = new ALCReasonerFactory("LOGJumping");
+            OWLReasonerFactory factoryALC_jump;
+            if(log)
+                factoryALC_jump = new ALCReasonerFactory("LOGJumping");
+            else
+                factoryALC_jump = new ALCReasonerFactory("Jumping");
+
             OWLReasoner alc_jump = factoryALC_jump.createReasoner(null);
 
             if (ontologyAxiom.size() > 1) {
-                LoggerManager.setFile(ontologyFile.getName().replace(".owl",""), Battery.class, true);
-                LoggerManager.writeErrorLog("Invalid input concept", Battery.class);
+
+                if(log){
+
+                    LoggerManager.setFile(ontologyFile.getName().replace(".owl",""), Battery.class, true);
+                    LoggerManager.writeErrorLog("Invalid input concept", Battery.class);
+
+                }
                 throw new IllegalArgumentException("Invalid input concept");
             }
 
@@ -72,11 +100,13 @@ public class Battery {
 
             if (expression != null) {
 
+                output = output.concat("\n"+ontologyFile.getName()+"\n\n");
+
                 /*ALC_Reasoner.ChronologicalTableau*/
+                if(log)
+                    LoggerManager.setFile(ontologyFile.getName().replace(".owl", "") + "_Chronological", Battery.class, true);
 
-                LoggerManager.setFile(ontologyFile.getName().replace(".owl", "") + "_Chronological", Battery.class, true);
-
-                System.out.println(ontologyFile);
+                //System.out.println(ontologyFile);
                 long chrono_StartTime = System.currentTimeMillis();
                 boolean resultChrono = alc_chrono.isSatisfiable(expression);
                 long chrono_EndTime = System.currentTimeMillis();
@@ -84,17 +114,24 @@ public class Battery {
                 String chrono_model = ((ALCReasoner) alc_chrono).getModel();
                 String chronoTot = "ALC(ChronologicalTableau): " + resultChrono + " ("+(chrono_EndTime - chrono_StartTime) + " milliseconds) - ("+chronoIteration+" iterations)";
 
-                System.out.println(chronoTot);
+                //System.out.println(chronoTot);
 
-                LoggerManager.writeInfoLog("ALC(ChronologicalTableau): " + resultChrono, Battery.class);
-                LoggerManager.writeInfoLog("Iterations: " + chronoIteration, Battery.class);
+                output = output.concat(chronoTot+"\n");
                 if (resultChrono)
-                    LoggerManager.writeInfoLog("Model: " + chrono_model, Battery.class);
+                    output = output.concat("Model: " + chrono_model+"\n");
+
+
+                if(log) {
+                    LoggerManager.writeInfoLog("ALC(ChronologicalTableau): " + resultChrono, Battery.class);
+                    LoggerManager.writeInfoLog("Iterations: " + chronoIteration, Battery.class);
+                    if (resultChrono)
+                        LoggerManager.writeInfoLog("Model: " + chrono_model, Battery.class);
+                }
 
 
                 /*ALC_Reasoner.JumpingTableau*/
-
-                LoggerManager.setFile(ontologyFile.getName().replace(".owl", "") + "_Jumping", Battery.class, true);
+                if(log)
+                    LoggerManager.setFile(ontologyFile.getName().replace(".owl", "") + "_Jumping", Battery.class, true);
 
                 long jump_StartTime = System.currentTimeMillis();
                 boolean resultJump = alc_jump.isSatisfiable(expression);
@@ -103,24 +140,42 @@ public class Battery {
                 Integer jumpIteration = ((ALCReasoner) alc_jump).getIteration();
 
                 String jumpTot = "ALC(JumpingTableau): " + resultJump + " ("+(jump_EndTime - jump_StartTime) + " milliseconds) - ("+jumpIteration+" iterations)";
-                System.out.println(jumpTot+"\n");
+                //System.out.println(jumpTot+"\n");
 
-                LoggerManager.writeInfoLog("ALC(JumpingTableau): " + resultJump, Battery.class);
-                LoggerManager.writeInfoLog("Iterations: " + jumpIteration, Battery.class);
-                if (resultJump)
-                    LoggerManager.writeInfoLog("Model: " + jump_model, Battery.class);
-
-                LoggerManager.setFile("Result", Battery.class, false);
-                LoggerManager.writeInfoLog(ontologyFile.getName(), Battery.class);
-                LoggerManager.writeInfoLog(chronoTot, Battery.class);
+                output = output.concat("\n"+jumpTot+"\n");
                 if (resultChrono)
-                    LoggerManager.writeInfoLog("Model: " + chrono_model, Battery.class);
-                LoggerManager.writeInfoLog(jumpTot, Battery.class);
-                if (resultJump)
-                    LoggerManager.writeInfoLog("Model: " + jump_model, Battery.class);
+                    output = output.concat("Model: " + jump_model+ "\n");
 
+                if(log){
+                    LoggerManager.writeInfoLog("ALC(JumpingTableau): " + resultJump, Battery.class);
+                    LoggerManager.writeInfoLog("Iterations: " + jumpIteration, Battery.class);
+
+                    if (resultJump )
+                        LoggerManager.writeInfoLog("Model: " + jump_model, Battery.class);
+
+
+                    LoggerManager.setFile("Result", Battery.class, false);
+                    LoggerManager.writeInfoLog(ontologyFile.getName(), Battery.class);
+                    LoggerManager.writeInfoLog(chronoTot, Battery.class);
+                    if (resultChrono)
+                        LoggerManager.writeInfoLog("Model: " + chrono_model, Battery.class);
+                    LoggerManager.writeInfoLog(jumpTot, Battery.class);
+                    if (resultJump)
+                        LoggerManager.writeInfoLog("Model: " + jump_model, Battery.class);
+                }
+
+                oracle = factoryHermit.createReasoner(ont);
+                /*HermiT*/
+                long hermit_StartTime = System.currentTimeMillis();
+                boolean resultHermit = oracle.isSatisfiable(expression);
+                long hermit_EndTime = System.currentTimeMillis();
+                output = output.concat("\nHermiT: " + resultHermit + " (" + (hermit_EndTime - hermit_StartTime) + " milliseconds)\n");
+
+                if(!(resultChrono==resultHermit && resultJump==resultHermit))
+                    throw new RuntimeException("Test Failed with file: "+ ontologyFile.getName());
             }
+            output = output.concat("\n************************************************************************************");
         }
+        return output;
     }
-
 }

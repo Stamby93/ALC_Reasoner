@@ -32,8 +32,8 @@ public class TestLauncher {
     private boolean expResult;
     private OWLReasoner chronoReasoner;
     private OWLReasoner jumpReasoner;
-    private OWLReasoner oracle;
     private OWLClassExpression expression;
+    private OWLReasoner oracle;
     private ReasonerFactory factoryHermit;
 
 

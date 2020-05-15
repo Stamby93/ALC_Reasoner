@@ -6,9 +6,12 @@ import ALC_Reasoner.LoggerManager;
 import ALC_Reasoner.OntologyRenderer;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.HermiT.ReasonerFactory;
+import org.semanticweb.owlapi.dlsyntax.renderer.DLSyntaxObjectRenderer;
+import org.semanticweb.owlapi.io.OWLObjectRenderer;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
+import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 import uk.ac.manchester.cs.owl.owlapi.OWLEquivalentClassesAxiomImpl;
 
 import java.io.*;
@@ -31,6 +34,7 @@ public class LauncherGUI extends JPanel implements ActionListener {
     private final JButton openButton;
     private final JButton loadChronologicalLog;
     private final JButton loadJumpingLog;
+    private final JButton startBattery;
     private final JCheckBox checkLog;
     private final JTextArea log;
     private final JFileChooser fc;
@@ -41,6 +45,7 @@ public class LauncherGUI extends JPanel implements ActionListener {
     private final OWLReasoner LOGalc_jump;
     private final OWLReasoner NoLOGalc_chrono;
     private final OWLReasoner NoLOGalc_jump;
+    private final Battery battery;
     private boolean loggerEnabled = true;
     /**
      * The Expression.
@@ -54,7 +59,7 @@ public class LauncherGUI extends JPanel implements ActionListener {
         super(new BorderLayout());
 
         man = OWLManager.createOWLOntologyManager();
-
+        battery = new Battery();
         /*TABLEAU Chronological*/
         OWLReasonerFactory factoryALC_chrono = new ALCReasonerFactory();
         alc_chrono = factoryALC_chrono.createReasoner(null);
@@ -91,20 +96,26 @@ public class LauncherGUI extends JPanel implements ActionListener {
         URL iconOpen = getClass().getClassLoader().getResource("images/Open16.gif");
         assert iconOpen != null;
         openButton = new JButton("Open", new ImageIcon(iconOpen));
-        openButton.setPreferredSize(new Dimension(180, 30));
+        openButton.setPreferredSize(new Dimension(120, 30));
         openButton.addActionListener(this);
 
         URL iconChronoLog = getClass().getClassLoader().getResource("images/chronoLog.png");
         assert iconChronoLog != null;
         loadChronologicalLog = new JButton("ChronoLog", new ImageIcon(iconChronoLog));
-        loadChronologicalLog.setPreferredSize(new Dimension(180, 30));
+        loadChronologicalLog.setPreferredSize(new Dimension(120, 30));
         loadChronologicalLog.addActionListener(this);
 
         URL iconJumpLog = getClass().getClassLoader().getResource("images/jumpLog.png");
         assert iconJumpLog != null;
         loadJumpingLog = new JButton("JumpLog", new ImageIcon(iconJumpLog));
-        loadJumpingLog.setPreferredSize(new Dimension(180, 30));
+        loadJumpingLog.setPreferredSize(new Dimension(120, 30));
         loadJumpingLog.addActionListener(this);
+
+        URL iconTest = getClass().getClassLoader().getResource("images/test.png");
+        assert iconTest != null;
+        startBattery = new JButton("Test", new ImageIcon(iconTest));
+        startBattery.setPreferredSize(new Dimension(120, 30));
+        startBattery.addActionListener(this);
 
         checkLog = new JCheckBox("Log");
         checkLog.setSelected(true);
@@ -114,6 +125,7 @@ public class LauncherGUI extends JPanel implements ActionListener {
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(checkLog);
+        buttonPanel.add(startBattery);
         buttonPanel.add(openButton);
         buttonPanel.add(loadChronologicalLog);
         buttonPanel.add(loadJumpingLog);
@@ -183,7 +195,9 @@ public class LauncherGUI extends JPanel implements ActionListener {
                         String toDelete = eS.substring(eS.indexOf("http"), eS.indexOf("#")+1);
                         eS = eS.replaceAll(toDelete,"");
                         eS = eS.replace(", <assioma>","");
-                        log.append("\nConcetto in input: " + eS + "." + newline);
+                        OWLObjectRenderer renderer = new DLSyntaxObjectRenderer();
+                        renderer.setShortFormProvider(new SimpleShortFormProvider());
+                        log.append("\nConcetto in input: " + renderer.render(expression) + "." + newline);
                         log.append("\nManchester Sintax: \n\n" + OntologyRenderer.render(expression) + "." + newline);
                         log.append("\n---------------- CHECK CONCEPT ----------------" + newline);
 
@@ -271,6 +285,16 @@ public class LauncherGUI extends JPanel implements ActionListener {
                 }
             } catch (Exception ex) {
                 log.append("\nNO FILE SELECTED"+newline);
+            }
+        }
+        else if (e.getSource() == startBattery){
+            log.setText("STARTING TESTS...\n");
+            try {
+                String result = battery.start(loggerEnabled);
+                log.append(result);
+            }
+            catch (Exception ex){
+                log.append(ex.getMessage());
             }
         }
         else if(e.getSource() == checkLog){
