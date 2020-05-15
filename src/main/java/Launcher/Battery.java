@@ -3,11 +3,15 @@ package Launcher;
 import ALC_Reasoner.ALCReasoner;
 import ALC_Reasoner.ALCReasonerFactory;
 import ALC_Reasoner.LoggerManager;
+import ALC_Reasoner.OntologyRenderer;
 import org.semanticweb.HermiT.ReasonerFactory;
 import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.dlsyntax.renderer.DLSyntaxObjectRenderer;
+import org.semanticweb.owlapi.io.OWLObjectRenderer;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
+import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 import uk.ac.manchester.cs.owl.owlapi.OWLEquivalentClassesAxiomImpl;
 
 import java.io.File;
@@ -24,6 +28,11 @@ public class Battery {
     private final ReasonerFactory factoryHermit;
     private final File[] directoryListing;
     private final OWLOntologyManager man;
+    OWLReasonerFactory factoryALC_chrono;
+    OWLReasonerFactory factoryALC_jump;
+    OWLReasoner alc_chrono;
+    OWLReasoner alc_jump;
+
 
 
     public Battery(){
@@ -58,21 +67,19 @@ public class Battery {
             Set<OWLAxiom> ontologyAxiom = ont.axioms(flag).collect(Collectors.toSet());
 
             /*TABLEAU Chronological*/
-            OWLReasonerFactory factoryALC_chrono;
             if(log)
                 factoryALC_chrono = new ALCReasonerFactory("LOGChronological");
             else
                 factoryALC_chrono = new ALCReasonerFactory("Chronological");
-            OWLReasoner alc_chrono = factoryALC_chrono.createReasoner(null);
+            alc_chrono = factoryALC_chrono.createReasoner(null);
 
             /*TABLEAU Jumping*/
-            OWLReasonerFactory factoryALC_jump;
             if(log)
                 factoryALC_jump = new ALCReasonerFactory("LOGJumping");
             else
                 factoryALC_jump = new ALCReasonerFactory("Jumping");
 
-            OWLReasoner alc_jump = factoryALC_jump.createReasoner(null);
+            alc_jump = factoryALC_jump.createReasoner(null);
 
             if (ontologyAxiom.size() > 1) {
 
@@ -174,6 +181,118 @@ public class Battery {
             }
             output = output.concat("\n************************************************************************************");
         }
+        return output;
+    }
+
+    public String single(File file, boolean log) throws Exception{
+        
+        String output = new String("");
+        OWLClassExpression expression = null;
+
+        OWLOntology ont=null;
+
+        man.clearOntologies();
+        ont = man.loadOntologyFromOntologyDocument(file);
+
+        OWLDataFactory df = man.getOWLDataFactory();
+        assert ont != null;
+        Optional<IRI> optIri = ont.getOntologyID().getOntologyIRI();
+        assert optIri.isPresent();
+        IRI iri = optIri.get();
+        OWLClass flag = df.getOWLClass(iri + "#assioma");
+
+        Set<OWLAxiom> ontologyAxiom = ont.axioms(flag).collect(Collectors.toSet());
+        /*HERMIT*/
+        ReasonerFactory factoryHermit = new ReasonerFactory();
+        OWLReasoner hermit = factoryHermit.createReasoner(ont);
+
+        /*TABLEAU Chronological*/
+        if(log)
+            factoryALC_chrono = new ALCReasonerFactory("LOGChronological");
+        else
+            factoryALC_chrono = new ALCReasonerFactory("Chronological");
+        alc_chrono = factoryALC_chrono.createReasoner(null);
+
+        /*TABLEAU Jumping*/
+        if(log)
+            factoryALC_jump = new ALCReasonerFactory("LOGJumping");
+        else
+            factoryALC_jump = new ALCReasonerFactory("Jumping");
+
+        alc_jump = factoryALC_jump.createReasoner(null);
+
+        /*Logger*/
+        if(log)
+            LoggerManager.setFile(file.getName().replace(".owl", ""), LauncherGUI.class, true);
+
+
+        if (ontologyAxiom.size() > 1) {
+            if(log)
+                LoggerManager.writeErrorLog("Invalid input concept", LauncherGUI.class);
+            throw new IllegalArgumentException("Invalid input concept");
+        }
+
+        OWLEquivalentClassesAxiomImpl axiom = (OWLEquivalentClassesAxiomImpl) ontologyAxiom.iterator().next();
+
+        Set<OWLClassExpression> expressions = axiom.classExpressions().collect(Collectors.toSet());
+        for (OWLClassExpression E : expressions) {
+            if (!E.isOWLClass()) {
+                expression = E;
+                break;
+            }
+        }
+
+        if (expression != null) {
+            
+            output = output.concat("\nOpening: " + file.getName() + "." + "\n");
+            OWLObjectRenderer renderer = new DLSyntaxObjectRenderer();
+            renderer.setShortFormProvider(new SimpleShortFormProvider());
+            output = output.concat("\nConcetto in input: " + renderer.render(expression) + "." + "\n");
+            output = output.concat("\nManchester Sintax: \n\n" + OntologyRenderer.render(expression) + "." + "\n");
+            output = output.concat("\n---------------- CHECK CONCEPT ----------------" + "\n");
+
+            /*ChronologicaTableau*/
+            if(log)
+                LoggerManager.setFile(file.getName().replace(".owl", "") + "_Chronological", LauncherGUI.class, true);
+            long chrono_StartTime = System.currentTimeMillis();
+            boolean resultChrono = alc_chrono.isSatisfiable(expression);
+            long chrono_EndTime = System.currentTimeMillis();
+            Integer chronoIteration=((ALCReasoner)alc_chrono).getIteration();
+
+            output = output.concat("\nALC (Chronological ALC_Reasoner): " + resultChrono + " (" + (chrono_EndTime - chrono_StartTime) + " milliseconds) - ("+ chronoIteration + " iterations)" + "\n");
+            if(log)
+                LoggerManager.writeInfoLog("ALC (Chronological ALC_Reasoner): " + resultChrono, LauncherGUI.class);
+            if(resultChrono) {
+                String model = "Modello trovato: "+((ALCReasoner)alc_chrono).getModel()+ "\n";
+                if(log)
+                    LoggerManager.writeInfoLog(model, LauncherGUI.class);
+                output = output.concat(model);
+            }
+            /*ALC_Reasoner.JumpingTableau*/
+            if(log)
+                LoggerManager.setFile(file.getName().replace(".owl", "") + "_Jumping", LauncherGUI.class, true);
+            long jump_StartTime = System.currentTimeMillis();
+            boolean resultJump = alc_jump.isSatisfiable(expression);
+            long jump_EndTime = System.currentTimeMillis();
+            Integer jumpIteration=((ALCReasoner)alc_jump).getIteration();
+            output = output.concat("\nALC (Jumping ALC_Reasoner): " + resultJump + " (" + (jump_EndTime - jump_StartTime) + " milliseconds) - ("+ jumpIteration + " iterations)" + "\n");
+            if(log)
+                LoggerManager.writeInfoLog("ALC(Jumping ALC_Reasoner): " + resultJump, LauncherGUI.class);
+            if(resultJump) {
+                String model = "Modello trovato: "+((ALCReasoner)alc_jump).getModel()+ "\n";
+                if(log)
+                    LoggerManager.writeInfoLog(model, LauncherGUI.class);
+                output = output.concat(model);
+            }
+
+            /*HermiT*/
+            long hermit_StartTime = System.currentTimeMillis();
+            boolean resultHermit = hermit.isSatisfiable(expression);
+            long hermit_EndTime = System.currentTimeMillis();
+            output = output.concat("\nHermiT: " + resultHermit + " (" + (hermit_EndTime - hermit_StartTime) + " milliseconds)" + "\n");
+
+        }
+
         return output;
     }
 }

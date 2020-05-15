@@ -2024,11 +2024,10 @@
 											"_parent": {
 												"$ref": "AAAAAAFxeOpFh6tYFdY="
 											},
-											"visible": false,
 											"font": "Arial;13;0",
-											"left": 672,
-											"top": -368,
-											"width": 127.15625,
+											"left": 517,
+											"top": 238,
+											"width": 271,
 											"height": 13,
 											"text": "(from ALC_Reasoner)"
 										},
@@ -2050,7 +2049,7 @@
 									"left": 512,
 									"top": 216,
 									"width": 281,
-									"height": 25,
+									"height": 40,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAFxeOpFh6tZgf0="
 									},
@@ -2085,7 +2084,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 517,
-											"top": 246,
+											"top": 261,
 											"width": 271,
 											"height": 13,
 											"text": "-type: String",
@@ -2094,7 +2093,7 @@
 									],
 									"font": "Arial;13;0",
 									"left": 512,
-									"top": 241,
+									"top": 256,
 									"width": 281,
 									"height": 23
 								},
@@ -2137,7 +2136,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 517,
-											"top": 271,
+											"top": 286,
 											"width": 271,
 											"height": 13,
 											"text": "+createReasoner(): ALCReasoner",
@@ -2154,7 +2153,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 517,
-											"top": 286,
+											"top": 301,
 											"width": 271,
 											"height": 13,
 											"text": "+createReasoner(type: String): ALCReasoner",
@@ -2163,7 +2162,7 @@
 									],
 									"font": "Arial;13;0",
 									"left": 512,
-									"top": 264,
+									"top": 279,
 									"width": 281,
 									"height": 40
 								},
@@ -2205,7 +2204,8 @@
 							"left": 512,
 							"top": 216,
 							"width": 281,
-							"height": 88,
+							"height": 103,
+							"showNamespace": true,
 							"nameCompartment": {
 								"$ref": "AAAAAAFxeOpFh6tYFdY="
 							},
@@ -10213,7 +10213,8 @@
 											"_parent": {
 												"$ref": "AAAAAAFxocsKbiT5hVc="
 											},
-											"name": "name String"
+											"name": "name String",
+											"type": ""
 										},
 										{
 											"_type": "UMLParameter",
