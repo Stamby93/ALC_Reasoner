@@ -64,6 +64,7 @@ public class LoggerManager {
      *
      * @param name String The name of the new .log file.
      * @param c    Class&lt;?&gt; The class that call the method.
+     * @param overW boolean The flag that set the log file overwriting.
      */
     public static void setFile(String name, Class<?> c, boolean overW) {
         File file = new File ("LOG/"+c.getName()+"/"+name+".log");
