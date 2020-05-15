@@ -45,7 +45,8 @@ public class Battery {
     /**
      *
      * @param log Boolean value to set LOG modality
-     * @throws Exception
+     * @throws Exception if problem occurs
+     * @return String that contains the output
      */
     public String start(boolean log) throws Exception {
 
