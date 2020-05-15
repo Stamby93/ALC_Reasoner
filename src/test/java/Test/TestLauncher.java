@@ -3,7 +3,6 @@ package Test;
 import ALC_Reasoner.ALCReasoner;
 import ALC_Reasoner.ALCReasonerFactory;
 import ALC_Reasoner.LoggerManager;
-import Launcher.Launcher;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
