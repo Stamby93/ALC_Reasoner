@@ -72,7 +72,7 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>create-my-bundle</id>
+                        <id>build-battery</id>
                         <phase>package</phase>
                         <goals>
                             <goal>single</goal>
@@ -81,11 +81,32 @@
                             <descriptorRefs>
                                 <descriptorRef>jar-with-dependencies</descriptorRef>
                             </descriptorRefs>
+                            <finalName>ALC_Reasoner-Battery</finalName>
                             <archive>
                                 <manifest>
                                     <addClasspath>true</addClasspath>
                                     <classpathPrefix>lib/</classpathPrefix>
                                     <mainClass>Launcher.Battery</mainClass>
+                                </manifest>
+                            </archive>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>build-gui</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                            <finalName>ALC_Reasoner-GUI</finalName>
+                            <archive>
+                                <manifest>
+                                    <addClasspath>true</addClasspath>
+                                    <classpathPrefix>lib/</classpathPrefix>
+                                    <mainClass>Launcher.LauncherGUI</mainClass>
                                 </manifest>
                             </archive>
                         </configuration>
