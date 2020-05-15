@@ -29,8 +29,6 @@ public class Launcher {
      */
     public static void main(String[] args) throws Exception {
 
-        final boolean DEBUG = false;
-
         OWLOntologyManager man = OWLManager.createOWLOntologyManager();
         File ontologyFile = new File("Ontologie/09-06-01.owl");
         OWLOntology ont = man.loadOntologyFromOntologyDocument(ontologyFile);
@@ -53,10 +51,7 @@ public class Launcher {
         OWLReasonerFactory factoryALC_jump = new ALCReasonerFactory("Jumping");
         OWLReasoner alc_jump = factoryALC_jump.createReasoner(null);
 
-         /*Logger*/
-        if(DEBUG) {
-            LoggerManager.setFile(ontologyFile.getName().replace(".owl", ""), Launcher.class,true);
-        }
+        LoggerManager.setFile(ontologyFile.getName().replace(".owl", ""), Launcher.class,true);
 
         if (ontologyAxiom.size() > 1) {
             LoggerManager.writeErrorLog("Invalid input concept", Launcher.class);
@@ -89,9 +84,7 @@ public class Launcher {
             LoggerManager.writeInfoLog("\nHermiT: " + resultHermit, Launcher.class);
 
             /*ChronologicaTableau*/
-            if(DEBUG) {
-                LoggerManager.setFile(ontologyFile.getName().replace(".owl", "") + "_Chronological", Launcher.class,true);
-            }
+            LoggerManager.setFile(ontologyFile.getName().replace(".owl", "") + "_Chronological", Launcher.class,true);
             long chrono_StartTime = System.currentTimeMillis();
             boolean resultChrono = alc_chrono.isSatisfiable(expression);
             long chrono_EndTime = System.currentTimeMillis();
@@ -103,9 +96,8 @@ public class Launcher {
                 LoggerManager.writeInfoLog(model, Launcher.class);
             }
             /*ALC_Reasoner.JumpingTableau*/
-            if(DEBUG) {
-                LoggerManager.setFile(ontologyFile.getName().replace(".owl", "") + "_Jumping", Launcher.class,true);
-            }
+
+            LoggerManager.setFile(ontologyFile.getName().replace(".owl", "") + "_Jumping", Launcher.class,true);
             long jump_StartTime = System.currentTimeMillis();
             boolean resultJump = alc_jump.isSatisfiable(expression);
             long jump_EndTime = System.currentTimeMillis();

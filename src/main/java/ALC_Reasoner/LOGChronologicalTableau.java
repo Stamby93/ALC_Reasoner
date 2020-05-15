@@ -13,7 +13,7 @@ public class LOGChronologicalTableau extends ChronologicalTableau{
 
     protected LOGChronologicalTableau(@Nonnull OWLClassExpression concept, int parent) {
 
-        super(concept,parent);
+        super(concept);
         LoggerManager.writeDebugLog("SAT: "+ parent, LOGChronologicalTableau.class);
 
     }

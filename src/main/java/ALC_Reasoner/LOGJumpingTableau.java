@@ -3,6 +3,7 @@ package ALC_Reasoner;
 import org.semanticweb.owlapi.model.*;
 import uk.ac.manchester.cs.owl.owlapi.OWLObjectIntersectionOfImpl;
 
+import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -10,20 +11,20 @@ public class LOGJumpingTableau extends JumpingTableau{
 
     protected LOGJumpingTableau(OWLClassExpression concept, int parent) {
 
-        super(concept,parent);
+        super(concept);
         LoggerManager.writeDebugLog("SAT: "+ parent, LOGJumpingTableau.class);
 
     }
 
     @Override
-    protected boolean applyIntersection(OWLObjectIntersectionOf intersection){
+    protected boolean applyIntersection(@Nonnull OWLObjectIntersectionOf intersection){
         LoggerManager.writeDebugLog("Rule: " + workingRule + " INTERSECTION: "+ OntologyRenderer.render(intersection), LOGJumpingTableau.class);
 
         return super.applyIntersection(intersection);
     }
 
     @Override
-    protected boolean applyUnion(OWLObjectUnionOf union){
+    protected boolean applyUnion(@Nonnull OWLObjectUnionOf union){
         LoggerManager.writeDebugLog("Rule: "+ workingRule + " UNION: " + OntologyRenderer.render(union), LOGJumpingTableau.class);
 
         int rule = workingRule;
@@ -95,7 +96,7 @@ public class LOGJumpingTableau extends JumpingTableau{
     }
 
     @Override
-    protected boolean applySome(OWLObjectSomeValuesFrom someValue){
+    protected boolean applySome(@Nonnull OWLObjectSomeValuesFrom someValue){
         LoggerManager.writeDebugLog("Rule: " + workingRule + " SOME: " + OntologyRenderer.render(someValue), LOGJumpingTableau.class);
 
         Tableau direct;
@@ -186,7 +187,7 @@ public class LOGJumpingTableau extends JumpingTableau{
     }
 
     @Override
-    protected boolean applyAll(OWLObjectAllValuesFrom allValue){
+    protected boolean applyAll(@Nonnull OWLObjectAllValuesFrom allValue){
         LoggerManager.writeDebugLog("Rule: " + workingRule + " ALL: "+ OntologyRenderer.render(allValue), LOGJumpingTableau.class);
 
         OWLClassExpression filler = allValue.getFiller();

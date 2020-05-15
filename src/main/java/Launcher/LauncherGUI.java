@@ -14,6 +14,7 @@ import uk.ac.manchester.cs.owl.owlapi.OWLEquivalentClassesAxiomImpl;
 import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.net.URL;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -49,7 +50,7 @@ public class LauncherGUI extends JPanel implements ActionListener {
     /**
      * Instantiates a new Launcher.Launcher gui.
      */
-    public LauncherGUI() {
+    private LauncherGUI() {
         super(new BorderLayout());
 
         man = OWLManager.createOWLOntologyManager();
@@ -87,16 +88,21 @@ public class LauncherGUI extends JPanel implements ActionListener {
 
         fc = new JFileChooser();
 
-
-        openButton = new JButton("Open", new ImageIcon("images/Open16.gif"));
+        URL iconOpen = getClass().getClassLoader().getResource("images/Open16.gif");
+        assert iconOpen != null;
+        openButton = new JButton("Open", new ImageIcon(iconOpen));
         openButton.setPreferredSize(new Dimension(180, 30));
         openButton.addActionListener(this);
 
-        loadChronologicalLog = new JButton("ChronoLog", new ImageIcon("images/chronoLog.png"));
+        URL iconChronoLog = getClass().getClassLoader().getResource("images/chronoLog.png");
+        assert iconChronoLog != null;
+        loadChronologicalLog = new JButton("ChronoLog", new ImageIcon(iconChronoLog));
         loadChronologicalLog.setPreferredSize(new Dimension(180, 30));
         loadChronologicalLog.addActionListener(this);
 
-        loadJumpingLog = new JButton("JumpLog", new ImageIcon("images/jumpLog.png"));
+        URL iconJumpLog = getClass().getClassLoader().getResource("images/jumpLog.png");
+        assert iconJumpLog != null;
+        loadJumpingLog = new JButton("JumpLog", new ImageIcon(iconJumpLog));
         loadJumpingLog.setPreferredSize(new Dimension(180, 30));
         loadJumpingLog.addActionListener(this);
 
@@ -138,6 +144,7 @@ public class LauncherGUI extends JPanel implements ActionListener {
                     log.append("\nINVALID FILE"+newline);
                 }
                 OWLDataFactory df = man.getOWLDataFactory();
+                assert ont != null;
                 Optional<IRI> optIri = ont.getOntologyID().getOntologyIRI();
                 assert optIri.isPresent();
                 IRI iri = optIri.get();

@@ -3,6 +3,7 @@ package ALC_Reasoner;
 import org.semanticweb.owlapi.model.*;
 import uk.ac.manchester.cs.owl.owlapi.OWLObjectIntersectionOfImpl;
 
+import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -33,11 +34,10 @@ public class JumpingTableau extends ChronologicalTableau{
      * Instantiates a new Jumping tableau.
      *
      * @param concept the concept
-     * @param parent  the parent
      */
-    protected JumpingTableau(OWLClassExpression concept, int parent) {
+    protected JumpingTableau(OWLClassExpression concept) {
 
-        super(concept,parent);
+        super(concept);
         dependency = new ArrayList<>();
         dependency.add(0,Collections.singletonList(-1));
 
@@ -58,7 +58,7 @@ public class JumpingTableau extends ChronologicalTableau{
     }
 
     @Override
-    protected boolean applyIntersection(OWLObjectIntersectionOf intersection){
+    protected boolean applyIntersection(@Nonnull OWLObjectIntersectionOf intersection){
 
         List<OWLClassExpression> operand = intersection.operands().sorted(conceptComparator).collect(Collectors.toList());
         int i = 0;
@@ -76,7 +76,7 @@ public class JumpingTableau extends ChronologicalTableau{
     }
 
     @Override
-    protected boolean applyUnion(OWLObjectUnionOf union){
+    protected boolean applyUnion(@Nonnull OWLObjectUnionOf union){
 
         int rule = workingRule;
         List<OWLClassExpression> jointedList = union.operands().collect(Collectors.toList());
@@ -145,7 +145,7 @@ public class JumpingTableau extends ChronologicalTableau{
     }
 
     @Override
-    protected boolean applySome(OWLObjectSomeValuesFrom someValue){
+    protected boolean applySome(@Nonnull OWLObjectSomeValuesFrom someValue){
 
         Tableau direct;
         OWLObjectPropertyExpression oe = someValue.getProperty();
@@ -205,7 +205,7 @@ public class JumpingTableau extends ChronologicalTableau{
 
         }
 
-        direct = new JumpingTableau(filler, workingRule);
+        direct = new JumpingTableau(filler);
         if(direct.SAT()) {
 
             related.add(related.size(),workingRule);
@@ -232,7 +232,7 @@ public class JumpingTableau extends ChronologicalTableau{
     }
 
     @Override
-    protected boolean applyAll(OWLObjectAllValuesFrom allValue){
+    protected boolean applyAll(@Nonnull OWLObjectAllValuesFrom allValue){
 
         OWLClassExpression filler = allValue.getFiller();
         OWLObjectPropertyExpression oe = allValue.getProperty();
@@ -281,7 +281,7 @@ public class JumpingTableau extends ChronologicalTableau{
                     operands.sort(conceptComparator);
 
                     OWLObjectIntersectionOf concept = new OWLObjectIntersectionOfImpl(operands);
-                    Tableau Tflag = new JumpingTableau(concept, workingRule);
+                    Tableau Tflag = new JumpingTableau(concept);
 
                     if (!Tflag.SAT()) {
 

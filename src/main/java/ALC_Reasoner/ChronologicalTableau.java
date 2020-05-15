@@ -18,7 +18,6 @@ public class ChronologicalTableau implements Tableau{
      * The Concept list.
      * Is a list of OWLClassExpression that will contain the expansions
      * of the various rules. It is initialized with the input concept.
-     * @link <a href="http://owlcs.github.io/owlapi/apidocs_5/index.html">OWLClassExpression</a>
      */
     protected final List<OWLClassExpression> conceptList;
 
@@ -66,9 +65,8 @@ public class ChronologicalTableau implements Tableau{
      * Instantiates a new Chronological tableau.
      *
      * @param concept OWLClassExpression The input concept.
-     * @param parent  int A int value used to keep track during the reasoning of existential quantifiers.
      */
-    protected ChronologicalTableau(@Nonnull OWLClassExpression concept, int parent) {
+    protected ChronologicalTableau(@Nonnull OWLClassExpression concept) {
 
         conceptList = new ArrayList<>();
         conceptList.add(0, concept);
@@ -289,7 +287,7 @@ public class ChronologicalTableau implements Tableau{
 
         }
 
-        direct = new ChronologicalTableau(filler, workingRule);
+        direct = new ChronologicalTableau(filler);
         if(direct.SAT()) {
 
             related.add(related.size(),workingRule);
@@ -362,7 +360,7 @@ public class ChronologicalTableau implements Tableau{
                     operands.sort(conceptComparator);
 
                     OWLObjectIntersectionOf concept = new OWLObjectIntersectionOfImpl(operands);
-                    Tableau Tflag = new ChronologicalTableau(concept, workingRule);
+                    Tableau Tflag = new ChronologicalTableau(concept);
 
                     if (!Tflag.SAT()) {
 

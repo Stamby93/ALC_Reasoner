@@ -2,6 +2,7 @@ LOG/Battery/*
 LOG/Launcher/*
 LOG/LauncherGUI/*
 LOG/Test.TestLauncher/*
+target/*
 
 !LOG/.gitkeep
 !LOG/Launcher/.gitkeep

@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 
 
@@ -24,7 +25,8 @@ public class LoggerManager {
     public static void writeInfoLog(String msg, Class<?> c){
 
         Logger log = Logger.getLogger(c.getName());
-        PropertyConfigurator.configure("src/main/resources/log4j.properties");
+        InputStream properties = LoggerManager.class.getClassLoader().getResourceAsStream("log4j.properties");
+        PropertyConfigurator.configure(properties);
         log.info(msg + "\n");
 
     }
@@ -38,7 +40,8 @@ public class LoggerManager {
     public static void writeErrorLog(String msg, Class<?> c){
 
         Logger log = Logger.getLogger(c.getName());
-        PropertyConfigurator.configure("src/main/resources/log4j.properties");
+        InputStream properties = LoggerManager.class.getClassLoader().getResourceAsStream("log4j.properties");
+        PropertyConfigurator.configure(properties);
         log.error(msg + "\n");
 
     }
@@ -51,7 +54,8 @@ public class LoggerManager {
      */
     public static void writeDebugLog(String msg, Class<?> c) {
         Logger log = Logger.getLogger(c.getName());
-        PropertyConfigurator.configure("src/main/resources/log4j.properties");
+        InputStream properties = LoggerManager.class.getClassLoader().getResourceAsStream("log4j.properties");
+        PropertyConfigurator.configure(properties);
         log.debug(msg + "\n");
     }
 
