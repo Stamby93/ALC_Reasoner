@@ -187,13 +187,11 @@ public class Battery {
 
     public String single(File file, boolean log) throws Exception{
         
-        String output = new String("");
+        String output = "";
         OWLClassExpression expression = null;
 
-        OWLOntology ont=null;
-
         man.clearOntologies();
-        ont = man.loadOntologyFromOntologyDocument(file);
+        OWLOntology ont = man.loadOntologyFromOntologyDocument(file);
 
         OWLDataFactory df = man.getOWLDataFactory();
         assert ont != null;
