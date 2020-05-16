@@ -331,61 +331,6 @@ public class TestLauncher {
         assertEquals(expResult, result);
     }
 
-    /**
-     * Test ontology chronological 11.
-     *
-     * @throws OWLOntologyCreationException the owl ontology creation exception
-     */
-    @Test
-    public void testOntology_Chronological_11() throws OWLOntologyCreationException {
-        ontologyFileName = "Ontologie/AnotA.owl";
-        loadOntology(ontologyFileName);
-        result = ALC_Reasoner_Chronological(expression);
-        expResult = Hermit_Reasoner(expression);
-        assertEquals(expResult, result);
-    }
-
-    /**
-     * Test ontology jumping 11.
-     *
-     * @throws OWLOntologyCreationException the owl ontology creation exception
-     */
-    @Test
-    public void testOntology_Jumping_11() throws OWLOntologyCreationException {
-        ontologyFileName = "Ontologie/AnotA.owl";
-        loadOntology(ontologyFileName);
-        result = ALC_Reasoner_Jumping(expression);
-        expResult = Hermit_Reasoner(expression);
-        assertEquals(expResult, result);
-    }
-
-    /**
-     * Test ontology chronological 12.
-     *
-     * @throws OWLOntologyCreationException the owl ontology creation exception
-     */
-    @Test
-    public void testOntology_Chronological_12() throws OWLOntologyCreationException {
-        ontologyFileName = "Ontologie/Bottom.owl";
-        loadOntology(ontologyFileName);
-        result = ALC_Reasoner_Chronological(expression);
-        expResult = Hermit_Reasoner(expression);
-        assertEquals(expResult, result);
-    }
-
-    /**
-     * Test ontology jumping 12.
-     *
-     * @throws OWLOntologyCreationException the owl ontology creation exception
-     */
-    @Test
-    public void testOntology_Jumping_12() throws OWLOntologyCreationException {
-        ontologyFileName = "Ontologie/Bottom.owl";
-        loadOntology(ontologyFileName);
-        result = ALC_Reasoner_Jumping(expression);
-        expResult = Hermit_Reasoner(expression);
-        assertEquals(expResult, result);
-    }
 
     /**
      * Test ontology chronological 13.
